@@ -68,12 +68,16 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
             cidadeFaz: params.getParam('cidadeFaz', ParamType.String),
             data: params.getParam('data', ParamType.String),
             observacao: params.getParam('observacao', ParamType.String),
+            servico: params.getParam('servico', ParamType.int),
           ),
         ),
         FFRoute(
           name: 'listaPontos',
           path: '/listaPontos',
-          builder: (context, params) => const ListaPontosWidget(),
+          builder: (context, params) => ListaPontosWidget(
+            listaJsonPontos: params.getParam<dynamic>(
+                'listaJsonPontos', ParamType.JSON, true),
+          ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

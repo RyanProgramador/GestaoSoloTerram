@@ -9,7 +9,12 @@ import 'lista_pontos_model.dart';
 export 'lista_pontos_model.dart';
 
 class ListaPontosWidget extends StatefulWidget {
-  const ListaPontosWidget({super.key});
+  const ListaPontosWidget({
+    super.key,
+    required this.listaJsonPontos,
+  });
+
+  final List<dynamic>? listaJsonPontos;
 
   @override
   State<ListaPontosWidget> createState() => _ListaPontosWidgetState();
@@ -210,7 +215,10 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                   CrossAxisAlignment.center,
                                               children: [
                                                 Text(
-                                                  'Ponto: ',
+                                                  'Ponto: ${getJsonField(
+                                                    teItem,
+                                                    r'''$.pont_numero''',
+                                                  ).toString()}',
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .bodyMedium

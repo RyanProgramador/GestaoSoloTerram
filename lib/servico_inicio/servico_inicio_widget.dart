@@ -1,3 +1,4 @@
+import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_google_map.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -17,6 +18,7 @@ class ServicoInicioWidget extends StatefulWidget {
     required this.cidadeFaz,
     required this.data,
     required this.observacao,
+    required this.servico,
   });
 
   final LatLng? fazLatLng;
@@ -25,6 +27,7 @@ class ServicoInicioWidget extends StatefulWidget {
   final String? cidadeFaz;
   final String? data;
   final String? observacao;
+  final int? servico;
 
   @override
   State<ServicoInicioWidget> createState() => _ServicoInicioWidgetState();
@@ -256,8 +259,53 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           FFButtonWidget(
-                            onPressed: () {
-                              print('Button pressed ...');
+                            onPressed: () async {
+                              _model.trPontos =
+                                  await TrOsServicosGroup.trPontosCall.call(
+                                urlApi: FFAppState().UrlApi,
+                                servicoId: widget.servico,
+                              );
+                              if (TrOsServicosGroup.trPontosCall
+                                  .statusTrBuscaPontos(
+                                (_model.trPontos?.jsonBody ?? ''),
+                              )!) {
+                                context.pushNamed(
+                                  'listaPontos',
+                                  queryParameters: {
+                                    'listaJsonPontos': serializeParam(
+                                      getJsonField(
+                                        (_model.trPontos?.jsonBody ?? ''),
+                                        r'''$.dados[:]''',
+                                        true,
+                                      ),
+                                      ParamType.JSON,
+                                      true,
+                                    ),
+                                  }.withoutNulls,
+                                );
+                              } else {
+                                await showDialog(
+                                  context: context,
+                                  builder: (alertDialogContext) {
+                                    return AlertDialog(
+                                      title: const Text('Ops!'),
+                                      content: Text(getJsonField(
+                                        (_model.trPontos?.jsonBody ?? ''),
+                                        r'''$.message''',
+                                      ).toString()),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(alertDialogContext),
+                                          child: const Text('Ok'),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              }
+
+                              setState(() {});
                             },
                             text: 'Coletas',
                             options: FFButtonOptions(
