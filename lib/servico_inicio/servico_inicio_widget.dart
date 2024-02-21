@@ -1,4 +1,3 @@
-import '/flutter_flow/flutter_flow_google_map.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -67,7 +66,6 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
           : FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
-        resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
         body: Column(
           mainAxisSize: MainAxisSize.max,
@@ -88,35 +86,6 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                       topRight: Radius.circular(0.0),
                     ),
                   ),
-                  child: Builder(builder: (context) {
-                    final googleMapMarker = widget.fazLatLng;
-                    return FlutterFlowGoogleMap(
-                      controller: _model.googleMapsController,
-                      onCameraIdle: (latLng) =>
-                          _model.googleMapsCenter = latLng,
-                      initialLocation: _model.googleMapsCenter ??=
-                          widget.fazLatLng!,
-                      markers: [
-                        if (googleMapMarker != null)
-                          FlutterFlowMarker(
-                            googleMapMarker.serialize(),
-                            googleMapMarker,
-                          ),
-                      ],
-                      markerColor: GoogleMarkerColor.red,
-                      mapType: MapType.hybrid,
-                      style: GoogleMapStyle.standard,
-                      initialZoom: 14.0,
-                      allowInteraction: false,
-                      allowZoom: false,
-                      showZoomControls: false,
-                      showLocation: false,
-                      showCompass: false,
-                      showMapToolbar: false,
-                      showTraffic: false,
-                      centerMapOnMarkerTap: false,
-                    );
-                  }),
                 ),
               ),
             ),
