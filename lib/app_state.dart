@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'backend/api_requests/api_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'flutter_flow/flutter_flow_util.dart';
 import 'dart:convert';
@@ -45,48 +44,48 @@ class FFAppState extends ChangeNotifier {
   String _UrlApi =
       's://dev.conceittosistemas.com.br/scriptcase/app/GestaoColetas/api/index.php';
   String get UrlApi => _UrlApi;
-  set UrlApi(String _value) {
-    _UrlApi = _value;
-    prefs.setString('ff_UrlApi', _value);
+  set UrlApi(String value) {
+    _UrlApi = value;
+    prefs.setString('ff_UrlApi', value);
   }
 
   List<dynamic> _trOsServicos = [];
   List<dynamic> get trOsServicos => _trOsServicos;
-  set trOsServicos(List<dynamic> _value) {
-    _trOsServicos = _value;
+  set trOsServicos(List<dynamic> value) {
+    _trOsServicos = value;
     prefs.setStringList(
-        'ff_trOsServicos', _value.map((x) => jsonEncode(x)).toList());
+        'ff_trOsServicos', value.map((x) => jsonEncode(x)).toList());
   }
 
-  void addToTrOsServicos(dynamic _value) {
-    _trOsServicos.add(_value);
-    prefs.setStringList(
-        'ff_trOsServicos', _trOsServicos.map((x) => jsonEncode(x)).toList());
-  }
-
-  void removeFromTrOsServicos(dynamic _value) {
-    _trOsServicos.remove(_value);
+  void addToTrOsServicos(dynamic value) {
+    _trOsServicos.add(value);
     prefs.setStringList(
         'ff_trOsServicos', _trOsServicos.map((x) => jsonEncode(x)).toList());
   }
 
-  void removeAtIndexFromTrOsServicos(int _index) {
-    _trOsServicos.removeAt(_index);
+  void removeFromTrOsServicos(dynamic value) {
+    _trOsServicos.remove(value);
+    prefs.setStringList(
+        'ff_trOsServicos', _trOsServicos.map((x) => jsonEncode(x)).toList());
+  }
+
+  void removeAtIndexFromTrOsServicos(int index) {
+    _trOsServicos.removeAt(index);
     prefs.setStringList(
         'ff_trOsServicos', _trOsServicos.map((x) => jsonEncode(x)).toList());
   }
 
   void updateTrOsServicosAtIndex(
-    int _index,
+    int index,
     dynamic Function(dynamic) updateFn,
   ) {
-    _trOsServicos[_index] = updateFn(_trOsServicos[_index]);
+    _trOsServicos[index] = updateFn(_trOsServicos[index]);
     prefs.setStringList(
         'ff_trOsServicos', _trOsServicos.map((x) => jsonEncode(x)).toList());
   }
 
-  void insertAtIndexInTrOsServicos(int _index, dynamic _value) {
-    _trOsServicos.insert(_index, _value);
+  void insertAtIndexInTrOsServicos(int index, dynamic value) {
+    _trOsServicos.insert(index, value);
     prefs.setStringList(
         'ff_trOsServicos', _trOsServicos.map((x) => jsonEncode(x)).toList());
   }

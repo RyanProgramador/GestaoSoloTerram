@@ -2,7 +2,6 @@ import '/backend/api_requests/api_calls.dart';
 import '/components/loading_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
 import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'dart:async';
@@ -10,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'inicio_model.dart';
 export 'inicio_model.dart';
@@ -56,7 +54,7 @@ class _InicioWidgetState extends State<InicioWidget> {
             context: context,
             builder: (alertDialogContext) {
               return AlertDialog(
-                title: Text('Ops!'),
+                title: const Text('Ops!'),
                 content: Text(getJsonField(
                   (_model.apiTrOsServicos?.jsonBody ?? ''),
                   r'''$.message''',
@@ -64,7 +62,7 @@ class _InicioWidgetState extends State<InicioWidget> {
                 actions: [
                   TextButton(
                     onPressed: () => Navigator.pop(alertDialogContext),
-                    child: Text('Ok'),
+                    child: const Text('Ok'),
                   ),
                 ],
               );
@@ -110,7 +108,7 @@ class _InicioWidgetState extends State<InicioWidget> {
               child: Container(
                 width: double.infinity,
                 height: 100.0,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Color(0xFF00736D),
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(20.0),
@@ -141,11 +139,11 @@ class _InicioWidgetState extends State<InicioWidget> {
               child: Container(
                 width: double.infinity,
                 height: 100.0,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Color(0x00FFFFFF),
                 ),
                 child: Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
+                  padding: const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
                   child: FutureBuilder<ApiCallResponse>(
                     future: (_model.apiRequestCompleter ??= Completer<
                             ApiCallResponse>()
@@ -193,7 +191,7 @@ class _InicioWidgetState extends State<InicioWidget> {
                                   final trOsServicosItem =
                                       trOsServicos[trOsServicosIndex];
                                   return Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
                                         16.0, 0.0, 16.0, 0.0),
                                     child: Container(
                                       width: double.infinity,
@@ -204,7 +202,7 @@ class _InicioWidgetState extends State<InicioWidget> {
                                         borderRadius:
                                             BorderRadius.circular(8.0),
                                         border: Border.all(
-                                          color: Color(0xFF00736D),
+                                          color: const Color(0xFF00736D),
                                         ),
                                       ),
                                       child: InkWell(
@@ -276,10 +274,10 @@ class _InicioWidgetState extends State<InicioWidget> {
                                               MainAxisAlignment.start,
                                           children: [
                                             Align(
-                                              alignment: AlignmentDirectional(
+                                              alignment: const AlignmentDirectional(
                                                   0.0, 0.0),
                                               child: Padding(
-                                                padding: EdgeInsetsDirectional
+                                                padding: const EdgeInsetsDirectional
                                                     .fromSTEB(
                                                         16.0, 0.0, 0.0, 0.0),
                                                 child: Column(
@@ -310,7 +308,7 @@ class _InicioWidgetState extends State<InicioWidget> {
                                               ),
                                             ),
                                             Padding(
-                                              padding: EdgeInsetsDirectional
+                                              padding: const EdgeInsetsDirectional
                                                   .fromSTEB(
                                                       16.0, 0.0, 0.0, 0.0),
                                               child: Column(
@@ -373,7 +371,7 @@ class _InicioWidgetState extends State<InicioWidget> {
                                       ),
                                     ),
                                   );
-                                }).divide(SizedBox(height: 10.0)),
+                                }).divide(const SizedBox(height: 10.0)),
                               ),
                             ),
                           );

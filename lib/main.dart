@@ -1,5 +1,4 @@
 import 'package:provider/provider.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -7,9 +6,7 @@ import 'package:flutter_web_plugins/url_strategy.dart';
 import 'flutter_flow/flutter_flow_theme.dart';
 import 'flutter_flow/flutter_flow_util.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
-import 'flutter_flow/nav/nav.dart';
 import 'index.dart';
 
 void main() async {
@@ -23,11 +20,13 @@ void main() async {
 
   runApp(ChangeNotifierProvider(
     create: (context) => appState,
-    child: MyApp(),
+    child: const MyApp(),
   ));
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
   // This widget is the root of your application.
   @override
   State<MyApp> createState() => _MyAppState();
@@ -59,7 +58,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       title: 'TerramGestaoSolo',
-      localizationsDelegates: [
+      localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
@@ -78,7 +77,7 @@ class _MyAppState extends State<MyApp> {
 }
 
 class NavBarPage extends StatefulWidget {
-  NavBarPage({Key? key, this.initialPage, this.page}) : super(key: key);
+  const NavBarPage({super.key, this.initialPage, this.page});
 
   final String? initialPage;
   final Widget? page;
@@ -102,9 +101,9 @@ class _NavBarPageState extends State<NavBarPage> {
   @override
   Widget build(BuildContext context) {
     final tabs = {
-      'Inicio': InicioWidget(),
-      'Alertas': AlertasWidget(),
-      'AjustesConfiguracoes': AjustesConfiguracoesWidget(),
+      'Inicio': const InicioWidget(),
+      'Alertas': const AlertasWidget(),
+      'AjustesConfiguracoes': const AjustesConfiguracoesWidget(),
     };
     final currentIndex = tabs.keys.toList().indexOf(_currentPageName);
 
@@ -125,12 +124,12 @@ class _NavBarPageState extends State<NavBarPage> {
         }),
         backgroundColor: FlutterFlowTheme.of(context).primary,
         selectedItemColor: FlutterFlowTheme.of(context).primaryBackground,
-        unselectedItemColor: Color(0x8FC3C3C3),
-        selectedBackgroundColor: Color(0x00000000),
+        unselectedItemColor: const Color(0x8FC3C3C3),
+        selectedBackgroundColor: const Color(0x00000000),
         borderRadius: 0.0,
         itemBorderRadius: 8.0,
-        margin: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-        padding: EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 10.0),
+        margin: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+        padding: const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 10.0),
         width: double.infinity,
         elevation: 0.0,
         items: [
@@ -142,7 +141,7 @@ class _NavBarPageState extends State<NavBarPage> {
                   Icons.house,
                   color: currentIndex == 0
                       ? FlutterFlowTheme.of(context).primaryBackground
-                      : Color(0x8FC3C3C3),
+                      : const Color(0x8FC3C3C3),
                   size: 24.0,
                 ),
                 Text(
@@ -151,7 +150,7 @@ class _NavBarPageState extends State<NavBarPage> {
                   style: TextStyle(
                     color: currentIndex == 0
                         ? FlutterFlowTheme.of(context).primaryBackground
-                        : Color(0x8FC3C3C3),
+                        : const Color(0x8FC3C3C3),
                     fontSize: 11.0,
                   ),
                 ),
@@ -166,7 +165,7 @@ class _NavBarPageState extends State<NavBarPage> {
                   FontAwesomeIcons.bell,
                   color: currentIndex == 1
                       ? FlutterFlowTheme.of(context).primaryBackground
-                      : Color(0x8FC3C3C3),
+                      : const Color(0x8FC3C3C3),
                   size: 24.0,
                 ),
                 Text(
@@ -175,7 +174,7 @@ class _NavBarPageState extends State<NavBarPage> {
                   style: TextStyle(
                     color: currentIndex == 1
                         ? FlutterFlowTheme.of(context).primaryBackground
-                        : Color(0x8FC3C3C3),
+                        : const Color(0x8FC3C3C3),
                     fontSize: 11.0,
                   ),
                 ),
@@ -190,7 +189,7 @@ class _NavBarPageState extends State<NavBarPage> {
                   Icons.settings_sharp,
                   color: currentIndex == 2
                       ? FlutterFlowTheme.of(context).primaryBackground
-                      : Color(0x8FC3C3C3),
+                      : const Color(0x8FC3C3C3),
                   size: 24.0,
                 ),
                 Text(
@@ -199,7 +198,7 @@ class _NavBarPageState extends State<NavBarPage> {
                   style: TextStyle(
                     color: currentIndex == 2
                         ? FlutterFlowTheme.of(context).primaryBackground
-                        : Color(0x8FC3C3C3),
+                        : const Color(0x8FC3C3C3),
                     fontSize: 11.0,
                   ),
                 ),
