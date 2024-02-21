@@ -265,7 +265,10 @@ class _InicioWidgetState extends State<InicioWidget> {
                                                       ),
                                                 ),
                                                 Text(
-                                                  'Fazenda: ',
+                                                  'Fazenda: ${getJsonField(
+                                                    trOsServicosItem,
+                                                    r'''$.faz_nome''',
+                                                  ).toString()}',
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .bodyMedium
@@ -277,7 +280,10 @@ class _InicioWidgetState extends State<InicioWidget> {
                                                       ),
                                                 ),
                                                 Text(
-                                                  'Hello World',
+                                                  getJsonField(
+                                                    trOsServicosItem,
+                                                    r'''$.oserv_dthr_agendamento''',
+                                                  ).toString(),
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .bodyMedium
