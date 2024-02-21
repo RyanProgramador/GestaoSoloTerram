@@ -352,7 +352,7 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                 Builder(
                                                                   builder:
                                                                       (context) {
-                                                                    final test =
+                                                                    final profundidadesLista2 =
                                                                         getJsonField(
                                                                       pontosListaItem,
                                                                       r'''$.profundidades''',
@@ -362,13 +362,14 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                           MainAxisSize
                                                                               .max,
                                                                       children: List.generate(
-                                                                          test.length,
-                                                                          (testIndex) {
-                                                                        final testItem =
-                                                                            test[testIndex];
+                                                                          profundidadesLista2
+                                                                              .length,
+                                                                          (profundidadesLista2Index) {
+                                                                        final profundidadesLista2Item =
+                                                                            profundidadesLista2[profundidadesLista2Index];
                                                                         return Text(
                                                                           getJsonField(
-                                                                            testItem,
+                                                                            profundidadesLista2Item,
                                                                             r'''$.pprof_status''',
                                                                           ).toString(),
                                                                           style: FlutterFlowTheme.of(context)
