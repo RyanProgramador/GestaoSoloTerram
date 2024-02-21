@@ -82,6 +82,13 @@ class _LoadingWidgetState extends State<LoadingWidget> {
             ParamType.int,
           ),
         }.withoutNulls,
+        extra: <String, dynamic>{
+          kTransitionInfoKey: const TransitionInfo(
+            hasTransition: true,
+            transitionType: PageTransitionType.fade,
+            duration: Duration(milliseconds: 0),
+          ),
+        },
       );
     });
   }
