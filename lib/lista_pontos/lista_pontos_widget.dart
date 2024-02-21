@@ -362,7 +362,7 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                         return Text(
                                                                           getJsonField(
                                                                             testItem,
-                                                                            r'''$.profundidades''',
+                                                                            r'''$.profundidades.pprof_id''',
                                                                           ).toString(),
                                                                           style: FlutterFlowTheme.of(context)
                                                                               .bodyMedium
