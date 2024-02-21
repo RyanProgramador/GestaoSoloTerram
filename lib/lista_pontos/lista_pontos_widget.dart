@@ -227,7 +227,10 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                   CrossAxisAlignment.center,
                                               children: [
                                                 Text(
-                                                  teItem.toString(),
+                                                  getJsonField(
+                                                    teItem,
+                                                    r'''$.pont_numero''',
+                                                  ).toString(),
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .bodyMedium
