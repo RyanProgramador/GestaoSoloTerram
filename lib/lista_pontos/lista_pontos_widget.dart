@@ -226,23 +226,28 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.center,
                                               children: [
-                                                Text(
-                                                  getJsonField(
-                                                    pontosListaItem,
-                                                    r'''$.pont_numero''',
-                                                  ).toString(),
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily: 'Outfit',
-                                                        color: FlutterFlowTheme
-                                                                .of(context)
-                                                            .primaryBackground,
-                                                        fontSize: 28.0,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                      ),
+                                                Padding(
+                                                  padding: const EdgeInsetsDirectional
+                                                      .fromSTEB(
+                                                          0.0, 0.0, 0.0, 4.0),
+                                                  child: Text(
+                                                    getJsonField(
+                                                      pontosListaItem,
+                                                      r'''$.pont_numero''',
+                                                    ).toString(),
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          fontFamily: 'Outfit',
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .primaryBackground,
+                                                          fontSize: 28.0,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                  ),
                                                 ),
                                                 Expanded(
                                                   child: Container(
@@ -415,18 +420,21 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                 Builder(
                                                                   builder:
                                                                       (context) {
-                                                                    final tes = FFAppState()
-                                                                        .trOsServicos
-                                                                        .toList();
+                                                                    final listaFotos =
+                                                                        getJsonField(
+                                                                      pontosListaItem,
+                                                                      r'''$.profundidades.pprof_foto''',
+                                                                    ).toList();
                                                                     return Column(
                                                                       mainAxisSize:
                                                                           MainAxisSize
                                                                               .max,
                                                                       children: List.generate(
-                                                                          tes.length,
-                                                                          (tesIndex) {
-                                                                        final tesItem =
-                                                                            tes[tesIndex];
+                                                                          listaFotos
+                                                                              .length,
+                                                                          (listaFotosIndex) {
+                                                                        final listaFotosItem =
+                                                                            listaFotos[listaFotosIndex];
                                                                         return FaIcon(
                                                                           FontAwesomeIcons
                                                                               .images,
