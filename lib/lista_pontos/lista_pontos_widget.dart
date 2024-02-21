@@ -217,7 +217,7 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                 Text(
                                                   'Ponto: ${getJsonField(
                                                     teItem,
-                                                    r'''$.pont_numero''',
+                                                    r'''$.ponto''',
                                                   ).toString()}',
                                                   style: FlutterFlowTheme.of(
                                                           context)
@@ -277,10 +277,13 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                 Builder(
                                                                   builder:
                                                                       (context) {
-                                                                    final teste =
-                                                                        FFAppState()
-                                                                            .trOsServicos
-                                                                            .toList();
+                                                                    final teste = FFAppState()
+                                                                        .trOsServicos
+                                                                        .map((e) => getJsonField(
+                                                                              e,
+                                                                              r'''$.profundidades''',
+                                                                            ))
+                                                                        .toList();
                                                                     return Column(
                                                                       mainAxisSize:
                                                                           MainAxisSize
@@ -292,7 +295,10 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                         final testeItem =
                                                                             teste[testeIndex];
                                                                         return Text(
-                                                                          'Hello World',
+                                                                          getJsonField(
+                                                                            testeItem,
+                                                                            r'''$[:].ico_valor''',
+                                                                          ).toString(),
                                                                           style: FlutterFlowTheme.of(context)
                                                                               .bodyMedium
                                                                               .override(
@@ -337,9 +343,10 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                   builder:
                                                                       (context) {
                                                                     final test =
-                                                                        FFAppState()
-                                                                            .trOsServicos
-                                                                            .toList();
+                                                                        getJsonField(
+                                                                      teItem,
+                                                                      r'''$[:].profundidades[:].pprof_status''',
+                                                                    ).toList();
                                                                     return Column(
                                                                       mainAxisSize:
                                                                           MainAxisSize

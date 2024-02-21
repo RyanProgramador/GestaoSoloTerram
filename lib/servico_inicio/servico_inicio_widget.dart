@@ -275,7 +275,7 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                                     'listaJsonPontos': serializeParam(
                                       getJsonField(
                                         (_model.trPontos?.jsonBody ?? ''),
-                                        r'''$.dados[:]''',
+                                        r'''$.dados''',
                                         true,
                                       ),
                                       ParamType.JSON,
