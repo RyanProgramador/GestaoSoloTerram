@@ -395,6 +395,7 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                                   ).toString(),
                                                                                   pathDePesquisa: 'ico_valor',
                                                                                   pathDeRetorno: 'ico_base64',
+                                                                                  pathDeLegenda: 'ico_legenda',
                                                                                 ),
                                                                               ),
                                                                             ),
