@@ -72,19 +72,16 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
           children: [
             Expanded(
               flex: 2,
-              child: Opacity(
-                opacity: 2.0,
-                child: Container(
-                  width: double.infinity,
-                  height: 100.0,
-                  decoration: BoxDecoration(
-                    color: FlutterFlowTheme.of(context).primary,
-                    borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(22.0),
-                      bottomRight: Radius.circular(22.0),
-                      topLeft: Radius.circular(0.0),
-                      topRight: Radius.circular(0.0),
-                    ),
+              child: Container(
+                width: double.infinity,
+                height: 100.0,
+                decoration: BoxDecoration(
+                  color: FlutterFlowTheme.of(context).primary,
+                  borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.circular(22.0),
+                    bottomRight: Radius.circular(22.0),
+                    topLeft: Radius.circular(0.0),
+                    topRight: Radius.circular(0.0),
                   ),
                 ),
               ),

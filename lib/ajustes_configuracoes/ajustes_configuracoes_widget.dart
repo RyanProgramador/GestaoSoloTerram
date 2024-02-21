@@ -53,9 +53,14 @@ class _AjustesConfiguracoesWidgetState
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
-        body: const Column(
+        body: Column(
           mainAxisSize: MainAxisSize.max,
-          children: [],
+          children: [
+            Text(
+              'Hello World',
+              style: FlutterFlowTheme.of(context).bodyMedium,
+            ),
+          ],
         ),
       ),
     );
