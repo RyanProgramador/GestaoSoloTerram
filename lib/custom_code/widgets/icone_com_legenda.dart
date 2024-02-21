@@ -16,7 +16,7 @@ class IconeComLegenda extends StatefulWidget {
     Key? key,
     this.width,
     this.height,
-    this.lista,
+    required this.lista, // Assume que a lista é passada aqui
     this.termoDePesquisa,
     this.pathDePesquisa,
     this.pathDeRetorno,
@@ -25,59 +25,47 @@ class IconeComLegenda extends StatefulWidget {
 
   final double? width;
   final double? height;
-  final List<dynamic>? lista;
+  final List<dynamic> lista; // A lista é passada como um parâmetro obrigatório
   final String? termoDePesquisa;
   final String? pathDePesquisa;
   final String? pathDeRetorno;
   final String? pathDeLegenda;
-
   @override
   State<IconeComLegenda> createState() => _IconeComLegendaState();
 }
 
 class _IconeComLegendaState extends State<IconeComLegenda> {
   Uint8List? imagemBase64;
-  String? legenda;
 
   @override
   void initState() {
     super.initState();
-    _buscarIconeELegenda();
+    _buscarIcone();
   }
 
-  void _buscarIconeELegenda() {
-    // Procura na lista pelo termo de pesquisa
-    final itemEncontrado = widget.lista?.firstWhere(
-      (item) => item[widget.pathDePesquisa] == widget.termoDePesquisa,
-      orElse: () => null,
-    );
+  void _buscarIcone() {
+    // Procura na lista FFAppState().trIcones pelo termo de pesquisa
+    final itemEncontrado = FFAppState().trIcones.firstWhere(
+          (item) => item['ico_valor'] == widget.termoDePesquisa,
+          orElse: () => null,
+        );
 
     if (itemEncontrado != null) {
-      final String base64String = itemEncontrado[widget.pathDeRetorno];
-      imagemBase64 = base64Decode(base64String.split(',').last);
-      legenda = itemEncontrado[widget.pathDeLegenda];
+      final String base64String = itemEncontrado['ico_base64'];
+      setState(() {
+        imagemBase64 = base64Decode(base64String.split(',').last);
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: widget.width,
-      height: widget.height,
-      child: imagemBase64 != null && legenda != null
-          ? Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.memory(
-                  imagemBase64!,
-                  width: 20,
-                  height: 20,
-                ),
-                const SizedBox(width: 8),
-                Text(legenda!),
-              ],
-            )
-          : const Text('Ícone ou legenda não encontrados.'),
+      width: widget.width ?? MediaQuery.of(context).size.width,
+      height: widget.height ?? 50, // Altura padrão se não for fornecida
+      child: imagemBase64 != null
+          ? Image.memory(imagemBase64!, width: 20, height: 20)
+          : const Text('Ícone não encontrado.'),
     );
   }
 }

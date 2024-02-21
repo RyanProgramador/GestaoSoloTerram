@@ -32,3 +32,18 @@ int? contadorDeIntensNaLista(List<dynamic>? lista) {
     return lista.length;
   }
 }
+
+String? retornalegenda(
+  String? icoValorPesquisa,
+  List<dynamic>? listaTrIcones,
+) {
+  final itemEncontrado = listaTrIcones?.firstWhere(
+    (item) => item['ico_valor'] == icoValorPesquisa,
+    orElse: () => null,
+  );
+
+  if (itemEncontrado != null) {
+    return itemEncontrado['ico_legenda'];
+  }
+  return "erro"; // Retorna "erro" se nenhum item correspondente foi encontrado
+}

@@ -362,32 +362,22 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                           (profundidadesLista2Index) {
                                                                         final profundidadesLista2Item =
                                                                             profundidadesLista2[profundidadesLista2Index];
-                                                                        return Column(
+                                                                        return Row(
                                                                           mainAxisSize:
                                                                               MainAxisSize.max,
                                                                           children: [
-                                                                            Text(
-                                                                              getJsonField(
-                                                                                profundidadesLista2Item,
-                                                                                r'''$.pprof_icone''',
-                                                                              ).toString(),
-                                                                              style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                    fontFamily: 'Readex Pro',
-                                                                                    color: FlutterFlowTheme.of(context).primaryBackground,
-                                                                                  ),
-                                                                            ),
                                                                             Container(
-                                                                              width: 100.0,
-                                                                              height: 100.0,
-                                                                              decoration: BoxDecoration(
-                                                                                color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                              width: 30.0,
+                                                                              height: 30.0,
+                                                                              decoration: const BoxDecoration(
+                                                                                color: Color(0x00FFFFFF),
                                                                               ),
                                                                               child: SizedBox(
-                                                                                width: 100.0,
-                                                                                height: 100.0,
+                                                                                width: 30.0,
+                                                                                height: 3.0,
                                                                                 child: custom_widgets.IconeComLegenda(
-                                                                                  width: 100.0,
-                                                                                  height: 100.0,
+                                                                                  width: 30.0,
+                                                                                  height: 3.0,
                                                                                   lista: FFAppState().trIcones,
                                                                                   termoDePesquisa: getJsonField(
                                                                                     profundidadesLista2Item,
@@ -395,8 +385,25 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                                   ).toString(),
                                                                                   pathDePesquisa: 'ico_valor',
                                                                                   pathDeRetorno: 'ico_base64',
-                                                                                  pathDeLegenda: 'ico_legenda',
                                                                                 ),
+                                                                              ),
+                                                                            ),
+                                                                            Padding(
+                                                                              padding: const EdgeInsetsDirectional.fromSTEB(4.0, 0.0, 0.0, 0.0),
+                                                                              child: Text(
+                                                                                valueOrDefault<String>(
+                                                                                  functions.retornalegenda(
+                                                                                      getJsonField(
+                                                                                        profundidadesLista2Item,
+                                                                                        r'''$.pprof_icone''',
+                                                                                      ).toString(),
+                                                                                      FFAppState().trIcones.toList()),
+                                                                                  'Erro',
+                                                                                ),
+                                                                                style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                      fontFamily: 'Readex Pro',
+                                                                                      color: FlutterFlowTheme.of(context).primaryBackground,
+                                                                                    ),
                                                                               ),
                                                                             ),
                                                                           ],
