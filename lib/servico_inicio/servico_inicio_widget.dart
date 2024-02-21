@@ -4,6 +4,7 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'servico_inicio_model.dart';
 export 'servico_inicio_model.dart';
@@ -41,7 +42,7 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
     super.initState();
     _model = createModel(context, () => ServicoInicioModel());
 
-    getCurrentUserLocation(defaultLocation: const LatLng(0.0, 0.0), cached: true)
+    getCurrentUserLocation(defaultLocation: LatLng(0.0, 0.0), cached: true)
         .then((loc) => setState(() => currentUserLocationValue = loc));
   }
 
@@ -95,7 +96,7 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
             Expanded(
               flex: 2,
               child: ClipRRect(
-                borderRadius: const BorderRadius.only(
+                borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(22.0),
                   bottomRight: Radius.circular(22.0),
                   topLeft: Radius.circular(0.0),
@@ -106,7 +107,7 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                   height: 100.0,
                   decoration: BoxDecoration(
                     color: FlutterFlowTheme.of(context).primary,
-                    borderRadius: const BorderRadius.only(
+                    borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(22.0),
                       bottomRight: Radius.circular(22.0),
                       topLeft: Radius.circular(0.0),
@@ -114,7 +115,7 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                     ),
                   ),
                   child: Builder(builder: (context) {
-                    final googleMapMarker = currentUserLocationValue;
+                    final _googleMapMarker = currentUserLocationValue;
                     return FlutterFlowGoogleMap(
                       controller: _model.googleMapsController,
                       onCameraIdle: (latLng) =>
@@ -122,10 +123,10 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                       initialLocation: _model.googleMapsCenter ??=
                           currentUserLocationValue!,
                       markers: [
-                        if (googleMapMarker != null)
+                        if (_googleMapMarker != null)
                           FlutterFlowMarker(
-                            googleMapMarker.serialize(),
-                            googleMapMarker,
+                            _googleMapMarker.serialize(),
+                            _googleMapMarker,
                           ),
                       ],
                       markerColor: GoogleMarkerColor.violet,
@@ -150,7 +151,7 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
               child: Container(
                 width: double.infinity,
                 height: 100.0,
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   color: Colors.white,
                 ),
                 child: Column(
@@ -158,9 +159,9 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                   children: [
                     Container(
                       height: 100.0,
-                      decoration: const BoxDecoration(),
+                      decoration: BoxDecoration(),
                       child: Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(
+                        padding: EdgeInsetsDirectional.fromSTEB(
                             16.0, 0.0, 16.0, 0.0),
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
@@ -212,7 +213,7 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                         color: FlutterFlowTheme.of(context).primary,
                       ),
                       child: Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(
+                        padding: EdgeInsetsDirectional.fromSTEB(
                             16.0, 0.0, 16.0, 0.0),
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
@@ -287,9 +288,9 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                             options: FFButtonOptions(
                               width: MediaQuery.sizeOf(context).width * 0.5,
                               height: 45.0,
-                              padding: const EdgeInsetsDirectional.fromSTEB(
+                              padding: EdgeInsetsDirectional.fromSTEB(
                                   24.0, 0.0, 24.0, 0.0),
-                              iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                              iconPadding: EdgeInsetsDirectional.fromSTEB(
                                   0.0, 0.0, 0.0, 0.0),
                               color: FlutterFlowTheme.of(context).primary,
                               textStyle: FlutterFlowTheme.of(context)
@@ -299,7 +300,7 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                                     color: Colors.white,
                                   ),
                               elevation: 3.0,
-                              borderSide: const BorderSide(
+                              borderSide: BorderSide(
                                 color: Colors.transparent,
                                 width: 1.0,
                               ),

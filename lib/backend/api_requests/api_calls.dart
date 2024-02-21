@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import '/flutter_flow/flutter_flow_util.dart';
 import 'api_manager.dart';
@@ -23,11 +24,11 @@ class TrOsServicosCall {
     final ffApiRequestBody = '''
 {
   "tipo": "ff_busca_servicos",
-  "tecnico_id": "$tecnicoId"
+  "tecnico_id": "${tecnicoId}"
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'trOsServicos',
-      apiUrl: '${TrOsServicosGroup.baseUrl}$urlApi',
+      apiUrl: '${TrOsServicosGroup.baseUrl}${urlApi}',
       callType: ApiCallType.POST,
       headers: {},
       params: {},

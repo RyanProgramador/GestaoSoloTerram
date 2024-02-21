@@ -35,7 +35,7 @@ dependencies:
   flutter_plugin_android_lifecycle: 2.0.17
   font_awesome_flutter: 10.6.0
   from_css_color: 2.0.0
-  geolocator: 10.0.1
+  geolocator: ^11.0.0
   geolocator_android: 4.2.4
   geolocator_apple: 2.2.7
   geolocator_platform_interface: 4.0.8
@@ -43,18 +43,19 @@ dependencies:
   go_router: 7.1.1
   google_fonts: 4.0.3
   google_maps: 6.3.0
-  google_maps_flutter: 2.5.0
+  google_maps_flutter: ^2.5.3
   google_maps_flutter_platform_interface: 2.4.1
   google_maps_flutter_web: 0.5.4+2
   intl: 0.18.1
   json_path: 0.6.2
+  latlng: ^2.0.7
   mime_type: 1.0.0
   page_transition: 2.1.0
   path_provider: 2.0.14
   path_provider_android: 2.0.25
   path_provider_foundation: 2.2.2
   path_provider_platform_interface: 2.0.6
-  permission_handler: 10.0.0
+  permission_handler: 10.3.0
   provider: 6.0.5
   shared_preferences: 2.2.2
   shared_preferences_android: 2.2.1
