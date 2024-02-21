@@ -18,6 +18,7 @@ class LoadingWidget extends StatefulWidget {
     required this.fazCidade,
     required this.fazEstado,
     required this.servico,
+    required this.fazID,
   });
 
   final String? tipo;
@@ -28,6 +29,7 @@ class LoadingWidget extends StatefulWidget {
   final String? fazCidade;
   final String? fazEstado;
   final int? servico;
+  final int? fazID;
 
   @override
   State<LoadingWidget> createState() => _LoadingWidgetState();
@@ -49,49 +51,55 @@ class _LoadingWidgetState extends State<LoadingWidget> {
 
     // On component load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      await Future.delayed(const Duration(milliseconds: 2000));
-      Navigator.pop(context);
+      if (widget.tipo == 'Coleta') {
+        await Future.delayed(const Duration(milliseconds: 2000));
+        Navigator.pop(context);
 
-      context.pushNamed(
-        'ServicoInicio',
-        queryParameters: {
-          'fazLatLng': serializeParam(
-            widget.fazlatlng,
-            ParamType.LatLng,
-          ),
-          'fazNome': serializeParam(
-            widget.fazNome,
-            ParamType.String,
-          ),
-          'estadoFaz': serializeParam(
-            widget.fazEstado,
-            ParamType.String,
-          ),
-          'cidadeFaz': serializeParam(
-            widget.fazCidade,
-            ParamType.String,
-          ),
-          'data': serializeParam(
-            widget.data,
-            ParamType.String,
-          ),
-          'observacao': serializeParam(
-            widget.observacao,
-            ParamType.String,
-          ),
-          'servico': serializeParam(
-            widget.servico,
-            ParamType.int,
-          ),
-        }.withoutNulls,
-        extra: <String, dynamic>{
-          kTransitionInfoKey: const TransitionInfo(
-            hasTransition: true,
-            transitionType: PageTransitionType.fade,
-            duration: Duration(milliseconds: 0),
-          ),
-        },
-      );
+        context.pushNamed(
+          'ServicoInicio',
+          queryParameters: {
+            'fazLatLng': serializeParam(
+              widget.fazlatlng,
+              ParamType.LatLng,
+            ),
+            'fazNome': serializeParam(
+              widget.fazNome,
+              ParamType.String,
+            ),
+            'estadoFaz': serializeParam(
+              widget.fazEstado,
+              ParamType.String,
+            ),
+            'cidadeFaz': serializeParam(
+              widget.fazCidade,
+              ParamType.String,
+            ),
+            'data': serializeParam(
+              widget.data,
+              ParamType.String,
+            ),
+            'observacao': serializeParam(
+              widget.observacao,
+              ParamType.String,
+            ),
+            'servico': serializeParam(
+              widget.servico,
+              ParamType.int,
+            ),
+            'fazId': serializeParam(
+              widget.fazID,
+              ParamType.int,
+            ),
+          }.withoutNulls,
+          extra: <String, dynamic>{
+            kTransitionInfoKey: const TransitionInfo(
+              hasTransition: true,
+              transitionType: PageTransitionType.fade,
+              duration: Duration(milliseconds: 0),
+            ),
+          },
+        );
+      }
     });
   }
 

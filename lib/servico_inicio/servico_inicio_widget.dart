@@ -20,6 +20,7 @@ class ServicoInicioWidget extends StatefulWidget {
     required this.data,
     required this.observacao,
     required this.servico,
+    required this.fazId,
   });
 
   final LatLng? fazLatLng;
@@ -29,6 +30,7 @@ class ServicoInicioWidget extends StatefulWidget {
   final String? data;
   final String? observacao;
   final int? servico;
+  final int? fazId;
 
   @override
   State<ServicoInicioWidget> createState() => _ServicoInicioWidgetState();

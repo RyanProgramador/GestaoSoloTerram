@@ -267,6 +267,10 @@ class _InicioWidgetState extends State<InicioWidget> {
                                                       trOsServicosItem,
                                                       r'''$.oserv_id''',
                                                     ),
+                                                    fazID: getJsonField(
+                                                      trOsServicosItem,
+                                                      r'''$.os_id_faz''',
+                                                    ),
                                                   ),
                                                 ),
                                               );
