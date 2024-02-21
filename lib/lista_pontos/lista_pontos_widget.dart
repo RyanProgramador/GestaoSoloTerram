@@ -260,243 +260,225 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: [
-                                            Column(
-                                              mainAxisSize: MainAxisSize.max,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                Padding(
-                                                  padding: const EdgeInsetsDirectional
-                                                      .fromSTEB(
-                                                          0.0, 0.0, 0.0, 4.0),
-                                                  child: Text(
-                                                    'Ponto: ${getJsonField(
-                                                      pontosListaItem,
-                                                      r'''$.pont_numero''',
-                                                    ).toString()}',
-                                                    style: FlutterFlowTheme.of(
-                                                            context)
-                                                        .bodyMedium
-                                                        .override(
-                                                          fontFamily: 'Outfit',
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .primaryBackground,
-                                                          fontSize: 28.0,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                        ),
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  child: Container(
-                                                    width: 350.0,
-                                                    height: 100.0,
-                                                    decoration: const BoxDecoration(
-                                                      color: Color(0x00FFFFFF),
+                                            Expanded(
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.max,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsetsDirectional
+                                                            .fromSTEB(0.0, 0.0,
+                                                                0.0, 4.0),
+                                                    child: Text(
+                                                      'Ponto: ${getJsonField(
+                                                        pontosListaItem,
+                                                        r'''$.pont_numero''',
+                                                      ).toString()}',
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Outfit',
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primaryBackground,
+                                                                fontSize: 28.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                              ),
                                                     ),
-                                                    child: Row(
-                                                      mainAxisSize:
-                                                          MainAxisSize.max,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        Column(
+                                                  ),
+                                                  Expanded(
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  10.0,
+                                                                  0.0,
+                                                                  10.0,
+                                                                  0.0),
+                                                      child: Container(
+                                                        width: 350.0,
+                                                        height: 100.0,
+                                                        decoration:
+                                                            const BoxDecoration(
+                                                          color:
+                                                              Color(0x00FFFFFF),
+                                                        ),
+                                                        child: Row(
                                                           mainAxisSize:
                                                               MainAxisSize.max,
                                                           mainAxisAlignment:
                                                               MainAxisAlignment
-                                                                  .start,
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
+                                                                  .spaceBetween,
                                                           children: [
-                                                            Text(
-                                                              'Profundidade',
-                                                              style: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .bodyMedium
-                                                                  .override(
-                                                                    fontFamily:
-                                                                        'Readex Pro',
-                                                                    color: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .primary,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w600,
-                                                                  ),
-                                                            ),
                                                             Column(
                                                               mainAxisSize:
                                                                   MainAxisSize
                                                                       .max,
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .start,
                                                               crossAxisAlignment:
                                                                   CrossAxisAlignment
                                                                       .start,
                                                               children: [
-                                                                Builder(
-                                                                  builder:
-                                                                      (context) {
-                                                                    final profundidadesLista2 =
-                                                                        getJsonField(
-                                                                      pontosListaItem,
-                                                                      r'''$.profundidades''',
-                                                                    ).toList();
-                                                                    return Column(
-                                                                      mainAxisSize:
-                                                                          MainAxisSize
-                                                                              .max,
-                                                                      crossAxisAlignment:
-                                                                          CrossAxisAlignment
-                                                                              .start,
-                                                                      children: List.generate(
-                                                                          profundidadesLista2
-                                                                              .length,
-                                                                          (profundidadesLista2Index) {
-                                                                        final profundidadesLista2Item =
-                                                                            profundidadesLista2[profundidadesLista2Index];
-                                                                        return Row(
+                                                                Text(
+                                                                  'Profundidade',
+                                                                  style: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .override(
+                                                                        fontFamily:
+                                                                            'Readex Pro',
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .primary,
+                                                                        fontWeight:
+                                                                            FontWeight.w600,
+                                                                      ),
+                                                                ),
+                                                                Column(
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .max,
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  children: [
+                                                                    Builder(
+                                                                      builder:
+                                                                          (context) {
+                                                                        final profundidadesLista2 =
+                                                                            getJsonField(
+                                                                          pontosListaItem,
+                                                                          r'''$.profundidades''',
+                                                                        ).toList();
+                                                                        return Column(
                                                                           mainAxisSize:
                                                                               MainAxisSize.max,
-                                                                          children: [
-                                                                            Container(
-                                                                              height: 20.0,
-                                                                              decoration: const BoxDecoration(
-                                                                                color: Color(0x00FFFFFF),
-                                                                              ),
-                                                                              child: SizedBox(
-                                                                                width: 18.0,
-                                                                                height: 20.0,
-                                                                                child: custom_widgets.IconeComLegenda(
-                                                                                  width: 18.0,
+                                                                          crossAxisAlignment:
+                                                                              CrossAxisAlignment.start,
+                                                                          children: List.generate(
+                                                                              profundidadesLista2.length,
+                                                                              (profundidadesLista2Index) {
+                                                                            final profundidadesLista2Item =
+                                                                                profundidadesLista2[profundidadesLista2Index];
+                                                                            return Row(
+                                                                              mainAxisSize: MainAxisSize.max,
+                                                                              children: [
+                                                                                Container(
                                                                                   height: 20.0,
-                                                                                  lista: FFAppState().trIcones,
-                                                                                  termoDePesquisa: getJsonField(
-                                                                                    profundidadesLista2Item,
-                                                                                    r'''$.pprof_icone''',
-                                                                                  ).toString(),
-                                                                                  pathDePesquisa: 'ico_valor',
-                                                                                  pathDeRetorno: 'ico_base64',
-                                                                                ),
-                                                                              ),
-                                                                            ),
-                                                                            Padding(
-                                                                              padding: const EdgeInsetsDirectional.fromSTEB(4.0, 0.0, 0.0, 0.0),
-                                                                              child: Text(
-                                                                                valueOrDefault<String>(
-                                                                                  functions.retornalegenda(
-                                                                                      getJsonField(
+                                                                                  decoration: const BoxDecoration(
+                                                                                    color: Color(0x00FFFFFF),
+                                                                                  ),
+                                                                                  child: SizedBox(
+                                                                                    width: 18.0,
+                                                                                    height: 20.0,
+                                                                                    child: custom_widgets.IconeComLegenda(
+                                                                                      width: 18.0,
+                                                                                      height: 20.0,
+                                                                                      lista: FFAppState().trIcones,
+                                                                                      termoDePesquisa: getJsonField(
                                                                                         profundidadesLista2Item,
                                                                                         r'''$.pprof_icone''',
                                                                                       ).toString(),
-                                                                                      FFAppState().trIcones.toList()),
-                                                                                  'Erro',
-                                                                                ),
-                                                                                style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                      fontFamily: 'Readex Pro',
-                                                                                      color: FlutterFlowTheme.of(context).primaryBackground,
+                                                                                      pathDePesquisa: 'ico_valor',
+                                                                                      pathDeRetorno: 'ico_base64',
                                                                                     ),
-                                                                              ),
-                                                                            ),
-                                                                          ],
+                                                                                  ),
+                                                                                ),
+                                                                                Padding(
+                                                                                  padding: const EdgeInsetsDirectional.fromSTEB(4.0, 0.0, 0.0, 0.0),
+                                                                                  child: Text(
+                                                                                    valueOrDefault<String>(
+                                                                                      functions.retornalegenda(
+                                                                                          getJsonField(
+                                                                                            profundidadesLista2Item,
+                                                                                            r'''$.pprof_icone''',
+                                                                                          ).toString(),
+                                                                                          FFAppState().trIcones.toList()),
+                                                                                      'Erro',
+                                                                                    ),
+                                                                                    style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                          fontFamily: 'Readex Pro',
+                                                                                          color: FlutterFlowTheme.of(context).primaryBackground,
+                                                                                        ),
+                                                                                  ),
+                                                                                ),
+                                                                              ],
+                                                                            );
+                                                                          }),
                                                                         );
-                                                                      }),
-                                                                    );
-                                                                  },
+                                                                      },
+                                                                    ),
+                                                                  ],
                                                                 ),
                                                               ],
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        Column(
-                                                          mainAxisSize:
-                                                              MainAxisSize.max,
-                                                          children: [
-                                                            Text(
-                                                              'Situacção',
-                                                              style: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .bodyMedium
-                                                                  .override(
-                                                                    fontFamily:
-                                                                        'Readex Pro',
-                                                                    color: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .primary,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w600,
-                                                                  ),
                                                             ),
                                                             Column(
                                                               mainAxisSize:
                                                                   MainAxisSize
                                                                       .max,
                                                               children: [
-                                                                Builder(
-                                                                  builder:
-                                                                      (context) {
-                                                                    final profundidadesLista2 =
-                                                                        getJsonField(
-                                                                      pontosListaItem,
-                                                                      r'''$.profundidades''',
-                                                                    ).toList();
-                                                                    return Column(
-                                                                      mainAxisSize:
-                                                                          MainAxisSize
-                                                                              .max,
-                                                                      children: List.generate(
-                                                                          profundidadesLista2
-                                                                              .length,
-                                                                          (profundidadesLista2Index) {
-                                                                        final profundidadesLista2Item =
-                                                                            profundidadesLista2[profundidadesLista2Index];
-                                                                        return Text(
-                                                                          getJsonField(
-                                                                            profundidadesLista2Item,
-                                                                            r'''$.pprof_status''',
-                                                                          ).toString(),
-                                                                          style: FlutterFlowTheme.of(context)
-                                                                              .bodyMedium
-                                                                              .override(
-                                                                                fontFamily: 'Readex Pro',
-                                                                                color: FlutterFlowTheme.of(context).primaryBackground,
-                                                                              ),
+                                                                Text(
+                                                                  'Situacção',
+                                                                  style: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .override(
+                                                                        fontFamily:
+                                                                            'Readex Pro',
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .primary,
+                                                                        fontWeight:
+                                                                            FontWeight.w600,
+                                                                      ),
+                                                                ),
+                                                                Column(
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .max,
+                                                                  children: [
+                                                                    Builder(
+                                                                      builder:
+                                                                          (context) {
+                                                                        final profundidadesLista2 =
+                                                                            getJsonField(
+                                                                          pontosListaItem,
+                                                                          r'''$.profundidades''',
+                                                                        ).toList();
+                                                                        return Column(
+                                                                          mainAxisSize:
+                                                                              MainAxisSize.max,
+                                                                          children: List.generate(
+                                                                              profundidadesLista2.length,
+                                                                              (profundidadesLista2Index) {
+                                                                            final profundidadesLista2Item =
+                                                                                profundidadesLista2[profundidadesLista2Index];
+                                                                            return Text(
+                                                                              getJsonField(
+                                                                                profundidadesLista2Item,
+                                                                                r'''$.pprof_status''',
+                                                                              ).toString(),
+                                                                              style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                    fontFamily: 'Readex Pro',
+                                                                                    color: FlutterFlowTheme.of(context).primaryBackground,
+                                                                                  ),
+                                                                            );
+                                                                          }),
                                                                         );
-                                                                      }),
-                                                                    );
-                                                                  },
+                                                                      },
+                                                                    ),
+                                                                  ],
                                                                 ),
                                                               ],
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        Column(
-                                                          mainAxisSize:
-                                                              MainAxisSize.max,
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .end,
-                                                          children: [
-                                                            Text(
-                                                              'Foto',
-                                                              style: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .bodyMedium
-                                                                  .override(
-                                                                    fontFamily:
-                                                                        'Readex Pro',
-                                                                    color: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .primary,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w600,
-                                                                  ),
                                                             ),
                                                             Column(
                                                               mainAxisSize:
@@ -506,48 +488,66 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                   CrossAxisAlignment
                                                                       .end,
                                                               children: [
-                                                                Builder(
-                                                                  builder:
-                                                                      (context) {
-                                                                    final listaFotos =
-                                                                        getJsonField(
-                                                                      pontosListaItem,
-                                                                      r'''$.profundidades''',
-                                                                    ).toList();
-                                                                    return Column(
-                                                                      mainAxisSize:
-                                                                          MainAxisSize
-                                                                              .max,
-                                                                      crossAxisAlignment:
-                                                                          CrossAxisAlignment
-                                                                              .end,
-                                                                      children: List.generate(
-                                                                          listaFotos
-                                                                              .length,
-                                                                          (listaFotosIndex) {
-                                                                        final listaFotosItem =
-                                                                            listaFotos[listaFotosIndex];
-                                                                        return FaIcon(
-                                                                          FontAwesomeIcons
-                                                                              .images,
-                                                                          color:
-                                                                              FlutterFlowTheme.of(context).primaryBackground,
-                                                                          size:
-                                                                              24.0,
+                                                                Text(
+                                                                  'Foto',
+                                                                  style: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .override(
+                                                                        fontFamily:
+                                                                            'Readex Pro',
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .primary,
+                                                                        fontWeight:
+                                                                            FontWeight.w600,
+                                                                      ),
+                                                                ),
+                                                                Column(
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .max,
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .end,
+                                                                  children: [
+                                                                    Builder(
+                                                                      builder:
+                                                                          (context) {
+                                                                        final listaFotos =
+                                                                            getJsonField(
+                                                                          pontosListaItem,
+                                                                          r'''$.profundidades''',
+                                                                        ).toList();
+                                                                        return Column(
+                                                                          mainAxisSize:
+                                                                              MainAxisSize.max,
+                                                                          crossAxisAlignment:
+                                                                              CrossAxisAlignment.end,
+                                                                          children: List.generate(
+                                                                              listaFotos.length,
+                                                                              (listaFotosIndex) {
+                                                                            final listaFotosItem =
+                                                                                listaFotos[listaFotosIndex];
+                                                                            return FaIcon(
+                                                                              FontAwesomeIcons.images,
+                                                                              color: FlutterFlowTheme.of(context).primaryBackground,
+                                                                              size: 24.0,
+                                                                            );
+                                                                          }),
                                                                         );
-                                                                      }),
-                                                                    );
-                                                                  },
+                                                                      },
+                                                                    ),
+                                                                  ],
                                                                 ),
                                                               ],
                                                             ),
                                                           ],
                                                         ),
-                                                      ],
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
                                           ],
                                         ),
