@@ -302,7 +302,7 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                         return Text(
                                                                           getJsonField(
                                                                             testeItem,
-                                                                            r'''$[:].profundidades.pprof_icone''',
+                                                                            r'''$.profundidades.pprof_icone''',
                                                                           ).toString(),
                                                                           style: FlutterFlowTheme.of(context)
                                                                               .bodyMedium
