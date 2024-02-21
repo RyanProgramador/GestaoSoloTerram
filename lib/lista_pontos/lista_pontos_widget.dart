@@ -87,11 +87,20 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
                           children: [
-                            Icon(
-                              Icons.arrow_back,
-                              color: FlutterFlowTheme.of(context)
-                                  .primaryBackground,
-                              size: 24.0,
+                            InkWell(
+                              splashColor: Colors.transparent,
+                              focusColor: Colors.transparent,
+                              hoverColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              onTap: () async {
+                                context.safePop();
+                              },
+                              child: Icon(
+                                Icons.arrow_back,
+                                color: FlutterFlowTheme.of(context)
+                                    .primaryBackground,
+                                size: 24.0,
+                              ),
                             ),
                           ],
                         ),
