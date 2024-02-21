@@ -72,57 +72,53 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
         body: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
-            Expanded(
-              flex: 2,
-              child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(22.0),
-                  bottomRight: Radius.circular(22.0),
-                  topLeft: Radius.circular(0.0),
-                  topRight: Radius.circular(0.0),
-                ),
-                child: Container(
-                  width: double.infinity,
-                  height: 100.0,
-                  decoration: BoxDecoration(
-                    color: FlutterFlowTheme.of(context).primary,
-                    borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(22.0),
-                      bottomRight: Radius.circular(22.0),
-                      topLeft: Radius.circular(0.0),
-                      topRight: Radius.circular(0.0),
-                    ),
+            ClipRRect(
+              borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(22.0),
+                bottomRight: Radius.circular(22.0),
+                topLeft: Radius.circular(0.0),
+                topRight: Radius.circular(0.0),
+              ),
+              child: Container(
+                width: MediaQuery.sizeOf(context).width * 1.0,
+                height: 200.0,
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(22.0),
+                    bottomRight: Radius.circular(22.0),
+                    topLeft: Radius.circular(0.0),
+                    topRight: Radius.circular(0.0),
                   ),
-                  child: Builder(builder: (context) {
-                    final googleMapMarker = widget.fazLatLng;
-                    return FlutterFlowGoogleMap(
-                      controller: _model.googleMapsController,
-                      onCameraIdle: (latLng) =>
-                          _model.googleMapsCenter = latLng,
-                      initialLocation: _model.googleMapsCenter ??=
-                          widget.fazLatLng!,
-                      markers: [
-                        if (googleMapMarker != null)
-                          FlutterFlowMarker(
-                            googleMapMarker.serialize(),
-                            googleMapMarker,
-                          ),
-                      ],
-                      markerColor: GoogleMarkerColor.violet,
-                      mapType: MapType.normal,
-                      style: GoogleMapStyle.standard,
-                      initialZoom: 14.0,
-                      allowInteraction: false,
-                      allowZoom: false,
-                      showZoomControls: false,
-                      showLocation: false,
-                      showCompass: false,
-                      showMapToolbar: false,
-                      showTraffic: false,
-                      centerMapOnMarkerTap: false,
-                    );
-                  }),
                 ),
+                child: Builder(builder: (context) {
+                  final googleMapMarker = widget.fazLatLng;
+                  return FlutterFlowGoogleMap(
+                    controller: _model.googleMapsController,
+                    onCameraIdle: (latLng) => _model.googleMapsCenter = latLng,
+                    initialLocation: _model.googleMapsCenter ??=
+                        widget.fazLatLng!,
+                    markers: [
+                      if (googleMapMarker != null)
+                        FlutterFlowMarker(
+                          googleMapMarker.serialize(),
+                          googleMapMarker,
+                        ),
+                    ],
+                    markerColor: GoogleMarkerColor.violet,
+                    mapType: MapType.normal,
+                    style: GoogleMapStyle.standard,
+                    initialZoom: 14.0,
+                    allowInteraction: false,
+                    allowZoom: false,
+                    showZoomControls: false,
+                    showLocation: false,
+                    showCompass: false,
+                    showMapToolbar: false,
+                    showTraffic: false,
+                    centerMapOnMarkerTap: false,
+                  );
+                }),
               ),
             ),
             Expanded(
