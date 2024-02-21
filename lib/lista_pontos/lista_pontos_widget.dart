@@ -1,7 +1,6 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import '/custom_code/widgets/index.dart' as custom_widgets;
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -377,21 +376,6 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                                   height: 20.0,
                                                                                   decoration: const BoxDecoration(
                                                                                     color: Color(0x00FFFFFF),
-                                                                                  ),
-                                                                                  child: SizedBox(
-                                                                                    width: 18.0,
-                                                                                    height: 20.0,
-                                                                                    child: custom_widgets.IconeComLegenda(
-                                                                                      width: 18.0,
-                                                                                      height: 20.0,
-                                                                                      lista: FFAppState().trIcones,
-                                                                                      termoDePesquisa: getJsonField(
-                                                                                        profundidadesLista2Item,
-                                                                                        r'''$.pprof_icone''',
-                                                                                      ).toString(),
-                                                                                      pathDePesquisa: 'ico_valor',
-                                                                                      pathDeRetorno: 'ico_base64',
-                                                                                    ),
                                                                                   ),
                                                                                 ),
                                                                                 Padding(
