@@ -219,7 +219,7 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                   CrossAxisAlignment.center,
                                               children: [
                                                 Text(
-                                                  teIndex.toString(),
+                                                  teItem.toString(),
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .bodyMedium
