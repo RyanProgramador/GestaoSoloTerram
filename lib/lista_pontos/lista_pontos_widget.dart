@@ -135,65 +135,62 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                   decoration: const BoxDecoration(
                     color: Color(0x00FFFFFF),
                   ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Container(
-                        width: double.infinity,
-                        height: 100.0,
-                        decoration: BoxDecoration(
-                          color:
-                              FlutterFlowTheme.of(context).secondaryBackground,
-                        ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            FFButtonWidget(
-                              onPressed: () {
-                                print('Button pressed ...');
-                              },
-                              text: 'Realizar coletas',
-                              options: FFButtonOptions(
-                                width: MediaQuery.sizeOf(context).width * 0.4,
-                                height: 50.0,
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    24.0, 0.0, 24.0, 0.0),
-                                iconPadding: const EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 0.0, 0.0, 0.0),
-                                color: FlutterFlowTheme.of(context).primary,
-                                textStyle: FlutterFlowTheme.of(context)
-                                    .titleSmall
-                                    .override(
-                                      fontFamily: 'Readex Pro',
-                                      color: Colors.white,
-                                    ),
-                                elevation: 3.0,
-                                borderSide: const BorderSide(
-                                  color: Colors.transparent,
-                                  width: 1.0,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Container(
+                          width: double.infinity,
+                          height: 100.0,
+                          decoration: BoxDecoration(
+                            color: FlutterFlowTheme.of(context)
+                                .secondaryBackground,
+                          ),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              FFButtonWidget(
+                                onPressed: () {
+                                  print('Button pressed ...');
+                                },
+                                text: 'Realizar coletas',
+                                options: FFButtonOptions(
+                                  width: MediaQuery.sizeOf(context).width * 0.4,
+                                  height: 50.0,
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      24.0, 0.0, 24.0, 0.0),
+                                  iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                      0.0, 0.0, 0.0, 0.0),
+                                  color: FlutterFlowTheme.of(context).primary,
+                                  textStyle: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .override(
+                                        fontFamily: 'Readex Pro',
+                                        color: Colors.white,
+                                      ),
+                                  elevation: 3.0,
+                                  borderSide: const BorderSide(
+                                    color: Colors.transparent,
+                                    width: 1.0,
+                                  ),
+                                  borderRadius: BorderRadius.circular(24.0),
                                 ),
-                                borderRadius: BorderRadius.circular(24.0),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                      Text(
-                        'Quantidade a serem coletadas: ',
-                        style: FlutterFlowTheme.of(context).bodyMedium,
-                      ),
-                      Padding(
-                        padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
-                        child: Builder(
-                          builder: (context) {
-                            final te = widget.listaJsonPontos!
-                                .toList()
-                                .take(7)
-                                .toList();
-                            return SingleChildScrollView(
-                              child: Column(
+                        Text(
+                          'Quantidade a serem coletadas: ',
+                          style: FlutterFlowTheme.of(context).bodyMedium,
+                        ),
+                        Padding(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
+                              0.0, 10.0, 0.0, 0.0),
+                          child: Builder(
+                            builder: (context) {
+                              final te = widget.listaJsonPontos!.toList();
+                              return Column(
                                 mainAxisSize: MainAxisSize.max,
                                 children: List.generate(te.length, (teIndex) {
                                   final teItem = te[teIndex];
@@ -309,7 +306,7 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                         return Text(
                                                                           getJsonField(
                                                                             testeItem,
-                                                                            r'''$[:].ico_valor''',
+                                                                            r'''$.pprof_icone''',
                                                                           ).toString(),
                                                                           style: FlutterFlowTheme.of(context)
                                                                               .bodyMedium
@@ -354,8 +351,12 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                 Builder(
                                                                   builder:
                                                                       (context) {
-                                                                    final test = widget
-                                                                        .listaJsonPontos!
+                                                                    final test = FFAppState()
+                                                                        .trOsServicos
+                                                                        .map((e) => getJsonField(
+                                                                              e,
+                                                                              r'''$.profundidades''',
+                                                                            ))
                                                                         .toList();
                                                                     return Column(
                                                                       mainAxisSize:
@@ -367,7 +368,10 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                         final testItem =
                                                                             test[testIndex];
                                                                         return Text(
-                                                                          'Hello World',
+                                                                          getJsonField(
+                                                                            testItem,
+                                                                            r'''$.pprof_status''',
+                                                                          ).toString(),
                                                                           style: FlutterFlowTheme.of(context)
                                                                               .bodyMedium
                                                                               .override(
@@ -451,12 +455,12 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                     ),
                                   );
                                 }).divide(const SizedBox(height: 10.0)),
-                              ),
-                            );
-                          },
+                              );
+                            },
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
