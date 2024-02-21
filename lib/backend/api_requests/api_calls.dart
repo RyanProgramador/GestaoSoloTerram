@@ -14,6 +14,7 @@ class TrOsServicosGroup {
   static Map<String, String> headers = {};
   static TrOsServicosCall trOsServicosCall = TrOsServicosCall();
   static TriconesCall triconesCall = TriconesCall();
+  static TrPontosCall trPontosCall = TrPontosCall();
 }
 
 class TrOsServicosCall {
@@ -78,12 +79,48 @@ class TriconesCall {
     );
   }
 
-  bool? statusTrBuscaOsServicos(dynamic response) =>
-      castToType<bool>(getJsonField(
+  bool? statusTrBuscaIcones(dynamic response) => castToType<bool>(getJsonField(
         response,
         r'''$.status''',
       ));
-  List? dadosTrBuscaOsServicos(dynamic response) => getJsonField(
+  List? dadosTrBuscaIcones(dynamic response) => getJsonField(
+        response,
+        r'''$.dados''',
+        true,
+      ) as List?;
+}
+
+class TrPontosCall {
+  Future<ApiCallResponse> call({
+    String? urlApi = '',
+    int? servicoId,
+  }) async {
+    final ffApiRequestBody = '''
+{
+  "tipo": "ff_busca_pontos",
+  "servico_id": "$servicoId"
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'trPontos',
+      apiUrl: '${TrOsServicosGroup.baseUrl}$urlApi',
+      callType: ApiCallType.POST,
+      headers: {},
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  bool? statusTrBuscaPontos(dynamic response) => castToType<bool>(getJsonField(
+        response,
+        r'''$.status''',
+      ));
+  List? dadosTrBuscaPontos(dynamic response) => getJsonField(
         response,
         r'''$.dados''',
         true,
