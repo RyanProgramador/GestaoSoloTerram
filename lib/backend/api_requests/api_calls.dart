@@ -13,6 +13,7 @@ class TrOsServicosGroup {
   static String baseUrl = 'http';
   static Map<String, String> headers = {};
   static TrOsServicosCall trOsServicosCall = TrOsServicosCall();
+  static TriconesCall triconesCall = TriconesCall();
 }
 
 class TrOsServicosCall {
@@ -27,6 +28,42 @@ class TrOsServicosCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'trOsServicos',
+      apiUrl: '${TrOsServicosGroup.baseUrl}$urlApi',
+      callType: ApiCallType.POST,
+      headers: {},
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  bool? statusTrBuscaOsServicos(dynamic response) =>
+      castToType<bool>(getJsonField(
+        response,
+        r'''$.status''',
+      ));
+  List? dadosTrBuscaOsServicos(dynamic response) => getJsonField(
+        response,
+        r'''$.dados''',
+        true,
+      ) as List?;
+}
+
+class TriconesCall {
+  Future<ApiCallResponse> call({
+    String? urlApi = '',
+  }) async {
+    const ffApiRequestBody = '''
+{
+  "tipo": "ff_busca_icones"
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'tricones',
       apiUrl: '${TrOsServicosGroup.baseUrl}$urlApi',
       callType: ApiCallType.POST,
       headers: {},

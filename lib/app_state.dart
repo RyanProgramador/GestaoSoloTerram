@@ -32,6 +32,17 @@ class FFAppState extends ChangeNotifier {
           }).toList() ??
           _trOsServicos;
     });
+    _safeInit(() {
+      _trIcones = prefs.getStringList('ff_trIcones')?.map((x) {
+            try {
+              return jsonDecode(x);
+            } catch (e) {
+              print("Can't decode persisted json. Error: $e.");
+              return {};
+            }
+          }).toList() ??
+          _trIcones;
+    });
   }
 
   void update(VoidCallback callback) {
@@ -88,6 +99,47 @@ class FFAppState extends ChangeNotifier {
     _trOsServicos.insert(index, value);
     prefs.setStringList(
         'ff_trOsServicos', _trOsServicos.map((x) => jsonEncode(x)).toList());
+  }
+
+  List<dynamic> _trIcones = [];
+  List<dynamic> get trIcones => _trIcones;
+  set trIcones(List<dynamic> value) {
+    _trIcones = value;
+    prefs.setStringList(
+        'ff_trIcones', value.map((x) => jsonEncode(x)).toList());
+  }
+
+  void addToTrIcones(dynamic value) {
+    _trIcones.add(value);
+    prefs.setStringList(
+        'ff_trIcones', _trIcones.map((x) => jsonEncode(x)).toList());
+  }
+
+  void removeFromTrIcones(dynamic value) {
+    _trIcones.remove(value);
+    prefs.setStringList(
+        'ff_trIcones', _trIcones.map((x) => jsonEncode(x)).toList());
+  }
+
+  void removeAtIndexFromTrIcones(int index) {
+    _trIcones.removeAt(index);
+    prefs.setStringList(
+        'ff_trIcones', _trIcones.map((x) => jsonEncode(x)).toList());
+  }
+
+  void updateTrIconesAtIndex(
+    int index,
+    dynamic Function(dynamic) updateFn,
+  ) {
+    _trIcones[index] = updateFn(_trIcones[index]);
+    prefs.setStringList(
+        'ff_trIcones', _trIcones.map((x) => jsonEncode(x)).toList());
+  }
+
+  void insertAtIndexInTrIcones(int index, dynamic value) {
+    _trIcones.insert(index, value);
+    prefs.setStringList(
+        'ff_trIcones', _trIcones.map((x) => jsonEncode(x)).toList());
   }
 }
 

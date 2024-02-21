@@ -69,6 +69,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
             data: params.getParam('data', ParamType.String),
             observacao: params.getParam('observacao', ParamType.String),
           ),
+        ),
+        FFRoute(
+          name: 'listaPontos',
+          path: '/listaPontos',
+          builder: (context, params) => const ListaPontosWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

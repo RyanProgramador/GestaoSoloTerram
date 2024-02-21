@@ -1,5 +1,7 @@
+import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -59,6 +61,69 @@ class _AjustesConfiguracoesWidgetState
             Text(
               'Hello World',
               style: FlutterFlowTheme.of(context).bodyMedium,
+            ),
+            FFButtonWidget(
+              onPressed: () async {
+                var shouldSetState = false;
+                _model.trIcones = await TrOsServicosGroup.triconesCall.call(
+                  urlApi: FFAppState().UrlApi,
+                );
+                shouldSetState = true;
+                if (getJsonField(
+                  (_model.trIcones?.jsonBody ?? ''),
+                  r'''$.status''',
+                )) {
+                  setState(() {
+                    FFAppState().trIcones = getJsonField(
+                      (_model.trIcones?.jsonBody ?? ''),
+                      r'''$.dados''',
+                      true,
+                    )!
+                        .toList()
+                        .cast<dynamic>();
+                  });
+                } else {
+                  await showDialog(
+                    context: context,
+                    builder: (alertDialogContext) {
+                      return AlertDialog(
+                        title: const Text('Ops!'),
+                        content: Text(getJsonField(
+                          (_model.trIcones?.jsonBody ?? ''),
+                          r'''$.message''',
+                        ).toString()),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(alertDialogContext),
+                            child: const Text('Ok'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                  if (shouldSetState) setState(() {});
+                  return;
+                }
+
+                if (shouldSetState) setState(() {});
+              },
+              text: 'Sincronizar icones',
+              options: FFButtonOptions(
+                height: 40.0,
+                padding: const EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
+                iconPadding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                color: FlutterFlowTheme.of(context).primary,
+                textStyle: FlutterFlowTheme.of(context).titleSmall.override(
+                      fontFamily: 'Readex Pro',
+                      color: Colors.white,
+                    ),
+                elevation: 3.0,
+                borderSide: const BorderSide(
+                  color: Colors.transparent,
+                  width: 1.0,
+                ),
+                borderRadius: BorderRadius.circular(8.0),
+              ),
             ),
           ],
         ),
