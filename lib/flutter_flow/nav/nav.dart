@@ -57,6 +57,18 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => params.isEmpty
               ? const NavBarPage(initialPage: 'AjustesConfiguracoes')
               : const AjustesConfiguracoesWidget(),
+        ),
+        FFRoute(
+          name: 'ServicoInicio',
+          path: '/servicoInicio',
+          builder: (context, params) => ServicoInicioWidget(
+            fazLatLng: params.getParam('fazLatLng', ParamType.LatLng),
+            fazNome: params.getParam('fazNome', ParamType.String),
+            estadoFaz: params.getParam('estadoFaz', ParamType.String),
+            cidadeFaz: params.getParam('cidadeFaz', ParamType.String),
+            data: params.getParam('data', ParamType.String),
+            observacao: params.getParam('observacao', ParamType.String),
+          ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

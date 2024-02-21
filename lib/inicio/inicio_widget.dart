@@ -1,7 +1,9 @@
 import '/backend/api_requests/api_calls.dart';
+import '/components/loading_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/custom_code/actions/index.dart' as actions;
+import '/flutter_flow/custom_functions.dart' as functions;
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -203,15 +205,109 @@ class _InicioWidgetState extends State<InicioWidget> {
                                           color: const Color(0xFF00736D),
                                         ),
                                       ),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          Align(
-                                            alignment:
-                                                const AlignmentDirectional(0.0, 0.0),
-                                            child: Padding(
+                                      child: InkWell(
+                                        splashColor: Colors.transparent,
+                                        focusColor: Colors.transparent,
+                                        hoverColor: Colors.transparent,
+                                        highlightColor: Colors.transparent,
+                                        onTap: () async {
+                                          await showModalBottomSheet(
+                                            isScrollControlled: true,
+                                            backgroundColor: Colors.transparent,
+                                            enableDrag: false,
+                                            context: context,
+                                            builder: (context) {
+                                              return GestureDetector(
+                                                onTap: () => _model.unfocusNode
+                                                        .canRequestFocus
+                                                    ? FocusScope.of(context)
+                                                        .requestFocus(
+                                                            _model.unfocusNode)
+                                                    : FocusScope.of(context)
+                                                        .unfocus(),
+                                                child: Padding(
+                                                  padding:
+                                                      MediaQuery.viewInsetsOf(
+                                                          context),
+                                                  child: LoadingWidget(
+                                                    tipo: 'Coleta',
+                                                    fazNome: getJsonField(
+                                                      trOsServicosItem,
+                                                      r'''$.faz_nome''',
+                                                    ).toString(),
+                                                    data: getJsonField(
+                                                      trOsServicosItem,
+                                                      r'''$.oserv_dthr_agendamento''',
+                                                    ).toString(),
+                                                    observacao: getJsonField(
+                                                      trOsServicosItem,
+                                                      r'''$.oserv_observacao''',
+                                                    ).toString(),
+                                                    fazlatlng: functions
+                                                        .listaStrToListaLatLng(
+                                                            getJsonField(
+                                                              trOsServicosItem,
+                                                              r'''$.faz_latitude''',
+                                                            ).toString(),
+                                                            getJsonField(
+                                                              trOsServicosItem,
+                                                              r'''$.faz_longitude''',
+                                                            ).toString())!,
+                                                    fazCidade: getJsonField(
+                                                      trOsServicosItem,
+                                                      r'''$.faz_cidade''',
+                                                    ).toString(),
+                                                    fazEstado: getJsonField(
+                                                      trOsServicosItem,
+                                                      r'''$.faz_estado''',
+                                                    ).toString(),
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                          ).then(
+                                              (value) => safeSetState(() {}));
+                                        },
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Align(
+                                              alignment: const AlignmentDirectional(
+                                                  0.0, 0.0),
+                                              child: Padding(
+                                                padding: const EdgeInsetsDirectional
+                                                    .fromSTEB(
+                                                        16.0, 0.0, 0.0, 0.0),
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    FaIcon(
+                                                      FontAwesomeIcons.vials,
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .secondaryText,
+                                                      size: 30.0,
+                                                    ),
+                                                    Text(
+                                                      'Coleta',
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMedium,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            Padding(
                                               padding: const EdgeInsetsDirectional
                                                   .fromSTEB(
                                                       16.0, 0.0, 0.0, 0.0),
@@ -219,85 +315,59 @@ class _InicioWidgetState extends State<InicioWidget> {
                                                 mainAxisSize: MainAxisSize.max,
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
-                                                  FaIcon(
-                                                    FontAwesomeIcons.vials,
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .secondaryText,
-                                                    size: 30.0,
-                                                  ),
                                                   Text(
-                                                    'Coleta',
-                                                    textAlign: TextAlign.center,
+                                                    '#${getJsonField(
+                                                      trOsServicosItem,
+                                                      r'''$.oserv_id''',
+                                                    ).toString()}',
                                                     style: FlutterFlowTheme.of(
                                                             context)
-                                                        .bodyMedium,
+                                                        .bodyMedium
+                                                        .override(
+                                                          fontFamily: 'Outfit',
+                                                          fontSize: 16.0,
+                                                          fontWeight:
+                                                              FontWeight.w200,
+                                                        ),
+                                                  ),
+                                                  Text(
+                                                    'Fazenda: ${getJsonField(
+                                                      trOsServicosItem,
+                                                      r'''$.faz_nome''',
+                                                    ).toString()}',
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          fontFamily: 'Outfit',
+                                                          fontSize: 16.0,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                        ),
+                                                  ),
+                                                  Text(
+                                                    getJsonField(
+                                                      trOsServicosItem,
+                                                      r'''$.oserv_dthr_agendamento''',
+                                                    ).toString(),
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          fontFamily: 'Outfit',
+                                                          fontSize: 12.0,
+                                                          fontWeight:
+                                                              FontWeight.w200,
+                                                        ),
                                                   ),
                                                 ],
                                               ),
                                             ),
-                                          ),
-                                          Padding(
-                                            padding:
-                                                const EdgeInsetsDirectional.fromSTEB(
-                                                    16.0, 0.0, 0.0, 0.0),
-                                            child: Column(
-                                              mainAxisSize: MainAxisSize.max,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  '#${getJsonField(
-                                                    trOsServicosItem,
-                                                    r'''$.oserv_id''',
-                                                  ).toString()}',
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily: 'Outfit',
-                                                        fontSize: 16.0,
-                                                        fontWeight:
-                                                            FontWeight.w200,
-                                                      ),
-                                                ),
-                                                Text(
-                                                  'Fazenda: ${getJsonField(
-                                                    trOsServicosItem,
-                                                    r'''$.faz_nome''',
-                                                  ).toString()}',
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily: 'Outfit',
-                                                        fontSize: 16.0,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                      ),
-                                                ),
-                                                Text(
-                                                  getJsonField(
-                                                    trOsServicosItem,
-                                                    r'''$.oserv_dthr_agendamento''',
-                                                  ).toString(),
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily: 'Outfit',
-                                                        fontSize: 12.0,
-                                                        fontWeight:
-                                                            FontWeight.w200,
-                                                      ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   );
