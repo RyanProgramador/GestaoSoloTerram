@@ -125,6 +125,29 @@ class TrPontosCall {
         r'''$.dados''',
         true,
       ) as List?;
+  List<int>? dadosPontos(dynamic response) => (getJsonField(
+        response,
+        r'''$.dados[:].ponto''',
+        true,
+      ) as List?)
+          ?.withoutNulls
+          .map((x) => castToType<int>(x))
+          .withoutNulls
+          .toList();
+  List? dadosProfundidades(dynamic response) => getJsonField(
+        response,
+        r'''$.dados[:].profundidades''',
+        true,
+      ) as List?;
+  List<String>? dadosProfIco(dynamic response) => (getJsonField(
+        response,
+        r'''$.dados[:].profundidades[:].ico_valor''',
+        true,
+      ) as List?)
+          ?.withoutNulls
+          .map((x) => castToType<String>(x))
+          .withoutNulls
+          .toList();
 }
 
 /// End trOsServicos Group Code

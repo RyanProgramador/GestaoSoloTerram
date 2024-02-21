@@ -273,10 +273,9 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                                   'listaPontos',
                                   queryParameters: {
                                     'listaJsonPontos': serializeParam(
-                                      getJsonField(
+                                      TrOsServicosGroup.trPontosCall
+                                          .dadosTrBuscaPontos(
                                         (_model.trPontos?.jsonBody ?? ''),
-                                        r'''$.dados''',
-                                        true,
                                       ),
                                       ParamType.JSON,
                                       true,

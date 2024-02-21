@@ -217,7 +217,7 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                 Text(
                                                   'Ponto: ${getJsonField(
                                                     teItem,
-                                                    r'''$.ponto''',
+                                                    r'''$[:].ponto''',
                                                   ).toString()}',
                                                   style: FlutterFlowTheme.of(
                                                           context)
@@ -342,11 +342,9 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                 Builder(
                                                                   builder:
                                                                       (context) {
-                                                                    final test =
-                                                                        getJsonField(
-                                                                      teItem,
-                                                                      r'''$[:].profundidades[:].pprof_status''',
-                                                                    ).toList();
+                                                                    final test = widget
+                                                                        .listaJsonPontos!
+                                                                        .toList();
                                                                     return Column(
                                                                       mainAxisSize:
                                                                           MainAxisSize
