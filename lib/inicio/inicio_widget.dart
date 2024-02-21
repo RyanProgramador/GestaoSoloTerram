@@ -2,6 +2,7 @@ import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/custom_code/actions/index.dart' as actions;
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -142,9 +143,13 @@ class _InicioWidgetState extends State<InicioWidget> {
                 child: Padding(
                   padding: const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
                   child: FutureBuilder<ApiCallResponse>(
-                    future: TrOsServicosGroup.trOsServicosCall.call(
-                      urlApi: '1',
-                    ),
+                    future: (_model.apiRequestCompleter ??= Completer<
+                            ApiCallResponse>()
+                          ..complete(TrOsServicosGroup.trOsServicosCall.call(
+                            urlApi: FFAppState().UrlApi,
+                            tecnicoId: '1',
+                          )))
+                        .future,
                     builder: (context, snapshot) {
                       // Customize what your widget looks like when it's loading.
                       if (!snapshot.hasData) {
@@ -170,36 +175,70 @@ class _InicioWidgetState extends State<InicioWidget> {
                                       )
                                       ?.toList() ??
                                   [];
-                          return SingleChildScrollView(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              children: List.generate(trOsServicos.length,
-                                  (trOsServicosIndex) {
-                                final trOsServicosItem =
-                                    trOsServicos[trOsServicosIndex];
-                                return Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      16.0, 0.0, 16.0, 0.0),
-                                  child: Container(
-                                    width: double.infinity,
-                                    height: 78.0,
-                                    decoration: BoxDecoration(
-                                      color: FlutterFlowTheme.of(context)
-                                          .alternate,
-                                      borderRadius: BorderRadius.circular(8.0),
-                                      border: Border.all(
-                                        color: const Color(0xFF00736D),
+                          return RefreshIndicator(
+                            onRefresh: () async {
+                              setState(() => _model.apiRequestCompleter = null);
+                              await _model.waitForApiRequestCompleted();
+                            },
+                            child: SingleChildScrollView(
+                              physics: const AlwaysScrollableScrollPhysics(),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.max,
+                                children: List.generate(trOsServicos.length,
+                                    (trOsServicosIndex) {
+                                  final trOsServicosItem =
+                                      trOsServicos[trOsServicosIndex];
+                                  return Padding(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                        16.0, 0.0, 16.0, 0.0),
+                                    child: Container(
+                                      width: double.infinity,
+                                      height: 78.0,
+                                      decoration: BoxDecoration(
+                                        color: FlutterFlowTheme.of(context)
+                                            .alternate,
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                        border: Border.all(
+                                          color: const Color(0xFF00736D),
+                                        ),
                                       ),
-                                    ),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Align(
-                                          alignment:
-                                              const AlignmentDirectional(0.0, 0.0),
-                                          child: Padding(
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Align(
+                                            alignment:
+                                                const AlignmentDirectional(0.0, 0.0),
+                                            child: Padding(
+                                              padding: const EdgeInsetsDirectional
+                                                  .fromSTEB(
+                                                      16.0, 0.0, 0.0, 0.0),
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.max,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  FaIcon(
+                                                    FontAwesomeIcons.vials,
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .secondaryText,
+                                                    size: 30.0,
+                                                  ),
+                                                  Text(
+                                                    'Coleta',
+                                                    textAlign: TextAlign.center,
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .bodyMedium,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
                                             padding:
                                                 const EdgeInsetsDirectional.fromSTEB(
                                                     16.0, 0.0, 0.0, 0.0),
@@ -207,80 +246,57 @@ class _InicioWidgetState extends State<InicioWidget> {
                                               mainAxisSize: MainAxisSize.max,
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
-                                                FaIcon(
-                                                  FontAwesomeIcons.vials,
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .secondaryText,
-                                                  size: 30.0,
-                                                ),
                                                 Text(
-                                                  'Coleta',
-                                                  textAlign: TextAlign.center,
+                                                  '#${getJsonField(
+                                                    trOsServicosItem,
+                                                    r'''$.oserv_id''',
+                                                  ).toString()}',
                                                   style: FlutterFlowTheme.of(
                                                           context)
-                                                      .bodyMedium,
+                                                      .bodyMedium
+                                                      .override(
+                                                        fontFamily: 'Outfit',
+                                                        fontSize: 16.0,
+                                                        fontWeight:
+                                                            FontWeight.w200,
+                                                      ),
+                                                ),
+                                                Text(
+                                                  'Fazenda: ',
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .bodyMedium
+                                                      .override(
+                                                        fontFamily: 'Outfit',
+                                                        fontSize: 16.0,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                      ),
+                                                ),
+                                                Text(
+                                                  'Hello World',
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .bodyMedium
+                                                      .override(
+                                                        fontFamily: 'Outfit',
+                                                        fontSize: 12.0,
+                                                        fontWeight:
+                                                            FontWeight.w200,
+                                                      ),
                                                 ),
                                               ],
                                             ),
                                           ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
-                                                  16.0, 0.0, 0.0, 0.0),
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                '#',
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .override(
-                                                          fontFamily: 'Outfit',
-                                                          fontSize: 16.0,
-                                                          fontWeight:
-                                                              FontWeight.w200,
-                                                        ),
-                                              ),
-                                              Text(
-                                                'Fazenda: ',
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .override(
-                                                          fontFamily: 'Outfit',
-                                                          fontSize: 16.0,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                        ),
-                                              ),
-                                              Text(
-                                                'Hello World',
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .override(
-                                                          fontFamily: 'Outfit',
-                                                          fontSize: 12.0,
-                                                          fontWeight:
-                                                              FontWeight.w200,
-                                                        ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                );
-                              }).divide(const SizedBox(height: 10.0)),
+                                  );
+                                }).divide(const SizedBox(height: 10.0)),
+                              ),
                             ),
                           );
                         },
