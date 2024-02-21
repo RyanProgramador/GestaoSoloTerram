@@ -292,10 +292,7 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                 ),
                                                 Expanded(
                                                   child: Container(
-                                                    width: MediaQuery.sizeOf(
-                                                                context)
-                                                            .width *
-                                                        0.7,
+                                                    width: 350.0,
                                                     height: 100.0,
                                                     decoration: const BoxDecoration(
                                                       color: Color(0x00FFFFFF),
@@ -367,17 +364,16 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                               MainAxisSize.max,
                                                                           children: [
                                                                             Container(
-                                                                              width: 30.0,
-                                                                              height: 30.0,
+                                                                              height: 20.0,
                                                                               decoration: const BoxDecoration(
                                                                                 color: Color(0x00FFFFFF),
                                                                               ),
                                                                               child: SizedBox(
-                                                                                width: 30.0,
-                                                                                height: 3.0,
+                                                                                width: 18.0,
+                                                                                height: 20.0,
                                                                                 child: custom_widgets.IconeComLegenda(
-                                                                                  width: 30.0,
-                                                                                  height: 3.0,
+                                                                                  width: 18.0,
+                                                                                  height: 20.0,
                                                                                   lista: FFAppState().trIcones,
                                                                                   termoDePesquisa: getJsonField(
                                                                                     profundidadesLista2Item,
