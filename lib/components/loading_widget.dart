@@ -1,7 +1,6 @@
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'loading_model.dart';
 export 'loading_model.dart';
@@ -47,6 +46,36 @@ class _LoadingWidgetState extends State<LoadingWidget> {
     // On component load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       await Future.delayed(const Duration(milliseconds: 2000));
+
+      context.pushNamed(
+        'ServicoInicio',
+        queryParameters: {
+          'fazLatLng': serializeParam(
+            widget.fazlatlng,
+            ParamType.LatLng,
+          ),
+          'fazNome': serializeParam(
+            widget.fazNome,
+            ParamType.String,
+          ),
+          'estadoFaz': serializeParam(
+            widget.fazEstado,
+            ParamType.String,
+          ),
+          'cidadeFaz': serializeParam(
+            widget.fazCidade,
+            ParamType.String,
+          ),
+          'data': serializeParam(
+            widget.data,
+            ParamType.String,
+          ),
+          'observacao': serializeParam(
+            widget.observacao,
+            ParamType.String,
+          ),
+        }.withoutNulls,
+      );
     });
   }
 
@@ -61,12 +90,12 @@ class _LoadingWidgetState extends State<LoadingWidget> {
   Widget build(BuildContext context) {
     context.watch<FFAppState>();
 
-    return Lottie.asset(
-      'assets/lottie_animations/lf20_aZTdD5.json',
-      width: 150.0,
-      height: 130.0,
-      fit: BoxFit.cover,
-      animate: true,
+    return Container(
+      width: double.infinity,
+      height: double.infinity,
+      decoration: const BoxDecoration(
+        color: Color(0x23000000),
+      ),
     );
   }
 }

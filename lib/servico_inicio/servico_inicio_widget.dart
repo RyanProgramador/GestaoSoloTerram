@@ -207,7 +207,7 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                             Text(
                               valueOrDefault<String>(
                                 widget.observacao,
-                                'observacao',
+                                'Sem observação',
                               ),
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
