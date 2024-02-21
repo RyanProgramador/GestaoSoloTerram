@@ -44,7 +44,10 @@
 
 	<key>NSLocationWhenInUseUsageDescription</key>
     <string>Ative a localização</string>
-
+	<key>NSCameraUsageDescription</key>
+    <string>Permita o uso da sua camera</string>
+	<key>PermissionGroupNotification</key>
+    <string>Habilite notificações</string>
 
 
 	<key>UILaunchStoryboardName</key>
