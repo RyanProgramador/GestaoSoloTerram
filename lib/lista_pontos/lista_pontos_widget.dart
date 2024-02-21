@@ -1,6 +1,7 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -202,7 +203,46 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                         16.0, 0.0, 16.0, 0.0),
                                     child: Container(
                                       width: double.infinity,
-                                      height: 200.0,
+                                      height: () {
+                                        if (functions.contadorDeIntensNaLista(
+                                                getJsonField(
+                                              pontosListaItem,
+                                              r'''$.profundidades''',
+                                              true,
+                                            )) ==
+                                            4) {
+                                          return 190.0;
+                                        } else if (functions
+                                                .contadorDeIntensNaLista(
+                                                    getJsonField(
+                                              pontosListaItem,
+                                              r'''$.profundidades''',
+                                              true,
+                                            )) ==
+                                            3) {
+                                          return 170.0;
+                                        } else if (functions
+                                                .contadorDeIntensNaLista(
+                                                    getJsonField(
+                                              pontosListaItem,
+                                              r'''$.profundidades''',
+                                              true,
+                                            )) ==
+                                            2) {
+                                          return 150.0;
+                                        } else if (functions
+                                                .contadorDeIntensNaLista(
+                                                    getJsonField(
+                                              pontosListaItem,
+                                              r'''$.profundidades''',
+                                              true,
+                                            )) ==
+                                            1) {
+                                          return 125.0;
+                                        } else {
+                                          return 100.0;
+                                        }
+                                      }(),
                                       decoration: BoxDecoration(
                                         color: const Color(0xFF7BB3B6),
                                         borderRadius:

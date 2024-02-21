@@ -24,3 +24,11 @@ LatLng? listaStrToListaLatLng(
     return null;
   }
 }
+
+int? contadorDeIntensNaLista(List<dynamic>? lista) {
+  if (lista == null) {
+    return 0;
+  } else {
+    return lista.length;
+  }
+}
