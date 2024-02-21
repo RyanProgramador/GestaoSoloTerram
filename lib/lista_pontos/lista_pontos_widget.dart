@@ -179,7 +179,11 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                             const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
                         child: Builder(
                           builder: (context) {
-                            final te = FFAppState().trOsServicos.toList();
+                            final te = FFAppState()
+                                .trOsServicos
+                                .toList()
+                                .take(2)
+                                .toList();
                             return SingleChildScrollView(
                               child: Column(
                                 mainAxisSize: MainAxisSize.max,
@@ -215,10 +219,10 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                   CrossAxisAlignment.center,
                                               children: [
                                                 Text(
-                                                  'Ponto: ${getJsonField(
+                                                  getJsonField(
                                                     teItem,
-                                                    r'''$[:].ponto''',
-                                                  ).toString()}',
+                                                    r'''$''',
+                                                  ).toString(),
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .bodyMedium
