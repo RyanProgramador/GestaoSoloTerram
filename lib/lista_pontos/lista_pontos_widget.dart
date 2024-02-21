@@ -14,9 +14,21 @@ class ListaPontosWidget extends StatefulWidget {
   const ListaPontosWidget({
     super.key,
     required this.listaJsonPontos,
+    required this.oservId,
+    required this.fazId,
+    required this.fazNome,
+    required this.fazLatlng,
+    required this.autoAuditoria,
+    required this.quantidadeAutoAuditoria,
   });
 
   final List<dynamic>? listaJsonPontos;
+  final int? oservId;
+  final int? fazId;
+  final String? fazNome;
+  final LatLng? fazLatlng;
+  final bool? autoAuditoria;
+  final int? quantidadeAutoAuditoria;
 
   @override
   State<ListaPontosWidget> createState() => _ListaPontosWidgetState();
@@ -153,8 +165,43 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               FFButtonWidget(
-                                onPressed: () {
-                                  print('Button pressed ...');
+                                onPressed: () async {
+                                  context.pushNamed(
+                                    'ColetaPontos',
+                                    queryParameters: {
+                                      'oservID': serializeParam(
+                                        widget.oservId,
+                                        ParamType.int,
+                                      ),
+                                      'fazid': serializeParam(
+                                        widget.fazId,
+                                        ParamType.int,
+                                      ),
+                                      'fazNome': serializeParam(
+                                        widget.fazNome,
+                                        ParamType.String,
+                                      ),
+                                      'fazLatlng': serializeParam(
+                                        widget.fazLatlng,
+                                        ParamType.LatLng,
+                                      ),
+                                      'autoAuditoria': serializeParam(
+                                        false,
+                                        ParamType.bool,
+                                      ),
+                                      'quantidadeAutoAuditoria': serializeParam(
+                                        1,
+                                        ParamType.int,
+                                      ),
+                                    }.withoutNulls,
+                                    extra: <String, dynamic>{
+                                      kTransitionInfoKey: const TransitionInfo(
+                                        hasTransition: true,
+                                        transitionType: PageTransitionType.fade,
+                                        duration: Duration(milliseconds: 0),
+                                      ),
+                                    },
+                                  );
                                 },
                                 text: 'Realizar coletas',
                                 options: FFButtonOptions(

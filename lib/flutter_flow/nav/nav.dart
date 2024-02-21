@@ -78,6 +78,13 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => ListaPontosWidget(
             listaJsonPontos: params.getParam<dynamic>(
                 'listaJsonPontos', ParamType.JSON, true),
+            oservId: params.getParam('oservId', ParamType.int),
+            fazId: params.getParam('fazId', ParamType.int),
+            fazNome: params.getParam('fazNome', ParamType.String),
+            fazLatlng: params.getParam('fazLatlng', ParamType.LatLng),
+            autoAuditoria: params.getParam('autoAuditoria', ParamType.bool),
+            quantidadeAutoAuditoria:
+                params.getParam('quantidadeAutoAuditoria', ParamType.int),
           ),
         ),
         FFRoute(
@@ -88,7 +95,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
             fazid: params.getParam('fazid', ParamType.int),
             fazNome: params.getParam('fazNome', ParamType.String),
             fazLatlng: params.getParam('fazLatlng', ParamType.LatLng),
-            idContornos: params.getParam('idContornos', ParamType.int),
             autoAuditoria: params.getParam('autoAuditoria', ParamType.bool),
             quantidadeAutoAuditoria:
                 params.getParam('quantidadeAutoAuditoria', ParamType.int),

@@ -318,6 +318,30 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                                       ParamType.JSON,
                                       true,
                                     ),
+                                    'oservId': serializeParam(
+                                      widget.servico,
+                                      ParamType.int,
+                                    ),
+                                    'fazId': serializeParam(
+                                      widget.fazId,
+                                      ParamType.int,
+                                    ),
+                                    'fazNome': serializeParam(
+                                      widget.fazNome,
+                                      ParamType.String,
+                                    ),
+                                    'fazLatlng': serializeParam(
+                                      widget.fazLatLng,
+                                      ParamType.LatLng,
+                                    ),
+                                    'autoAuditoria': serializeParam(
+                                      false,
+                                      ParamType.bool,
+                                    ),
+                                    'quantidadeAutoAuditoria': serializeParam(
+                                      1,
+                                      ParamType.int,
+                                    ),
                                   }.withoutNulls,
                                 );
                               } else {

@@ -14,7 +14,6 @@ class ColetaPontosWidget extends StatefulWidget {
     required this.fazid,
     required this.fazNome,
     required this.fazLatlng,
-    required this.idContornos,
     bool? autoAuditoria,
     required this.quantidadeAutoAuditoria,
   }) : autoAuditoria = autoAuditoria ?? false;
@@ -23,7 +22,6 @@ class ColetaPontosWidget extends StatefulWidget {
   final int? fazid;
   final String? fazNome;
   final LatLng? fazLatlng;
-  final int? idContornos;
   final bool autoAuditoria;
   final int? quantidadeAutoAuditoria;
 
@@ -100,7 +98,6 @@ class _ColetaPontosWidgetState extends State<ColetaPontosWidget> {
                           fazId: widget.fazid?.toString(),
                           fazNome: widget.fazNome,
                           fazLatlng: widget.fazLatlng?.toString(),
-                          idContorno: widget.idContornos?.toString(),
                           autoAuditoria: widget.autoAuditoria.toString(),
                           quantidadeAutoAuditoria:
                               widget.quantidadeAutoAuditoria?.toString(),

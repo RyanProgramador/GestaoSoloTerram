@@ -17,7 +17,6 @@ class ColetaPontos extends StatefulWidget {
     this.fazId,
     this.fazNome,
     this.fazLatlng,
-    this.idContorno,
     this.autoAuditoria,
     this.quantidadeAutoAuditoria,
   });
@@ -28,7 +27,6 @@ class ColetaPontos extends StatefulWidget {
   final String? fazId;
   final String? fazNome;
   final String? fazLatlng;
-  final String? idContorno;
   final String? autoAuditoria;
   final String? quantidadeAutoAuditoria;
 
