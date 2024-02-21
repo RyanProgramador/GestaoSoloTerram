@@ -286,13 +286,10 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                 Builder(
                                                                   builder:
                                                                       (context) {
-                                                                    final teste = FFAppState()
-                                                                        .trOsServicos
-                                                                        .map((e) => getJsonField(
-                                                                              e,
-                                                                              r'''$.profundidades''',
-                                                                            ))
-                                                                        .toList();
+                                                                    final teste =
+                                                                        FFAppState()
+                                                                            .trOsServicos
+                                                                            .toList();
                                                                     return Column(
                                                                       mainAxisSize:
                                                                           MainAxisSize
@@ -304,8 +301,10 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                         final testeItem =
                                                                             teste[testeIndex];
                                                                         return Text(
-                                                                          testeItem
-                                                                              .toString(),
+                                                                          getJsonField(
+                                                                            testeItem,
+                                                                            r'''$.profundidades''',
+                                                                          ).toString(),
                                                                           style: FlutterFlowTheme.of(context)
                                                                               .bodyMedium
                                                                               .override(
@@ -349,13 +348,10 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                 Builder(
                                                                   builder:
                                                                       (context) {
-                                                                    final test = FFAppState()
-                                                                        .trOsServicos
-                                                                        .map((e) => getJsonField(
-                                                                              e,
-                                                                              r'''$.profundidades''',
-                                                                            ))
-                                                                        .toList();
+                                                                    final test =
+                                                                        FFAppState()
+                                                                            .trOsServicos
+                                                                            .toList();
                                                                     return Column(
                                                                       mainAxisSize:
                                                                           MainAxisSize
