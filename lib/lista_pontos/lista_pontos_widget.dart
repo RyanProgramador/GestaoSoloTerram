@@ -305,8 +305,10 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                         final profundidadesListaItem =
                                                                             profundidadesLista[profundidadesListaIndex];
                                                                         return Text(
-                                                                          pontosListaItem
-                                                                              .toString(),
+                                                                          getJsonField(
+                                                                            pontosListaItem,
+                                                                            r'''$.pprof_icone''',
+                                                                          ).toString(),
                                                                           style: FlutterFlowTheme.of(context)
                                                                               .bodyMedium
                                                                               .override(
