@@ -5,6 +5,7 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:pointer_interceptor/pointer_interceptor.dart';
 import 'package:provider/provider.dart';
 import 'servico_inicio_model.dart';
 export 'servico_inicio_model.dart';
@@ -94,34 +95,60 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                     topRight: Radius.circular(0.0),
                   ),
                 ),
-                child: Builder(builder: (context) {
-                  final googleMapMarker = widget.fazLatLng;
-                  return FlutterFlowGoogleMap(
-                    controller: _model.googleMapsController,
-                    onCameraIdle: (latLng) => _model.googleMapsCenter = latLng,
-                    initialLocation: _model.googleMapsCenter ??=
-                        widget.fazLatLng!,
-                    markers: [
-                      if (googleMapMarker != null)
-                        FlutterFlowMarker(
-                          googleMapMarker.serialize(),
-                          googleMapMarker,
+                child: Stack(
+                  children: [
+                    Builder(builder: (context) {
+                      final googleMapMarker = widget.fazLatLng;
+                      return FlutterFlowGoogleMap(
+                        controller: _model.googleMapsController,
+                        onCameraIdle: (latLng) =>
+                            _model.googleMapsCenter = latLng,
+                        initialLocation: _model.googleMapsCenter ??=
+                            widget.fazLatLng!,
+                        markers: [
+                          if (googleMapMarker != null)
+                            FlutterFlowMarker(
+                              googleMapMarker.serialize(),
+                              googleMapMarker,
+                            ),
+                        ],
+                        markerColor: GoogleMarkerColor.violet,
+                        mapType: MapType.satellite,
+                        style: GoogleMapStyle.standard,
+                        initialZoom: 14.0,
+                        allowInteraction: false,
+                        allowZoom: false,
+                        showZoomControls: false,
+                        showLocation: false,
+                        showCompass: false,
+                        showMapToolbar: false,
+                        showTraffic: false,
+                        centerMapOnMarkerTap: false,
+                      );
+                    }),
+                    Align(
+                      alignment: const AlignmentDirectional(-0.9, -0.47),
+                      child: PointerInterceptor(
+                        intercepting: isWeb,
+                        child: InkWell(
+                          splashColor: Colors.transparent,
+                          focusColor: Colors.transparent,
+                          hoverColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          onTap: () async {
+                            context.pushNamed('Inicio');
+                          },
+                          child: Icon(
+                            Icons.arrow_back_sharp,
+                            color: FlutterFlowTheme.of(context)
+                                .secondaryBackground,
+                            size: 38.0,
+                          ),
                         ),
-                    ],
-                    markerColor: GoogleMarkerColor.violet,
-                    mapType: MapType.normal,
-                    style: GoogleMapStyle.standard,
-                    initialZoom: 14.0,
-                    allowInteraction: false,
-                    allowZoom: false,
-                    showZoomControls: false,
-                    showLocation: false,
-                    showCompass: false,
-                    showMapToolbar: false,
-                    showTraffic: false,
-                    centerMapOnMarkerTap: false,
-                  );
-                }),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             Expanded(
