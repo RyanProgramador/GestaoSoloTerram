@@ -189,11 +189,14 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                               0.0, 10.0, 0.0, 0.0),
                           child: Builder(
                             builder: (context) {
-                              final te = widget.listaJsonPontos!.toList();
+                              final pontosLista =
+                                  widget.listaJsonPontos!.toList();
                               return Column(
                                 mainAxisSize: MainAxisSize.max,
-                                children: List.generate(te.length, (teIndex) {
-                                  final teItem = te[teIndex];
+                                children: List.generate(pontosLista.length,
+                                    (pontosListaIndex) {
+                                  final pontosListaItem =
+                                      pontosLista[pontosListaIndex];
                                   return Padding(
                                     padding: const EdgeInsetsDirectional.fromSTEB(
                                         16.0, 0.0, 16.0, 0.0),
@@ -225,7 +228,7 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                               children: [
                                                 Text(
                                                   getJsonField(
-                                                    teItem,
+                                                    pontosListaItem,
                                                     r'''$.pont_numero''',
                                                   ).toString(),
                                                   style: FlutterFlowTheme.of(
@@ -286,24 +289,24 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                 Builder(
                                                                   builder:
                                                                       (context) {
-                                                                    final teste = widget
-                                                                        .listaJsonPontos!
-                                                                        .toList();
+                                                                    final profundidadesLista =
+                                                                        getJsonField(
+                                                                      pontosListaItem,
+                                                                      r'''$.profundidades''',
+                                                                    ).toList();
                                                                     return Column(
                                                                       mainAxisSize:
                                                                           MainAxisSize
                                                                               .max,
                                                                       children: List.generate(
-                                                                          teste
+                                                                          profundidadesLista
                                                                               .length,
-                                                                          (testeIndex) {
-                                                                        final testeItem =
-                                                                            teste[testeIndex];
+                                                                          (profundidadesListaIndex) {
+                                                                        final profundidadesListaItem =
+                                                                            profundidadesLista[profundidadesListaIndex];
                                                                         return Text(
-                                                                          getJsonField(
-                                                                            testeItem,
-                                                                            r'''$.profundidades.pprof_icone''',
-                                                                          ).toString(),
+                                                                          pontosListaItem
+                                                                              .toString(),
                                                                           style: FlutterFlowTheme.of(context)
                                                                               .bodyMedium
                                                                               .override(
@@ -347,9 +350,11 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                 Builder(
                                                                   builder:
                                                                       (context) {
-                                                                    final test = widget
-                                                                        .listaJsonPontos!
-                                                                        .toList();
+                                                                    final test =
+                                                                        getJsonField(
+                                                                      pontosListaItem,
+                                                                      r'''$.profundidades''',
+                                                                    ).toList();
                                                                     return Column(
                                                                       mainAxisSize:
                                                                           MainAxisSize
@@ -362,7 +367,7 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                         return Text(
                                                                           getJsonField(
                                                                             testItem,
-                                                                            r'''$.profundidades.pprof_id''',
+                                                                            r'''$.pprof_status''',
                                                                           ).toString(),
                                                                           style: FlutterFlowTheme.of(context)
                                                                               .bodyMedium
