@@ -181,7 +181,7 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                           ),
                         ),
                         Text(
-                          'Quantidade a serem coletadas: ',
+                          'Quantidade a serem coletadas: ${widget.listaJsonPontos?.length.toString()}',
                           style: FlutterFlowTheme.of(context).bodyMedium,
                         ),
                         Padding(
