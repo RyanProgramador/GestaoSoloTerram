@@ -304,10 +304,8 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                         final testeItem =
                                                                             teste[testeIndex];
                                                                         return Text(
-                                                                          getJsonField(
-                                                                            testeItem,
-                                                                            r'''$.pprof_icone''',
-                                                                          ).toString(),
+                                                                          testeItem
+                                                                              .toString(),
                                                                           style: FlutterFlowTheme.of(context)
                                                                               .bodyMedium
                                                                               .override(
