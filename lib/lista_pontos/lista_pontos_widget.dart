@@ -274,7 +274,7 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                   .start,
                                                           crossAxisAlignment:
                                                               CrossAxisAlignment
-                                                                  .center,
+                                                                  .start,
                                                           children: [
                                                             Text(
                                                               'Profundidade',
@@ -296,6 +296,9 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                               mainAxisSize:
                                                                   MainAxisSize
                                                                       .max,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
                                                               children: [
                                                                 Builder(
                                                                   builder:
@@ -404,6 +407,9 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                         Column(
                                                           mainAxisSize:
                                                               MainAxisSize.max,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .end,
                                                           children: [
                                                             Text(
                                                               'Foto',
@@ -425,6 +431,9 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                               mainAxisSize:
                                                                   MainAxisSize
                                                                       .max,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .end,
                                                               children: [
                                                                 Builder(
                                                                   builder:
@@ -438,6 +447,9 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                       mainAxisSize:
                                                                           MainAxisSize
                                                                               .max,
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .end,
                                                                       children: List.generate(
                                                                           listaFotos
                                                                               .length,
