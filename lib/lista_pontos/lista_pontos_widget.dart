@@ -264,11 +264,17 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                           MainAxisSize.max,
                                                       mainAxisAlignment:
                                                           MainAxisAlignment
-                                                              .spaceAround,
+                                                              .spaceBetween,
                                                       children: [
                                                         Column(
                                                           mainAxisSize:
                                                               MainAxisSize.max,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .start,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
                                                           children: [
                                                             Text(
                                                               'Profundidade',
@@ -303,6 +309,9 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                       mainAxisSize:
                                                                           MainAxisSize
                                                                               .max,
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .start,
                                                                       children: List.generate(
                                                                           profundidadesLista2
                                                                               .length,
@@ -439,7 +448,7 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                           FontAwesomeIcons
                                                                               .images,
                                                                           color:
-                                                                              FlutterFlowTheme.of(context).primary,
+                                                                              FlutterFlowTheme.of(context).primaryBackground,
                                                                           size:
                                                                               24.0,
                                                                         );
