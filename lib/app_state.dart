@@ -42,7 +42,7 @@ class FFAppState extends ChangeNotifier {
   late SharedPreferences prefs;
 
   String _UrlApi =
-      's://dev.conceittosistemas.com.br/scriptcase/app/GestaoColetas/ws_flutterflow/index.php';
+      's://dev.conceittosistemas.com.br/scriptcase/app/GestaoColetas/api/index.php';
   String get UrlApi => _UrlApi;
   set UrlApi(String value) {
     _UrlApi = value;

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import '/flutter_flow/flutter_flow_util.dart';
 import 'api_manager.dart';
 
 export 'api_manager.dart' show ApiCallResponse;
@@ -17,9 +18,13 @@ class TrOsServicosGroup {
 class TrOsServicosCall {
   Future<ApiCallResponse> call({
     String? urlApi = '',
+    String? tecnicoId = '',
   }) async {
-    const ffApiRequestBody = '''
-{"tipo":""}''';
+    final ffApiRequestBody = '''
+{
+  "tipo": "ff_busca_servicos",
+  "tecnico_id": "$tecnicoId"
+}''';
     return ApiManager.instance.makeApiCall(
       callName: 'trOsServicos',
       apiUrl: '${TrOsServicosGroup.baseUrl}$urlApi',
@@ -35,6 +40,17 @@ class TrOsServicosCall {
       alwaysAllowBody: false,
     );
   }
+
+  bool? statusTrBuscaOsServicos(dynamic response) =>
+      castToType<bool>(getJsonField(
+        response,
+        r'''$.status''',
+      ));
+  List? dadosTrBuscaOsServicos(dynamic response) => getJsonField(
+        response,
+        r'''$.dados''',
+        true,
+      ) as List?;
 }
 
 /// End trOsServicos Group Code
