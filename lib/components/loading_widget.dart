@@ -1,4 +1,6 @@
+import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/custom_code/widgets/index.dart' as custom_widgets;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
@@ -109,6 +111,16 @@ class _LoadingWidgetState extends State<LoadingWidget> {
       height: double.infinity,
       decoration: const BoxDecoration(
         color: Color(0x23000000),
+      ),
+      child: SizedBox(
+        width: 100.0,
+        height: 100.0,
+        child: custom_widgets.LoadingCircle(
+          width: 100.0,
+          height: 100.0,
+          color: FlutterFlowTheme.of(context).primary,
+          circleRadius: 2.0,
+        ),
       ),
     );
   }
