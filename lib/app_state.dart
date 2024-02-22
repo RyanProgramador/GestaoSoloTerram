@@ -43,6 +43,17 @@ class FFAppState extends ChangeNotifier {
           }).toList() ??
           _trIcones;
     });
+    _safeInit(() {
+      _trTalhoes = prefs.getStringList('ff_trTalhoes')?.map((x) {
+            try {
+              return jsonDecode(x);
+            } catch (e) {
+              print("Can't decode persisted json. Error: $e.");
+              return {};
+            }
+          }).toList() ??
+          _trTalhoes;
+    });
   }
 
   void update(VoidCallback callback) {
@@ -140,6 +151,47 @@ class FFAppState extends ChangeNotifier {
     _trIcones.insert(index, value);
     prefs.setStringList(
         'ff_trIcones', _trIcones.map((x) => jsonEncode(x)).toList());
+  }
+
+  List<dynamic> _trTalhoes = [];
+  List<dynamic> get trTalhoes => _trTalhoes;
+  set trTalhoes(List<dynamic> value) {
+    _trTalhoes = value;
+    prefs.setStringList(
+        'ff_trTalhoes', value.map((x) => jsonEncode(x)).toList());
+  }
+
+  void addToTrTalhoes(dynamic value) {
+    _trTalhoes.add(value);
+    prefs.setStringList(
+        'ff_trTalhoes', _trTalhoes.map((x) => jsonEncode(x)).toList());
+  }
+
+  void removeFromTrTalhoes(dynamic value) {
+    _trTalhoes.remove(value);
+    prefs.setStringList(
+        'ff_trTalhoes', _trTalhoes.map((x) => jsonEncode(x)).toList());
+  }
+
+  void removeAtIndexFromTrTalhoes(int index) {
+    _trTalhoes.removeAt(index);
+    prefs.setStringList(
+        'ff_trTalhoes', _trTalhoes.map((x) => jsonEncode(x)).toList());
+  }
+
+  void updateTrTalhoesAtIndex(
+    int index,
+    dynamic Function(dynamic) updateFn,
+  ) {
+    _trTalhoes[index] = updateFn(_trTalhoes[index]);
+    prefs.setStringList(
+        'ff_trTalhoes', _trTalhoes.map((x) => jsonEncode(x)).toList());
+  }
+
+  void insertAtIndexInTrTalhoes(int index, dynamic value) {
+    _trTalhoes.insert(index, value);
+    prefs.setStringList(
+        'ff_trTalhoes', _trTalhoes.map((x) => jsonEncode(x)).toList());
   }
 }
 

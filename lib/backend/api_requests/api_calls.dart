@@ -15,6 +15,7 @@ class TrOsServicosGroup {
   static TrOsServicosCall trOsServicosCall = TrOsServicosCall();
   static TriconesCall triconesCall = TriconesCall();
   static TrPontosCall trPontosCall = TrPontosCall();
+  static TrTalhaoCall trTalhaoCall = TrTalhaoCall();
 }
 
 class TrOsServicosCall {
@@ -148,6 +149,33 @@ class TrPontosCall {
           .map((x) => castToType<String>(x))
           .withoutNulls
           .toList();
+}
+
+class TrTalhaoCall {
+  Future<ApiCallResponse> call({
+    String? urlApi = '',
+    int? fazId,
+  }) async {
+    final ffApiRequestBody = '''
+{ 
+    "tipo":"ff_busca_contornos",
+    "fazenda_id":"$fazId"
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'trTalhao',
+      apiUrl: '${TrOsServicosGroup.baseUrl}$urlApi',
+      callType: ApiCallType.POST,
+      headers: {},
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      alwaysAllowBody: false,
+    );
+  }
 }
 
 /// End trOsServicos Group Code

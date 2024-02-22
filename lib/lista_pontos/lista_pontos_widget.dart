@@ -1,3 +1,4 @@
+import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -166,6 +167,21 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                             children: [
                               FFButtonWidget(
                                 onPressed: () async {
+                                  _model.trTalh =
+                                      await TrOsServicosGroup.trTalhaoCall.call(
+                                    urlApi: FFAppState().UrlApi,
+                                    fazId: widget.fazId,
+                                  );
+                                  setState(() {
+                                    FFAppState().trTalhoes = getJsonField(
+                                      (_model.trTalh?.jsonBody ?? ''),
+                                      r'''$.dados''',
+                                      true,
+                                    )!
+                                        .toList()
+                                        .cast<dynamic>();
+                                  });
+
                                   context.pushNamed(
                                     'ColetaPontos',
                                     queryParameters: {
@@ -202,6 +218,8 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                       ),
                                     },
                                   );
+
+                                  setState(() {});
                                 },
                                 text: 'Realizar coletas',
                                 options: FFButtonOptions(
