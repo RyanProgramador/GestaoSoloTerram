@@ -98,6 +98,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
             autoAuditoria: params.getParam('autoAuditoria', ParamType.bool),
             quantidadeAutoAuditoria:
                 params.getParam('quantidadeAutoAuditoria', ParamType.int),
+            trPontos:
+                params.getParam<dynamic>('trPontos', ParamType.JSON, true),
           ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
@@ -212,6 +214,7 @@ class FFRoute {
         name: name,
         path: path,
         pageBuilder: (context, state) {
+          fixStatusBarOniOS16AndBelow(context);
           final ffParams = FFParameters(state, asyncParams);
           final page = ffParams.hasFutures
               ? FutureBuilder(

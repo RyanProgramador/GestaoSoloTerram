@@ -5,7 +5,6 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/custom_code/widgets/index.dart' as custom_widgets;
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'lista_pontos_model.dart';
@@ -55,15 +54,6 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
 
   @override
   Widget build(BuildContext context) {
-    if (isiOS) {
-      SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(
-          statusBarBrightness: Theme.of(context).brightness,
-          systemStatusBarContrastEnforced: true,
-        ),
-      );
-    }
-
     context.watch<FFAppState>();
 
     return GestureDetector(
@@ -208,6 +198,11 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                       'quantidadeAutoAuditoria': serializeParam(
                                         1,
                                         ParamType.int,
+                                      ),
+                                      'trPontos': serializeParam(
+                                        widget.listaJsonPontos,
+                                        ParamType.JSON,
+                                        true,
                                       ),
                                     }.withoutNulls,
                                     extra: <String, dynamic>{

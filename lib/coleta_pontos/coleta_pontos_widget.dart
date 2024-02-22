@@ -2,7 +2,6 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/custom_code/widgets/index.dart' as custom_widgets;
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'coleta_pontos_model.dart';
 export 'coleta_pontos_model.dart';
@@ -16,6 +15,7 @@ class ColetaPontosWidget extends StatefulWidget {
     required this.fazLatlng,
     bool? autoAuditoria,
     required this.quantidadeAutoAuditoria,
+    required this.trPontos,
   }) : autoAuditoria = autoAuditoria ?? false;
 
   final int? oservID;
@@ -24,6 +24,7 @@ class ColetaPontosWidget extends StatefulWidget {
   final LatLng? fazLatlng;
   final bool autoAuditoria;
   final int? quantidadeAutoAuditoria;
+  final List<dynamic>? trPontos;
 
   @override
   State<ColetaPontosWidget> createState() => _ColetaPontosWidgetState();
@@ -49,15 +50,6 @@ class _ColetaPontosWidgetState extends State<ColetaPontosWidget> {
 
   @override
   Widget build(BuildContext context) {
-    if (isiOS) {
-      SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(
-          statusBarBrightness: Theme.of(context).brightness,
-          systemStatusBarContrastEnforced: true,
-        ),
-      );
-    }
-
     context.watch<FFAppState>();
 
     return GestureDetector(
@@ -101,6 +93,7 @@ class _ColetaPontosWidgetState extends State<ColetaPontosWidget> {
                           autoAuditoria: widget.autoAuditoria.toString(),
                           quantidadeAutoAuditoria:
                               widget.quantidadeAutoAuditoria?.toString(),
+                          pontos: widget.trPontos,
                         ),
                       ),
                     ),

@@ -24,17 +24,17 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ColetaPontos extends StatefulWidget {
-  const ColetaPontos({
-    super.key,
-    this.width,
-    this.height,
-    this.oservid,
-    this.fazId,
-    this.fazNome,
-    this.fazLatlng,
-    this.autoAuditoria,
-    this.quantidadeAutoAuditoria,
-  });
+  const ColetaPontos(
+      {super.key,
+      this.width,
+      this.height,
+      this.oservid,
+      this.fazId,
+      this.fazNome,
+      this.fazLatlng,
+      this.autoAuditoria,
+      this.quantidadeAutoAuditoria,
+      this.pontos});
 
   final double? width;
   final double? height;
@@ -44,6 +44,7 @@ class ColetaPontos extends StatefulWidget {
   final LatLng? fazLatlng;
   final String? autoAuditoria;
   final String? quantidadeAutoAuditoria;
+  final List<dynamic>? pontos;
 
   @override
   State<ColetaPontos> createState() => _ColetaPontosState();
