@@ -26,7 +26,7 @@ class ColetaPontos extends StatefulWidget {
   final String? oservid;
   final String? fazId;
   final String? fazNome;
-  final String? fazLatlng;
+  final LatLng? fazLatlng;
   final String? autoAuditoria;
   final String? quantidadeAutoAuditoria;
 
