@@ -133,11 +133,20 @@ class _ColetaPontosWidgetState extends State<ColetaPontosWidget> {
                           ),
                           Align(
                             alignment: const AlignmentDirectional(-0.88, -0.45),
-                            child: Icon(
-                              Icons.arrow_back_sharp,
-                              color: FlutterFlowTheme.of(context)
-                                  .primaryBackground,
-                              size: 38.0,
+                            child: InkWell(
+                              splashColor: Colors.transparent,
+                              focusColor: Colors.transparent,
+                              hoverColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              onTap: () async {
+                                context.safePop();
+                              },
+                              child: Icon(
+                                Icons.arrow_back_sharp,
+                                color: FlutterFlowTheme.of(context)
+                                    .primaryBackground,
+                                size: 38.0,
+                              ),
                             ),
                           ),
                         ],
