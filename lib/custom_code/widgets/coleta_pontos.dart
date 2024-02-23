@@ -12,9 +12,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter/gestures.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' as google_maps;
-import 'package:geolocator/geolocator.dart';
-import 'package:http/http.dart' as http;
-import 'dart:ui' as ui;
+
 import 'dart:typed_data';
 import 'dart:ui';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -44,6 +42,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image/image.dart' as img;
 import 'package:wakelock/wakelock.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:xml/xml.dart' as xml;
 
 class ColetaPontos extends StatefulWidget {
   const ColetaPontos(
@@ -130,9 +129,9 @@ class _ColetaPontosState extends State<ColetaPontos> {
         polygonId: google_maps.PolygonId(
             'polygon_${talhao['id']}'), // Supondo que cada talhão tenha um identificador único 'id'
         points: pontos,
-        strokeColor: Colors.red, // Cor da linha
-        fillColor: Colors.red
-            .withOpacity(0.5), // Cor de preenchimento com transparência
+        strokeColor: Colors.yellowAccent, // Cor da linha
+        fillColor: Colors.yellow
+            .withOpacity(0.34), // Cor de preenchimento com transparência
         strokeWidth: 1, // Espessura da linha
       );
 
@@ -183,16 +182,14 @@ class _ColetaPontosState extends State<ColetaPontos> {
     return Uint8List.fromList(img.encodePng(resized));
   }
 
-  Future<google_maps.BitmapDescriptor> getSvgIcon(String busSvg) async {
-    String svgString = busSvg;
-
+  Future<google_maps.BitmapDescriptor> getSvgIcon(String svgString) async {
     final PictureInfo pictureInfo =
         await vg.loadPicture(SvgStringLoader(svgString), null);
 
     final ui.PictureRecorder pictureRecorder = ui.PictureRecorder();
     final Canvas canvas = Canvas(pictureRecorder);
     canvas.drawPicture(pictureInfo.picture);
-    final ui.Image image = await pictureRecorder.endRecording().toImage(50, 50);
+    final ui.Image image = await pictureRecorder.endRecording().toImage(70, 70);
     final ByteData? byteData =
         await image.toByteData(format: ui.ImageByteFormat.png);
     final Uint8List uint8list = byteData!.buffer.asUint8List();
@@ -283,7 +280,8 @@ class _ColetaPontosState extends State<ColetaPontos> {
       _showDistanceAlert();
     } else {
       // Continue with the normal double tap logic
-      _showModalOptions(markerName!.toString());
+      // _showModalOptions(markerName!.toString());
+      _ontapColetar(markerName!.toString());
     }
     // }
 
@@ -315,75 +313,75 @@ class _ColetaPontosState extends State<ColetaPontos> {
     _showProfundidadesParaColeta(marcadorNome);
   }
 
-  void _showModalOptions(String idMarcador) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-          titlePadding: EdgeInsets.all(20),
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Text(
-                  "Ponto: $idMarcador",
-                  style: FlutterFlowTheme.of(context).bodyMedium.override(
-                        fontFamily: 'Outfit',
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                ),
-              ),
-              InkWell(
-                onTap: () => Navigator.of(context).pop(),
-                child: Icon(
-                  Icons.close,
-                  color: FlutterFlowTheme.of(context).secondaryText,
-                  size: 36,
-                ),
-              ),
-            ],
-          ),
-          content: Padding(
-            padding: EdgeInsets.all(20),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                _buildElevatedButton(
-                    context, "Realizar coleta", Color(0xFF00736D), () {
-                  Navigator.of(context).pop();
-                  _ontapColetar(idMarcador);
-                }),
-                SizedBox(height: 10),
-                // _buildElevatedButton(
-                //     context, "Coleta inacessível", Color(0xFF9D291C), () {
-                //   Navigator.of(context).pop();
-                //   // _ontapInacessivel(idMarcador);
-                // }),
-                // SizedBox(height: 10),
-                // _buildElevatedButton(context, "Criar Ponto", Colors.blue, () {
-                //   Navigator.of(context).pop();
-                //   // _adicionarNovoPonto();
-                //   _showAdicionaProfundidades();
-                //   _showTutorialModal();
-                // }),
-                // SizedBox(height: 10),
-                // _buildElevatedButton(context, "Tirar Foto", Colors.orange, () {
-                //   Navigator.of(context).pop();
-                //   _tiraFoto(idMarcador);
-                // }),
-              ],
-            ),
-          ),
-          backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
-          elevation: 5,
-        );
-      },
-    );
-  }
+  // void _showModalOptions(String idMarcador) {
+  //   showDialog(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return AlertDialog(
+  //         shape: RoundedRectangleBorder(
+  //           borderRadius: BorderRadius.circular(16),
+  //         ),
+  //         titlePadding: EdgeInsets.all(20),
+  //         title: Row(
+  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //           children: [
+  //             Expanded(
+  //               child: Text(
+  //                 "Ponto: $idMarcador",
+  //                 style: FlutterFlowTheme.of(context).bodyMedium.override(
+  //                       fontFamily: 'Outfit',
+  //                       fontSize: 18,
+  //                       fontWeight: FontWeight.bold,
+  //                     ),
+  //               ),
+  //             ),
+  //             InkWell(
+  //               onTap: () => Navigator.of(context).pop(),
+  //               child: Icon(
+  //                 Icons.close,
+  //                 color: FlutterFlowTheme.of(context).secondaryText,
+  //                 size: 36,
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //         content: Padding(
+  //           padding: EdgeInsets.all(20),
+  //           child: Column(
+  //             mainAxisSize: MainAxisSize.min,
+  //             children: <Widget>[
+  //               _buildElevatedButton(
+  //                   context, "Realizar coleta", Color(0xFF00736D), () {
+  //                 Navigator.of(context).pop();
+  //                 _ontapColetar(idMarcador);
+  //               }),
+  //               SizedBox(height: 10),
+  //               // _buildElevatedButton(
+  //               //     context, "Coleta inacessível", Color(0xFF9D291C), () {
+  //               //   Navigator.of(context).pop();
+  //               //   // _ontapInacessivel(idMarcador);
+  //               // }),
+  //               // SizedBox(height: 10),
+  //               // _buildElevatedButton(context, "Criar Ponto", Colors.blue, () {
+  //               //   Navigator.of(context).pop();
+  //               //   // _adicionarNovoPonto();
+  //               //   _showAdicionaProfundidades();
+  //               //   _showTutorialModal();
+  //               // }),
+  //               // SizedBox(height: 10),
+  //               // _buildElevatedButton(context, "Tirar Foto", Colors.orange, () {
+  //               //   Navigator.of(context).pop();
+  //               //   _tiraFoto(idMarcador);
+  //               // }),
+  //             ],
+  //           ),
+  //         ),
+  //         backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+  //         elevation: 5,
+  //       );
+  //     },
+  //   );
+  // }
 
   void _showProfundidadesParaColeta(String marcadorNome) {
     // Encontra o marcador pelo nome
