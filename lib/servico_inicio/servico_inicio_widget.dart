@@ -239,7 +239,7 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                             Text(
                               valueOrDefault<String>(
                                 widget.observacao,
-                                'Sem observação',
+                                '...',
                               ),
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
@@ -348,7 +348,7 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                                         TextButton(
                                           onPressed: () =>
                                               Navigator.pop(alertDialogContext),
-                                          child: const Text('Ok'),
+                                          child: const Text('Fechar'),
                                         ),
                                       ],
                                     );
