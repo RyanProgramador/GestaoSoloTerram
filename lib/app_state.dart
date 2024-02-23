@@ -65,6 +65,18 @@ class FFAppState extends ChangeNotifier {
           }).toList() ??
           _PontosColetados;
     });
+    _safeInit(() {
+      _PontosInacessiveis =
+          prefs.getStringList('ff_PontosInacessiveis')?.map((x) {
+                try {
+                  return jsonDecode(x);
+                } catch (e) {
+                  print("Can't decode persisted json. Error: $e.");
+                  return {};
+                }
+              }).toList() ??
+              _PontosInacessiveis;
+    });
   }
 
   void update(VoidCallback callback) {
@@ -244,6 +256,47 @@ class FFAppState extends ChangeNotifier {
     _PontosColetados.insert(index, value);
     prefs.setStringList('ff_PontosColetados',
         _PontosColetados.map((x) => jsonEncode(x)).toList());
+  }
+
+  List<dynamic> _PontosInacessiveis = [];
+  List<dynamic> get PontosInacessiveis => _PontosInacessiveis;
+  set PontosInacessiveis(List<dynamic> value) {
+    _PontosInacessiveis = value;
+    prefs.setStringList(
+        'ff_PontosInacessiveis', value.map((x) => jsonEncode(x)).toList());
+  }
+
+  void addToPontosInacessiveis(dynamic value) {
+    _PontosInacessiveis.add(value);
+    prefs.setStringList('ff_PontosInacessiveis',
+        _PontosInacessiveis.map((x) => jsonEncode(x)).toList());
+  }
+
+  void removeFromPontosInacessiveis(dynamic value) {
+    _PontosInacessiveis.remove(value);
+    prefs.setStringList('ff_PontosInacessiveis',
+        _PontosInacessiveis.map((x) => jsonEncode(x)).toList());
+  }
+
+  void removeAtIndexFromPontosInacessiveis(int index) {
+    _PontosInacessiveis.removeAt(index);
+    prefs.setStringList('ff_PontosInacessiveis',
+        _PontosInacessiveis.map((x) => jsonEncode(x)).toList());
+  }
+
+  void updatePontosInacessiveisAtIndex(
+    int index,
+    dynamic Function(dynamic) updateFn,
+  ) {
+    _PontosInacessiveis[index] = updateFn(_PontosInacessiveis[index]);
+    prefs.setStringList('ff_PontosInacessiveis',
+        _PontosInacessiveis.map((x) => jsonEncode(x)).toList());
+  }
+
+  void insertAtIndexInPontosInacessiveis(int index, dynamic value) {
+    _PontosInacessiveis.insert(index, value);
+    prefs.setStringList('ff_PontosInacessiveis',
+        _PontosInacessiveis.map((x) => jsonEncode(x)).toList());
   }
 }
 
