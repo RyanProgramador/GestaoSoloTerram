@@ -54,6 +54,17 @@ class FFAppState extends ChangeNotifier {
           }).toList() ??
           _trTalhoes;
     });
+    _safeInit(() {
+      _PontosColetados = prefs.getStringList('ff_PontosColetados')?.map((x) {
+            try {
+              return jsonDecode(x);
+            } catch (e) {
+              print("Can't decode persisted json. Error: $e.");
+              return {};
+            }
+          }).toList() ??
+          _PontosColetados;
+    });
   }
 
   void update(VoidCallback callback) {
@@ -192,6 +203,47 @@ class FFAppState extends ChangeNotifier {
     _trTalhoes.insert(index, value);
     prefs.setStringList(
         'ff_trTalhoes', _trTalhoes.map((x) => jsonEncode(x)).toList());
+  }
+
+  List<dynamic> _PontosColetados = [];
+  List<dynamic> get PontosColetados => _PontosColetados;
+  set PontosColetados(List<dynamic> value) {
+    _PontosColetados = value;
+    prefs.setStringList(
+        'ff_PontosColetados', value.map((x) => jsonEncode(x)).toList());
+  }
+
+  void addToPontosColetados(dynamic value) {
+    _PontosColetados.add(value);
+    prefs.setStringList('ff_PontosColetados',
+        _PontosColetados.map((x) => jsonEncode(x)).toList());
+  }
+
+  void removeFromPontosColetados(dynamic value) {
+    _PontosColetados.remove(value);
+    prefs.setStringList('ff_PontosColetados',
+        _PontosColetados.map((x) => jsonEncode(x)).toList());
+  }
+
+  void removeAtIndexFromPontosColetados(int index) {
+    _PontosColetados.removeAt(index);
+    prefs.setStringList('ff_PontosColetados',
+        _PontosColetados.map((x) => jsonEncode(x)).toList());
+  }
+
+  void updatePontosColetadosAtIndex(
+    int index,
+    dynamic Function(dynamic) updateFn,
+  ) {
+    _PontosColetados[index] = updateFn(_PontosColetados[index]);
+    prefs.setStringList('ff_PontosColetados',
+        _PontosColetados.map((x) => jsonEncode(x)).toList());
+  }
+
+  void insertAtIndexInPontosColetados(int index, dynamic value) {
+    _PontosColetados.insert(index, value);
+    prefs.setStringList('ff_PontosColetados',
+        _PontosColetados.map((x) => jsonEncode(x)).toList());
   }
 }
 

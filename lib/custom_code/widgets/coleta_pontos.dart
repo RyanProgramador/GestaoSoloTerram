@@ -12,7 +12,9 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter/gestures.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' as google_maps;
-
+import 'package:geolocator/geolocator.dart';
+import 'package:http/http.dart' as http;
+import 'dart:ui' as ui;
 import 'dart:typed_data';
 import 'dart:ui';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -421,7 +423,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
               children: [
                 Expanded(
                   child: Text(
-                    "Coletar profundidades para ${marcador["pont_numero"]}",
+                    "Ponto: ${marcador["pont_numero"]}",
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
                           fontFamily: 'Outfit',
                           fontSize: 18,
@@ -534,12 +536,88 @@ class _ColetaPontosState extends State<ColetaPontos> {
                 }).toList(),
               ),
             ),
+            actions: <Widget>[
+              Center(
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor:
+                        Color(0xFFEDA300), // Cor laranja para o botão
+                    primary: Colors.white, // Cor do texto
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          10), // Borda arredondada para o botão
+                    ),
+                  ),
+                  child: Text('Ponto Inacessível'),
+                  onPressed: () {
+                    // Adicione aqui a ação desejada para quando o botão for pressionado
+                    Navigator.of(context).pop();
+                    _ontapInacessivel(marcadorNome);
+                  },
+                ),
+              ),
+            ],
             backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
             elevation: 5,
           );
         },
       );
     }
+  }
+
+  void _ontapInacessivel(String marcadorNome) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          titlePadding: EdgeInsets.all(20),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Text(
+                  "Opções para o ponto $marcadorNome",
+                  style: FlutterFlowTheme.of(context).bodyMedium.override(
+                        fontFamily: 'Outfit',
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                ),
+              ),
+              InkWell(
+                onTap: () => Navigator.of(context).pop(),
+                child: Icon(
+                  Icons.close,
+                  color: FlutterFlowTheme.of(context).secondaryText,
+                  size: 36,
+                ),
+              ),
+            ],
+          ),
+          content: Padding(
+            padding: EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                _buildElevatedButton(context, "Mover", Color(0xFF9D291C), () {
+                  Navigator.of(context).pop();
+                }),
+                SizedBox(height: 10),
+                _buildElevatedButton(
+                    context, "Excluir Ponto", Color(0xFF9D291C), () {
+                  Navigator.of(context).pop();
+                }),
+              ],
+            ),
+          ),
+          backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+          elevation: 5,
+        );
+      },
+    );
   }
 
   void _confirmarColeta(
