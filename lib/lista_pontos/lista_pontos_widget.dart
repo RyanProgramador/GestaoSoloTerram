@@ -480,7 +480,7 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                                   ),
                                                                                 ],
                                                                               );
-                                                                            }),
+                                                                            }).divide(const SizedBox(height: 4.0)),
                                                                           );
                                                                         },
                                                                       ),
@@ -544,7 +544,7 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                                       color: FlutterFlowTheme.of(context).primaryBackground,
                                                                                     ),
                                                                               );
-                                                                            }),
+                                                                            }).divide(const SizedBox(height: 7.0)),
                                                                           );
                                                                         },
                                                                       ),
@@ -611,7 +611,7 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                                 color: FlutterFlowTheme.of(context).primaryBackground,
                                                                                 size: 24.0,
                                                                               );
-                                                                            }),
+                                                                            }).divide(const SizedBox(height: 4.0)),
                                                                           );
                                                                         },
                                                                       ),
