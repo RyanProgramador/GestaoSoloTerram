@@ -191,18 +191,40 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                               mainAxisSize: MainAxisSize.max,
                               children: [
                                 Text(
-                                  '${valueOrDefault<String>(
-                                    widget.estadoFaz,
-                                    'Estado',
-                                  )}, ',
+                                  '${() {
+                                    if (valueOrDefault<String>(
+                                              widget.estadoFaz,
+                                              'Estado',
+                                            ) !=
+                                            '') {
+                                      return valueOrDefault<String>(
+                                        widget.estadoFaz,
+                                        'Estado',
+                                      );
+                                    } else if (valueOrDefault<String>(
+                                              widget.estadoFaz,
+                                              'Estado',
+                                            ) ==
+                                            '') {
+                                      return widget.fazLatLng?.toString();
+                                    } else {
+                                      return 'Brasil';
+                                    }
+                                  }()}, ',
                                   style:
                                       FlutterFlowTheme.of(context).bodyMedium,
                                 ),
                                 Text(
                                   valueOrDefault<String>(
-                                    widget.cidadeFaz,
-                                    'Cidade',
-                                  ),
+                                                widget.cidadeFaz,
+                                                'Cidade',
+                                              ) !=
+                                              ''
+                                      ? valueOrDefault<String>(
+                                          widget.cidadeFaz,
+                                          'cidade',
+                                        )
+                                      : ' ',
                                   style:
                                       FlutterFlowTheme.of(context).bodyMedium,
                                 ),
