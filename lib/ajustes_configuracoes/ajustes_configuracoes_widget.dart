@@ -151,19 +151,32 @@ class _AjustesConfiguracoesWidgetState
                 ),
                 FFButtonWidget(
                   onPressed: () async {
-                    var shouldSetState = false;
                     _model.apiResultwup = await TrOsServicosGroup
                         .trSincronizaPontosColetadosCall
                         .call(
                       urlApi: FFAppState().UrlApi,
                       pontosJson: FFAppState().naoLista,
                     );
-                    shouldSetState = true;
-                    if (!(_model.apiResultwup?.succeeded ?? true)) {
-                      if (shouldSetState) setState(() {});
-                      return;
-                    }
-                    if (shouldSetState) setState(() {});
+                    await showDialog(
+                      context: context,
+                      builder: (alertDialogContext) {
+                        return AlertDialog(
+                          title: Text(getJsonField(
+                            (_model.apiResultwup?.jsonBody ?? ''),
+                            r'''$.message''',
+                          ).toString()),
+                          actions: [
+                            TextButton(
+                              onPressed: () =>
+                                  Navigator.pop(alertDialogContext),
+                              child: const Text('Ok'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+
+                    setState(() {});
                   },
                   text: 'Sincronizar teste',
                   options: FFButtonOptions(
