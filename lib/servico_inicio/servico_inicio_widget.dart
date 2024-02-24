@@ -3,7 +3,6 @@ import '/flutter_flow/flutter_flow_google_map.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +20,7 @@ class ServicoInicioWidget extends StatefulWidget {
     required this.observacao,
     required this.servico,
     required this.fazId,
+    required this.localizacao,
   });
 
   final LatLng? fazLatLng;
@@ -31,6 +31,7 @@ class ServicoInicioWidget extends StatefulWidget {
   final String? observacao;
   final int? servico;
   final int? fazId;
+  final String? localizacao;
 
   @override
   State<ServicoInicioWidget> createState() => _ServicoInicioWidgetState();
@@ -188,35 +189,6 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                                     fontWeight: FontWeight.bold,
                                   ),
                             ),
-                            if (((widget.cidadeFaz != null &&
-                                        widget.cidadeFaz != '') &&
-                                    (widget.cidadeFaz != '') &&
-                                    (widget.cidadeFaz != ' ')) &&
-                                ((valueOrDefault<String>(
-                                              widget.estadoFaz,
-                                              'Estado',
-                                            ) !=
-                                            '') &&
-                                    (valueOrDefault<String>(
-                                          widget.estadoFaz,
-                                          'Estado',
-                                        ) !=
-                                        '') &&
-                                    (valueOrDefault<String>(
-                                          widget.estadoFaz,
-                                          'Estado',
-                                        ) !=
-                                        ' ')))
-                              Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Text(
-                                    '${widget.cidadeFaz}, ${widget.estadoFaz}',
-                                    style:
-                                        FlutterFlowTheme.of(context).bodyMedium,
-                                  ),
-                                ],
-                              ),
                             if ((valueOrDefault<String>(
                                           widget.estadoFaz,
                                           'Estado',
@@ -229,9 +201,8 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                                 children: [
                                   Text(
                                     valueOrDefault<String>(
-                                      functions
-                                          .latlngToString(widget.fazLatLng),
-                                      '1',
+                                      widget.localizacao,
+                                      'Sem localização',
                                     ),
                                     style:
                                         FlutterFlowTheme.of(context).bodyMedium,

@@ -19,6 +19,7 @@ class LoadingWidget extends StatefulWidget {
     required this.fazEstado,
     required this.servico,
     required this.fazID,
+    required this.fazlocalizacao,
   });
 
   final String? tipo;
@@ -30,6 +31,7 @@ class LoadingWidget extends StatefulWidget {
   final String? fazEstado;
   final int? servico;
   final int? fazID;
+  final String? fazlocalizacao;
 
   @override
   State<LoadingWidget> createState() => _LoadingWidgetState();
@@ -89,6 +91,10 @@ class _LoadingWidgetState extends State<LoadingWidget> {
             'fazId': serializeParam(
               widget.fazID,
               ParamType.int,
+            ),
+            'localizacao': serializeParam(
+              widget.fazlocalizacao,
+              ParamType.String,
             ),
           }.withoutNulls,
           extra: <String, dynamic>{

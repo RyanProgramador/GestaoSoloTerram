@@ -261,6 +261,11 @@ class _InicioWidgetState extends State<InicioWidget> {
                                                       trOsServicosItem,
                                                       r'''$.os_id_faz''',
                                                     ),
+                                                    fazlocalizacao:
+                                                        getJsonField(
+                                                      trOsServicosItem,
+                                                      r'''$.faz_localizacao''',
+                                                    ).toString(),
                                                   ),
                                                 ),
                                               );

@@ -70,6 +70,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
             observacao: params.getParam('observacao', ParamType.String),
             servico: params.getParam('servico', ParamType.int),
             fazId: params.getParam('fazId', ParamType.int),
+            localizacao: params.getParam('localizacao', ParamType.String),
           ),
         ),
         FFRoute(
