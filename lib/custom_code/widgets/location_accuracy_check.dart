@@ -70,12 +70,26 @@ class _LocationAccuracyCheckState extends State<LocationAccuracyCheck> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Precisão da Localização'),
-      ),
       body: Center(
-        child: Text('Precisão atual: ${_accuracy?.toStringAsFixed(2)} metros'),
+        child: _accuracy == null
+            ? Text(
+                'Carregando precisão...',
+                style: TextStyle(
+                  color: Colors.white, // Cor do texto
+                  fontWeight: FontWeight.bold, // Negrito
+                  fontSize: 18, // Tamanho do texto
+                ),
+              )
+            : Text(
+                'Precisão atual: ${_accuracy?.toStringAsFixed(2)} metros',
+                style: TextStyle(
+                  color: Colors.white, // Cor do texto
+                  fontWeight: FontWeight.bold, // Negrito
+                  fontSize: 18, // Tamanho do texto
+                ),
+              ),
       ),
+      backgroundColor: Colors.transparent,
     );
   }
 }

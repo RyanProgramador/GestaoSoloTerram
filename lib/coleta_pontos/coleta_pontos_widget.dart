@@ -112,19 +112,6 @@ class _ColetaPontosWidgetState extends State<ColetaPontosWidget> {
                       child: Stack(
                         children: [
                           Align(
-                            alignment: const AlignmentDirectional(0.0, 0.0),
-                            child: Text(
-                              'Faltam X Coletas',
-                              style: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .override(
-                                    fontFamily: 'Readex Pro',
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryBackground,
-                                  ),
-                            ),
-                          ),
-                          Align(
                             alignment: const AlignmentDirectional(-0.88, -0.45),
                             child: InkWell(
                               splashColor: Colors.transparent,
