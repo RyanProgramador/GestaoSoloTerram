@@ -142,6 +142,7 @@ class _ColetaPontosWidgetState extends State<ColetaPontosWidget> {
                               ),
                             ),
                           ),
+                          custom_widgets.LocationAccuracyCheck(),
                         ],
                       ),
                     ),
