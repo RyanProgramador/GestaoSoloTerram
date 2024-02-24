@@ -188,18 +188,30 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                                     fontWeight: FontWeight.bold,
                                   ),
                             ),
-                            if (!((valueOrDefault<String>(
+                            if (((widget.cidadeFaz != null &&
+                                        widget.cidadeFaz != '') &&
+                                    (widget.cidadeFaz != '') &&
+                                    (widget.cidadeFaz != ' ')) &&
+                                ((valueOrDefault<String>(
+                                              widget.estadoFaz,
+                                              'Estado',
+                                            ) !=
+                                            '') &&
+                                    (valueOrDefault<String>(
                                           widget.estadoFaz,
                                           'Estado',
-                                        ) ==
+                                        ) !=
                                         '') &&
-                                (widget.cidadeFaz == null ||
-                                    widget.cidadeFaz == '')))
+                                    (valueOrDefault<String>(
+                                          widget.estadoFaz,
+                                          'Estado',
+                                        ) !=
+                                        ' ')))
                               Row(
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
                                   Text(
-                                    '${widget.cidadeFaz}${', ${widget.estadoFaz}'}',
+                                    '${widget.cidadeFaz}, ${widget.estadoFaz}',
                                     style:
                                         FlutterFlowTheme.of(context).bodyMedium,
                                   ),
