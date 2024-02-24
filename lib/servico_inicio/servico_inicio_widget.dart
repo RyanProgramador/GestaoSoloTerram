@@ -188,19 +188,13 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                                     fontWeight: FontWeight.bold,
                                   ),
                             ),
-                            if (((valueOrDefault<String>(
-                                              widget.estadoFaz,
-                                              'Estado',
-                                            ) !=
-                                            '') &&
-                                    (valueOrDefault<String>(
+                            if (!((valueOrDefault<String>(
                                           widget.estadoFaz,
                                           'Estado',
-                                        ) !=
-                                        '')) &&
-                                ((widget.cidadeFaz != null &&
-                                        widget.cidadeFaz != '') &&
-                                    (widget.cidadeFaz != '')))
+                                        ) ==
+                                        '') ||
+                                (widget.cidadeFaz == null ||
+                                    widget.cidadeFaz == '')))
                               Row(
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
