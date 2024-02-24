@@ -192,7 +192,7 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                                           widget.estadoFaz,
                                           'Estado',
                                         ) !=
-                                        '') ||
+                                        '') &&
                                 (widget.cidadeFaz != null &&
                                     widget.cidadeFaz != ''))
                               Row(
