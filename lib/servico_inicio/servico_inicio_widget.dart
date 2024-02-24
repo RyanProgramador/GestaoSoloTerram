@@ -3,6 +3,7 @@ import '/flutter_flow/flutter_flow_google_map.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
 import 'package:provider/provider.dart';
@@ -191,7 +192,7 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                                           widget.estadoFaz,
                                           'Estado',
                                         ) !=
-                                        '') &&
+                                        '') ||
                                 (widget.cidadeFaz != null &&
                                     widget.cidadeFaz != ''))
                               Row(
@@ -216,8 +217,9 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                                 children: [
                                   Text(
                                     valueOrDefault<String>(
-                                      widget.fazLatLng?.toString(),
-                                      'lat,lng',
+                                      functions
+                                          .latlngToString(widget.fazLatLng),
+                                      '1',
                                     ),
                                     style:
                                         FlutterFlowTheme.of(context).bodyMedium,

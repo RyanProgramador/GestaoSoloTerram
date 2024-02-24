@@ -47,3 +47,8 @@ String? retornalegenda(
   }
   return "erro"; // Retorna "erro" se nenhum item correspondente foi encontrado
 }
+
+String? latlngToString(LatLng? latlng) {
+  if (latlng == null) return null;
+  return "${latlng.latitude}, ${latlng.longitude}";
+}
