@@ -10,6 +10,8 @@ class AjustesConfiguracoesModel
   final unfocusNode = FocusNode();
   // Stores action output result for [Backend Call - API (tricones)] action in Button widget.
   ApiCallResponse? trIcones;
+  // Stores action output result for [Backend Call - API (trSincronizaPontosColetados)] action in Button widget.
+  ApiCallResponse? apiResultwup;
 
   /// Initialization and disposal methods.
 

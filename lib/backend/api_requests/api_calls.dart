@@ -16,6 +16,8 @@ class TrOsServicosGroup {
   static TriconesCall triconesCall = TriconesCall();
   static TrPontosCall trPontosCall = TrPontosCall();
   static TrTalhaoCall trTalhaoCall = TrTalhaoCall();
+  static TrSincronizaPontosColetadosCall trSincronizaPontosColetadosCall =
+      TrSincronizaPontosColetadosCall();
 }
 
 class TrOsServicosCall {
@@ -163,6 +165,34 @@ class TrTalhaoCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'trTalhao',
+      apiUrl: '${TrOsServicosGroup.baseUrl}$urlApi',
+      callType: ApiCallType.POST,
+      headers: {},
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
+class TrSincronizaPontosColetadosCall {
+  Future<ApiCallResponse> call({
+    String? urlApi = '',
+    dynamic pontosJson,
+  }) async {
+    final pontos = _serializeJson(pontosJson);
+    final ffApiRequestBody = '''
+{
+  "tipo": "ff_sincroniza_coletas",
+  "dados": $pontos
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'trSincronizaPontosColetados',
       apiUrl: '${TrOsServicosGroup.baseUrl}$urlApi',
       callType: ApiCallType.POST,
       headers: {},

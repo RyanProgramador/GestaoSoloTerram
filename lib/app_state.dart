@@ -77,6 +77,26 @@ class FFAppState extends ChangeNotifier {
               }).toList() ??
               _PontosInacessiveis;
     });
+    _safeInit(() {
+      _trSincroniza = prefs.getStringList('ff_trSincroniza')?.map((x) {
+            try {
+              return jsonDecode(x);
+            } catch (e) {
+              print("Can't decode persisted json. Error: $e.");
+              return {};
+            }
+          }).toList() ??
+          _trSincroniza;
+    });
+    _safeInit(() {
+      if (prefs.containsKey('ff_naoLista')) {
+        try {
+          _naoLista = jsonDecode(prefs.getString('ff_naoLista') ?? '');
+        } catch (e) {
+          print("Can't decode persisted json. Error: $e.");
+        }
+      }
+    });
   }
 
   void update(VoidCallback callback) {
@@ -297,6 +317,55 @@ class FFAppState extends ChangeNotifier {
     _PontosInacessiveis.insert(index, value);
     prefs.setStringList('ff_PontosInacessiveis',
         _PontosInacessiveis.map((x) => jsonEncode(x)).toList());
+  }
+
+  List<dynamic> _trSincroniza = [jsonDecode('{}')];
+  List<dynamic> get trSincroniza => _trSincroniza;
+  set trSincroniza(List<dynamic> value) {
+    _trSincroniza = value;
+    prefs.setStringList(
+        'ff_trSincroniza', value.map((x) => jsonEncode(x)).toList());
+  }
+
+  void addToTrSincroniza(dynamic value) {
+    _trSincroniza.add(value);
+    prefs.setStringList(
+        'ff_trSincroniza', _trSincroniza.map((x) => jsonEncode(x)).toList());
+  }
+
+  void removeFromTrSincroniza(dynamic value) {
+    _trSincroniza.remove(value);
+    prefs.setStringList(
+        'ff_trSincroniza', _trSincroniza.map((x) => jsonEncode(x)).toList());
+  }
+
+  void removeAtIndexFromTrSincroniza(int index) {
+    _trSincroniza.removeAt(index);
+    prefs.setStringList(
+        'ff_trSincroniza', _trSincroniza.map((x) => jsonEncode(x)).toList());
+  }
+
+  void updateTrSincronizaAtIndex(
+    int index,
+    dynamic Function(dynamic) updateFn,
+  ) {
+    _trSincroniza[index] = updateFn(_trSincroniza[index]);
+    prefs.setStringList(
+        'ff_trSincroniza', _trSincroniza.map((x) => jsonEncode(x)).toList());
+  }
+
+  void insertAtIndexInTrSincroniza(int index, dynamic value) {
+    _trSincroniza.insert(index, value);
+    prefs.setStringList(
+        'ff_trSincroniza', _trSincroniza.map((x) => jsonEncode(x)).toList());
+  }
+
+  dynamic _naoLista = jsonDecode(
+      '{"tipo":"ff_sincroniza_coletas","dados":{"fazenda_id":2,"servico_id":10,"pontos":[{"id":381,"status":1,"obs":"quando ponto inacessível precisa de obs","foto":"quando ponto inacessível precisa de foto","profundidades":[{"id":1,"status":1,"obs":"opcional","foto":"conforme auditoria","data":"2024-02-24 08:00"}]},{"id":382,"status":1,"obs":"","foto":"base64","profundidades":[{"id":1,"status":1,"obs":"","foto":"","data":"2024-02-24 08:00"}]},{"id":383,"status":1,"obs":"","foto":"base64","profundidades":[{"id":1,"status":1,"obs":"","foto":"","data":"2024-02-24 08:00"}]}]}}');
+  dynamic get naoLista => _naoLista;
+  set naoLista(dynamic value) {
+    _naoLista = value;
+    prefs.setString('ff_naoLista', jsonEncode(value));
   }
 }
 
