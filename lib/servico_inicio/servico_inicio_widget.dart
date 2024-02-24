@@ -199,7 +199,7 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
                                   Text(
-                                    '${widget.cidadeFaz}, ${widget.estadoFaz}',
+                                    '${widget.cidadeFaz}${', ${widget.estadoFaz}'}',
                                     style:
                                         FlutterFlowTheme.of(context).bodyMedium,
                                   ),
