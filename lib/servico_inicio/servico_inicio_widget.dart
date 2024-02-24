@@ -190,7 +190,7 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                             if (valueOrDefault<String>(
                                       widget.estadoFaz,
                                       'Estado',
-                                    ) !=
+                                    ) ==
                                     '')
                               Row(
                                 mainAxisSize: MainAxisSize.max,
