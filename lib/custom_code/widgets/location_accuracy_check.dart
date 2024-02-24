@@ -11,8 +11,17 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 
 class LocationAccuracyCheck extends StatefulWidget {
+  const LocationAccuracyCheck({
+    super.key,
+    this.width,
+    this.height,
+  });
+
+  final double? width;
+  final double? height;
+
   @override
-  _LocationAccuracyCheckState createState() => _LocationAccuracyCheckState();
+  State<LocationAccuracyCheck> createState() => _LocationAccuracyCheckState();
 }
 
 class _LocationAccuracyCheckState extends State<LocationAccuracyCheck> {

@@ -142,7 +142,17 @@ class _ColetaPontosWidgetState extends State<ColetaPontosWidget> {
                               ),
                             ),
                           ),
-                          custom_widgets.LocationAccuracyCheck(),
+                          const Align(
+                            alignment: AlignmentDirectional(0.0, 0.51),
+                            child: SizedBox(
+                              width: double.infinity,
+                              height: 30.0,
+                              child: custom_widgets.LocationAccuracyCheck(
+                                width: double.infinity,
+                                height: 30.0,
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),
