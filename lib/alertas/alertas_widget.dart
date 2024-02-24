@@ -21,9 +21,6 @@ class _AlertasWidgetState extends State<AlertasWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => AlertasModel());
-
-    _model.textController ??= TextEditingController();
-    _model.textFieldFocusNode ??= FocusNode();
   }
 
   @override
@@ -53,54 +50,6 @@ class _AlertasWidgetState extends State<AlertasWidget> {
               child: Text(
                 'Em desenvolvimento',
                 style: FlutterFlowTheme.of(context).bodyMedium,
-              ),
-            ),
-            Align(
-              alignment: const AlignmentDirectional(0.0, 0.0),
-              child: Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 8.0, 0.0),
-                child: TextFormField(
-                  controller: _model.textController,
-                  focusNode: _model.textFieldFocusNode,
-                  autofocus: true,
-                  obscureText: false,
-                  decoration: InputDecoration(
-                    labelText: 'Informe porque o ponto está inacessível:',
-                    labelStyle: FlutterFlowTheme.of(context).bodyMedium,
-                    hintStyle: FlutterFlowTheme.of(context).labelMedium,
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: FlutterFlowTheme.of(context).primary,
-                        width: 2.0,
-                      ),
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: FlutterFlowTheme.of(context).primary,
-                        width: 2.0,
-                      ),
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    errorBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: FlutterFlowTheme.of(context).primary,
-                        width: 2.0,
-                      ),
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    focusedErrorBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: FlutterFlowTheme.of(context).primary,
-                        width: 2.0,
-                      ),
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                  ),
-                  style: FlutterFlowTheme.of(context).bodyMedium,
-                  validator:
-                      _model.textControllerValidator.asValidator(context),
-                ),
               ),
             ),
           ],

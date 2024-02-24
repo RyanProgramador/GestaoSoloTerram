@@ -191,10 +191,10 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                               mainAxisSize: MainAxisSize.max,
                               children: [
                                 Text(
-                                  valueOrDefault<String>(
+                                  '${valueOrDefault<String>(
                                     widget.estadoFaz,
                                     'Estado',
-                                  ),
+                                  )}, ',
                                   style:
                                       FlutterFlowTheme.of(context).bodyMedium,
                                 ),

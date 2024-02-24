@@ -305,7 +305,7 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                         }
                                       }(),
                                       decoration: BoxDecoration(
-                                        color: const Color(0xFF7BB3B6),
+                                        color: const Color(0xFFE1E3E7),
                                         borderRadius:
                                             BorderRadius.circular(8.0),
                                         border: Border.all(
@@ -347,7 +347,7 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                     'Outfit',
                                                                 color: FlutterFlowTheme.of(
                                                                         context)
-                                                                    .primaryBackground,
+                                                                    .primaryText,
                                                                 fontSize: 24.0,
                                                                 fontWeight:
                                                                     FontWeight
@@ -399,9 +399,11 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                         fontFamily:
                                                                             'Readex Pro',
                                                                         color: FlutterFlowTheme.of(context)
-                                                                            .primary,
+                                                                            .primaryText,
+                                                                        fontSize:
+                                                                            16.0,
                                                                         fontWeight:
-                                                                            FontWeight.w600,
+                                                                            FontWeight.w500,
                                                                       ),
                                                                 ),
                                                                 Padding(
@@ -474,7 +476,8 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                                       ),
                                                                                       style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                                                             fontFamily: 'Readex Pro',
-                                                                                            color: FlutterFlowTheme.of(context).primaryBackground,
+                                                                                            color: FlutterFlowTheme.of(context).primaryText,
+                                                                                            fontWeight: FontWeight.w200,
                                                                                           ),
                                                                                     ),
                                                                                   ),
@@ -503,9 +506,11 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                         fontFamily:
                                                                             'Readex Pro',
                                                                         color: FlutterFlowTheme.of(context)
-                                                                            .primary,
+                                                                            .primaryText,
+                                                                        fontSize:
+                                                                            16.0,
                                                                         fontWeight:
-                                                                            FontWeight.w600,
+                                                                            FontWeight.w500,
                                                                       ),
                                                                 ),
                                                                 Padding(
@@ -541,7 +546,8 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                                 ).toString(),
                                                                                 style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                                                       fontFamily: 'Readex Pro',
-                                                                                      color: FlutterFlowTheme.of(context).primaryBackground,
+                                                                                      color: FlutterFlowTheme.of(context).primaryText,
+                                                                                      fontWeight: FontWeight.w200,
                                                                                     ),
                                                                               );
                                                                             }).divide(const SizedBox(height: 4.0)),
@@ -570,9 +576,11 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                         fontFamily:
                                                                             'Readex Pro',
                                                                         color: FlutterFlowTheme.of(context)
-                                                                            .primary,
+                                                                            .primaryText,
+                                                                        fontSize:
+                                                                            16.0,
                                                                         fontWeight:
-                                                                            FontWeight.w600,
+                                                                            FontWeight.w500,
                                                                       ),
                                                                 ),
                                                                 Padding(
@@ -608,8 +616,8 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                               final listaFotosItem = listaFotos[listaFotosIndex];
                                                                               return FaIcon(
                                                                                 FontAwesomeIcons.images,
-                                                                                color: FlutterFlowTheme.of(context).primaryBackground,
-                                                                                size: 24.0,
+                                                                                color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                size: 21.0,
                                                                               );
                                                                             }).divide(const SizedBox(height: 2.0)),
                                                                           );
