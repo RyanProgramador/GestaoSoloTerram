@@ -187,11 +187,13 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                                     fontWeight: FontWeight.bold,
                                   ),
                             ),
-                            if (valueOrDefault<String>(
-                                      widget.estadoFaz,
-                                      'Estado',
-                                    ) !=
-                                    '')
+                            if ((valueOrDefault<String>(
+                                          widget.estadoFaz,
+                                          'Estado',
+                                        ) !=
+                                        '') &&
+                                (widget.cidadeFaz != null &&
+                                    widget.cidadeFaz != ''))
                               Row(
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
@@ -202,11 +204,13 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                                   ),
                                 ],
                               ),
-                            if (valueOrDefault<String>(
-                                      widget.estadoFaz,
-                                      'Estado',
-                                    ) ==
-                                    '')
+                            if ((valueOrDefault<String>(
+                                          widget.estadoFaz,
+                                          'Estado',
+                                        ) ==
+                                        '') ||
+                                (widget.cidadeFaz == null ||
+                                    widget.cidadeFaz == ''))
                               Row(
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
