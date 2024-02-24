@@ -187,49 +187,39 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                                     fontWeight: FontWeight.bold,
                                   ),
                             ),
-                            Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Text(
-                                  '${() {
-                                    if (valueOrDefault<String>(
-                                              widget.estadoFaz,
-                                              'Estado',
-                                            ) !=
-                                            '') {
-                                      return valueOrDefault<String>(
-                                        widget.estadoFaz,
-                                        'Estado',
-                                      );
-                                    } else if (valueOrDefault<String>(
-                                              widget.estadoFaz,
-                                              'Estado',
-                                            ) ==
-                                            '') {
-                                      return widget.fazLatLng?.toString();
-                                    } else {
-                                      return 'Brasil';
-                                    }
-                                  }()}, ',
-                                  style:
-                                      FlutterFlowTheme.of(context).bodyMedium,
-                                ),
-                                Text(
-                                  valueOrDefault<String>(
-                                                widget.cidadeFaz,
-                                                'Cidade',
-                                              ) !=
-                                              ''
-                                      ? valueOrDefault<String>(
-                                          widget.cidadeFaz,
-                                          'cidade',
-                                        )
-                                      : ' ',
-                                  style:
-                                      FlutterFlowTheme.of(context).bodyMedium,
-                                ),
-                              ],
-                            ),
+                            if (valueOrDefault<String>(
+                                      widget.estadoFaz,
+                                      'Estado',
+                                    ) !=
+                                    '')
+                              Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Text(
+                                    '${widget.cidadeFaz}, ${widget.estadoFaz}',
+                                    style:
+                                        FlutterFlowTheme.of(context).bodyMedium,
+                                  ),
+                                ],
+                              ),
+                            if (valueOrDefault<String>(
+                                      widget.estadoFaz,
+                                      'Estado',
+                                    ) !=
+                                    '')
+                              Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Text(
+                                    valueOrDefault<String>(
+                                      widget.fazLatLng?.toString(),
+                                      'lat,lng',
+                                    ),
+                                    style:
+                                        FlutterFlowTheme.of(context).bodyMedium,
+                                  ),
+                                ],
+                              ),
                           ],
                         ),
                       ),

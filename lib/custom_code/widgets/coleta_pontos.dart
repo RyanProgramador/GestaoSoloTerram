@@ -452,8 +452,8 @@ class _ColetaPontosState extends State<ColetaPontos> {
 
     if (coletouTodas) {
       String svgError =
-          '''<svg width="120" height="70" viewBox="0 0 74 70" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M31.8824 68.6252L1.37464 38.1174C-0.458212 36.2846 -0.458212 33.3128 1.37464 31.4798L8.01209 24.8421C9.84494 23.0091 12.8169 23.0091 14.6497 24.8421L35.2012 45.3935L79.2202 1.37464C81.0531 -0.458212 84.025 -0.458212 85.8579 1.37464L92.4953 8.01228C94.3282 9.84513 94.3282 12.8169 92.4953 14.6499L38.5201 68.6254C36.687 70.4582 33.7153 70.4582 31.8824 68.6252Z" fill="#0C5905"/>
+          '''<svg width="70" height="70" viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M35 70C44.2826 70 53.185 66.3125 59.7487 59.7487C66.3125 53.185 70 44.2826 70 35C70 25.7174 66.3125 16.815 59.7487 10.2513C53.185 3.68749 44.2826 0 35 0C25.7174 0 16.815 3.68749 10.2513 10.2513C3.68749 16.815 0 25.7174 0 35C0 44.2826 3.68749 53.185 10.2513 59.7487C16.815 66.3125 25.7174 70 35 70ZM50.4492 28.5742L32.9492 46.0742C31.6641 47.3594 29.5859 47.3594 28.3145 46.0742L19.5645 37.3242C18.2793 36.0391 18.2793 33.9609 19.5645 32.6895C20.8496 31.418 22.9277 31.4043 24.1992 32.6895L30.625 39.1152L45.8008 23.9258C47.0859 22.6406 49.1641 22.6406 50.4355 23.9258C51.707 25.2109 51.7207 27.2891 50.4355 28.5605L50.4492 28.5742Z" fill="#0C5905"/>
 </svg>''';
 
       var newIcon = await getSvgIcon(svgError!);
@@ -1274,8 +1274,8 @@ class _ColetaPontosState extends State<ColetaPontos> {
       //     });
       //   }
     });
-    Navigator.of(context).pop(); // Fecha o modal atual
-    _mostrarModalSucesso(context, marcadorNome);
+    // Navigator.of(context).pop(); // Fecha o modal atual
+    // _mostrarModalSucesso(context, marcadorNome);
   }
 
   bool _validaSeTodasAsProfundidadesForamColetadasNoPontoX(
@@ -1365,6 +1365,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
   void _onMapTap(google_maps.LatLng position) {
     // Implemente a lógica para o que deve acontecer quando o mapa é tocado
   }
+
   @override
   Widget build(BuildContext context) {
     google_maps.LatLng initialTarget =

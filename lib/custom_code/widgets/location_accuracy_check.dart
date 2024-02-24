@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
 import 'package:geolocator/geolocator.dart';
+import 'dart:async';
+import 'package:geolocator/geolocator.dart';
 
 class LocationAccuracyCheck extends StatefulWidget {
   const LocationAccuracyCheck({
@@ -26,11 +28,21 @@ class LocationAccuracyCheck extends StatefulWidget {
 
 class _LocationAccuracyCheckState extends State<LocationAccuracyCheck> {
   double? _accuracy;
+  Timer? _timer;
 
   @override
   void initState() {
     super.initState();
     _determinePosition();
+    // Atualiza a precisão da localização a cada 2 segundos
+    _timer =
+        Timer.periodic(Duration(seconds: 2), (Timer t) => _determinePosition());
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel(); // Cancela o Timer quando o widget for destruído
+    super.dispose();
   }
 
   Future<void> _determinePosition() async {
@@ -81,7 +93,7 @@ class _LocationAccuracyCheckState extends State<LocationAccuracyCheck> {
                 ),
               )
             : Text(
-                'Precisão atual: ${_accuracy?.toStringAsFixed(2)} metros',
+                'Precisão do GPS: ${_accuracy?.toStringAsFixed(2)} metros',
                 style: TextStyle(
                   color: Colors.white, // Cor do texto
                   fontWeight: FontWeight.bold, // Negrito
