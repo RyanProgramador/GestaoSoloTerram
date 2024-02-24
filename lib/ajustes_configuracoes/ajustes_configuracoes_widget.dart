@@ -52,7 +52,7 @@ class _AjustesConfiguracoesWidgetState
             decoration: const BoxDecoration(),
             child: Column(
               mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(

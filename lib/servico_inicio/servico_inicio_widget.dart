@@ -189,26 +189,19 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                                     fontWeight: FontWeight.bold,
                                   ),
                             ),
-                            if ((valueOrDefault<String>(
-                                          widget.estadoFaz,
-                                          'Estado',
-                                        ) ==
-                                        '') ||
-                                (widget.cidadeFaz == null ||
-                                    widget.cidadeFaz == ''))
-                              Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Text(
-                                    valueOrDefault<String>(
-                                      widget.localizacao,
-                                      'Sem localização',
-                                    ),
-                                    style:
-                                        FlutterFlowTheme.of(context).bodyMedium,
+                            Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Text(
+                                  valueOrDefault<String>(
+                                    widget.localizacao,
+                                    'Sem localização',
                                   ),
-                                ],
-                              ),
+                                  style:
+                                      FlutterFlowTheme.of(context).bodyMedium,
+                                ),
+                              ],
+                            ),
                           ],
                         ),
                       ),
