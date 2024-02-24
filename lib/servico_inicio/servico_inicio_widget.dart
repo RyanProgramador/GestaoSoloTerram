@@ -189,11 +189,14 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                                   ),
                             ),
                             if (valueOrDefault<bool>(
-                              (valueOrDefault<String>(
-                                            widget.estadoFaz,
-                                            'Estado',
-                                          ) !=
-                                          '') &&
+                              valueOrDefault<bool>(
+                                    valueOrDefault<String>(
+                                              widget.estadoFaz,
+                                              'Estado',
+                                            ) !=
+                                            '',
+                                    false,
+                                  ) ||
                                   valueOrDefault<bool>(
                                     widget.cidadeFaz != null &&
                                         widget.cidadeFaz != '',
