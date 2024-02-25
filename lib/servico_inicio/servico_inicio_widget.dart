@@ -21,6 +21,8 @@ class ServicoInicioWidget extends StatefulWidget {
     required this.servico,
     required this.fazId,
     required this.localizacao,
+    required this.autoAuditoria,
+    required this.quantiadeDeFotosParaIntervalo,
   });
 
   final LatLng? fazLatLng;
@@ -32,6 +34,8 @@ class ServicoInicioWidget extends StatefulWidget {
   final int? servico;
   final int? fazId;
   final String? localizacao;
+  final bool? autoAuditoria;
+  final int? quantiadeDeFotosParaIntervalo;
 
   @override
   State<ServicoInicioWidget> createState() => _ServicoInicioWidgetState();
@@ -319,11 +323,11 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                                       ParamType.LatLng,
                                     ),
                                     'autoAuditoria': serializeParam(
-                                      false,
+                                      widget.autoAuditoria,
                                       ParamType.bool,
                                     ),
                                     'quantidadeAutoAuditoria': serializeParam(
-                                      1,
+                                      widget.quantiadeDeFotosParaIntervalo,
                                       ParamType.int,
                                     ),
                                   }.withoutNulls,

@@ -192,7 +192,7 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                         ParamType.LatLng,
                                       ),
                                       'autoAuditoria': serializeParam(
-                                        false,
+                                        widget.autoAuditoria,
                                         ParamType.bool,
                                       ),
                                       'quantidadeAutoAuditoria': serializeParam(

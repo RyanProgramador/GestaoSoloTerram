@@ -266,6 +266,15 @@ class _InicioWidgetState extends State<InicioWidget> {
                                                       trOsServicosItem,
                                                       r'''$.faz_localizacao''',
                                                     ).toString(),
+                                                    autoAuditoria: getJsonField(
+                                                      trOsServicosItem,
+                                                      r'''$.oserv_auto_auditoria''',
+                                                    ),
+                                                    quantidadeDeIntervaloDeFotosAutoAuditoria:
+                                                        getJsonField(
+                                                      trOsServicosItem,
+                                                      r'''$.oserv_quantos_pontos''',
+                                                    ),
                                                   ),
                                                 ),
                                               );

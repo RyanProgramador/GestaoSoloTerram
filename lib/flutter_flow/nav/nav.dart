@@ -71,6 +71,9 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
             servico: params.getParam('servico', ParamType.int),
             fazId: params.getParam('fazId', ParamType.int),
             localizacao: params.getParam('localizacao', ParamType.String),
+            autoAuditoria: params.getParam('autoAuditoria', ParamType.bool),
+            quantiadeDeFotosParaIntervalo:
+                params.getParam('quantiadeDeFotosParaIntervalo', ParamType.int),
           ),
         ),
         FFRoute(
