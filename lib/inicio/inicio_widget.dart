@@ -456,6 +456,10 @@ class _InicioWidgetState extends State<InicioWidget> {
                                                                   return AlertDialog(
                                                                     title: const Text(
                                                                         'Sucesso'),
+                                                                    content: Text(
+                                                                        (_model.apiResultgyp?.jsonBody ??
+                                                                                '')
+                                                                            .toString()),
                                                                     actions: [
                                                                       TextButton(
                                                                         onPressed:
