@@ -458,6 +458,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
     print(_validaSeTodasAsProfundidadesForamColetadasNoPontoX(marcadorNome));
     print(_validaSeAlgumasProfundidadesForamColetadasNoPontoX(marcadorNome));
     var idPonto = marcador['pont_id'].toString();
+    ;
     var coletouAlguma =
         _validaSeAlgumasProfundidadesForamColetadasNoPontoX(marcadorNome);
     var coletouTodas =
@@ -682,6 +683,30 @@ class _ColetaPontosState extends State<ColetaPontos> {
     var capturaImagem = ' ';
     var textoCaptura = "Capturar foto";
 
+    void _adicionaInacessiveis(String idPonto, String marcadorNome,
+        String latlngMarcador, String base64imagem) {
+      // Get the list of profundidades for the given ponto_numero
+      var profundidadesList = pontosMedicao.firstWhere(
+          (element) => element['pont_numero'] == 404)['profundidades'] as List;
+
+      // Iterate over each profundidade in the list
+      for (var profundidade in profundidadesList) {
+        setState(() {
+          FFAppState().PontosInacessiveis.add({
+            "id_ponto": idPonto,
+            "marcador_nome": marcadorNome,
+            "profundidade": profundidade['pprof_id']
+                .toString(), // Use the pprof_id from each profundidade
+            "foto": base64imagem,
+            "latlng": latlngMarcador,
+            "id_ref": '1',
+            "obs": "",
+            "data_hora": DateTime.now().toString()
+          });
+        });
+      }
+    }
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -831,17 +856,19 @@ class _ColetaPontosState extends State<ColetaPontos> {
                           _atualizaObservacaoDeColetaInacessivel(
                               marcadorNome, _observacaoController.text);
 
-                          FFAppState().PontosInacessiveis.add({
-                            "id_ponto": idPonto,
-                            "marcador_nome": marcadorNome,
-                            "profundidade": 'inacessivel',
-                            // "foto": baseString,
-                            "foto": 'base64Image',
-                            "latlng": '$latlngMarcador',
-                            "id_ref": '1',
-                            "obs": "",
-                            "data_hora": DateTime.now().toString()
-                          });
+                          _adicionaInacessiveis(idPonto, marcadorNome,
+                              latlngMarcador, 'base64Image');
+                          // FFAppState().PontosInacessiveis.add({
+                          //   "id_ponto":idPonto,
+                          //   "marcador_nome": marcadorNome,
+                          //   "profundidade": 'inacessivel',
+                          //   // "foto": baseString,
+                          //   "foto": 'base64Image',
+                          //   "latlng": '$latlngMarcador',
+                          //   "id_ref": '1',
+                          //   "obs": "",
+                          //   "data_hora": DateTime.now().toString()
+                          // });
                           baseString = null;
                           textoCaptura = "Capturar foto";
                           capturaImagem =
@@ -1124,11 +1151,19 @@ class _ColetaPontosState extends State<ColetaPontos> {
     //     80);
 
     var newIcon = await getSvgIcon(svgError!);
-
+    //infowindow de coleta inacessivel
+    google_maps.InfoWindow infoWindow;
+    infoWindow = google_maps.InfoWindow(
+      title: "Ponto Inacessível: " + marcadorNome!.toString(),
+      snippet: "Este ponto não pode ser acessado.",
+    );
     setState(() {
       markers = markers.map((m) {
         if (m.markerId.value == marcadorNome) {
-          return m.copyWith(iconParam: newIcon);
+          return m.copyWith(
+              iconParam: newIcon,
+              infoWindowParam: infoWindow,
+              onTapParam: () {});
         }
         return m;
       }).toSet();
@@ -1634,10 +1669,11 @@ class _ColetaPontosState extends State<ColetaPontos> {
     ];
 
     var jsonColetados = jsonSincronizaPosterior.toString();
-    var pontosColetados2 =
-        FFAppState().PontosColetados.map((e) => e['profundidade']);
-    // var pontosColetados2 = FFAppState().PontosColetados;
-    var pontosNoModal = pontosMedicao.map((e) => e['profundidades']);
+    // var pontosColetados2 = FFAppState().PontosColetados.map((e) => e['profundidade']);
+    var pontosColetados2 = FFAppState().PontosColetados;
+    var pontosNoModal = pontosMedicao
+        .where((element) => element['pont_numero'] == 404)
+        .map((e) => e['profundidades']);
     var pontoInacessivel = FFAppState().PontosInacessiveis.toString();
 
     showDialog(
@@ -1658,7 +1694,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
                   style: TextStyle(color: Colors.black, fontSize: 12.0),
                 ),
                 Text(
-                  "Pontos Coletados:${pontoInacessivel}",
+                  "Pontos Inacessivel:${pontoInacessivel}",
                   style: TextStyle(color: Colors.black, fontSize: 12.0),
                 ),
                 Text(

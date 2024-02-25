@@ -52,3 +52,25 @@ String? latlngToString(LatLng? latlng) {
   if (latlng == null) return null;
   return "${latlng.latitude}, ${latlng.longitude}";
 }
+
+String? pesquisaParaVerSeOPontoFoiColetado(
+  int? pprofIDdoPonto,
+  List<dynamic> pontosColetados,
+  List<dynamic> pontosInacessiveis,
+) {
+  bool isCollected =
+      pontosColetados.any((ponto) => ponto['profundidade'] == pprofIDdoPonto);
+  if (isCollected) {
+    return "Coletado";
+  }
+
+  // Check if the point is inaccessible
+  bool isInaccessible = pontosInacessiveis
+      .any((ponto) => ponto['profundidade'] == pprofIDdoPonto);
+  if (isInaccessible) {
+    return "Inacessível";
+  }
+
+  // If neither collected nor inaccessible, it's pending
+  return "Pendente";
+}

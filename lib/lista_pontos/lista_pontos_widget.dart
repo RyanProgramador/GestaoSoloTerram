@@ -540,10 +540,16 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                                 List.generate(profundidadesLista2.length, (profundidadesLista2Index) {
                                                                               final profundidadesLista2Item = profundidadesLista2[profundidadesLista2Index];
                                                                               return Text(
-                                                                                getJsonField(
-                                                                                  profundidadesLista2Item,
-                                                                                  r'''$.pprof_status''',
-                                                                                ).toString(),
+                                                                                valueOrDefault<String>(
+                                                                                  functions.pesquisaParaVerSeOPontoFoiColetado(
+                                                                                      getJsonField(
+                                                                                        profundidadesLista2Item,
+                                                                                        r'''$.pprof_id''',
+                                                                                      ),
+                                                                                      FFAppState().PontosColetados.toList(),
+                                                                                      FFAppState().PontosInacessiveis.toList()),
+                                                                                  'Ops!',
+                                                                                ),
                                                                                 style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                                                       fontFamily: 'Readex Pro',
                                                                                       color: FlutterFlowTheme.of(context).primaryText,
