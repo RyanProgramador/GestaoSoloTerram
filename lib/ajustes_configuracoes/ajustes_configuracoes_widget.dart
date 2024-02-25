@@ -149,6 +149,23 @@ class _AjustesConfiguracoesWidgetState
                     borderRadius: BorderRadius.circular(8.0),
                   ),
                 ),
+                Builder(
+                  builder: (context) {
+                    final sincroniza = FFAppState().trSincroniza.toList();
+                    return Column(
+                      mainAxisSize: MainAxisSize.max,
+                      children:
+                          List.generate(sincroniza.length, (sincronizaIndex) {
+                        final sincronizaItem = sincroniza[sincronizaIndex];
+                        return SelectionArea(
+                            child: Text(
+                          sincronizaItem.toString(),
+                          style: FlutterFlowTheme.of(context).bodyMedium,
+                        ));
+                      }),
+                    );
+                  },
+                ),
               ],
             ),
           ),
