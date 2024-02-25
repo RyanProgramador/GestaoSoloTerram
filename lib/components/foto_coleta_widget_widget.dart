@@ -104,10 +104,10 @@ class _FotoColetaWidgetWidgetState extends State<FotoColetaWidgetWidget> {
                     alignment: const AlignmentDirectional(0.0, 0.0),
                     child: SizedBox(
                       width: double.infinity,
-                      height: 300.0,
+                      height: 240.0,
                       child: custom_widgets.FotoBase64(
                         width: double.infinity,
-                        height: 300.0,
+                        height: 240.0,
                         base64Foto: widget.base64,
                       ),
                     ),
