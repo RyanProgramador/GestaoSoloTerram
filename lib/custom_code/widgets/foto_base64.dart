@@ -44,7 +44,7 @@ class _FotoBase64State extends State<FotoBase64> {
             clipper: MyClipper(),
             child: Image.memory(
               imageBytes,
-              fit: BoxFit.fill, // Garante que a imagem preencha o espaço
+              fit: BoxFit.cover, // Garante que a imagem preencha o espaço
               // Para o recorte específico, considere ajustar a imagem antes de carregar aqui
             ),
           ),
