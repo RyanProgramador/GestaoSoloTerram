@@ -13,6 +13,8 @@ class InicioModel extends FlutterFlowModel<InicioWidget> {
   // Stores action output result for [Backend Call - API (trOsServicos)] action in Inicio widget.
   ApiCallResponse? apiTrOsServicos;
   Completer<ApiCallResponse>? apiRequestCompleter;
+  // Stores action output result for [Backend Call - API (trSincronizaPontosColetados)] action in Icon widget.
+  ApiCallResponse? apiResultgyp;
 
   /// Initialization and disposal methods.
 

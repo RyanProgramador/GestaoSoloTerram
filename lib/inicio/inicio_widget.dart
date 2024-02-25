@@ -393,26 +393,97 @@ class _InicioWidgetState extends State<InicioWidget> {
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.end,
                                                   children: [
-                                                    Icon(
-                                                      Icons.cloud_sync_outlined,
-                                                      color: functions
-                                                              .pesquisaOservEFazIdNoTrSinc(
-                                                                  getJsonField(
-                                                                    trOsServicosItem,
-                                                                    r'''$.oserv_id''',
-                                                                  ).toString(),
-                                                                  getJsonField(
-                                                                    trOsServicosItem,
-                                                                    r'''$.os_id_faz''',
-                                                                  ).toString(),
-                                                                  FFAppState()
-                                                                      .trSincroniza
-                                                                      .toList())!
-                                                          ? FlutterFlowTheme.of(
-                                                                  context)
-                                                              .primary
-                                                          : const Color(0x3100736D),
-                                                      size: 55.0,
+                                                    InkWell(
+                                                      splashColor:
+                                                          Colors.transparent,
+                                                      focusColor:
+                                                          Colors.transparent,
+                                                      hoverColor:
+                                                          Colors.transparent,
+                                                      highlightColor:
+                                                          Colors.transparent,
+                                                      onTap: () async {
+                                                        _model.apiResultgyp =
+                                                            await TrOsServicosGroup
+                                                                .trSincronizaPontosColetadosCall
+                                                                .call(
+                                                          urlApi: FFAppState()
+                                                              .UrlApi,
+                                                          pontosJson:
+                                                              FFAppState()
+                                                                  .trSincroniza
+                                                                  .first,
+                                                        );
+                                                        if ((_model.apiResultgyp
+                                                                ?.succeeded ??
+                                                            true)) {
+                                                          await showDialog(
+                                                            context: context,
+                                                            builder:
+                                                                (alertDialogContext) {
+                                                              return AlertDialog(
+                                                                title: const Text(
+                                                                    'Sucesso'),
+                                                                actions: [
+                                                                  TextButton(
+                                                                    onPressed: () =>
+                                                                        Navigator.pop(
+                                                                            alertDialogContext),
+                                                                    child: const Text(
+                                                                        'Ok'),
+                                                                  ),
+                                                                ],
+                                                              );
+                                                            },
+                                                          );
+                                                        } else {
+                                                          await showDialog(
+                                                            context: context,
+                                                            builder:
+                                                                (alertDialogContext) {
+                                                              return AlertDialog(
+                                                                title: const Text(
+                                                                    'erro'),
+                                                                actions: [
+                                                                  TextButton(
+                                                                    onPressed: () =>
+                                                                        Navigator.pop(
+                                                                            alertDialogContext),
+                                                                    child: const Text(
+                                                                        'Ok'),
+                                                                  ),
+                                                                ],
+                                                              );
+                                                            },
+                                                          );
+                                                        }
+
+                                                        setState(() {});
+                                                      },
+                                                      child: Icon(
+                                                        Icons
+                                                            .cloud_sync_outlined,
+                                                        color: functions
+                                                                .pesquisaOservEFazIdNoTrSinc(
+                                                                    getJsonField(
+                                                                      trOsServicosItem,
+                                                                      r'''$.oserv_id''',
+                                                                    )
+                                                                        .toString(),
+                                                                    getJsonField(
+                                                                      trOsServicosItem,
+                                                                      r'''$.os_id_faz''',
+                                                                    )
+                                                                        .toString(),
+                                                                    FFAppState()
+                                                                        .trSincroniza
+                                                                        .toList())!
+                                                            ? FlutterFlowTheme
+                                                                    .of(context)
+                                                                .primary
+                                                            : const Color(0x3100736D),
+                                                        size: 55.0,
+                                                      ),
                                                     ),
                                                   ],
                                                 ),
