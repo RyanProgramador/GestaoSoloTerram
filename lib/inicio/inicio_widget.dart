@@ -380,9 +380,9 @@ class _InicioWidgetState extends State<InicioWidget> {
                                                 ],
                                               ),
                                             ),
-                                            const Expanded(
+                                            Expanded(
                                               child: Padding(
-                                                padding: EdgeInsetsDirectional
+                                                padding: const EdgeInsetsDirectional
                                                     .fromSTEB(
                                                         0.0, 0.0, 16.0, 0.0),
                                                 child: Column(
@@ -395,7 +395,23 @@ class _InicioWidgetState extends State<InicioWidget> {
                                                   children: [
                                                     Icon(
                                                       Icons.cloud_sync_outlined,
-                                                      color: Color(0x3600736D),
+                                                      color: functions
+                                                              .pesquisaOservEFazIdNoTrSinc(
+                                                                  getJsonField(
+                                                                    trOsServicosItem,
+                                                                    r'''$.oserv_id''',
+                                                                  ).toString(),
+                                                                  getJsonField(
+                                                                    trOsServicosItem,
+                                                                    r'''$.os_id_faz''',
+                                                                  ).toString(),
+                                                                  FFAppState()
+                                                                      .trSincroniza
+                                                                      .toList())!
+                                                          ? FlutterFlowTheme.of(
+                                                                  context)
+                                                              .primary
+                                                          : const Color(0x3100736D),
                                                       size: 55.0,
                                                     ),
                                                   ],

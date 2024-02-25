@@ -103,3 +103,13 @@ String? pesquisaFotoBas64(
   // If neither collected nor inaccessible, it's pending or an error
   return "Pending or Error"; // Adjust this return value based on your needs
 }
+
+bool? pesquisaOservEFazIdNoTrSinc(
+  String? oservID,
+  String? fazid,
+  List<dynamic> trSincronizaPos,
+) {
+  return trSincronizaPos.any((e) =>
+      e['fazenda_id'].toString() == fazid &&
+      e['servico_id'].toString() == oservID);
+}

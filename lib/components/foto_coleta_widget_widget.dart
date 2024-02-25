@@ -98,20 +98,28 @@ class _FotoColetaWidgetWidgetState extends State<FotoColetaWidgetWidget> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 12.0, 0.0),
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Profundidade ${widget.profundidade} do ponto ${widget.marcadorNomeIdPontoNumero}',
-                      style: FlutterFlowTheme.of(context).bodyLarge.override(
-                            fontFamily: 'Readex Pro',
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.w600,
-                          ),
+                padding: const EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
+                child: Container(
+                  decoration: const BoxDecoration(),
+                  child: Padding(
+                    padding:
+                        const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 12.0, 0.0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Profundidade ${widget.profundidade} do ponto ${widget.marcadorNomeIdPontoNumero}',
+                          style:
+                              FlutterFlowTheme.of(context).bodyLarge.override(
+                                    fontFamily: 'Readex Pro',
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
               Expanded(

@@ -80,6 +80,9 @@ class _ColetaPontosState extends State<ColetaPontos> {
 
   Map<String, dynamic> jsonSincronizaPosterior = {};
 
+  int? quantidadeDeProfundidadesASeremColetadas;
+  // int totalProfundidades = 0;
+
   bool? autoAuditoriaPontos; // = true;
   int? quantidadeDeVezesParaAutoAuditarComFoto; // = 1;
   int vezAtualDeFoto = 0;
@@ -163,6 +166,21 @@ class _ColetaPontosState extends State<ColetaPontos> {
           widget.fazLatlng!.latitude, // Usa ! para assegurar que não é nulo
           widget.fazLatlng!.longitude);
     }
+
+    var totalProfundidades = 0;
+// Usando ?.map() para evitar erro se widget.pontos for nulo,
+// e fornecendo uma lista vazia como valor padrão com ?? [].
+    var pontosASeremColetados = widget.pontos
+            ?.map((e) => e['profundidades'] as List<dynamic>)
+            .toList() ??
+        [];
+
+    for (var profundidadesDeCadaPonto in pontosASeremColetados) {
+      // Removido o operador ! de profundidadesDeCadaPonto.length, pois length retorna um int e não pode ser nulo.
+      totalProfundidades += profundidadesDeCadaPonto.length;
+    }
+
+    quantidadeDeProfundidadesASeremColetadas = totalProfundidades;
 
     _criaPontosMarcadors();
     _adicionaPoligonos();
@@ -444,6 +462,68 @@ class _ColetaPontosState extends State<ColetaPontos> {
     );
   }
 
+  void _finalizouColeta() {
+    var lista = FFAppState().PontosColetados;
+
+    Map<int, List<Map<String, dynamic>>> groupedByPontoId = {};
+
+    for (var item in lista) {
+      // Tenta converter o valor de item["id_ponto"] para int, se não for possível, atribui 0 ou trata o erro de outra forma.
+      int idPonto = (int.parse(item["id_ponto"]) as int?) ?? 0;
+
+      if (!groupedByPontoId.containsKey(idPonto)) {
+        groupedByPontoId[idPonto] = [];
+      }
+      groupedByPontoId[idPonto]!.add(item);
+    }
+
+    List<Map<String, dynamic>> transformedList = [];
+
+    groupedByPontoId.forEach((idPonto, items) {
+      var profundidades = items
+          .map((item) => {
+                "id": item["profundidade"],
+                "status": 1,
+                "obs": item["obs"],
+                "foto": item["foto"],
+                "data": item["data_hora"],
+              })
+          .toList();
+
+      transformedList.add({
+        "id": idPonto,
+        "status": 1,
+        "obs": items.first["obs"],
+        "foto": items.first["foto"],
+        "profundidades": profundidades,
+      });
+    });
+
+    FFAppState().trSincroniza.add({
+      "fazenda_id": widget.fazId,
+      "servico_id": widget.oservid,
+      "pontos": transformedList,
+    });
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Finalizou coletas!'),
+          content: Text('Todos os pontos foram vistoriados.'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   void _ontapColetar(String marcadorNome) {
     _showProfundidadesParaColeta(marcadorNome);
   }
@@ -686,12 +766,15 @@ class _ColetaPontosState extends State<ColetaPontos> {
     void _adicionaInacessiveis(String idPonto, String marcadorNome,
         String latlngMarcador, String base64imagem) {
       // Get the list of profundidades for the given ponto_numero
-      var profundidadesList = pontosMedicao.firstWhere(
-          (element) => element['pont_numero'] == 404)['profundidades'] as List;
+      var profundidadesList = pontosMedicao.firstWhere((element) =>
+          element['pont_numero'] ==
+          int.parse(marcadorNome))['profundidades'] as List;
 
       // Iterate over each profundidade in the list
       for (var profundidade in profundidadesList) {
         setState(() {
+          quantidadeDeProfundidadesASeremColetadas =
+              (quantidadeDeProfundidadesASeremColetadas ?? 0) - 1;
           FFAppState().PontosInacessiveis.add({
             "id_ponto": idPonto,
             "marcador_nome": marcadorNome,
@@ -728,7 +811,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
                       'Por que o ponto $marcadorNome está inacessível?',
@@ -851,7 +934,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
                               marcadorNome, _observacaoController.text);
 
                           _adicionaInacessiveis(idPonto, marcadorNome,
-                              latlngMarcador, 'base64Image');
+                              latlngMarcador, baseString!);
                           // FFAppState().PontosInacessiveis.add({
                           //   "id_ponto":idPonto,
                           //   "marcador_nome": marcadorNome,
@@ -906,218 +989,6 @@ class _ColetaPontosState extends State<ColetaPontos> {
           backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
           // elevation: 5,
         );
-
-        // backgroundColor:,
-        // );
-        // return Align(
-        //   widthFactor: 200,
-        //   heightFactor: 200,
-        //   alignment: AlignmentDirectional(0, 1),
-        //   child: Material(
-        //     color: Colors.transparent,
-        //
-        //     elevation: 5,
-        //     shape: RoundedRectangleBorder(
-        //       borderRadius: BorderRadius.only(
-        //         bottomLeft: Radius.circular(0),
-        //         bottomRight: Radius.circular(0),
-        //         topLeft: Radius.circular(22),
-        //         topRight: Radius.circular(22),
-        //       ),
-        //     ),
-        //     child: Container(
-        //       width: double.infinity,
-        //       height: 250,
-        //       padding: EdgeInsets.fromLTRB(0, topPadding.toDouble(), 0, 0),
-        //
-        //       decoration: BoxDecoration(
-        //         color: FlutterFlowTheme.of(context).secondaryBackground,
-        //         borderRadius: BorderRadius.only(
-        //           bottomLeft: Radius.circular(0),
-        //           bottomRight: Radius.circular(0),
-        //           topLeft: Radius.circular(22),
-        //           topRight: Radius.circular(22),
-        //         ),
-        //       ),
-        //       child: SingleChildScrollView(
-        //         child: Column(
-        //           mainAxisSize: MainAxisSize.max,
-        //           crossAxisAlignment: CrossAxisAlignment.start,
-        //           children: [
-        //             Padding(
-        //               padding: EdgeInsetsDirectional.fromSTEB(16, 16, 16, 0),
-        //               child: Row(
-        //                 mainAxisSize: MainAxisSize.max,
-        //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //                 crossAxisAlignment: CrossAxisAlignment.center,
-        //                 children: [
-        //                   Text(
-        //                     'Por que o ponto $marcadorNome está inacessivel?',
-        //                     style: FlutterFlowTheme.of(context)
-        //                         .bodyMedium
-        //                         .override(
-        //                           fontFamily: 'Outfit',
-        //                           fontSize: 18,
-        //                           fontWeight: FontWeight.bold,
-        //                         ),
-        //                   ),
-        //                   InkWell(
-        //                     onTap: () => Navigator.of(context).pop(),
-        //                     child: Icon(
-        //                       Icons.close,
-        //                       color: FlutterFlowTheme.of(context).secondaryText,
-        //                       size: 32,
-        //                     ),
-        //                   ),
-        //                 ],
-        //               ),
-        //             ),
-        //             Padding(
-        //               padding: EdgeInsetsDirectional.fromSTEB(16, 16, 16, 0),
-        //               child: TextFormField(
-        //                 controller: _observacaoController,
-        //                 focusNode: _observacaoFocusNode,
-        //                 obscureText: false,
-        //                 decoration: InputDecoration(
-        //                   hintText: 'Informe por que o ponto está inacessível:',
-        //                   hintStyle:
-        //                       FlutterFlowTheme.of(context).labelMedium.override(
-        //                             fontFamily: 'Readex Pro',
-        //                             color: Color(0xA057636C),
-        //                           ),
-        //                   enabledBorder: OutlineInputBorder(
-        //                     borderSide: BorderSide(
-        //                       color: FlutterFlowTheme.of(context).alternate,
-        //                       width: 4,
-        //                     ),
-        //                     borderRadius: BorderRadius.circular(8),
-        //                   ),
-        //                   focusedBorder: OutlineInputBorder(
-        //                     borderSide: BorderSide(
-        //                       color: FlutterFlowTheme.of(context).primary,
-        //                       width: 2,
-        //                     ),
-        //                     borderRadius: BorderRadius.circular(8),
-        //                   ),
-        //                   errorBorder: OutlineInputBorder(
-        //                     borderSide: BorderSide(
-        //                       color: FlutterFlowTheme.of(context).error,
-        //                       width: 2,
-        //                     ),
-        //                     borderRadius: BorderRadius.circular(8),
-        //                   ),
-        //                   focusedErrorBorder: OutlineInputBorder(
-        //                     borderSide: BorderSide(
-        //                       color: FlutterFlowTheme.of(context).error,
-        //                       width: 2,
-        //                     ),
-        //                     borderRadius: BorderRadius.circular(8),
-        //                   ),
-        //                   contentPadding:
-        //                       EdgeInsetsDirectional.fromSTEB(20, 32, 20, 12),
-        //                 ),
-        //                 style: FlutterFlowTheme.of(context).bodyMedium,
-        //                 textAlign: TextAlign.start,
-        //                 maxLines: 4,
-        //                 keyboardType: TextInputType.multiline,
-        //               ),
-        //             ),
-        //             Row(
-        //               mainAxisSize: MainAxisSize.max,
-        //               mainAxisAlignment: MainAxisAlignment.center,
-        //               // Centraliza os botões na Row
-        //               children: <Widget>[
-        //                 ElevatedButton(
-        //                   onPressed: () async {
-        //                     // Implemente a lógica para capturar foto
-        //                     // Navigator.of(context).pop();
-        //                     // _tiraFoto(marcadorNome, latlngMarcador, true);
-        //                     // _tiraFoto(marcadorNome, latlngMarcador, true, 'inacessivel');
-        //
-        //                     await _pegaFoto();
-        //                     await Future.delayed(
-        //                         Duration(seconds: 1)); // Simula uma espera
-        //
-        //                     setState(() {
-        //                       // Verifica se a string base64 da imagem foi definida
-        //                       if (baseString != null) {
-        //                         textoCaptura = "Capturar novamente?";
-        //                         capturaImagem = "Imagem Capturada";
-        //                       } else {
-        //                         textoCaptura = "Capturar foto";
-        //                         capturaImagem =
-        //                             'Ops! Algo deu errado. Tente novamente.';
-        //                       }
-        //
-        //                       FocusScope.of(context)
-        //                           .requestFocus(_observacaoFocusNode);
-        //                     });
-        //                   },
-        //                   style: ElevatedButton.styleFrom(
-        //                     primary: Color(0xFF087071), // Cor do botão
-        //                     shape: RoundedRectangleBorder(
-        //                       borderRadius: BorderRadius.circular(
-        //                           100), // Bordas arredondadas
-        //                     ),
-        //                   ),
-        //                   child: Text(textoCaptura,
-        //                       style: TextStyle(color: Colors.white)),
-        //                 ),
-        //                 SizedBox(width: 30), // Espaçamento entre os botões
-        //                 ElevatedButton(
-        //                   onPressed: () {
-        //                     // Implemente a ação para este botão
-        //                     if (textoCaptura == "Capturar novamente?" &&
-        //                         capturaImagem == "Imagem Capturada") {
-        //                       Navigator.of(context).pop();
-        //                       _atualizaObservacaoDeColetaInacessivel(
-        //                           marcadorNome, _observacaoController.text);
-        //
-        //                       FFAppState().PontosInacessiveis.add({
-        //                         "marcador_nome": marcadorNome,
-        //                         "profundidade": 'inacessivel',
-        //                         "foto": baseString,
-        //                         // "foto": '$base64Image',
-        //                         "latlng": '$latlngMarcador',
-        //                         "id_ref": '1',
-        //                         "obs": "",
-        //                         "data_hora": DateTime.now().toString()
-        //                       });
-        //                       baseString = null;
-        //                       _observacaoController.clear();
-        //                     } else {
-        //                       _showAlertaImagem();
-        //                     }
-        //                   },
-        //                   style: ElevatedButton.styleFrom(
-        //                     primary: Color(0xFF087071), // Cor do botão
-        //                     shape: RoundedRectangleBorder(
-        //                       borderRadius: BorderRadius.circular(
-        //                           100), // Bordas arredondadas
-        //                     ),
-        //                   ),
-        //                   child: Row(
-        //                     mainAxisSize: MainAxisSize.min,
-        //                     // Isso garante que o Row não ocupe mais espaço do que o necessário
-        //                     children: [
-        //                       Icon(Icons.arrow_forward, color: Colors.white),
-        //                       // Ícone dentro do botão
-        //                       SizedBox(width: 8),
-        //                       // Espaçamento entre o ícone e o texto
-        //                       Text("Salvar",
-        //                           style: TextStyle(color: Colors.white)),
-        //                       // Texto do botão
-        //                     ],
-        //                   ),
-        //                 ),
-        //               ],
-        //             ),
-        //           ],
-        //         ),
-        //       ),
-        //     ),
-        //   ),
-        // );
       },
     );
   }
@@ -1190,11 +1061,14 @@ class _ColetaPontosState extends State<ColetaPontos> {
 
         setState(() {
           if (isInacessivelOuNao) {
+            quantidadeDeProfundidadesASeremColetadas =
+                (quantidadeDeProfundidadesASeremColetadas ?? 0) - 1;
+
             FFAppState().PontosInacessiveis.add({
               "id_ponto": idPonto,
               "marcador_nome": nomeMarcadorAtual,
               "profundidade": 'inacessivel',
-              "foto": 'base64ImageInacessivel',
+              // "foto": 'base64ImageInacessivel',
               "foto": '$base64Image',
               "latlng": '$latlng',
               "obs": "",
@@ -1324,10 +1198,14 @@ class _ColetaPontosState extends State<ColetaPontos> {
                             "profundidade": profundidade,
                             "obs": observaFotoController.text,
                             "foto": base64Image,
-                            "profundidade": profundidade,
+                            // "profundidade": profundidade,
                             "latlng": '$latlng',
                             "data_hora": DateTime.now().toString()
                           });
+                          quantidadeDeProfundidadesASeremColetadas =
+                              (quantidadeDeProfundidadesASeremColetadas ?? 0) -
+                                  1;
+
                           observaFotoController.clear();
                           Navigator.of(context).pop();
                           _mostrarModalSucesso(context, nomeMarcador);
@@ -1396,6 +1274,9 @@ class _ColetaPontosState extends State<ColetaPontos> {
           if (vezAtualDeFoto == 0) {
             _tiraFoto(marcadorNome, latlng, false, profundidadeNome, idPonto);
           } else {
+            quantidadeDeProfundidadesASeremColetadas =
+                (quantidadeDeProfundidadesASeremColetadas ?? 0) - 1;
+
             FFAppState().PontosColetados.add({
               "id_ponto": idPonto,
               "marcador_nome": marcadorNome,
@@ -1403,7 +1284,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
               "obs": "",
               "foto":
                   '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',
-              "profundidade": profundidadeNome,
+              // "profundidade": profundidadeNome,
               "latlng": '$latlng',
               "data_hora": DateTime.now().toString()
             });
@@ -1411,6 +1292,9 @@ class _ColetaPontosState extends State<ColetaPontos> {
             _mostrarModalSucesso(context, marcadorNome);
           }
         } else {
+          quantidadeDeProfundidadesASeremColetadas =
+              (quantidadeDeProfundidadesASeremColetadas ?? 0) - 1;
+
           FFAppState().PontosColetados.add({
             "id_ponto": idPonto,
             "marcador_nome": marcadorNome,
@@ -1564,7 +1448,10 @@ class _ColetaPontosState extends State<ColetaPontos> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () => _exibirDados(),
-          child: Icon(Icons.info),
+          child: Text(
+            '${quantidadeDeProfundidadesASeremColetadas ?? "teste"}',
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
         ),
       ),
     );
@@ -1663,18 +1550,95 @@ class _ColetaPontosState extends State<ColetaPontos> {
         ]
       }
     ];
-    // var teste2 = FFAppState().PontosColetados.any((ponto) => ponto['profundidade'] == '16157');
-    var teste2 = FFAppState()
-        .PontosInacessiveis
-        .any((ponto) => ponto['profundidade'] == 16157);
+//     // var teste2 = FFAppState().PontosColetados.any((ponto) => ponto['profundidade'] == '16157');
+//     var allColetadosOuInacessiveis = FFAppState()
+//         .PontosColetados
+//         .any((ponto) => ponto['profundidade'] == '16157');
+//
+//     var jsonColetados = jsonSincronizaPosterior.toString();
+//     // var pontosColetados2 = FFAppState().PontosColetados.map((e) => e['profundidade']);
+//
+//
+//
+//
+//
+//     // var pontosASeremColetados= pontosMedicao.map((e) => e['profundidades'] as List<dynamic>).toList();
+//     // // dentro de pontosASeremColetados é uma lista assim: [{"pprof_id": 123, "pprof_status" : "Pendente", "pprof_icone" : "icone_1"}]
+//     // var pontosColetados2 = FFAppState().PontosColetados;//map((e) => e["profundidade"]);
+//     //
+//
+//
+//     // Supondo que pontosMedicao e FFAppState().PontosColetados já estejam definidos
+//     // var pontosASeremColetados = pontosMedicao.expand((e) => e['profundidades'] as List<dynamic>).toList();
+//     // var totalPprofId = pontosASeremColetados.length;
+//     // print("Total de pprof_id a serem coletados: $totalPprofId");
+//     //
+//     // var pontosColetados2 = FFAppState().PontosColetados.map((e) => e["profundidade"]).toList();
+//     // var totalPontosColetados = pontosColetados2.length;
+//     // print("Total de pontos coletados: $totalPontosColetados");
+//     //
+//     // // Calculando os pontos que faltam ser coletados
+//     // var idsProfundidadesColetadas = pontosColetados2.toSet();
+//     // var PontosQueFaltamSerColetados = pontosASeremColetados
+//     //     .where((ponto) => !idsProfundidadesColetadas.contains(ponto['pprof_id']))
+//     //     .toList();
+//     //
+//     // print("Pontos que faltam ser coletados: ${PontosQueFaltamSerColetados.length}");
+//     // print(PontosQueFaltamSerColetados);
+//
+//
+//
+//
+//
+//
+//     var pontosASeremColetados = pontosMedicao
+//         .expand((e) => e['profundidades'] as List<dynamic>)
+//         .map((profundidade) => profundidade['pprof_id'])
+//         .toList();
+// // esse pontosASeremColetados retorna [123, 124, 125, 126];
+//
+//     var pontosColetados2 = FFAppState().PontosColetados.map((e) => e["profundidade"]).toList();
+// // esse pontosColetados2 retorna [123, 124];
+//
+//
+//
+//
+//     // Encontra a quantidade de pontos em pontosColetados2 que estão em pontosASeremColetados
+//     var pontosJaColetados = pontosColetados2.where((ponto) => pontosASeremColetados.contains(ponto)).toList().toString();
+//     print("Quantidade de pontos em pontosColetados2 que estão em pontosASeremColetados: ${pontosJaColetados.length}");
+//
+//     // Encontra os pontos em pontosASeremColetados que não estão em pontosColetados2
+//     var pontosFaltantes = pontosASeremColetados.where((ponto) => !pontosColetados2.contains(ponto)).toList().toString();
+//     print("Pontos em pontosASeremColetados que não estão em pontosColetados2: $pontosFaltantes");
+//
+//     // var totalProfundidades = 0;
+//     // for (var profundidadesDeCadaPonto in pontosASeremColetados) {
+//     //   totalProfundidades += profundidadesDeCadaPonto.length; // Corrigido para acumular o total corretamente
+//     // }
+//     //
+//     // var quantidadeDeProfundidadesASeremColetadas = totalProfundidades;
 
-    var jsonColetados = jsonSincronizaPosterior.toString();
-    // var pontosColetados2 = FFAppState().PontosColetados.map((e) => e['profundidade']);
-    var pontosColetados2 = FFAppState().PontosColetados;
-    var pontosNoModal = pontosMedicao
-        .where((element) => element['pont_numero'] == 404)
-        .map((e) => e['profundidades']);
-    var pontoInacessivel = FFAppState().PontosInacessiveis.toString();
+    int registros = FFAppState().PontosColetados.length +
+        FFAppState().PontosInacessiveis.length;
+    var aColetar = pontosMedicao
+        .expand((e) => e['profundidades'] as List<dynamic>)
+        .map((profundidade) => profundidade['pprof_id'])
+        .toList();
+    if (registros == aColetar.length) {
+      _finalizouColeta();
+    }
+
+    var coletados = FFAppState().PontosColetados.map((e) {
+      // Cria um novo mapa a partir do mapa original, excluindo a chave 'foto'
+      var novoMapa = Map.of(e); // Cria uma cópia do mapa
+      novoMapa.remove('foto'); // Remove a chave 'foto'
+      return novoMapa; // Retorna o novo mapa sem a chave 'foto'
+    }).toList();
+    var inacessiveis = FFAppState().PontosInacessiveis.length;
+    // var aColetar = pontosMedicao
+    //     .expand((e) => e['profundidades'] as List<dynamic>)
+    //     .map((profundidade) => profundidade['pprof_id'])
+    //     .toList();
 
     showDialog(
       context: context,
@@ -1686,19 +1650,19 @@ class _ColetaPontosState extends State<ColetaPontos> {
             child: ListBody(
               children: [
                 Text(
-                  "Json:${teste2}",
+                  "Json:}",
                   style: TextStyle(color: Colors.black, fontSize: 12.0),
                 ),
                 Text(
-                  "Pontos Coletados:${pontosColetados2}",
+                  "Pontos aserem:${FFAppState().trSincroniza}",
                   style: TextStyle(color: Colors.black, fontSize: 12.0),
                 ),
                 Text(
-                  "Pontos Inacessivel:${pontoInacessivel}",
+                  "Pontos coleados:${inacessiveis}",
                   style: TextStyle(color: Colors.black, fontSize: 12.0),
                 ),
                 Text(
-                  "Pontos a serem Coletados:${pontosNoModal}",
+                  "Pontos a serem Coletados:${aColetar.length} ",
                   style: TextStyle(color: Colors.black, fontSize: 12.0),
                 ),
                 // Text(
