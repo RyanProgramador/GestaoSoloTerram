@@ -124,13 +124,21 @@ class _FotoColetaWidgetWidgetState extends State<FotoColetaWidgetWidget> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(
-                        child: SizedBox(
-                          width: double.infinity,
-                          height: double.infinity,
-                          child: custom_widgets.FotoBase64(
-                            width: double.infinity,
-                            height: double.infinity,
-                            base64Foto: widget.base64,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(14.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(14.0),
+                            ),
+                            child: SizedBox(
+                              width: double.infinity,
+                              height: double.infinity,
+                              child: custom_widgets.FotoBase64(
+                                width: double.infinity,
+                                height: double.infinity,
+                                base64Foto: widget.base64,
+                              ),
+                            ),
                           ),
                         ),
                       ),
