@@ -58,15 +58,15 @@ String? pesquisaParaVerSeOPontoFoiColetado(
   List<dynamic> pontosColetados,
   List<dynamic> pontosInacessiveis,
 ) {
-  bool isCollected =
-      pontosColetados.any((ponto) => ponto['profundidade'] == pprofIDdoPonto);
+  bool isCollected = pontosColetados
+      .any((ponto) => ponto['profundidade'] == pprofIDdoPonto.toString());
   if (isCollected) {
     return "Coletado";
   }
 
   // Check if the point is inaccessible
   bool isInaccessible = pontosInacessiveis
-      .any((ponto) => ponto['profundidade'] == pprofIDdoPonto);
+      .any((ponto) => ponto['profundidade'] == pprofIDdoPonto.toString());
   if (isInaccessible) {
     return "Inacessível";
   }
