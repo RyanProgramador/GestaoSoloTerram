@@ -77,10 +77,19 @@ class _FotoColetaWidgetWidgetState extends State<FotoColetaWidgetWidget> {
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Icon(
-                    Icons.close,
-                    color: FlutterFlowTheme.of(context).secondaryText,
-                    size: 24.0,
+                  InkWell(
+                    splashColor: Colors.transparent,
+                    focusColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    onTap: () async {
+                      Navigator.pop(context);
+                    },
+                    child: Icon(
+                      Icons.close,
+                      color: FlutterFlowTheme.of(context).secondaryText,
+                      size: 24.0,
+                    ),
                   ),
                 ],
               ),
@@ -95,10 +104,10 @@ class _FotoColetaWidgetWidgetState extends State<FotoColetaWidgetWidget> {
                     alignment: const AlignmentDirectional(0.0, 0.0),
                     child: SizedBox(
                       width: double.infinity,
-                      height: 200.0,
+                      height: 300.0,
                       child: custom_widgets.FotoBase64(
                         width: double.infinity,
-                        height: 200.0,
+                        height: 300.0,
                         base64Foto: widget.base64,
                       ),
                     ),

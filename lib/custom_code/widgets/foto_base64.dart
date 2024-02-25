@@ -34,14 +34,38 @@ class _FotoBase64State extends State<FotoBase64> {
     Uint8List imageBytes = base64Decode(widget.base64Foto!);
 
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         // Use Image.memory to display the image
         if (widget.base64Foto != null)
-          Image.memory(imageBytes,
-              width: widget.width ?? 50, height: widget.height ?? 50),
-        SizedBox(width: 10),
-        // Your code continues here...
+          // Expanded( // Faz a imagem ocupar
+          ClipRect(
+            // Use ClipRect para recortar a imagem se necessário
+            clipper: MyClipper(),
+            child: Image.memory(
+              imageBytes,
+              fit: BoxFit.fill, // Garante que a imagem preencha o espaço
+              // Para o recorte específico, considere ajustar a imagem antes de carregar aqui
+            ),
+          ),
+        // ),
       ],
     );
+  }
+}
+
+class MyClipper extends CustomClipper<Rect> {
+  @override
+  Rect getClip(Size size) {
+    // Recorta 20px do topo e do fundo da imagem.
+    // Altere esses valores conforme necessário.
+    return Rect.fromLTRB(0, 25, size.width, size.height - 25);
+  }
+
+  @override
+  bool shouldReclip(oldClipper) {
+    // Retorna true se o clipper for recriado com diferentes configurações.
+    // Caso contrário, retorna false.
+    return false;
   }
 }
