@@ -197,7 +197,7 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                         ParamType.bool,
                                       ),
                                       'quantidadeAutoAuditoria': serializeParam(
-                                        1,
+                                        widget.quantidadeAutoAuditoria,
                                         ParamType.int,
                                       ),
                                       'trPontos': serializeParam(

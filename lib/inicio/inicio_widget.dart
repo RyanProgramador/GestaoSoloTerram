@@ -412,7 +412,7 @@ class _InicioWidgetState extends State<InicioWidget> {
                                                           pontosJson:
                                                               FFAppState()
                                                                   .trSincroniza
-                                                                  .first,
+                                                                  .last,
                                                         );
                                                         if ((_model.apiResultgyp
                                                                 ?.succeeded ??
