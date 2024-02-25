@@ -51,7 +51,7 @@ class _FotoColetaWidgetWidgetState extends State<FotoColetaWidgetWidget> {
     return Align(
       alignment: const AlignmentDirectional(0.0, 0.0),
       child: Padding(
-        padding: const EdgeInsetsDirectional.fromSTEB(20.0, 100.0, 20.0, 100.0),
+        padding: const EdgeInsetsDirectional.fromSTEB(20.0, 100.0, 20.0, 200.0),
         child: Container(
           width: double.infinity,
           height: double.infinity,
@@ -98,26 +98,31 @@ class _FotoColetaWidgetWidgetState extends State<FotoColetaWidgetWidget> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 16.0),
+                padding: const EdgeInsetsDirectional.fromSTEB(20.0, 20.0, 20.0, 16.0),
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Align(
                       alignment: const AlignmentDirectional(0.0, 0.0),
-                      child: SizedBox(
+                      child: Container(
                         width: double.infinity,
-                        height: 540.0,
-                        child: custom_widgets.FotoBase64(
+                        height: 400.0,
+                        decoration: const BoxDecoration(),
+                        child: SizedBox(
                           width: double.infinity,
-                          height: 540.0,
-                          base64Foto: widget.base64,
+                          height: 400.0,
+                          child: custom_widgets.FotoBase64(
+                            width: double.infinity,
+                            height: 400.0,
+                            base64Foto: widget.base64,
+                          ),
                         ),
                       ),
                     ),
                     Padding(
                       padding:
-                          const EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 0.0, 0.0),
+                          const EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 0.0),
                       child: Text(
                         'Ponto: ${widget.marcadorNomeIdPontoNumero}',
                         style: FlutterFlowTheme.of(context).bodyLarge.override(
@@ -129,7 +134,7 @@ class _FotoColetaWidgetWidgetState extends State<FotoColetaWidgetWidget> {
                     ),
                     Padding(
                       padding:
-                          const EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 0.0, 0.0),
+                          const EdgeInsetsDirectional.fromSTEB(0.0, 6.0, 0.0, 0.0),
                       child: Text(
                         'Profundidade: ${widget.profundidade}',
                         style: FlutterFlowTheme.of(context).bodyLarge.override(
