@@ -126,10 +126,10 @@ class _FotoColetaWidgetWidgetState extends State<FotoColetaWidgetWidget> {
                       Expanded(
                         child: SizedBox(
                           width: double.infinity,
-                          height: 400.0,
+                          height: double.infinity,
                           child: custom_widgets.FotoBase64(
                             width: double.infinity,
-                            height: 400.0,
+                            height: double.infinity,
                             base64Foto: widget.base64,
                           ),
                         ),
