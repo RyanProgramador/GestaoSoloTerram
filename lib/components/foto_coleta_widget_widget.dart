@@ -127,6 +127,8 @@ class _FotoColetaWidgetWidgetState extends State<FotoColetaWidgetWidget> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(14.0),
                           child: Container(
+                            width: double.infinity,
+                            height: double.infinity,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(14.0),
                             ),
