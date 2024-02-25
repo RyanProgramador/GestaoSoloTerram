@@ -90,7 +90,7 @@ class _ColetaPontosWidgetState extends State<ColetaPontosWidget> {
                           fazId: widget.fazid?.toString(),
                           fazNome: widget.fazNome,
                           fazLatlng: widget.fazLatlng,
-                          autoAuditoria: widget.autoAuditoria.toString(),
+                          autoAuditoria: widget.autoAuditoria,
                           quantidadeAutoAuditoria:
                               widget.quantidadeAutoAuditoria?.toString(),
                           pontos: widget.trPontos,

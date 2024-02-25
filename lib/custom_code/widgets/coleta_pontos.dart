@@ -66,7 +66,7 @@ class ColetaPontos extends StatefulWidget {
   final String? fazId;
   final String? fazNome;
   final LatLng? fazLatlng;
-  final String? autoAuditoria;
+  final bool? autoAuditoria;
   final String? quantidadeAutoAuditoria;
   final List<dynamic>? pontos;
 
@@ -76,6 +76,13 @@ class ColetaPontos extends StatefulWidget {
 
 class _ColetaPontosState extends State<ColetaPontos> {
   final FocusNode _observacaoFocusNode = FocusNode();
+  final FocusNode observaFotoFocusNode = FocusNode();
+
+  Map<String, dynamic> jsonSincronizaPosterior = {};
+
+  bool? autoAuditoriaPontos; // = true;
+  int? quantidadeDeVezesParaAutoAuditarComFoto; // = 1;
+  int vezAtualDeFoto = 0;
 
   google_maps.GoogleMapController? _googleMapController;
   Set<google_maps.Polygon> polygons = Set();
@@ -85,6 +92,8 @@ class _ColetaPontosState extends State<ColetaPontos> {
   double _currentZoom = 13.0; // Inicializa o zoom padrão
   String? baseString; //base64foto inpossivel coleta no local
   TextEditingController _observacaoController =
+      TextEditingController(); //texto obs inacessivel
+  TextEditingController observaFotoController =
       TextEditingController(); //texto obs inacessivel
   bool? isPrimeiraColeta =
       true; //essa variavel guarda a primeira coleta do dia, se ela ja foi feita ou não
@@ -102,6 +111,16 @@ class _ColetaPontosState extends State<ColetaPontos> {
         ""; // Usando ?? para fornecer um valor padrão se for nulo
     String servicoId = widget.oservid ?? "";
 
+    // Para converter uma String para boolean
+    // if (widget.autoAuditoria != null) {
+    autoAuditoriaPontos = widget.autoAuditoria;
+    // }
+
+// Para converter uma String para int
+//     if (widget.quantidadeAutoAuditoria != null) {
+    quantidadeDeVezesParaAutoAuditarComFoto =
+        int.tryParse(widget.quantidadeAutoAuditoria ?? "0") ?? 0;
+    // }
     Map<String, dynamic> jsonSincronizaPosterior = {
       "fazenda_id": fazendaId,
       "servico_id": servicoId,
@@ -156,6 +175,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
     _positionStreamSubscription?.cancel();
     _googleMapController?.dispose();
     _observacaoController.dispose();
+    observaFotoController.dispose();
     super.dispose();
   }
 
@@ -258,6 +278,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
         double.parse(pontos['pont_latitude'].toString()),
         double.parse(pontos['pont_longitude'].toString()),
       );
+      var idPonto = pontos['point_id'].toString();
       var markerId = google_maps.MarkerId(pontos["pont_numero"]!.toString());
       var coletouTodas = _validaSeTodasAsProfundidadesForamColetadasNoPontoX(
           pontos["pont_numero"]!.toString());
@@ -305,6 +326,19 @@ class _ColetaPontosState extends State<ColetaPontos> {
         }
       }
 
+      //infowindow de coleta inacessivel
+      google_maps.InfoWindow infoWindow;
+      if (isPontoInacessivel) {
+        // Configura a InfoWindow para pontos inacessíveis
+        infoWindow = google_maps.InfoWindow(
+          title: "Ponto Inacessível: " + pontos["pont_numero"]!.toString(),
+          snippet: "Este ponto não pode ser acessado.",
+        );
+      } else {
+        // Configura a InfoWindow para pontos normais
+        infoWindow = google_maps.InfoWindow();
+      }
+
       var marker = google_maps.Marker(
         markerId: markerId,
         position: latlng,
@@ -315,13 +349,12 @@ class _ColetaPontosState extends State<ColetaPontos> {
           //     double.parse(latlng[0]), double.parse(latlng[1]));
 
           // _showDistanceAlert();
-          _onMarkerTapped(markerId, pontos["pont_numero"]!.toString(),
-              latlng.latitude, latlng.longitude);
+          if (isPontoInacessivel == false) {
+            _onMarkerTapped(markerId, pontos["pont_numero"]!.toString(),
+                latlng.latitude, latlng.longitude);
+          }
         },
-        // infoWindow: google_maps.InfoWindow(
-        //   title: "PONTO : " + pontos["pont_numero"]!.toString(),
-        //   snippet: "Profundidades de coleta: ",
-        // ),
+        infoWindow: infoWindow,
         draggable: false,
       );
       setState(() {
@@ -415,76 +448,6 @@ class _ColetaPontosState extends State<ColetaPontos> {
     _showProfundidadesParaColeta(marcadorNome);
   }
 
-  // void _showModalOptions(String idMarcador) {
-  //   showDialog(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       return AlertDialog(
-  //         shape: RoundedRectangleBorder(
-  //           borderRadius: BorderRadius.circular(16),
-  //         ),
-  //         titlePadding: EdgeInsets.all(20),
-  //         title: Row(
-  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //           children: [
-  //             Expanded(
-  //               child: Text(
-  //                 "Ponto: $idMarcador",
-  //                 style: FlutterFlowTheme.of(context).bodyMedium.override(
-  //                       fontFamily: 'Outfit',
-  //                       fontSize: 18,
-  //                       fontWeight: FontWeight.bold,
-  //                     ),
-  //               ),
-  //             ),
-  //             InkWell(
-  //               onTap: () => Navigator.of(context).pop(),
-  //               child: Icon(
-  //                 Icons.close,
-  //                 color: FlutterFlowTheme.of(context).secondaryText,
-  //                 size: 36,
-  //               ),
-  //             ),
-  //           ],
-  //         ),
-  //         content: Padding(
-  //           padding: EdgeInsets.all(20),
-  //           child: Column(
-  //             mainAxisSize: MainAxisSize.min,
-  //             children: <Widget>[
-  //               _buildElevatedButton(
-  //                   context, "Realizar coleta", Color(0xFF00736D), () {
-  //                 Navigator.of(context).pop();
-  //                 _ontapColetar(idMarcador);
-  //               }),
-  //               SizedBox(height: 10),
-  //               // _buildElevatedButton(
-  //               //     context, "Coleta inacessível", Color(0xFF9D291C), () {
-  //               //   Navigator.of(context).pop();
-  //               //   // _ontapInacessivel(idMarcador);
-  //               // }),
-  //               // SizedBox(height: 10),
-  //               // _buildElevatedButton(context, "Criar Ponto", Colors.blue, () {
-  //               //   Navigator.of(context).pop();
-  //               //   // _adicionarNovoPonto();
-  //               //   _showAdicionaProfundidades();
-  //               //   _showTutorialModal();
-  //               // }),
-  //               // SizedBox(height: 10),
-  //               // _buildElevatedButton(context, "Tirar Foto", Colors.orange, () {
-  //               //   Navigator.of(context).pop();
-  //               //   _tiraFoto(idMarcador);
-  //               // }),
-  //             ],
-  //           ),
-  //         ),
-  //         backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
-  //         elevation: 5,
-  //       );
-  //     },
-  //   );
-  // }
-
   void _showProfundidadesParaColeta(String marcadorNome) async {
     // Encontra o marcador pelo nome
     var marcador = pontosMedicao.firstWhere(
@@ -494,7 +457,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
     );
     print(_validaSeTodasAsProfundidadesForamColetadasNoPontoX(marcadorNome));
     print(_validaSeAlgumasProfundidadesForamColetadasNoPontoX(marcadorNome));
-
+    var idPonto = marcador['pont_id'].toString();
     var coletouAlguma =
         _validaSeAlgumasProfundidadesForamColetadasNoPontoX(marcadorNome);
     var coletouTodas =
@@ -515,6 +478,13 @@ class _ColetaPontosState extends State<ColetaPontos> {
           }
           return m;
         }).toSet();
+        isPrimeiraColeta = false;
+        if (vezAtualDeFoto == 0) {
+          vezAtualDeFoto = quantidadeDeVezesParaAutoAuditarComFoto!;
+        } else {
+          vezAtualDeFoto--;
+        }
+        ;
       });
     }
 
@@ -634,7 +604,8 @@ class _ColetaPontosState extends State<ColetaPontos> {
                                 marcadorNome,
                                 profundidade["pprof_id"].toString(),
                                 latlng,
-                                referencialProfundidadePontoId);
+                                referencialProfundidadePontoId,
+                                idPonto);
                           }
                         },
                       ),
@@ -660,7 +631,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
                     onPressed: () {
                       // Adicione aqui a ação desejada para quando o botão for pressionado
                       Navigator.of(context).pop();
-                      _ontapInacessivel(marcadorNome, latlng);
+                      _ontapInacessivel(marcadorNome, latlng, idPonto);
                     },
                   ),
                 ),
@@ -702,7 +673,8 @@ class _ColetaPontosState extends State<ColetaPontos> {
     }
   }
 
-  void _ontapInacessivel(String marcadorNome, String latlngMarcador) async {
+  void _ontapInacessivel(
+      String marcadorNome, String latlngMarcador, String idPonto) async {
     // var profunidade = pontosMedicao.map((e) => e[])
     // _tiraFoto(marcadorNome, latlngMarcador, true, 'inacessivel');
     _observacaoController.clear();
@@ -860,10 +832,11 @@ class _ColetaPontosState extends State<ColetaPontos> {
                               marcadorNome, _observacaoController.text);
 
                           FFAppState().PontosInacessiveis.add({
+                            "id_ponto": idPonto,
                             "marcador_nome": marcadorNome,
                             "profundidade": 'inacessivel',
-                            "foto": baseString,
-                            // "foto": '$base64Image',
+                            // "foto": baseString,
+                            "foto": 'base64Image',
                             "latlng": '$latlngMarcador',
                             "id_ref": '1',
                             "obs": "",
@@ -1163,7 +1136,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
   }
 
   void _tiraFoto(String nomeMarcadorAtual, String latlng,
-      bool isInacessivelOuNao, String profundidade) async {
+      bool isInacessivelOuNao, String profundidade, String idPonto) async {
     final ImagePicker _picker = ImagePicker();
     final XFile? image = await _picker.pickImage(source: ImageSource.camera);
 
@@ -1187,19 +1160,9 @@ class _ColetaPontosState extends State<ColetaPontos> {
         String base64Image = base64Encode(Uint8List.fromList(resizedBytes));
 
         setState(() {
-          // Encontra o marcador pelo nome
-          // int indexMarcador = pontosMedicao.indexWhere(
-          //         (marcador) => marcador['pont_numero'] == nomeMarcadorAtual);
-
-          // if (indexMarcador != -1) {
-          //   pontosMedicao[indexMarcador]['foto_de_cada_profundidade']
-          //       .add({
-          //     'nome': nomeProfundidade,
-          //     'foto': 'data:image/png;base64,base64Image',
-          //     // 'foto': 'data:image/png;base64,$base64Image',
-          //   });
           if (isInacessivelOuNao) {
             FFAppState().PontosInacessiveis.add({
+              "id_ponto": idPonto,
               "marcador_nome": nomeMarcadorAtual,
               "profundidade": 'inacessivel',
               "foto": 'base64ImageInacessivel',
@@ -1210,17 +1173,20 @@ class _ColetaPontosState extends State<ColetaPontos> {
             });
             _observacaoController.clear();
           } else {
-            FFAppState().PontosColetados.add({
-              "marcador_nome": nomeMarcadorAtual,
-              "profundidade": profundidade,
-              "foto": 'base64Image',
-              // "foto": '$base64Image',
-              "latlng": '$latlng',
-              "obs": "",
-              "data_hora": DateTime.now().toString()
-            });
+            // FFAppState().PontosColetados.add({
+            //   "id_ponto": idPonto,
+            //   "marcador_nome": nomeMarcadorAtual,
+            //   "profundidade": profundidade,
+            //   "obs": "",
+            //   "foto": 'base64Image',
+            //   "profundidade": profundidade,
+            //   "latlng": '$latlng',
+            //   "data_hora": DateTime.now().toString()
+            // });
             Navigator.of(context).pop(); // Fecha o modal atual
-            _mostrarModalSucesso(context, nomeMarcadorAtual);
+            _showModalObservaFoto(
+                idPonto, nomeMarcadorAtual, profundidade, latlng, base64Image);
+            // _mostrarModalSucesso(context, nomeMarcadorAtual);
           }
           // coletasPorMarcador.putIfAbsent(nomeMarcadorAtual, () => {});
           // coletasPorMarcador[nomeMarcadorAtual]!.add(nomeProfundidade);
@@ -1231,25 +1197,130 @@ class _ColetaPontosState extends State<ColetaPontos> {
                   (m) => m["pont_numero"] == nomeMarcadorAtual)["profundidades"]
               .map((p) => p["pprof_id"])
               .toSet();
-
-          // if (coletasPorMarcador[nomeMarcadorAtual]!
-          //     .containsAll(todasProfundidades)) {
-          //   // Todas as profundidades coletadas, mude a cor do marcador para verde
-          //   _updateMarkerColor(nomeMarcadorAtual, true);
-          //   setState(() {
-          //     vezAtualDoIntervaloDeColeta += 1;
-          //   });
-          // };
-
-          // Navigator.of(context).pop(); // Fecha o modal atual
-          // _mostrarModalSucesso(context, nomeMarcadorAtual);
         });
       }
     }
-    // Navigator.of(context).pop(); // Fecha o modal atual
-    // _showModalObservacoes(
-    //     nomeMarcadorAtual, referencialProfundidadePontoId, nomeProfundidade);
-    // Navigator.of(context).pop(); // Fecha o modal atual
+  }
+
+  void _showModalObservaFoto(String idPonto, String nomeMarcador,
+      String profundidade, String latlng, String base64Image) {
+    observaFotoController.clear();
+// Converte a string base64 em bytes
+    Uint8List imageBytes = base64Decode(base64Image);
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Container(
+            width: double.infinity,
+            height: 500,
+            decoration: BoxDecoration(
+              color: FlutterFlowTheme.of(context).secondaryBackground,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(top: 16, right: 16),
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          onTap: () => Navigator.of(context).pop(),
+                          child: Icon(
+                            Icons.close,
+                            color: FlutterFlowTheme.of(context).secondaryText,
+                            size: 24,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Image.memory(
+                    imageBytes,
+                    width: 100,
+                    height: 150,
+                    fit: BoxFit.contain,
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(16),
+                  child: TextFormField(
+                    controller: observaFotoController,
+                    autofocus: true,
+                    maxLines: 3,
+                    decoration: InputDecoration(
+                      hintText: 'Observação...',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ElevatedButton.icon(
+                        onPressed: () {
+                          _tiraFoto(nomeMarcador, latlng, false, profundidade,
+                              idPonto);
+                        },
+                        icon: Icon(Icons.camera_alt, color: Colors.white),
+                        label: Text(
+                          'Nova foto',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          primary: FlutterFlowTheme.of(context).primary,
+                        ),
+                      ),
+                      ElevatedButton.icon(
+                        onPressed: () {
+                          FFAppState().PontosColetados.add({
+                            "id_ponto": idPonto,
+                            "marcador_nome": nomeMarcador,
+                            "profundidade": profundidade,
+                            "obs": observaFotoController.text,
+                            "foto": 'base64Image',
+                            "profundidade": profundidade,
+                            "latlng": '$latlng',
+                            "data_hora": DateTime.now().toString()
+                          });
+                          observaFotoController.clear();
+                          Navigator.of(context).pop();
+                          _mostrarModalSucesso(context, nomeMarcador);
+                        },
+                        icon: Icon(Icons.save, color: Colors.white),
+                        label: Text(
+                          'Salvar',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          primary: FlutterFlowTheme.of(context).primary,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 
   void _confirmarColeta(
@@ -1257,7 +1328,8 @@ class _ColetaPontosState extends State<ColetaPontos> {
       String marcadorNome,
       String profundidadeNome,
       String latlng,
-      String referencialProfundidadePontoId) {
+      String referencialProfundidadePontoId,
+      String idPonto) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -1275,7 +1347,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
               onPressed: () {
                 Navigator.of(context).pop();
                 _coletarProfundidade(marcadorNome, profundidadeNome, latlng,
-                    referencialProfundidadePontoId);
+                    referencialProfundidadePontoId, idPonto);
               },
               child: Text('Sim'),
             ),
@@ -1286,23 +1358,42 @@ class _ColetaPontosState extends State<ColetaPontos> {
   }
 
   void _coletarProfundidade(String marcadorNome, String profundidadeNome,
-      String latlng, String referencialProfundidadePontoId) {
+      String latlng, String referencialProfundidadePontoId, String idPonto) {
     setState(() {
       if (isPrimeiraColeta == true) {
-        _tiraFoto(marcadorNome, latlng, false, profundidadeNome);
+        _tiraFoto(marcadorNome, latlng, false, profundidadeNome, idPonto);
       } else {
-        FFAppState().PontosColetados.add({
-          "marcador_nome": marcadorNome,
-          "profundidade": profundidadeNome,
-          // "foto": '$base64Image',
-          "foto": '',
-          "latlng": latlng,
-          "id_ref": '$referencialProfundidadePontoId',
-          "obs": "",
-          "data_hora": DateTime.now().toString()
-        });
-        Navigator.of(context).pop(); // Fecha o modal atual
-        _mostrarModalSucesso(context, marcadorNome);
+        if (autoAuditoriaPontos == true) {
+          if (vezAtualDeFoto == 0) {
+            _tiraFoto(marcadorNome, latlng, false, profundidadeNome, idPonto);
+          } else {
+            FFAppState().PontosColetados.add({
+              "id_ponto": idPonto,
+              "marcador_nome": marcadorNome,
+              "profundidade": profundidadeNome,
+              "obs": "",
+              "foto": 'base64Image',
+              "profundidade": profundidadeNome,
+              "latlng": '$latlng',
+              "data_hora": DateTime.now().toString()
+            });
+            Navigator.of(context).pop(); // Fecha o modal atual
+            _mostrarModalSucesso(context, marcadorNome);
+          }
+        } else {
+          FFAppState().PontosColetados.add({
+            "id_ponto": idPonto,
+            "marcador_nome": marcadorNome,
+            "profundidade": profundidadeNome,
+            "obs": "",
+            "foto": 'base64Image',
+            "profundidade": profundidadeNome,
+            "latlng": '$latlng',
+            "data_hora": DateTime.now().toString()
+          });
+          Navigator.of(context).pop(); // Fecha o modal atual
+          _mostrarModalSucesso(context, marcadorNome);
+        }
       }
       // coletasPorMarcador.putIfAbsent(marcadorNome, () => {});
       // coletasPorMarcador[marcadorNome]!.add(profundidadeNome);
@@ -1450,39 +1541,39 @@ class _ColetaPontosState extends State<ColetaPontos> {
 
   void _exibirDados() {
     // var listaTalh = FFAppState().trTalhoes.expend((e) => e[''coordenadas]).toList();
-    var pontos = widget.pontos!.map((e) => e['pont_id']);
-    var marcador = pontosMedicao.firstWhere(
-      (m) => m["pont_numero"] == 381,
-      orElse: () =>
-          <String, Object>{}, // Correção aqui para alinhar com o tipo esperado
-    );
-
-    var pontosin = FFAppState().PontosInacessiveis;
-    var PontosNaoMarcados = pontosMedicao
-        .where((element) => element['pont_numero'] == 468)
-        .map((e) => e['profundidades'].toList().length)
-        .toString();
-    var PontosNaoMarcados2 =
-        PontosNaoMarcados.replaceAll(")", "").replaceAll("(", "");
-    // var teste = ;
-
-    // var erro = FFAppState().PontosInacessiveis.any((element) => element["marcador_nome"] == '454');
-    // List<google_maps.LatLng> teste = [];
-
-    var qutsAutoAudi = widget.autoAuditoria;
-    var autoAudi = widget.quantidadeAutoAuditoria;
-    // var estaoTodasProfundidadesColetadasNoMarcadoX = FFAppState().PontosColetados.contains((element) => element["marcador_nome"] == '454')
-
-    // Verifica se todas as profundidades foram coletadas
-    var estaoTodasProfundidadesColetadasNoMarcadoX = FFAppState()
-        .PontosColetados
-        .where((m) => m["marcador_nome"] == '468')
-        .map((e) => e['profundidade'])
-        .toList()
-        .length
-        .toString();
-    bool coletouTodas =
-        estaoTodasProfundidadesColetadasNoMarcadoX == PontosNaoMarcados2;
+    // var pontos = widget.pontos!.map((e) => e['pont_id']);
+    // var marcador = pontosMedicao.firstWhere(
+    //   (m) => m["pont_numero"] == 381,
+    //   orElse: () =>
+    //       <String, Object>{}, // Correção aqui para alinhar com o tipo esperado
+    // );
+    //
+    // var pontosin = FFAppState().PontosInacessiveis;
+    // var PontosNaoMarcados = pontosMedicao
+    //     .where((element) => element['pont_numero'] == 468)
+    //     .map((e) => e['profundidades'].toList().length)
+    //     .toString();
+    // var PontosNaoMarcados2 =
+    //     PontosNaoMarcados.replaceAll(")", "").replaceAll("(", "");
+    // // var teste = ;
+    //
+    // // var erro = FFAppState().PontosInacessiveis.any((element) => element["marcador_nome"] == '454');
+    // // List<google_maps.LatLng> teste = [];
+    //
+    // var qutsAutoAudi = widget.autoAuditoria;
+    // var autoAudi = widget.quantidadeAutoAuditoria;
+    // // var estaoTodasProfundidadesColetadasNoMarcadoX = FFAppState().PontosColetados.contains((element) => element["marcador_nome"] == '454')
+    //
+    // // Verifica se todas as profundidades foram coletadas
+    // var estaoTodasProfundidadesColetadasNoMarcadoX = FFAppState()
+    //     .PontosColetados
+    //     .where((m) => m["marcador_nome"] == '468')
+    //     .map((e) => e['profundidade'])
+    //     .toList()
+    //     .length
+    //     .toString();
+    // bool coletouTodas =
+    //     estaoTodasProfundidadesColetadasNoMarcadoX == PontosNaoMarcados2;
     // if (coletasPorMarcador[marcadorNome]!.containsAll(todasProfundidades)) {
     //   // Todas as profundidades coletadas, mude a cor do marcador para verde
     //   _updateMarkerColor(marcadorNome, true);
@@ -1500,6 +1591,55 @@ class _ColetaPontosState extends State<ColetaPontos> {
     //   );
     //   teste.add(cord);
     // }
+
+    List<Map<String, dynamic>> json = [
+      {
+        "pont_id": 13423,
+        "pont_numero": 404,
+        "pont_latitude": "-17.783655786",
+        "pont_longitude": "-51.05589056",
+        "pont_simbolo": "Pin, Green",
+        "profundidades": [
+          {
+            "pprof_id": 16157,
+            "pprof_status": "Pendente",
+            "pprof_icone": "Pin, Blue"
+          },
+          {
+            "pprof_id": 16158,
+            "pprof_status": "Pendente",
+            "pprof_icone": "Pin, Green"
+          }
+        ]
+      },
+      {
+        "pont_id": 13424,
+        "pont_numero": 424,
+        "pont_latitude": "-17.788035573",
+        "pont_longitude": "-51.045238875",
+        "pont_simbolo": "Pin, Green",
+        "profundidades": [
+          {
+            "pprof_id": 16159,
+            "pprof_status": "Pendente",
+            "pprof_icone": "Pin, Blue"
+          },
+          {
+            "pprof_id": 16160,
+            "pprof_status": "Pendente",
+            "pprof_icone": "Pin, Green"
+          }
+        ]
+      }
+    ];
+
+    var jsonColetados = jsonSincronizaPosterior.toString();
+    var pontosColetados2 =
+        FFAppState().PontosColetados.map((e) => e['profundidade']);
+    // var pontosColetados2 = FFAppState().PontosColetados;
+    var pontosNoModal = pontosMedicao.map((e) => e['profundidades']);
+    var pontoInacessivel = FFAppState().PontosInacessiveis.toString();
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -1510,17 +1650,25 @@ class _ColetaPontosState extends State<ColetaPontos> {
             child: ListBody(
               children: [
                 Text(
-                  "Pontos:${PontosNaoMarcados2}",
+                  "Json:${jsonColetados}",
                   style: TextStyle(color: Colors.black, fontSize: 12.0),
                 ),
                 Text(
-                  "Pontos:${estaoTodasProfundidadesColetadasNoMarcadoX}",
+                  "Pontos Coletados:${pontosColetados2}",
                   style: TextStyle(color: Colors.black, fontSize: 12.0),
                 ),
                 Text(
-                  "Pontos:${coletouTodas}",
+                  "Pontos Coletados:${pontoInacessivel}",
                   style: TextStyle(color: Colors.black, fontSize: 12.0),
                 ),
+                Text(
+                  "Pontos a serem Coletados:${pontosNoModal}",
+                  style: TextStyle(color: Colors.black, fontSize: 12.0),
+                ),
+                // Text(
+                //   "Pontos:${coletouTodas}",
+                //   style: TextStyle(color: Colors.black, fontSize: 12.0),
+                // ),
                 // Text(
                 //   "Pontos:${pontosin}",
                 //   style: TextStyle(color: Colors.black, fontSize: 12.0),
