@@ -74,3 +74,32 @@ String? pesquisaParaVerSeOPontoFoiColetado(
   // If neither collected nor inaccessible, it's pending
   return "Pendente";
 }
+
+String? pesquisaFotoBas64(
+  String? pprofID,
+  List<dynamic> pontosColetados,
+  List<dynamic> pontosInacessivel,
+) {
+  // Attempt to find a collected point with the matching profundidade
+  var collectedPoint = pontosColetados.firstWhere(
+    (ponto) => ponto['profundidade'].toString() == pprofID,
+    orElse: () => null,
+  );
+
+  if (collectedPoint != null) {
+    return collectedPoint['foto'];
+  }
+
+  // Attempt to find an inaccessible point with the matching profundidade
+  var inaccessiblePoint = pontosInacessivel.firstWhere(
+    (ponto) => ponto['profundidade'].toString() == pprofID,
+    orElse: () => null,
+  );
+
+  if (inaccessiblePoint != null) {
+    return inaccessiblePoint['foto'];
+  }
+
+  // If neither collected nor inaccessible, it's pending or an error
+  return "Pending or Error"; // Adjust this return value based on your needs
+}

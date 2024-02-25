@@ -681,7 +681,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
     _observacaoController.clear();
     var imagem;
     var capturaImagem = ' ';
-    var textoCaptura = "Capturar foto";
+    var textoCaptura = "Capturar";
 
     void _adicionaInacessiveis(String idPonto, String marcadorNome,
         String latlngMarcador, String base64imagem) {
@@ -763,19 +763,13 @@ class _ColetaPontosState extends State<ColetaPontos> {
                   focusNode: _observacaoFocusNode,
 
                   autofocus: true,
-                  maxLines: 5,
+                  maxLines: 4,
                   // Permite múltiplas linhas
                   keyboardType: TextInputType.multiline,
                   // Define o teclado para suportar entrada de texto multilinha
                   decoration: InputDecoration(
-                    labelText: 'Escreva abaixo...',
-                    labelStyle: FlutterFlowTheme.of(context).bodyLarge,
-                    hintStyle: FlutterFlowTheme.of(context).bodyLarge,
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: FlutterFlowTheme.of(context).primary,
-                        width: 2,
-                      ),
+                    labelText: 'Observação:',
+                    border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
@@ -809,11 +803,11 @@ class _ColetaPontosState extends State<ColetaPontos> {
                         setState(() {
                           // Verifica se a string base64 da imagem foi definida
                           if (baseString != null) {
-                            textoCaptura = "Recapturar";
+                            textoCaptura = "Novamente";
                             capturaImagem =
                                 "Foto capturada! Clique no botão abaixo caso queira capturar novamente.";
                           } else {
-                            textoCaptura = "Capturar foto";
+                            textoCaptura = "Capturar";
                             capturaImagem =
                                 'Ops! Algo deu errado. Tente novamente.';
                           }
@@ -870,7 +864,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
                           //   "data_hora": DateTime.now().toString()
                           // });
                           baseString = null;
-                          textoCaptura = "Capturar foto";
+                          textoCaptura = "Capturar";
                           capturaImagem =
                               'Ops! Algo deu errado. Tente novamente.';
                           _observacaoController.clear();
@@ -1284,8 +1278,8 @@ class _ColetaPontosState extends State<ColetaPontos> {
                   borderRadius: BorderRadius.circular(8),
                   child: Image.memory(
                     imageBytes,
-                    width: 100,
-                    height: 150,
+                    width: 280,
+                    height: 200,
                     fit: BoxFit.contain,
                   ),
                 ),
@@ -1296,7 +1290,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
                     autofocus: true,
                     maxLines: 3,
                     decoration: InputDecoration(
-                      hintText: 'Observação...',
+                      labelText: 'Observação:',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
@@ -1315,8 +1309,8 @@ class _ColetaPontosState extends State<ColetaPontos> {
                         },
                         icon: Icon(Icons.camera_alt, color: Colors.white),
                         label: Text(
-                          'Nova foto',
-                          style: TextStyle(color: Colors.white),
+                          'Novamente',
+                          style: TextStyle(color: Colors.white, fontSize: 18),
                         ),
                         style: ElevatedButton.styleFrom(
                           primary: FlutterFlowTheme.of(context).primary,
@@ -1338,10 +1332,10 @@ class _ColetaPontosState extends State<ColetaPontos> {
                           Navigator.of(context).pop();
                           _mostrarModalSucesso(context, nomeMarcador);
                         },
-                        icon: Icon(Icons.save, color: Colors.white),
+                        icon: Icon(Icons.arrow_forward, color: Colors.white),
                         label: Text(
                           'Salvar',
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(color: Colors.white, fontSize: 18),
                         ),
                         style: ElevatedButton.styleFrom(
                           primary: FlutterFlowTheme.of(context).primary,
@@ -1667,6 +1661,10 @@ class _ColetaPontosState extends State<ColetaPontos> {
         ]
       }
     ];
+    // var teste2 = FFAppState().PontosColetados.any((ponto) => ponto['profundidade'] == '16157');
+    var teste2 = FFAppState()
+        .PontosInacessiveis
+        .any((ponto) => ponto['profundidade'] == 16157);
 
     var jsonColetados = jsonSincronizaPosterior.toString();
     // var pontosColetados2 = FFAppState().PontosColetados.map((e) => e['profundidade']);
@@ -1686,7 +1684,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
             child: ListBody(
               children: [
                 Text(
-                  "Json:${jsonColetados}",
+                  "Json:${teste2}",
                   style: TextStyle(color: Colors.black, fontSize: 12.0),
                 ),
                 Text(

@@ -1,4 +1,5 @@
 import '/backend/api_requests/api_calls.dart';
+import '/components/foto_coleta_widget_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -365,7 +366,7 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                   10.0,
                                                                   0.0),
                                                       child: Container(
-                                                        width: 350.0,
+                                                        width: double.infinity,
                                                         height: 100.0,
                                                         decoration:
                                                             const BoxDecoration(
@@ -620,10 +621,99 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                             children:
                                                                                 List.generate(listaFotos.length, (listaFotosIndex) {
                                                                               final listaFotosItem = listaFotos[listaFotosIndex];
-                                                                              return FaIcon(
-                                                                                FontAwesomeIcons.images,
-                                                                                color: FlutterFlowTheme.of(context).secondaryText,
-                                                                                size: 21.0,
+                                                                              return InkWell(
+                                                                                splashColor: Colors.transparent,
+                                                                                focusColor: Colors.transparent,
+                                                                                hoverColor: Colors.transparent,
+                                                                                highlightColor: Colors.transparent,
+                                                                                onTap: () async {
+                                                                                  if (getJsonField(
+                                                                                        listaFotosItem,
+                                                                                        r'''$.pprof_id''',
+                                                                                      ) !=
+                                                                                      null) {
+                                                                                    if (functions.pesquisaFotoBas64(
+                                                                                            getJsonField(
+                                                                                              listaFotosItem,
+                                                                                              r'''$.pprof_id''',
+                                                                                            ).toString(),
+                                                                                            FFAppState().PontosColetados.toList(),
+                                                                                            FFAppState().PontosInacessiveis.toList()) ==
+                                                                                        'Pending or Error') {
+                                                                                      await showDialog(
+                                                                                        context: context,
+                                                                                        builder: (alertDialogContext) {
+                                                                                          return AlertDialog(
+                                                                                            title: const Text('2'),
+                                                                                            actions: [
+                                                                                              TextButton(
+                                                                                                onPressed: () => Navigator.pop(alertDialogContext),
+                                                                                                child: const Text('Ok'),
+                                                                                              ),
+                                                                                            ],
+                                                                                          );
+                                                                                        },
+                                                                                      );
+                                                                                      return;
+                                                                                    }
+                                                                                    await showModalBottomSheet(
+                                                                                      isScrollControlled: true,
+                                                                                      backgroundColor: Colors.transparent,
+                                                                                      enableDrag: false,
+                                                                                      context: context,
+                                                                                      builder: (context) {
+                                                                                        return GestureDetector(
+                                                                                          onTap: () => _model.unfocusNode.canRequestFocus ? FocusScope.of(context).requestFocus(_model.unfocusNode) : FocusScope.of(context).unfocus(),
+                                                                                          child: Padding(
+                                                                                            padding: MediaQuery.viewInsetsOf(context),
+                                                                                            child: FotoColetaWidgetWidget(
+                                                                                              base64: functions.pesquisaFotoBas64(
+                                                                                                  getJsonField(
+                                                                                                    listaFotosItem,
+                                                                                                    r'''$.pprof_id''',
+                                                                                                  ).toString(),
+                                                                                                  FFAppState().PontosColetados.toList(),
+                                                                                                  FFAppState().PontosInacessiveis.toList())!,
+                                                                                              marcadorNomeIdPontoNumero: getJsonField(
+                                                                                                pontosListaItem,
+                                                                                                r'''$.pont_numero''',
+                                                                                              ).toString(),
+                                                                                              profundidade: functions.retornalegenda(
+                                                                                                  getJsonField(
+                                                                                                    listaFotosItem,
+                                                                                                    r'''$.pprof_icone''',
+                                                                                                  ).toString(),
+                                                                                                  FFAppState().trIcones.toList())!,
+                                                                                            ),
+                                                                                          ),
+                                                                                        );
+                                                                                      },
+                                                                                    ).then((value) => safeSetState(() {}));
+
+                                                                                    return;
+                                                                                  } else {
+                                                                                    await showDialog(
+                                                                                      context: context,
+                                                                                      builder: (alertDialogContext) {
+                                                                                        return AlertDialog(
+                                                                                          title: const Text('error1'),
+                                                                                          actions: [
+                                                                                            TextButton(
+                                                                                              onPressed: () => Navigator.pop(alertDialogContext),
+                                                                                              child: const Text('Ok'),
+                                                                                            ),
+                                                                                          ],
+                                                                                        );
+                                                                                      },
+                                                                                    );
+                                                                                    return;
+                                                                                  }
+                                                                                },
+                                                                                child: FaIcon(
+                                                                                  FontAwesomeIcons.images,
+                                                                                  color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                  size: 21.0,
+                                                                                ),
                                                                               );
                                                                             }).divide(const SizedBox(height: 2.0)),
                                                                           );
