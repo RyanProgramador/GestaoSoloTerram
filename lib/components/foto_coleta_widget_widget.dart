@@ -97,18 +97,16 @@ class _FotoColetaWidgetWidgetState extends State<FotoColetaWidgetWidget> {
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(20.0, 20.0, 20.0, 16.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Align(
-                      alignment: const AlignmentDirectional(0.0, 0.0),
-                      child: Container(
-                        width: double.infinity,
-                        height: 400.0,
-                        decoration: const BoxDecoration(),
+              Expanded(
+                flex: 1,
+                child: Padding(
+                  padding:
+                      const EdgeInsetsDirectional.fromSTEB(20.0, 20.0, 20.0, 16.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
                         child: SizedBox(
                           width: double.infinity,
                           height: 400.0,
@@ -119,32 +117,34 @@ class _FotoColetaWidgetWidgetState extends State<FotoColetaWidgetWidget> {
                           ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding:
-                          const EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 0.0),
-                      child: Text(
-                        'Ponto: ${widget.marcadorNomeIdPontoNumero}',
-                        style: FlutterFlowTheme.of(context).bodyLarge.override(
-                              fontFamily: 'Readex Pro',
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.w600,
-                            ),
+                      Padding(
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 0.0),
+                        child: Text(
+                          'Ponto: ${widget.marcadorNomeIdPontoNumero}',
+                          style:
+                              FlutterFlowTheme.of(context).bodyLarge.override(
+                                    fontFamily: 'Readex Pro',
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding:
-                          const EdgeInsetsDirectional.fromSTEB(0.0, 6.0, 0.0, 0.0),
-                      child: Text(
-                        'Profundidade: ${widget.profundidade}',
-                        style: FlutterFlowTheme.of(context).bodyLarge.override(
-                              fontFamily: 'Readex Pro',
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.w200,
-                            ),
+                      Padding(
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(0.0, 6.0, 0.0, 10.0),
+                        child: Text(
+                          'Profundidade: ${widget.profundidade}',
+                          style:
+                              FlutterFlowTheme.of(context).bodyLarge.override(
+                                    fontFamily: 'Readex Pro',
+                                    fontSize: 14.0,
+                                    fontWeight: FontWeight.w200,
+                                  ),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ],
