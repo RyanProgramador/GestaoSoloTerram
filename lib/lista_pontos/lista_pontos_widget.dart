@@ -541,7 +541,13 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                               final profundidadesLista2Item = profundidadesLista2[profundidadesLista2Index];
                                                                               return Text(
                                                                                 valueOrDefault<String>(
-                                                                                  functions.pesquisaParaVerSeOPontoFoiColetado(16157, FFAppState().PontosColetados.toList(), FFAppState().PontosInacessiveis.toList()),
+                                                                                  functions.pesquisaParaVerSeOPontoFoiColetado(
+                                                                                      getJsonField(
+                                                                                        profundidadesLista2Item,
+                                                                                        r'''$.pprof_id''',
+                                                                                      ),
+                                                                                      FFAppState().PontosColetados.toList(),
+                                                                                      FFAppState().PontosInacessiveis.toList()),
                                                                                   'Ops!',
                                                                                 ),
                                                                                 style: FlutterFlowTheme.of(context).bodyMedium.override(
