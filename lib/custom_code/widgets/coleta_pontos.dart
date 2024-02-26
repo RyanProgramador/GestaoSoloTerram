@@ -487,17 +487,17 @@ class _ColetaPontosState extends State<ColetaPontos> {
           .map((item) => {
                 "id": item["profundidade"],
                 "status": 1,
-                "obs": "\"${item["obs"] ?? "Sem observação!"}\"",
-                "foto": "\"${item["foto"] ?? ""}\"",
-                "data": "\"${formatDateTime(item["data_hora"].toString())}\"",
+                "obs": item["obs"].toString() ?? "Sem observação!",
+                "foto": item["foto"].toString() ?? "",
+                "data": formatDateTime(item["data_hora"].toString()),
               })
           .toList();
 
       transformedList.add({
         "id": idPonto,
         "status": 1,
-        "obs": "\"${items.first["obs"].toString()}\"",
-        "foto": "\"${items.first["foto"].toString()}\"",
+        "obs": items.first["obs"].toString(),
+        "foto": items.first["foto"].toString(),
         "profundidades": profundidades,
       });
     });
@@ -525,17 +525,17 @@ class _ColetaPontosState extends State<ColetaPontos> {
           .map((item) => {
                 "id": item["profundidade"],
                 "status": 2,
-                "obs": "\"${item["obs"] ?? "Sem observação!"}\"",
-                "foto": "\"${item["foto"] ?? ""}\"",
-                "data": "\"${formatDateTime(item["data_hora"].toString())}\"",
+                "obs": item["obs"].toString() ?? "Sem observação!",
+                "foto": item["foto"].toString() ?? "",
+                "data": formatDateTime(item["data_hora"].toString()),
               })
           .toList();
 
       transformedListInacessiveis.add({
         "id": idPonto,
         "status": 2,
-        "obs": "\"${items.first["obs"].toString()}\"",
-        "foto": "\"${items.first["foto"].toString()}\"",
+        "obs": items.first["obs"].toString(),
+        "foto": items.first["foto"].toString(),
         "profundidades": profundidades,
       });
     });
@@ -1468,7 +1468,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
         });
 
         return AlertDialog(
-          title: Text('Concluido!'),
+          title: Text('Concluído!'),
           content: Text('Profundidade coletada com sucesso.'),
         );
       },
