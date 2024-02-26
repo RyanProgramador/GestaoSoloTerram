@@ -38,6 +38,7 @@ import 'dart:typed_data';
 import 'dart:ui';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:xml/xml.dart';
+import 'package:intl/intl.dart';
 
 import 'package:background_location/background_location.dart'
     as background_location;
@@ -80,11 +81,11 @@ class _ColetaPontosState extends State<ColetaPontos> {
 
   Map<String, dynamic> jsonSincronizaPosterior = {};
 
-  int? quantidadeDeProfundidadesASeremColetadas;
+  int quantidadeDeProfundidadesASeremColetadas = 0;
   // int totalProfundidades = 0;
 
   bool? autoAuditoriaPontos; // = true;
-  int? quantidadeDeVezesParaAutoAuditarComFoto; // = 1;
+  int quantidadeDeVezesParaAutoAuditarComFoto = 0; // = 1;
   int vezAtualDeFoto = 0;
 
   google_maps.GoogleMapController? _googleMapController;
@@ -121,8 +122,8 @@ class _ColetaPontosState extends State<ColetaPontos> {
 
 // Para converter uma String para int
 //     if (widget.quantidadeAutoAuditoria != null) {
-    quantidadeDeVezesParaAutoAuditarComFoto =
-        int.tryParse(widget.quantidadeAutoAuditoria ?? "0") ?? 0;
+    quantidadeDeVezesParaAutoAuditarComFoto = 3;
+    // int.tryParse(widget.quantidadeAutoAuditoria!)!;
     // }
     Map<String, dynamic> jsonSincronizaPosterior = {
       "fazenda_id": fazendaId,
@@ -405,7 +406,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
     //     now.difference(lastTapTimestamps[markerIdValue]!).inMilliseconds <
     //         1800) {
     // Check if the distance is greater than 30 meters
-    if (distance > 3500000) {
+    if (distance > 35000000) {
       //metros de distancia para coletar
       // Show alert
       // _showDistanceAlert();
@@ -484,25 +485,61 @@ class _ColetaPontosState extends State<ColetaPontos> {
           .map((item) => {
                 "id": item["profundidade"],
                 "status": 1,
-                "obs": item["obs"],
-                "foto": item["foto"],
-                "data": item["data_hora"],
+                "obs": "\"${item["obs"] ?? "Sem observação!"}\"",
+                "foto": "\"${item["foto"] ?? ""}\"",
+                "data": "\"${formatDateTime(item["data_hora"].toString())}\"",
               })
           .toList();
 
       transformedList.add({
         "id": idPonto,
         "status": 1,
-        "obs": items.first["obs"],
-        "foto": items.first["foto"],
+        "obs": "\"${items.first["obs"].toString()}\"",
+        "foto": "\"${items.first["foto"].toString()}\"",
+        "profundidades": profundidades,
+      });
+    });
+
+    var listaIna = FFAppState().PontosInacessiveis;
+
+    Map<int, List<Map<String, dynamic>>> groupedByPontoIdInacessivel = {};
+
+    for (var item in listaIna) {
+      // Tenta converter o valor de item["id_ponto"] para int, se não for possível, atribui 0 ou trata o erro de outra forma.
+      int idPonto = (int.parse(item["id_ponto"]) as int?) ?? 0;
+
+      if (!groupedByPontoIdInacessivel.containsKey(idPonto)) {
+        groupedByPontoIdInacessivel[idPonto] = [];
+      }
+      groupedByPontoIdInacessivel[idPonto]!.add(item);
+    }
+
+    List<Map<String, dynamic>> transformedListInacessiveis = [];
+
+    groupedByPontoIdInacessivel.forEach((idPonto, items) {
+      var profundidades = items
+          .map((item) => {
+                "id": item["profundidade"],
+                "status": 2,
+                "obs": "\"${item["obs"] ?? "Sem observação!"}\"",
+                "foto": "\"${item["foto"] ?? ""}\"",
+                "data": "\"${formatDateTime(item["data_hora"].toString())}\"",
+              })
+          .toList();
+
+      transformedListInacessiveis.add({
+        "id": idPonto,
+        "status": 2,
+        "obs": "\"${items.first["obs"].toString()}\"",
+        "foto": "\"${items.first["foto"].toString()}\"",
         "profundidades": profundidades,
       });
     });
 
     FFAppState().trSincroniza.add({
-      "fazenda_id": widget.fazId,
-      "servico_id": widget.oservid,
-      "pontos": transformedList,
+      "fazenda_id": widget.fazId.toString(),
+      "servico_id": widget.oservid.toString(),
+      "pontos": transformedList + transformedListInacessiveis,
     });
 
     showDialog(
@@ -522,6 +559,15 @@ class _ColetaPontosState extends State<ColetaPontos> {
         );
       },
     );
+  }
+
+  String formatDateTime(String dateTimeStr) {
+    // Cria um objeto DateTime a partir da string
+    DateTime dateTime = DateTime.parse(dateTimeStr);
+    // Cria um formatador com o padrão desejado
+    DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm');
+    // Retorna a string formatada
+    return formatter.format(dateTime);
   }
 
   void _ontapColetar(String marcadorNome) {
@@ -560,8 +606,8 @@ class _ColetaPontosState extends State<ColetaPontos> {
           return m;
         }).toSet();
         isPrimeiraColeta = false;
-        if (vezAtualDeFoto == 0) {
-          vezAtualDeFoto = quantidadeDeVezesParaAutoAuditarComFoto!;
+        if (vezAtualDeFoto <= 0) {
+          vezAtualDeFoto = int.parse(widget.quantidadeAutoAuditoria!);
         } else {
           vezAtualDeFoto--;
         }
@@ -773,14 +819,13 @@ class _ColetaPontosState extends State<ColetaPontos> {
       // Iterate over each profundidade in the list
       for (var profundidade in profundidadesList) {
         setState(() {
-          quantidadeDeProfundidadesASeremColetadas =
-              (quantidadeDeProfundidadesASeremColetadas ?? 0) - 1;
+          quantidadeDeVezesParaAutoAuditarComFoto--;
           FFAppState().PontosInacessiveis.add({
             "id_ponto": idPonto,
             "marcador_nome": marcadorNome,
             "profundidade": profundidade['pprof_id']
                 .toString(), // Use the pprof_id from each profundidade
-            "foto": base64imagem,
+            "foto": '$base64imagem',
             "latlng": latlngMarcador,
             "id_ref": '1',
             "obs": "",
@@ -1061,15 +1106,14 @@ class _ColetaPontosState extends State<ColetaPontos> {
 
         setState(() {
           if (isInacessivelOuNao) {
-            quantidadeDeProfundidadesASeremColetadas =
-                (quantidadeDeProfundidadesASeremColetadas ?? 0) - 1;
+            quantidadeDeVezesParaAutoAuditarComFoto--;
 
             FFAppState().PontosInacessiveis.add({
               "id_ponto": idPonto,
               "marcador_nome": nomeMarcadorAtual,
               "profundidade": 'inacessivel',
               // "foto": 'base64ImageInacessivel',
-              "foto": '$base64Image',
+              "foto": base64Image,
               "latlng": '$latlng',
               "obs": "",
               "data_hora": DateTime.now().toString()
@@ -1173,53 +1217,62 @@ class _ColetaPontosState extends State<ColetaPontos> {
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      ElevatedButton.icon(
-                        onPressed: () {
-                          _tiraFoto(nomeMarcador, latlng, false, profundidade,
-                              idPonto);
-                        },
-                        icon: Icon(Icons.camera_alt, color: Colors.white),
-                        label: Text(
-                          'Novamente',
-                          style: TextStyle(color: Colors.white, fontSize: 18),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          primary: FlutterFlowTheme.of(context).primary,
-                        ),
-                      ),
-                      ElevatedButton.icon(
-                        onPressed: () {
-                          FFAppState().PontosColetados.add({
-                            "id_ponto": idPonto,
-                            "marcador_nome": nomeMarcador,
-                            "profundidade": profundidade,
-                            "obs": observaFotoController.text,
-                            "foto": base64Image,
-                            // "profundidade": profundidade,
-                            "latlng": '$latlng',
-                            "data_hora": DateTime.now().toString()
-                          });
-                          quantidadeDeProfundidadesASeremColetadas =
-                              (quantidadeDeProfundidadesASeremColetadas ?? 0) -
-                                  1;
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisSize: MainAxisSize
+                          .min, // Faz o Column ser tão alto quanto o necessário
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            ElevatedButton.icon(
+                              onPressed: () {
+                                _tiraFoto(nomeMarcador, latlng, false,
+                                    profundidade, idPonto);
+                              },
+                              icon: Icon(Icons.camera_alt, color: Colors.white),
+                              label: Text(
+                                'Novamente',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 18),
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                primary: FlutterFlowTheme.of(context).primary,
+                              ),
+                            ),
+                            ElevatedButton.icon(
+                              onPressed: () {
+                                FFAppState().PontosColetados.add({
+                                  "id_ponto": idPonto,
+                                  "marcador_nome": nomeMarcador,
+                                  "profundidade": profundidade,
+                                  "obs": observaFotoController.text,
+                                  "foto": base64Image,
+                                  // "profundidade": profundidade,
+                                  "latlng": '$latlng',
+                                  "data_hora": DateTime.now().toString()
+                                });
+                                quantidadeDeVezesParaAutoAuditarComFoto--;
 
-                          observaFotoController.clear();
-                          Navigator.of(context).pop();
-                          _mostrarModalSucesso(context, nomeMarcador);
-                        },
-                        icon: Icon(Icons.arrow_forward, color: Colors.white),
-                        label: Text(
-                          'Salvar',
-                          style: TextStyle(color: Colors.white, fontSize: 18),
+                                observaFotoController.clear();
+                                Navigator.of(context).pop();
+                                _mostrarModalSucesso(context, nomeMarcador);
+                              },
+                              icon: Icon(Icons.arrow_forward,
+                                  color: Colors.white),
+                              label: Text(
+                                'Salvar',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 18),
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                primary: FlutterFlowTheme.of(context).primary,
+                              ),
+                            ),
+                          ],
                         ),
-                        style: ElevatedButton.styleFrom(
-                          primary: FlutterFlowTheme.of(context).primary,
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -1268,14 +1321,36 @@ class _ColetaPontosState extends State<ColetaPontos> {
       String latlng, String referencialProfundidadePontoId, String idPonto) {
     setState(() {
       if (isPrimeiraColeta == true) {
+        print('é a primeira coleta');
+        print('é a primeira coleta');
+        print('é a primeira coleta');
+        print('é a primeira coleta');
         _tiraFoto(marcadorNome, latlng, false, profundidadeNome, idPonto);
       } else {
-        if (autoAuditoriaPontos == true) {
-          if (vezAtualDeFoto == 0) {
+        if (widget.autoAuditoria == true) {
+          print('auto audi true');
+          print('auto audi true');
+          print('auto audi true');
+          print('auto audi true');
+          if (vezAtualDeFoto <= 0) {
+            print('vez menor ou igual a zero');
+            print('vez menor ou igual a zero');
+            print('vez menor ou igual a zero');
+            print('vez menor ou igual a zero');
+            print('vez menor ou igual a zero');
+            print('vez menor ou igual a zero');
+            print('vez menor ou igual a zero');
+            print('vez menor ou igual a zero');
+            print('vez menor ou igual a zero');
+            print('vez menor ou igual a zero');
+            print('vez menor ou igual a zero');
+            print('vez menor ou igual a zero');
+            print('vez menor ou igual a zero');
+            print('vez menor ou igual a zero');
             _tiraFoto(marcadorNome, latlng, false, profundidadeNome, idPonto);
           } else {
-            quantidadeDeProfundidadesASeremColetadas =
-                (quantidadeDeProfundidadesASeremColetadas ?? 0) - 1;
+            quantidadeDeVezesParaAutoAuditarComFoto--;
+            // ( ?? 0) - 1;
 
             FFAppState().PontosColetados.add({
               "id_ponto": idPonto,
@@ -1283,8 +1358,9 @@ class _ColetaPontosState extends State<ColetaPontos> {
               "profundidade": profundidadeNome,
               "obs": "",
               "foto":
-                  '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',
+                  "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",
               // "profundidade": profundidadeNome,
+              // "foto": 'base64Fixada',
               "latlng": '$latlng',
               "data_hora": DateTime.now().toString()
             });
@@ -1292,8 +1368,8 @@ class _ColetaPontosState extends State<ColetaPontos> {
             _mostrarModalSucesso(context, marcadorNome);
           }
         } else {
-          quantidadeDeProfundidadesASeremColetadas =
-              (quantidadeDeProfundidadesASeremColetadas ?? 0) - 1;
+          quantidadeDeVezesParaAutoAuditarComFoto--;
+          // ( ?? 0) - 1;
 
           FFAppState().PontosColetados.add({
             "id_ponto": idPonto,
@@ -1301,8 +1377,9 @@ class _ColetaPontosState extends State<ColetaPontos> {
             "profundidade": profundidadeNome,
             "obs": "",
             "foto":
-                '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',
-            "profundidade": profundidadeNome,
+                "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",
+            // "profundidade": profundidadeNome,
+            // "foto": '$base64Fixada',
             "latlng": '$latlng',
             "data_hora": DateTime.now().toString()
           });
@@ -1310,23 +1387,6 @@ class _ColetaPontosState extends State<ColetaPontos> {
           _mostrarModalSucesso(context, marcadorNome);
         }
       }
-      // coletasPorMarcador.putIfAbsent(marcadorNome, () => {});
-      // coletasPorMarcador[marcadorNome]!.add(profundidadeNome);
-
-      // // Verifica se todas as profundidades foram coletadas
-      // var todasProfundidades = latLngListMarcadores
-      //     .firstWhere(
-      //         (m) => m["marcador_nome"] == marcadorNome)["profundidades"]
-      //     .map((p) => p["nome"])
-      //     .toSet();
-
-      //   if (coletasPorMarcador[marcadorNome]!.containsAll(todasProfundidades)) {
-      //     // Todas as profundidades coletadas, mude a cor do marcador para verde
-      //     _updateMarkerColor(marcadorNome, true);
-      //     setState(() {
-      //       vezAtualDoIntervaloDeColeta += 1;
-      //     });
-      //   }
     });
     // Navigator.of(context).pop(); // Fecha o modal atual
     // _mostrarModalSucesso(context, marcadorNome);
@@ -1654,7 +1714,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
                   style: TextStyle(color: Colors.black, fontSize: 12.0),
                 ),
                 Text(
-                  "Pontos aserem:${FFAppState().trSincroniza}",
+                  "Pontos aserem:${widget.autoAuditoria}",
                   style: TextStyle(color: Colors.black, fontSize: 12.0),
                 ),
                 Text(

@@ -30,12 +30,12 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       initialLocation: '/',
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
-      errorBuilder: (context, state) => const NavBarPage(),
+      errorBuilder: (context, state) => const LoginWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
-          builder: (context, _) => const NavBarPage(),
+          builder: (context, _) => const LoginWidget(),
         ),
         FFRoute(
           name: 'Inicio',
@@ -105,6 +105,16 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
             trPontos:
                 params.getParam<dynamic>('trPontos', ParamType.JSON, true),
           ),
+        ),
+        FFRoute(
+          name: 'Login',
+          path: '/login',
+          builder: (context, params) => const LoginWidget(),
+        ),
+        FFRoute(
+          name: 'EsqueceuSenha',
+          path: '/esqueceuSenha',
+          builder: (context, params) => const EsqueceuSenhaWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

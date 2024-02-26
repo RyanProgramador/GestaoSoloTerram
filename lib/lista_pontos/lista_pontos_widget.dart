@@ -249,7 +249,7 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                         ),
                         Padding(
                           padding: const EdgeInsetsDirectional.fromSTEB(
-                              0.0, 10.0, 0.0, 0.0),
+                              0.0, 10.0, 0.0, 30.0),
                           child: Builder(
                             builder: (context) {
                               final pontosLista =
@@ -644,11 +644,12 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                                         context: context,
                                                                                         builder: (alertDialogContext) {
                                                                                           return AlertDialog(
-                                                                                            title: const Text('2'),
+                                                                                            title: const Text('Não há imagem no momento!'),
+                                                                                            content: const Text('Por favor, colete este ponto'),
                                                                                             actions: [
                                                                                               TextButton(
                                                                                                 onPressed: () => Navigator.pop(alertDialogContext),
-                                                                                                child: const Text('Ok'),
+                                                                                                child: const Text('Entendi'),
                                                                                               ),
                                                                                             ],
                                                                                           );

@@ -366,7 +366,11 @@ class _InicioWidgetState extends State<InicioWidget> {
                                                         'Fazenda: ${getJsonField(
                                                           trOsServicosItem,
                                                           r'''$.faz_nome''',
-                                                        ).toString()}',
+                                                        ).toString()}'
+                                                            .maybeHandleOverflow(
+                                                          maxChars: 16,
+                                                          replacement: '…',
+                                                        ),
                                                         style: FlutterFlowTheme
                                                                 .of(context)
                                                             .bodyMedium
@@ -456,10 +460,10 @@ class _InicioWidgetState extends State<InicioWidget> {
                                                                   return AlertDialog(
                                                                     title: const Text(
                                                                         'Sucesso'),
-                                                                    content: Text(
-                                                                        (_model.apiResultgyp?.jsonBody ??
-                                                                                '')
-                                                                            .toString()),
+                                                                    content: Text((_model
+                                                                            .apiResultgyp
+                                                                            ?.bodyText ??
+                                                                        '')),
                                                                     actions: [
                                                                       TextButton(
                                                                         onPressed:
