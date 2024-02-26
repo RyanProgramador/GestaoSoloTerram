@@ -1,3 +1,4 @@
+import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -317,22 +318,99 @@ class _EsqueceuSenhaWidgetState extends State<EsqueceuSenhaWidget>
                                           ),
                                         ),
                                       ),
-                                      Container(
-                                        width: 70.0,
-                                        height: 70.0,
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          border: Border.all(
-                                            color: Colors.white,
+                                      InkWell(
+                                        splashColor: Colors.transparent,
+                                        focusColor: Colors.transparent,
+                                        hoverColor: Colors.transparent,
+                                        highlightColor: Colors.transparent,
+                                        onTap: () async {
+                                          var shouldSetState = false;
+                                          _model.trEsquec =
+                                              await TrOsServicosGroup
+                                                  .trEsqueciCall
+                                                  .call(
+                                            urlApi: FFAppState().UrlApi,
+                                            usuario: _model
+                                                .emailAddressLoginController
+                                                .text,
+                                          );
+                                          shouldSetState = true;
+                                          if (getJsonField(
+                                            (_model.trEsquec?.jsonBody ?? ''),
+                                            r'''$.status''',
+                                          )) {
+                                            await showDialog(
+                                              context: context,
+                                              builder: (alertDialogContext) {
+                                                return AlertDialog(
+                                                  title: const Text('Sucesso!'),
+                                                  content: Text(getJsonField(
+                                                    (_model.trEsquec
+                                                            ?.jsonBody ??
+                                                        ''),
+                                                    r'''$.message''',
+                                                  ).toString()),
+                                                  actions: [
+                                                    TextButton(
+                                                      onPressed: () =>
+                                                          Navigator.pop(
+                                                              alertDialogContext),
+                                                      child: const Text('Ok'),
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            );
+
+                                            context.pushNamed('Login');
+                                          } else {
+                                            await showDialog(
+                                              context: context,
+                                              builder: (alertDialogContext) {
+                                                return AlertDialog(
+                                                  title: const Text('Ops!'),
+                                                  content: Text(getJsonField(
+                                                    (_model.trEsquec
+                                                            ?.jsonBody ??
+                                                        ''),
+                                                    r'''$.message''',
+                                                  ).toString()),
+                                                  actions: [
+                                                    TextButton(
+                                                      onPressed: () =>
+                                                          Navigator.pop(
+                                                              alertDialogContext),
+                                                      child: const Text('Ok'),
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            );
+                                            if (shouldSetState) {
+                                              setState(() {});
+                                            }
+                                            return;
+                                          }
+
+                                          if (shouldSetState) setState(() {});
+                                        },
+                                        child: Container(
+                                          width: 70.0,
+                                          height: 70.0,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                              color: Colors.white,
+                                            ),
                                           ),
-                                        ),
-                                        child: const Align(
-                                          alignment:
-                                              AlignmentDirectional(0.0, 0.0),
-                                          child: FaIcon(
-                                            FontAwesomeIcons.arrowRight,
-                                            color: Colors.white,
-                                            size: 24.0,
+                                          child: const Align(
+                                            alignment:
+                                                AlignmentDirectional(0.0, 0.0),
+                                            child: FaIcon(
+                                              FontAwesomeIcons.arrowRight,
+                                              color: Colors.white,
+                                              size: 24.0,
+                                            ),
                                           ),
                                         ),
                                       ),

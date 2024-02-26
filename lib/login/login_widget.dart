@@ -2,6 +2,7 @@ import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/custom_code/actions/index.dart' as actions;
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -522,6 +523,62 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                         onTap: () async {
                                                           var shouldSetState =
                                                               false;
+                                                          _model.md5Passs =
+                                                              await actions
+                                                                  .md5encode(
+                                                            _model
+                                                                .passwordLoginController
+                                                                .text,
+                                                          );
+                                                          shouldSetState =
+                                                              true;
+                                                          _model.trLogin =
+                                                              await TrOsServicosGroup
+                                                                  .trLoginCall
+                                                                  .call(
+                                                            urlApi: FFAppState()
+                                                                .UrlApi,
+                                                            usuario: _model
+                                                                .emailAddressLoginController
+                                                                .text,
+                                                            senha:
+                                                                _model.md5Passs,
+                                                          );
+                                                          shouldSetState =
+                                                              true;
+                                                          if (!getJsonField(
+                                                            (_model.trLogin
+                                                                    ?.jsonBody ??
+                                                                ''),
+                                                            r'''$.status''',
+                                                          )) {
+                                                            await showDialog(
+                                                              context: context,
+                                                              builder:
+                                                                  (alertDialogContext) {
+                                                                return AlertDialog(
+                                                                  title: const Text(
+                                                                      'Ops!'),
+                                                                  content: Text(
+                                                                      getJsonField(
+                                                                    (_model.trLogin
+                                                                            ?.jsonBody ??
+                                                                        ''),
+                                                                    r'''$.message''',
+                                                                  ).toString()),
+                                                                  actions: [
+                                                                    TextButton(
+                                                                      onPressed:
+                                                                          () =>
+                                                                              Navigator.pop(alertDialogContext),
+                                                                      child: const Text(
+                                                                          'Ok'),
+                                                                    ),
+                                                                  ],
+                                                                );
+                                                              },
+                                                            );
+                                                          }
 
                                                           context.pushNamed(
                                                             'Inicio',

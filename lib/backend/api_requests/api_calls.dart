@@ -18,6 +18,8 @@ class TrOsServicosGroup {
   static TrTalhaoCall trTalhaoCall = TrTalhaoCall();
   static TrSincronizaPontosColetadosCall trSincronizaPontosColetadosCall =
       TrSincronizaPontosColetadosCall();
+  static TrLoginCall trLoginCall = TrLoginCall();
+  static TrEsqueciCall trEsqueciCall = TrEsqueciCall();
 }
 
 class TrOsServicosCall {
@@ -193,6 +195,61 @@ class TrSincronizaPontosColetadosCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'trSincronizaPontosColetados',
+      apiUrl: '${TrOsServicosGroup.baseUrl}$urlApi',
+      callType: ApiCallType.POST,
+      headers: {},
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
+class TrLoginCall {
+  Future<ApiCallResponse> call({
+    String? urlApi = '',
+    String? senha = '',
+    String? usuario = '',
+  }) async {
+    final ffApiRequestBody = '''
+{"tipo": "ff_valida_acesso",
+"usuario":"$usuario",
+"senha":"$senha"
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'trLogin',
+      apiUrl: '${TrOsServicosGroup.baseUrl}$urlApi',
+      callType: ApiCallType.POST,
+      headers: {},
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
+class TrEsqueciCall {
+  Future<ApiCallResponse> call({
+    String? urlApi = '',
+    String? senha = '',
+    String? usuario = '',
+  }) async {
+    final ffApiRequestBody = '''
+{"tipo": "ff_recupera_senha",
+"usuario":"$usuario"
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'trEsqueci',
       apiUrl: '${TrOsServicosGroup.baseUrl}$urlApi',
       callType: ApiCallType.POST,
       headers: {},

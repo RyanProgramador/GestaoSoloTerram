@@ -113,3 +113,19 @@ bool? pesquisaOservEFazIdNoTrSinc(
       e['fazenda_id'].toString() == fazid &&
       e['servico_id'].toString() == oservID);
 }
+
+dynamic buscaRegistro(
+  String fazid,
+  String oservid,
+  List<dynamic> trSinc,
+) {
+  var registroEncontrado = trSinc.firstWhere(
+    (registro) =>
+        registro['fazenda_id'].toString() == fazid &&
+        registro['servico_id'].toString() == oservid,
+    orElse: () =>
+        null, // Retorna null se nenhum registro correspondente for encontrado
+  );
+
+  return registroEncontrado;
+}

@@ -18,6 +18,10 @@ class LoginModel extends FlutterFlowModel<LoginWidget> {
   TextEditingController? passwordLoginController;
   late bool passwordLoginVisibility;
   String? Function(BuildContext, String?)? passwordLoginControllerValidator;
+  // Stores action output result for [Custom Action - newCustomAction2] action in Container widget.
+  String? md5Passs;
+  // Stores action output result for [Backend Call - API (trLogin)] action in Container widget.
+  ApiCallResponse? trLogin;
   // Stores action output result for [Backend Call - API (tricones)] action in Container widget.
   ApiCallResponse? trIcones;
 

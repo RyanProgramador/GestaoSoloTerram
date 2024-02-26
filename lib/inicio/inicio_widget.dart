@@ -1,4 +1,5 @@
 import '/backend/api_requests/api_calls.dart';
+import '/components/loading_sinc_widget.dart';
 import '/components/loading_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -436,46 +437,65 @@ class _InicioWidgetState extends State<InicioWidget> {
                                                           highlightColor: Colors
                                                               .transparent,
                                                           onTap: () async {
-                                                            _model.apiResultgyp =
-                                                                await TrOsServicosGroup
-                                                                    .trSincronizaPontosColetadosCall
-                                                                    .call(
-                                                              urlApi:
-                                                                  FFAppState()
-                                                                      .UrlApi,
-                                                              pontosJson:
-                                                                  FFAppState()
-                                                                      .trSincroniza
-                                                                      .last,
-                                                            );
-                                                            if ((_model
-                                                                    .apiResultgyp
-                                                                    ?.succeeded ??
-                                                                true)) {
-                                                              await showDialog(
+                                                            if (functions
+                                                                .pesquisaOservEFazIdNoTrSinc(
+                                                                    getJsonField(
+                                                                      trOsServicosItem,
+                                                                      r'''$.oserv_id''',
+                                                                    )
+                                                                        .toString(),
+                                                                    getJsonField(
+                                                                      trOsServicosItem,
+                                                                      r'''$.os_id_faz''',
+                                                                    )
+                                                                        .toString(),
+                                                                    FFAppState()
+                                                                        .trSincroniza
+                                                                        .toList())!) {
+                                                              await showModalBottomSheet(
+                                                                isScrollControlled:
+                                                                    true,
+                                                                backgroundColor:
+                                                                    Colors
+                                                                        .transparent,
+                                                                enableDrag:
+                                                                    false,
                                                                 context:
                                                                     context,
                                                                 builder:
-                                                                    (alertDialogContext) {
-                                                                  return AlertDialog(
-                                                                    title: const Text(
-                                                                        'Sucesso'),
-                                                                    content: Text((_model
-                                                                            .apiResultgyp
-                                                                            ?.bodyText ??
-                                                                        '')),
-                                                                    actions: [
-                                                                      TextButton(
-                                                                        onPressed:
-                                                                            () =>
-                                                                                Navigator.pop(alertDialogContext),
-                                                                        child: const Text(
-                                                                            'Ok'),
+                                                                    (context) {
+                                                                  return GestureDetector(
+                                                                    onTap: () => _model
+                                                                            .unfocusNode
+                                                                            .canRequestFocus
+                                                                        ? FocusScope.of(context).requestFocus(_model
+                                                                            .unfocusNode)
+                                                                        : FocusScope.of(context)
+                                                                            .unfocus(),
+                                                                    child:
+                                                                        Padding(
+                                                                      padding: MediaQuery
+                                                                          .viewInsetsOf(
+                                                                              context),
+                                                                      child:
+                                                                          LoadingSincWidget(
+                                                                        servico:
+                                                                            getJsonField(
+                                                                          trOsServicosItem,
+                                                                          r'''$.oserv_id''',
+                                                                        ),
+                                                                        fazID:
+                                                                            getJsonField(
+                                                                          trOsServicosItem,
+                                                                          r'''$.os_id_faz''',
+                                                                        ),
                                                                       ),
-                                                                    ],
+                                                                    ),
                                                                   );
                                                                 },
-                                                              );
+                                                              ).then((value) =>
+                                                                  safeSetState(
+                                                                      () {}));
                                                             } else {
                                                               await showDialog(
                                                                 context:
@@ -484,7 +504,9 @@ class _InicioWidgetState extends State<InicioWidget> {
                                                                     (alertDialogContext) {
                                                                   return AlertDialog(
                                                                     title: const Text(
-                                                                        'erro'),
+                                                                        'Ops!'),
+                                                                    content: const Text(
+                                                                        'Você precisa coletar todos os pontos para poder sicnronizar'),
                                                                     actions: [
                                                                       TextButton(
                                                                         onPressed:
@@ -498,8 +520,6 @@ class _InicioWidgetState extends State<InicioWidget> {
                                                                 },
                                                               );
                                                             }
-
-                                                            setState(() {});
                                                           },
                                                           child: Icon(
                                                             Icons
