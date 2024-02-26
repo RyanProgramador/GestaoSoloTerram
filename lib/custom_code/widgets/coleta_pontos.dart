@@ -1369,43 +1369,45 @@ class _ColetaPontosState extends State<ColetaPontos> {
             quantidadeDeVezesParaAutoAuditarComFoto--;
             // ( ?? 0) - 1;
 
-            FFAppState().PontosColetados.add({
-              "oserv_id": "${widget.oservid}",
-              "faz_id": "${widget.fazId}",
-              "id_ponto": idPonto,
-              "marcador_nome": marcadorNome,
-              "profundidade": profundidadeNome,
-              "obs": "",
-              "foto":
-                  "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",
-              // "profundidade": profundidadeNome,
-              // "foto": 'base64Fixada',
-              "latlng": '$latlng',
-              "data_hora": DateTime.now().toString()
-            });
-            Navigator.of(context).pop(); // Fecha o modal atual
-            _mostrarModalSucesso(context, marcadorNome);
+            // FFAppState().PontosColetados.add({
+            //   "oserv_id": "${widget.oservid}",
+            //   "faz_id": "${widget.fazId}",
+            //   "id_ponto": idPonto,
+            //   "marcador_nome": marcadorNome,
+            //   "profundidade": profundidadeNome,
+            //   "obs": "",
+            //   "foto": "",
+            //   // "profundidade": profundidadeNome,
+            //   // "foto": 'base64Fixada',
+            //   "latlng": '$latlng',
+            //   "data_hora": DateTime.now().toString()
+            // });
+            // Navigator.of(context).pop(); // Fecha o modal atual
+            // _mostrarModalSucesso(context, marcadorNome);
+
+            _observacaoSemFoto(marcadorNome, latlng, idPonto, profundidadeNome);
           }
         } else {
           quantidadeDeVezesParaAutoAuditarComFoto--;
           // ( ?? 0) - 1;
 
-          FFAppState().PontosColetados.add({
-            "oserv_id": "${widget.oservid}",
-            "faz_id": "${widget.fazId}",
-            "id_ponto": idPonto,
-            "marcador_nome": marcadorNome,
-            "profundidade": profundidadeNome,
-            "obs": "",
-            "foto":
-                "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",
-            // "profundidade": profundidadeNome,
-            // "foto": '$base64Fixada',
-            "latlng": '$latlng',
-            "data_hora": DateTime.now().toString()
-          });
-          Navigator.of(context).pop(); // Fecha o modal atual
-          _mostrarModalSucesso(context, marcadorNome);
+          // FFAppState().PontosColetados.add({
+          //   "oserv_id": "${widget.oservid}",
+          //   "faz_id": "${widget.fazId}",
+          //   "id_ponto": idPonto,
+          //   "marcador_nome": marcadorNome,
+          //   "profundidade": profundidadeNome,
+          //   "obs": "",
+          //   "foto": "",
+          //   // "profundidade": profundidadeNome,
+          //   // "foto": '$base64Fixada',
+          //   "latlng": '$latlng',
+          //   "data_hora": DateTime.now().toString()
+          // });
+          // Navigator.of(context).pop(); // Fecha o modal atual
+          // _mostrarModalSucesso(context, marcadorNome);
+
+          _observacaoSemFoto(marcadorNome, latlng, idPonto, profundidadeNome);
         }
       }
     });
@@ -1455,6 +1457,142 @@ class _ColetaPontosState extends State<ColetaPontos> {
     bool coletou = int.parse(PontosColetadosComProf) > 0;
 
     return coletou;
+  }
+
+  void _observacaoSemFoto(String marcadorNome, String latlngMarcador,
+      String idPonto, String profundidade) async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        var keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
+
+        // Ajusta o padding superior baseado na altura do teclado, se o teclado estiver visível
+        var topPadding = keyboardHeight > 0 ? 110 : 400;
+
+        return AlertDialog(
+          // insetPadding: EdgeInsets.zero,
+          insetPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+          // Usa o topPadding dinâmico
+
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      'Deseja fazer uma observação par o ponto $marcadorNome?',
+                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                            fontFamily: 'Outfit',
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                    ),
+                    InkWell(
+                      onTap: () => Navigator.of(context).pop(),
+                      child: Icon(
+                        Icons.close,
+                        color: FlutterFlowTheme.of(context).secondaryText,
+                        size: 32,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          content: Padding(
+            // padding: EdgeInsets.all(20),
+
+            padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: _observacaoController,
+                  focusNode: _observacaoFocusNode,
+
+                  autofocus: true,
+                  maxLines: 4,
+                  // Permite múltiplas linhas
+                  keyboardType: TextInputType.multiline,
+                  // Define o teclado para suportar entrada de texto multilinha
+                  decoration: InputDecoration(
+                    labelText: 'Observação:',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 6),
+                SizedBox(height: 20),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  // Centraliza os botões na Row
+                  children: <Widget>[
+                    // Espaçamento entre os botões
+                    ElevatedButton(
+                      onPressed: () {
+                        // Implemente a ação para este botão
+                        print(_observacaoController.text);
+
+                        FFAppState().PontosColetados.add({
+                          "oserv_id": "${widget.oservid}",
+                          "faz_id": "${widget.fazId}",
+                          "id_ponto": idPonto,
+                          "marcador_nome": marcadorNome,
+                          "profundidade": profundidade,
+                          "obs": _observacaoController.text.toString(),
+                          "foto": "",
+                          // "profundidade": profundidadeNome,
+                          // "foto": 'base6''4Fixada',
+                          "latlng": latlngMarcador,
+                          "data_hora": DateTime.now().toString()
+                        });
+                        Navigator.of(context).pop();
+                        _observacaoController.clear();
+                        Navigator.of(context).pop();
+                        _mostrarModalSucesso(context, marcadorNome);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+                        primary: Color(0xFF087071), // Cor do botão
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.circular(100), // Bordas arredondadas
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        // Isso garante que o Row não ocupe mais espaço do que o necessário
+                        children: [
+                          Icon(Icons.arrow_forward, color: Colors.white),
+                          // Ícone dentro do botão
+                          SizedBox(width: 8),
+                          // Espaçamento entre o ícone e o texto
+                          Text("Salvar",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 18)),
+                          // Texto do botão
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+          // elevation: 5,
+        );
+      },
+    );
   }
 
   void _mostrarModalSucesso(BuildContext context, String marcadorNome) {
@@ -1527,13 +1665,13 @@ class _ColetaPontosState extends State<ColetaPontos> {
           mapToolbarEnabled: false,
           zoomControlsEnabled: false,
         ),
-        // floatingActionButton: FloatingActionButton(
-        //   onPressed: () => _exibirDados(),
-        //   child: Text(
-        //     '${quantidadeDeProfundidadesASeremColetadas ?? "teste"}',
-        //     style: TextStyle(color: Colors.white, fontSize: 18),
-        //   ),
-        // ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => _exibirDados(),
+          child: Text(
+            '${quantidadeDeProfundidadesASeremColetadas ?? "teste"}',
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
+        ),
       ),
     );
   }
@@ -1745,7 +1883,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
                   style: TextStyle(color: Colors.black, fontSize: 12.0),
                 ),
                 Text(
-                  "Pontos aserem:{}",
+                  "Pontos aserem:${coletados}",
                   style: TextStyle(color: Colors.black, fontSize: 12.0),
                 ),
                 Text(

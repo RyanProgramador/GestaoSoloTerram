@@ -100,6 +100,18 @@ class FFAppState extends ChangeNotifier {
     _safeInit(() {
       _tecnicoid = prefs.getInt('ff_tecnicoid') ?? _tecnicoid;
     });
+    _safeInit(() {
+      _listaColetasInciadas =
+          prefs.getStringList('ff_listaColetasInciadas')?.map((x) {
+                try {
+                  return jsonDecode(x);
+                } catch (e) {
+                  print("Can't decode persisted json. Error: $e.");
+                  return {};
+                }
+              }).toList() ??
+              _listaColetasInciadas;
+    });
   }
 
   void update(VoidCallback callback) {
@@ -376,6 +388,47 @@ class FFAppState extends ChangeNotifier {
   set tecnicoid(int value) {
     _tecnicoid = value;
     prefs.setInt('ff_tecnicoid', value);
+  }
+
+  List<dynamic> _listaColetasInciadas = [];
+  List<dynamic> get listaColetasInciadas => _listaColetasInciadas;
+  set listaColetasInciadas(List<dynamic> value) {
+    _listaColetasInciadas = value;
+    prefs.setStringList(
+        'ff_listaColetasInciadas', value.map((x) => jsonEncode(x)).toList());
+  }
+
+  void addToListaColetasInciadas(dynamic value) {
+    _listaColetasInciadas.add(value);
+    prefs.setStringList('ff_listaColetasInciadas',
+        _listaColetasInciadas.map((x) => jsonEncode(x)).toList());
+  }
+
+  void removeFromListaColetasInciadas(dynamic value) {
+    _listaColetasInciadas.remove(value);
+    prefs.setStringList('ff_listaColetasInciadas',
+        _listaColetasInciadas.map((x) => jsonEncode(x)).toList());
+  }
+
+  void removeAtIndexFromListaColetasInciadas(int index) {
+    _listaColetasInciadas.removeAt(index);
+    prefs.setStringList('ff_listaColetasInciadas',
+        _listaColetasInciadas.map((x) => jsonEncode(x)).toList());
+  }
+
+  void updateListaColetasInciadasAtIndex(
+    int index,
+    dynamic Function(dynamic) updateFn,
+  ) {
+    _listaColetasInciadas[index] = updateFn(_listaColetasInciadas[index]);
+    prefs.setStringList('ff_listaColetasInciadas',
+        _listaColetasInciadas.map((x) => jsonEncode(x)).toList());
+  }
+
+  void insertAtIndexInListaColetasInciadas(int index, dynamic value) {
+    _listaColetasInciadas.insert(index, value);
+    prefs.setStringList('ff_listaColetasInciadas',
+        _listaColetasInciadas.map((x) => jsonEncode(x)).toList());
   }
 }
 
