@@ -113,7 +113,8 @@ class _SemServicosNoMomentoWidgetState
                               .headlineMedium
                               .override(
                                 fontFamily: 'Outfit',
-                                fontSize: 24.0,
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.bold,
                               ),
                         ),
                       ),
@@ -128,7 +129,7 @@ class _SemServicosNoMomentoWidgetState
                               .override(
                                 fontFamily: 'Readex Pro',
                                 color: FlutterFlowTheme.of(context).primaryText,
-                                fontSize: 18.0,
+                                fontSize: 14.0,
                                 fontWeight: FontWeight.w300,
                               ),
                         ),
@@ -162,13 +163,17 @@ class _SemServicosNoMomentoWidgetState
                           size: 15.0,
                         ),
                         options: FFButtonOptions(
-                          height: 45.0,
+                          height: 42.0,
                           padding: const EdgeInsetsDirectional.fromSTEB(
                               20.0, 0.0, 20.0, 0.0),
                           iconPadding: const EdgeInsetsDirectional.fromSTEB(
                               0.0, 0.0, 0.0, 0.0),
                           color: FlutterFlowTheme.of(context).primary,
-                          textStyle: FlutterFlowTheme.of(context).titleSmall,
+                          textStyle:
+                              FlutterFlowTheme.of(context).titleSmall.override(
+                                    fontFamily: 'Readex Pro',
+                                    fontSize: 16.0,
+                                  ),
                           elevation: 0.0,
                           borderSide: const BorderSide(
                             color: Colors.transparent,
