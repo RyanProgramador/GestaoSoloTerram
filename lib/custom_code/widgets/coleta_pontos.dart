@@ -99,6 +99,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
       TextEditingController(); //texto obs inacessivel
   TextEditingController observaFotoController =
       TextEditingController(); //texto obs inacessivel
+
   bool? isPrimeiraColeta =
       true; //essa variavel guarda a primeira coleta do dia, se ela ja foi feita ou não
 
@@ -114,6 +115,14 @@ class _ColetaPontosState extends State<ColetaPontos> {
     String fazendaId = widget.fazId ??
         ""; // Usando ?? para fornecer um valor padrão se for nulo
     String servicoId = widget.oservid ?? "";
+//verifica se a coleta ja não foi inicada
+
+    var coletasIniciadas = FFAppState().listaColetasInciadas.where((element) =>
+        element['oserv_id'] == widget.oservid &&
+        element['faz_id'] == widget.fazId);
+    if (coletasIniciadas.isNotEmpty) {
+      isPrimeiraColeta = false;
+    }
 
     // Para converter uma String para boolean
     // if (widget.autoAuditoria != null) {
@@ -640,6 +649,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
 
     if (marcador.isNotEmpty) {
       showDialog(
+        barrierDismissible: false,
         context: context,
         builder: (BuildContext context) {
           var profundidades = marcador["profundidades"] as List<dynamic>? ?? [];
@@ -861,6 +871,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
     }
 
     showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
         var keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
@@ -873,36 +884,37 @@ class _ColetaPontosState extends State<ColetaPontos> {
           insetPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
           // Usa o topPadding dinâmico
 
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(
-                      'Por que o ponto $marcadorNome está inacessível?',
-                      style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            fontFamily: 'Outfit',
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
+          title: Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  // Permite que o texto expanda e ocupe o espaço disponível
+                  child: Text(
+                    'Por que o ponto $marcadorNome está inacessível?',
+                    style: TextStyle(
+                      fontFamily: 'Outfit',
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
                     ),
-                    InkWell(
-                      onTap: () => Navigator.of(context).pop(),
-                      child: Icon(
-                        Icons.close,
-                        color: FlutterFlowTheme.of(context).secondaryText,
-                        size: 32,
-                      ),
-                    ),
-                  ],
+                    // Removido overflow: TextOverflow.ellipsis para permitir quebra de linha
+                    softWrap: true, // Habilita a quebra de linha no texto
+                    maxLines: null, // Permite um número ilimitado de linhas
+                  ),
                 ),
-              ),
-            ],
+                InkWell(
+                  onTap: () => Navigator.of(context).pop(),
+                  child: Icon(
+                    Icons.close,
+                    color: Colors.grey,
+                    size: 32,
+                  ),
+                ),
+              ],
+            ),
           ),
           content: Padding(
             // padding: EdgeInsets.all(20),
@@ -989,7 +1001,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
                         ],
                       ),
                     ),
-                    SizedBox(width: 30), // Espaçamento entre os botões
+                    SizedBox(width: 10), // Espaçamento entre os botões
                     ElevatedButton(
                       onPressed: () {
                         // Implemente a ação para este botão
@@ -1047,7 +1059,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
                         ),
                       ),
                       child: Row(
-                        mainAxisSize: MainAxisSize.max,
+                        mainAxisSize: MainAxisSize.min,
                         // Isso garante que o Row não ocupe mais espaço do que o necessário
                         children: [
                           Icon(Icons.arrow_forward, color: Colors.white),
@@ -1193,6 +1205,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
     Uint8List imageBytes = base64Decode(base64Image);
 
     showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
         return Dialog(
@@ -1228,7 +1241,6 @@ class _ColetaPontosState extends State<ColetaPontos> {
                     ),
                   ],
                 ),
-                SizedBox(height: 10),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8),
                   child: Image.memory(
@@ -1243,7 +1255,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
                   child: TextFormField(
                     controller: observaFotoController,
                     autofocus: true,
-                    maxLines: 3,
+                    maxLines: 2,
                     decoration: InputDecoration(
                       labelText: 'Observação:',
                       border: OutlineInputBorder(
@@ -1254,64 +1266,55 @@ class _ColetaPontosState extends State<ColetaPontos> {
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      mainAxisSize: MainAxisSize
-                          .min, // Faz o Column ser tão alto quanto o necessário
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            ElevatedButton.icon(
-                              onPressed: () {
-                                _tiraFoto(nomeMarcador, latlng, false,
-                                    profundidade, idPonto);
-                              },
-                              icon: Icon(Icons.camera_alt, color: Colors.white),
-                              label: Text(
-                                'Novamente',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 18),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                primary: FlutterFlowTheme.of(context).primary,
-                              ),
-                            ),
-                            ElevatedButton.icon(
-                              onPressed: () {
-                                FFAppState().PontosColetados.add({
-                                  "oserv_id": "${widget.oservid}",
-                                  "faz_id": "${widget.fazId}",
-                                  "id_ponto": idPonto,
-                                  "marcador_nome": nomeMarcador,
-                                  "profundidade": profundidade,
-                                  "obs": observaFotoController.text,
-                                  "foto": base64Image,
-                                  // "profundidade": profundidade,
-                                  "latlng": '$latlng',
-                                  "data_hora": DateTime.now().toString()
-                                });
-                                quantidadeDeVezesParaAutoAuditarComFoto--;
-
-                                observaFotoController.clear();
-                                Navigator.of(context).pop();
-                                _mostrarModalSucesso(context, nomeMarcador);
-                              },
-                              icon: Icon(Icons.arrow_forward,
-                                  color: Colors.white),
-                              label: Text(
-                                'Salvar',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 18),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                primary: FlutterFlowTheme.of(context).primary,
-                              ),
-                            ),
-                          ],
+                  child: Wrap(
+                    alignment: WrapAlignment
+                        .center, // Center the buttons within the Wrap
+                    spacing: 10, // Space between the buttons horizontally
+                    runSpacing: 10, // Space between the buttons vertically
+                    children: [
+                      ElevatedButton.icon(
+                        onPressed: () {
+                          _tiraFoto(nomeMarcador, latlng, false, profundidade,
+                              idPonto);
+                        },
+                        icon: Icon(Icons.camera_alt, color: Colors.white),
+                        label: Text(
+                          'Novamente',
+                          style: TextStyle(color: Colors.white, fontSize: 18),
                         ),
-                      ],
-                    ),
+                        style: ElevatedButton.styleFrom(
+                          primary: FlutterFlowTheme.of(context).primary,
+                        ),
+                      ),
+                      ElevatedButton.icon(
+                        onPressed: () {
+                          FFAppState().PontosColetados.add({
+                            "oserv_id": "${widget.oservid}",
+                            "faz_id": "${widget.fazId}",
+                            "id_ponto": idPonto,
+                            "marcador_nome": nomeMarcador,
+                            "profundidade": profundidade,
+                            "obs": observaFotoController.text,
+                            "foto": base64Image,
+                            "latlng": '$latlng',
+                            "data_hora": DateTime.now().toString()
+                          });
+                          quantidadeDeVezesParaAutoAuditarComFoto--;
+
+                          observaFotoController.clear();
+                          Navigator.of(context).pop();
+                          _mostrarModalSucesso(context, nomeMarcador);
+                        },
+                        icon: Icon(Icons.arrow_forward, color: Colors.white),
+                        label: Text(
+                          'Salvar',
+                          style: TextStyle(color: Colors.white, fontSize: 18),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          primary: FlutterFlowTheme.of(context).primary,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -1330,6 +1333,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
       String referencialProfundidadePontoId,
       String idPonto) {
     showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -1360,6 +1364,9 @@ class _ColetaPontosState extends State<ColetaPontos> {
       String latlng, String referencialProfundidadePontoId, String idPonto) {
     setState(() {
       if (isPrimeiraColeta == true) {
+        FFAppState()
+            .listaColetasInciadas
+            .add({"oserv_id": widget.oservid, "faz_id": widget.fazId});
         _tiraFoto(marcadorNome, latlng, false, profundidadeNome, idPonto);
       } else {
         if (widget.autoAuditoria == true) {
@@ -1529,7 +1536,6 @@ class _ColetaPontosState extends State<ColetaPontos> {
                   ),
                 ),
                 SizedBox(height: 6),
-                SizedBox(height: 20),
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -1868,7 +1874,10 @@ class _ColetaPontosState extends State<ColetaPontos> {
     //     .expand((e) => e['profundidades'] as List<dynamic>)
     //     .map((profundidade) => profundidade['pprof_id'])
     //     .toList();
-
+    var coletasIniciadas = FFAppState().listaColetasInciadas.firstWhere(
+        (element) =>
+            element['oserv_id'] == widget.oservid &&
+            element['faz_id'] == widget.fazId);
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -1883,7 +1892,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
                   style: TextStyle(color: Colors.black, fontSize: 12.0),
                 ),
                 Text(
-                  "Pontos aserem:${coletados}",
+                  "Pontos coletas iniciadas:${coletasIniciadas}",
                   style: TextStyle(color: Colors.black, fontSize: 12.0),
                 ),
                 Text(
