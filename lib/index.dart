@@ -8,3 +8,5 @@ export '/lista_pontos/lista_pontos_widget.dart' show ListaPontosWidget;
 export '/coleta_pontos/coleta_pontos_widget.dart' show ColetaPontosWidget;
 export '/login/login_widget.dart' show LoginWidget;
 export '/esqueceu_senha/esqueceu_senha_widget.dart' show EsqueceuSenhaWidget;
+export '/blanc_redir_inicio/blanc_redir_inicio_widget.dart'
+    show BlancRedirInicioWidget;

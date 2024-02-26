@@ -42,7 +42,7 @@ class _SemServicosNoMomentoWidgetState
     context.watch<FFAppState>();
 
     return Align(
-      alignment: const AlignmentDirectional(0.0, 0.0),
+      alignment: const AlignmentDirectional(0.0, -1.0),
       child: Padding(
         padding: const EdgeInsetsDirectional.fromSTEB(16.0, 12.0, 16.0, 12.0),
         child: Container(
@@ -110,6 +110,7 @@ class _SemServicosNoMomentoWidgetState
                             const EdgeInsetsDirectional.fromSTEB(0.0, 12.0, 0.0, 0.0),
                         child: Text(
                           'Não existem serviços vinculados ao seu usuário!',
+                          textAlign: TextAlign.center,
                           style:
                               FlutterFlowTheme.of(context).labelMedium.override(
                                     fontFamily: 'Readex Pro',
@@ -131,7 +132,7 @@ class _SemServicosNoMomentoWidgetState
                       FFButtonWidget(
                         onPressed: () async {
                           context.goNamed(
-                            'Inicio',
+                            'blancRedirInicio',
                             extra: <String, dynamic>{
                               kTransitionInfoKey: const TransitionInfo(
                                 hasTransition: true,

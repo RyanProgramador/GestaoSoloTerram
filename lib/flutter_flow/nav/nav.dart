@@ -143,6 +143,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'EsqueceuSenha',
           path: '/esqueceuSenha',
           builder: (context, params) => const EsqueceuSenhaWidget(),
+        ),
+        FFRoute(
+          name: 'blancRedirInicio',
+          path: '/blancRedirInicio',
+          builder: (context, params) => const BlancRedirInicioWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
