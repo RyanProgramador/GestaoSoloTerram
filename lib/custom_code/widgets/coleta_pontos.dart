@@ -464,7 +464,9 @@ class _ColetaPontosState extends State<ColetaPontos> {
   }
 
   void _finalizouColeta() {
-    var lista = FFAppState().PontosColetados;
+    var lista = FFAppState().PontosColetados.where((element) =>
+        element['oserv_id'] == widget.oservid &&
+        element['faz_id'] == widget.fazId);
 
     Map<int, List<Map<String, dynamic>>> groupedByPontoId = {};
 
@@ -500,7 +502,9 @@ class _ColetaPontosState extends State<ColetaPontos> {
       });
     });
 
-    var listaIna = FFAppState().PontosInacessiveis;
+    var listaIna = FFAppState().PontosInacessiveis.where((element) =>
+        element['oserv_id'] == widget.oservid &&
+        element['faz_id'] == widget.fazId);
 
     Map<int, List<Map<String, dynamic>>> groupedByPontoIdInacessivel = {};
 
@@ -612,6 +616,25 @@ class _ColetaPontosState extends State<ColetaPontos> {
           vezAtualDeFoto--;
         }
         ;
+        int registros = FFAppState()
+                .PontosColetados
+                .where((element) =>
+                    element['oserv_id'] == widget.oservid &&
+                    element['faz_id'] == widget.fazId)
+                .length +
+            FFAppState()
+                .PontosInacessiveis
+                .where((element) =>
+                    element['oserv_id'] == widget.oservid &&
+                    element['faz_id'] == widget.fazId)
+                .length;
+        var aColetar = pontosMedicao
+            .expand((e) => e['profundidades'] as List<dynamic>)
+            .map((profundidade) => profundidade['pprof_id'])
+            .toList();
+        if (registros == aColetar.length) {
+          _finalizouColeta();
+        }
       });
     }
 
@@ -821,6 +844,8 @@ class _ColetaPontosState extends State<ColetaPontos> {
         setState(() {
           quantidadeDeVezesParaAutoAuditarComFoto--;
           FFAppState().PontosInacessiveis.add({
+            "oserv_id": "${widget.oservid}",
+            "faz_id": "${widget.fazId}",
             "id_ponto": idPonto,
             "marcador_nome": marcadorNome,
             "profundidade": profundidade['pprof_id']
@@ -980,17 +1005,27 @@ class _ColetaPontosState extends State<ColetaPontos> {
 
                           _adicionaInacessiveis(idPonto, marcadorNome,
                               latlngMarcador, baseString!);
-                          // FFAppState().PontosInacessiveis.add({
-                          //   "id_ponto":idPonto,
-                          //   "marcador_nome": marcadorNome,
-                          //   "profundidade": 'inacessivel',
-                          //   // "foto": baseString,
-                          //   "foto": 'base64Image',
-                          //   "latlng": '$latlngMarcador',
-                          //   "id_ref": '1',
-                          //   "obs": "",
-                          //   "data_hora": DateTime.now().toString()
-                          // });
+
+                          int registros = FFAppState()
+                                  .PontosColetados
+                                  .where((element) =>
+                                      element['oserv_id'] == widget.oservid &&
+                                      element['faz_id'] == widget.fazId)
+                                  .length +
+                              FFAppState()
+                                  .PontosInacessiveis
+                                  .where((element) =>
+                                      element['oserv_id'] == widget.oservid &&
+                                      element['faz_id'] == widget.fazId)
+                                  .length;
+                          var aColetar = pontosMedicao
+                              .expand(
+                                  (e) => e['profundidades'] as List<dynamic>)
+                              .map((profundidade) => profundidade['pprof_id'])
+                              .toList();
+                          if (registros == aColetar.length) {
+                            _finalizouColeta();
+                          }
                           baseString = null;
                           textoCaptura = "Capturar";
                           capturaImagem =
@@ -1109,6 +1144,8 @@ class _ColetaPontosState extends State<ColetaPontos> {
             quantidadeDeVezesParaAutoAuditarComFoto--;
 
             FFAppState().PontosInacessiveis.add({
+              "oserv_id": "${widget.oservid}",
+              "faz_id": "${widget.fazId}",
               "id_ponto": idPonto,
               "marcador_nome": nomeMarcadorAtual,
               "profundidade": 'inacessivel',
@@ -1243,6 +1280,8 @@ class _ColetaPontosState extends State<ColetaPontos> {
                             ElevatedButton.icon(
                               onPressed: () {
                                 FFAppState().PontosColetados.add({
+                                  "oserv_id": "${widget.oservid}",
+                                  "faz_id": "${widget.fazId}",
                                   "id_ponto": idPonto,
                                   "marcador_nome": nomeMarcador,
                                   "profundidade": profundidade,
@@ -1321,38 +1360,18 @@ class _ColetaPontosState extends State<ColetaPontos> {
       String latlng, String referencialProfundidadePontoId, String idPonto) {
     setState(() {
       if (isPrimeiraColeta == true) {
-        print('é a primeira coleta');
-        print('é a primeira coleta');
-        print('é a primeira coleta');
-        print('é a primeira coleta');
         _tiraFoto(marcadorNome, latlng, false, profundidadeNome, idPonto);
       } else {
         if (widget.autoAuditoria == true) {
-          print('auto audi true');
-          print('auto audi true');
-          print('auto audi true');
-          print('auto audi true');
           if (vezAtualDeFoto <= 0) {
-            print('vez menor ou igual a zero');
-            print('vez menor ou igual a zero');
-            print('vez menor ou igual a zero');
-            print('vez menor ou igual a zero');
-            print('vez menor ou igual a zero');
-            print('vez menor ou igual a zero');
-            print('vez menor ou igual a zero');
-            print('vez menor ou igual a zero');
-            print('vez menor ou igual a zero');
-            print('vez menor ou igual a zero');
-            print('vez menor ou igual a zero');
-            print('vez menor ou igual a zero');
-            print('vez menor ou igual a zero');
-            print('vez menor ou igual a zero');
             _tiraFoto(marcadorNome, latlng, false, profundidadeNome, idPonto);
           } else {
             quantidadeDeVezesParaAutoAuditarComFoto--;
             // ( ?? 0) - 1;
 
             FFAppState().PontosColetados.add({
+              "oserv_id": "${widget.oservid}",
+              "faz_id": "${widget.fazId}",
               "id_ponto": idPonto,
               "marcador_nome": marcadorNome,
               "profundidade": profundidadeNome,
@@ -1372,6 +1391,8 @@ class _ColetaPontosState extends State<ColetaPontos> {
           // ( ?? 0) - 1;
 
           FFAppState().PontosColetados.add({
+            "oserv_id": "${widget.oservid}",
+            "faz_id": "${widget.fazId}",
             "id_ponto": idPonto,
             "marcador_nome": marcadorNome,
             "profundidade": profundidadeNome,
@@ -1678,8 +1699,18 @@ class _ColetaPontosState extends State<ColetaPontos> {
 //     //
 //     // var quantidadeDeProfundidadesASeremColetadas = totalProfundidades;
 
-    int registros = FFAppState().PontosColetados.length +
-        FFAppState().PontosInacessiveis.length;
+    int registros = FFAppState()
+            .PontosColetados
+            .where((element) =>
+                element['oserv_id'] == widget.oservid &&
+                element['faz_id'] == widget.fazId)
+            .length +
+        FFAppState()
+            .PontosInacessiveis
+            .where((element) =>
+                element['oserv_id'] == widget.oservid &&
+                element['faz_id'] == widget.fazId)
+            .length;
     var aColetar = pontosMedicao
         .expand((e) => e['profundidades'] as List<dynamic>)
         .map((profundidade) => profundidade['pprof_id'])
@@ -1714,11 +1745,11 @@ class _ColetaPontosState extends State<ColetaPontos> {
                   style: TextStyle(color: Colors.black, fontSize: 12.0),
                 ),
                 Text(
-                  "Pontos aserem:${widget.autoAuditoria}",
+                  "Pontos aserem:{}",
                   style: TextStyle(color: Colors.black, fontSize: 12.0),
                 ),
                 Text(
-                  "Pontos coleados:${inacessiveis}",
+                  "Pontos coleados:${registros}",
                   style: TextStyle(color: Colors.black, fontSize: 12.0),
                 ),
                 Text(
