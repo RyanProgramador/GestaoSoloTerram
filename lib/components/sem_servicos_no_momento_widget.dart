@@ -82,8 +82,8 @@ class _SemServicosNoMomentoWidgetState
                       Align(
                         alignment: const AlignmentDirectional(0.0, 0.0),
                         child: Container(
-                          width: 80.0,
-                          height: 80.0,
+                          width: 70.0,
+                          height: 70.0,
                           decoration: BoxDecoration(
                             color: FlutterFlowTheme.of(context).primary,
                             shape: BoxShape.circle,
@@ -99,6 +99,10 @@ class _SemServicosNoMomentoWidgetState
                             ),
                           ),
                         ),
+                      ),
+                      Divider(
+                        thickness: 1.0,
+                        color: FlutterFlowTheme.of(context).primary,
                       ),
                       Align(
                         alignment: const AlignmentDirectional(0.0, 0.0),
@@ -174,6 +178,12 @@ class _SemServicosNoMomentoWidgetState
                       ),
                     ],
                   ),
+                ),
+                Divider(
+                  thickness: 1.0,
+                  indent: 24.0,
+                  endIndent: 24.0,
+                  color: FlutterFlowTheme.of(context).primary,
                 ),
               ],
             ),
