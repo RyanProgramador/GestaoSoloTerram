@@ -14,7 +14,7 @@ import 'package:crypto/crypto.dart';
 Future<String> md5encode(String? senha) async {
   // create a md5 md5encode that returns the String i give, but in md5 encoded
 
-  final bytes = utf8.encode(senha);
+  final bytes = utf8.encode(senha!);
   final digest = md5.convert(bytes);
 
   return digest.toString();

@@ -578,6 +578,10 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                                 );
                                                               },
                                                             );
+                                                            if (shouldSetState) {
+                                                              setState(() {});
+                                                            }
+                                                            return;
                                                           }
 
                                                           context.pushNamed(
@@ -627,27 +631,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                                       .cast<
                                                                           dynamic>();
                                                             });
-                                                            await showDialog(
-                                                              context: context,
-                                                              builder:
-                                                                  (alertDialogContext) {
-                                                                return AlertDialog(
-                                                                  title: const Text(
-                                                                      'Sucesso!'),
-                                                                  content: const Text(
-                                                                      'Sincronizado com sucesso!'),
-                                                                  actions: [
-                                                                    TextButton(
-                                                                      onPressed:
-                                                                          () =>
-                                                                              Navigator.pop(alertDialogContext),
-                                                                      child: const Text(
-                                                                          'Ok'),
-                                                                    ),
-                                                                  ],
-                                                                );
-                                                              },
-                                                            );
                                                           } else {
                                                             await showDialog(
                                                               context: context,
