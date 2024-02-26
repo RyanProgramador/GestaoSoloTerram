@@ -142,7 +142,7 @@ class _InicioWidgetState extends State<InicioWidget> {
                             ApiCallResponse>()
                           ..complete(TrOsServicosGroup.trOsServicosCall.call(
                             urlApi: FFAppState().UrlApi,
-                            tecnicoId: '1',
+                            tecnicoId: FFAppState().tecnicoid.toString(),
                           )))
                         .future,
                     builder: (context, snapshot) {
@@ -506,14 +506,14 @@ class _InicioWidgetState extends State<InicioWidget> {
                                                                     title: const Text(
                                                                         'Ops!'),
                                                                     content: const Text(
-                                                                        'Você precisa coletar todos os pontos para poder sicnronizar'),
+                                                                        'Você precisa coletar todos os pontos para poder sincronizar.'),
                                                                     actions: [
                                                                       TextButton(
                                                                         onPressed:
                                                                             () =>
                                                                                 Navigator.pop(alertDialogContext),
                                                                         child: const Text(
-                                                                            'Ok'),
+                                                                            'Fechar'),
                                                                       ),
                                                                     ],
                                                                   );

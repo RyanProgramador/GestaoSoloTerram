@@ -53,7 +53,7 @@ class _LoadingSincWidgetState extends State<LoadingSincWidget> {
           context: context,
           builder: (alertDialogContext) {
             return AlertDialog(
-              title: const Text('Sucesso!'),
+              title: const Text('Concluído!'),
               content: Text(getJsonField(
                 (_model.trSinc?.jsonBody ?? ''),
                 r'''$.message''',

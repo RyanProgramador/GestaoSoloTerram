@@ -112,7 +112,7 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                         ),
                       ),
                       Text(
-                        'Listas de pontos de coleta',
+                        'Listas de pontos para coletar',
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
                               fontFamily: 'Outfit',
                               color: FlutterFlowTheme.of(context)
@@ -121,14 +121,16 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                               fontWeight: FontWeight.bold,
                             ),
                       ),
-                      Text(
-                        'Realize a coleta dos pontos',
-                        style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              fontFamily: 'Readex Pro',
-                              color: FlutterFlowTheme.of(context)
-                                  .primaryBackground,
-                            ),
-                      ),
+                      if (true)
+                        Text(
+                          'Realize a coleta dos pontos',
+                          style:
+                              FlutterFlowTheme.of(context).bodyMedium.override(
+                                    fontFamily: 'Readex Pro',
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryBackground,
+                                  ),
+                        ),
                     ],
                   ),
                 ),
@@ -644,12 +646,12 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                                         context: context,
                                                                                         builder: (alertDialogContext) {
                                                                                           return AlertDialog(
-                                                                                            title: const Text('Não há imagem no momento!'),
-                                                                                            content: const Text('Por favor, colete este ponto'),
+                                                                                            title: const Text('Ops!'),
+                                                                                            content: const Text('Não existe imagem capturada para essa coleta.'),
                                                                                             actions: [
                                                                                               TextButton(
                                                                                                 onPressed: () => Navigator.pop(alertDialogContext),
-                                                                                                child: const Text('Entendi'),
+                                                                                                child: const Text('Fechar'),
                                                                                               ),
                                                                                             ],
                                                                                           );
@@ -697,7 +699,8 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                                       context: context,
                                                                                       builder: (alertDialogContext) {
                                                                                         return AlertDialog(
-                                                                                          title: const Text('error1'),
+                                                                                          title: const Text('Ops!'),
+                                                                                          content: const Text('Erro na variavel.'),
                                                                                           actions: [
                                                                                             TextButton(
                                                                                               onPressed: () => Navigator.pop(alertDialogContext),

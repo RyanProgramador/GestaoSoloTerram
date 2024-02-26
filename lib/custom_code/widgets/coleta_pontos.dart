@@ -432,7 +432,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
               'Para marcar um ponto como inacessível, você precisa capturar uma foto e adicionar uma observação.'),
           actions: <Widget>[
             TextButton(
-              child: Text('Entendi'),
+              child: Text('Fechar'),
               onPressed: () {
                 Navigator.of(context).pop(); // Close the dialog
               },
@@ -1335,8 +1335,8 @@ class _ColetaPontosState extends State<ColetaPontos> {
         return AlertDialog(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-          title: Text('Efetuar coleta'),
-          content: Text('Deseja realmente efetuar esta coleta?'),
+          title: Text('Atenção!'),
+          content: Text('Deseja realmente efetuar essa coleta?'),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
@@ -1468,8 +1468,8 @@ class _ColetaPontosState extends State<ColetaPontos> {
         });
 
         return AlertDialog(
-          title: Text('Sucesso'),
-          content: Text('Profundidade coletada!'),
+          title: Text('Concluido!'),
+          content: Text('Profundidade coletada com sucesso.'),
         );
       },
     );
@@ -1527,13 +1527,13 @@ class _ColetaPontosState extends State<ColetaPontos> {
           mapToolbarEnabled: false,
           zoomControlsEnabled: false,
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () => _exibirDados(),
-          child: Text(
-            '${quantidadeDeProfundidadesASeremColetadas ?? "teste"}',
-            style: TextStyle(color: Colors.white, fontSize: 18),
-          ),
-        ),
+        // floatingActionButton: FloatingActionButton(
+        //   onPressed: () => _exibirDados(),
+        //   child: Text(
+        //     '${quantidadeDeProfundidadesASeremColetadas ?? "teste"}',
+        //     style: TextStyle(color: Colors.white, fontSize: 18),
+        //   ),
+        // ),
       ),
     );
   }
