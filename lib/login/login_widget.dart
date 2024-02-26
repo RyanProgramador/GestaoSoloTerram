@@ -543,12 +543,23 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                           );
                                                           shouldSetState =
                                                               true;
-                                                          if (!getJsonField(
+                                                          if (getJsonField(
                                                             (_model.trLogin
                                                                     ?.jsonBody ??
                                                                 ''),
                                                             r'''$.status''',
                                                           )) {
+                                                            setState(() {
+                                                              FFAppState()
+                                                                      .tecnicoid =
+                                                                  getJsonField(
+                                                                (_model.trLogin
+                                                                        ?.jsonBody ??
+                                                                    ''),
+                                                                r'''$.tecnico_id''',
+                                                              );
+                                                            });
+                                                          } else {
                                                             await showDialog(
                                                               context: context,
                                                               builder:

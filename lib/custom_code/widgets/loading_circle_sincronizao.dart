@@ -25,7 +25,8 @@ class LoadingCircleSincronizao extends StatefulWidget {
   final Color? color;
 
   @override
-  _LoadingCircleSincronizao createState() => _LoadingCircleSincronizaoState();
+  _LoadingCircleSincronizaoState createState() =>
+      _LoadingCircleSincronizaoState();
 }
 
 class _LoadingCircleSincronizaoState extends State<LoadingCircleSincronizao> {

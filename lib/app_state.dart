@@ -97,6 +97,9 @@ class FFAppState extends ChangeNotifier {
         }
       }
     });
+    _safeInit(() {
+      _tecnicoid = prefs.getInt('ff_tecnicoid') ?? _tecnicoid;
+    });
   }
 
   void update(VoidCallback callback) {
@@ -366,6 +369,13 @@ class FFAppState extends ChangeNotifier {
   set naoLista(dynamic value) {
     _naoLista = value;
     prefs.setString('ff_naoLista', jsonEncode(value));
+  }
+
+  int _tecnicoid = 0;
+  int get tecnicoid => _tecnicoid;
+  set tecnicoid(int value) {
+    _tecnicoid = value;
+    prefs.setInt('ff_tecnicoid', value);
   }
 }
 
