@@ -82,13 +82,22 @@ class _SemServicosNoMomentoWidgetState
                     children: [
                       Align(
                         alignment: const AlignmentDirectional(0.0, 0.0),
-                        child: Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
-                              0.0, 0.0, 0.0, 16.0),
-                          child: Icon(
-                            Icons.phonelink_erase_rounded,
-                            color: FlutterFlowTheme.of(context).primaryText,
-                            size: 44.0,
+                        child: Container(
+                          width: 80.0,
+                          height: 80.0,
+                          decoration: BoxDecoration(
+                            color: FlutterFlowTheme.of(context).primary,
+                            shape: BoxShape.circle,
+                          ),
+                          alignment: const AlignmentDirectional(0.0, 0.0),
+                          child: const Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                0.0, 0.0, 5.0, 0.0),
+                            child: Icon(
+                              Icons.phonelink_erase_rounded,
+                              color: Color(0xFFD3422F),
+                              size: 44.0,
+                            ),
                           ),
                         ),
                       ),
@@ -101,7 +110,7 @@ class _SemServicosNoMomentoWidgetState
                               .headlineMedium
                               .override(
                                 fontFamily: 'Outfit',
-                                fontSize: 28.0,
+                                fontSize: 24.0,
                               ),
                         ),
                       ),
@@ -111,12 +120,14 @@ class _SemServicosNoMomentoWidgetState
                         child: Text(
                           'Não existem serviços vinculados ao seu usuário!',
                           textAlign: TextAlign.center,
-                          style:
-                              FlutterFlowTheme.of(context).labelMedium.override(
-                                    fontFamily: 'Readex Pro',
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                          style: FlutterFlowTheme.of(context)
+                              .labelMedium
+                              .override(
+                                fontFamily: 'Readex Pro',
+                                color: FlutterFlowTheme.of(context).primaryText,
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.w300,
+                              ),
                         ),
                       ),
                     ],
@@ -148,7 +159,7 @@ class _SemServicosNoMomentoWidgetState
                           size: 15.0,
                         ),
                         options: FFButtonOptions(
-                          height: 40.0,
+                          height: 45.0,
                           padding: const EdgeInsetsDirectional.fromSTEB(
                               20.0, 0.0, 20.0, 0.0),
                           iconPadding: const EdgeInsetsDirectional.fromSTEB(
