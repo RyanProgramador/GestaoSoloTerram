@@ -2,7 +2,6 @@ import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'login_widget.dart' show LoginWidget;
 import 'package:flutter/material.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class LoginModel extends FlutterFlowModel<LoginWidget> {
   ///  State fields for stateful widgets in this page.
@@ -11,7 +10,6 @@ class LoginModel extends FlutterFlowModel<LoginWidget> {
   // State field(s) for emailAddress_Login widget.
   FocusNode? emailAddressLoginFocusNode;
   TextEditingController? emailAddressLoginController;
-  final emailAddressLoginMask = MaskTextInputFormatter(mask: '###.###.###-##');
   String? Function(BuildContext, String?)? emailAddressLoginControllerValidator;
   // State field(s) for password_Login widget.
   FocusNode? passwordLoginFocusNode;

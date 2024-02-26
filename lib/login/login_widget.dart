@@ -247,9 +247,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                                               validator: _model
                                                   .emailAddressLoginControllerValidator
                                                   .asValidator(context),
-                                              inputFormatters: [
-                                                _model.emailAddressLoginMask
-                                              ],
                                             ),
                                           ),
                                           Padding(
