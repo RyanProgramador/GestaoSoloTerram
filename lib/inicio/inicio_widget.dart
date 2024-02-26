@@ -1,6 +1,7 @@
 import '/backend/api_requests/api_calls.dart';
 import '/components/loading_sinc_widget.dart';
 import '/components/loading_widget.dart';
+import '/components/sem_servicos_no_momento_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/custom_code/actions/index.dart' as actions;
@@ -150,8 +151,8 @@ class _InicioWidgetState extends State<InicioWidget> {
                       if (!snapshot.hasData) {
                         return Center(
                           child: SizedBox(
-                            width: 50.0,
-                            height: 50.0,
+                            width: 40.0,
+                            height: 40.0,
                             child: CircularProgressIndicator(
                               valueColor: AlwaysStoppedAnimation<Color>(
                                 FlutterFlowTheme.of(context).primary,
@@ -170,6 +171,9 @@ class _InicioWidgetState extends State<InicioWidget> {
                                       )
                                       ?.toList() ??
                                   [];
+                          if (trOsServicos.isEmpty) {
+                            return const SemServicosNoMomentoWidget();
+                          }
                           return RefreshIndicator(
                             onRefresh: () async {
                               setState(() => _model.apiRequestCompleter = null);
