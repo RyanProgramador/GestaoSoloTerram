@@ -549,29 +549,52 @@ class _ColetaPontosState extends State<ColetaPontos> {
       });
     });
 
-    FFAppState().trSincroniza.add({
-      "fazenda_id": widget.fazId.toString(),
-      "servico_id": widget.oservid.toString(),
-      "pontos": transformedList + transformedListInacessiveis,
-    });
+    var jaExisteTrSincroniza = FFAppState()
+        .trSincroniza
+        .where((element) =>
+            element['fazenda_id'] == widget.fazId.toString() &&
+            element['servico_id'] == widget.oservid.toString())
+        .toList();
 
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Finalizou coletas!'),
-          content: Text('Todos os pontos foram vistoriados.'),
-          actions: <Widget>[
-            TextButton(
-              child: Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
-              },
-            ),
-          ],
-        );
-      },
-    );
+// Checa se algum elemento foi encontrado
+    if (jaExisteTrSincroniza.isNotEmpty) {
+      // Atualiza o primeiro elemento encontrado
+      // Esta é uma abordagem simplificada; ajuste conforme a necessidade de sua aplicação
+      int index = FFAppState().trSincroniza.indexOf(jaExisteTrSincroniza.first);
+      if (index != -1) {
+        // Verifica se encontrou o índice corretamente
+        FFAppState().trSincroniza[index] = {
+          "fazenda_id": widget.fazId.toString(),
+          "servico_id": widget.oservid.toString(),
+          "pontos": transformedList + transformedListInacessiveis,
+        };
+      }
+    } else {
+      // Adiciona um novo elemento, pois não foi encontrado nenhum correspondente
+      FFAppState().trSincroniza.add({
+        "fazenda_id": widget.fazId.toString(),
+        "servico_id": widget.oservid.toString(),
+        "pontos": transformedList + transformedListInacessiveis,
+      });
+    }
+
+    // showDialog(
+    //   context: context,
+    //   builder: (BuildContext context) {
+    //     return AlertDialog(
+    //       title: Text('Finalizou coletas!'),
+    //       content: Text('Todos os pontos foram vistoriados.'),
+    //       actions: <Widget>[
+    //         TextButton(
+    //           child: Text('OK'),
+    //           onPressed: () {
+    //             Navigator.of(context).pop(); // Close the dialog
+    //           },
+    //         ),
+    //       ],
+    //     );
+    //   },
+    // );
   }
 
   String formatDateTime(String dateTimeStr) {
@@ -843,7 +866,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
     var textoCaptura = "Capturar";
 
     void _adicionaInacessiveis(String idPonto, String marcadorNome,
-        String latlngMarcador, String base64imagem) {
+        String latlngMarcador, String base64imagem, String observacao) {
       // Get the list of profundidades for the given ponto_numero
       var profundidadesList = pontosMedicao.firstWhere((element) =>
           element['pont_numero'] ==
@@ -863,7 +886,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
             "foto": '$base64imagem',
             "latlng": latlngMarcador,
             "id_ref": '1',
-            "obs": "",
+            "obs": observacao,
             "data_hora": DateTime.now().toString()
           });
         });
@@ -1015,8 +1038,12 @@ class _ColetaPontosState extends State<ColetaPontos> {
                           _atualizaObservacaoDeColetaInacessivel(
                               marcadorNome, _observacaoController.text);
 
-                          _adicionaInacessiveis(idPonto, marcadorNome,
-                              latlngMarcador, baseString!);
+                          _adicionaInacessiveis(
+                              idPonto,
+                              marcadorNome,
+                              latlngMarcador,
+                              baseString!,
+                              _observacaoController.text);
 
                           int registros = FFAppState()
                                   .PontosColetados
@@ -1283,7 +1310,13 @@ class _ColetaPontosState extends State<ColetaPontos> {
                           style: TextStyle(color: Colors.white, fontSize: 18),
                         ),
                         style: ElevatedButton.styleFrom(
-                          primary: FlutterFlowTheme.of(context).primary,
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 24, vertical: 10),
+                          primary: Color(0xFF087071), // Cor do botão
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                100), // Bordas arredondadas
+                          ),
                         ),
                       ),
                       ElevatedButton.icon(
@@ -1311,7 +1344,13 @@ class _ColetaPontosState extends State<ColetaPontos> {
                           style: TextStyle(color: Colors.white, fontSize: 18),
                         ),
                         style: ElevatedButton.styleFrom(
-                          primary: FlutterFlowTheme.of(context).primary,
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 24, vertical: 10),
+                          primary: Color(0xFF087071), // Cor do botão
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                100), // Bordas arredondadas
+                          ),
                         ),
                       ),
                     ],
@@ -1469,6 +1508,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
   void _observacaoSemFoto(String marcadorNome, String latlngMarcador,
       String idPonto, String profundidade) async {
     showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
         var keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
@@ -1481,36 +1521,33 @@ class _ColetaPontosState extends State<ColetaPontos> {
           insetPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
           // Usa o topPadding dinâmico
 
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(
-                      'Deseja fazer uma observação par o ponto $marcadorNome?',
-                      style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            fontFamily: 'Outfit',
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                    ),
-                    InkWell(
-                      onTap: () => Navigator.of(context).pop(),
-                      child: Icon(
-                        Icons.close,
-                        color: FlutterFlowTheme.of(context).secondaryText,
-                        size: 32,
-                      ),
-                    ),
-                  ],
+          title: Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Text(
+                    'Deseja fazer uma observação par o ponto $marcadorNome?',
+                    style: FlutterFlowTheme.of(context).bodyMedium.override(
+                          fontFamily: 'Outfit',
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
                 ),
-              ),
-            ],
+                InkWell(
+                  onTap: () => Navigator.of(context).pop(),
+                  child: Icon(
+                    Icons.close,
+                    color: FlutterFlowTheme.of(context).secondaryText,
+                    size: 32,
+                  ),
+                ),
+              ],
+            ),
           ),
           content: Padding(
             // padding: EdgeInsets.all(20),
@@ -1653,7 +1690,32 @@ class _ColetaPontosState extends State<ColetaPontos> {
     return WillPopScope(
       onWillPop: () async {
         // Sua lógica para mostrar o diálogo de confirmação permanece igual
-        return true; // Retornar true ou false conforme a escolha do usuário
+        final shouldPop = await showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('Alerta!'),
+            content: Text('Você tem certeza que quer sair da coleta?'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.of(context)
+                    .pop(false), // Não permite sair da tela
+                child: Text('Não'),
+              ),
+              TextButton(
+                onPressed: () {
+                  // Permite sair da tela e redireciona
+                  Navigator.of(context).pop(true); // Primeiro, fecha o diálogo
+
+                  setState(() {
+                    _finalizouColeta();
+                  });
+                },
+                child: const Text('Sim'),
+              ),
+            ],
+          ),
+        ); // Permite o comportamento padrão de voltar.
+        return shouldPop ?? false;
       },
       child: Scaffold(
         body: google_maps.GoogleMap(
@@ -1863,7 +1925,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
       _finalizouColeta();
     }
 
-    var coletados = FFAppState().PontosColetados.map((e) {
+    var coletados = FFAppState().trSincroniza.map((e) {
       // Cria um novo mapa a partir do mapa original, excluindo a chave 'foto'
       var novoMapa = Map.of(e); // Cria uma cópia do mapa
       novoMapa.remove('foto'); // Remove a chave 'foto'
@@ -1892,7 +1954,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
                   style: TextStyle(color: Colors.black, fontSize: 12.0),
                 ),
                 Text(
-                  "Pontos coletas iniciadas:${coletasIniciadas}",
+                  "Pontos coletas iniciadas:${coletados}",
                   style: TextStyle(color: Colors.black, fontSize: 12.0),
                 ),
                 Text(
