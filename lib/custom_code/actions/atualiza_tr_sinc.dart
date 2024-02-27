@@ -21,8 +21,7 @@ Future atualizaTrSinc(
   }
 
   var lista = FFAppState().PontosColetados.where((element) =>
-      element['oserv_id'] == widget.oservid &&
-      element['faz_id'] == widget.fazId);
+      element['oserv_id'] == oservid && element['faz_id'] == fazId);
 
   Map<int, List<Map<String, dynamic>>> groupedByPontoId = {};
 
@@ -59,8 +58,7 @@ Future atualizaTrSinc(
   });
 
   var listaIna = FFAppState().PontosInacessiveis.where((element) =>
-      element['oserv_id'] == widget.oservid &&
-      element['faz_id'] == widget.fazId);
+      element['oserv_id'] == oservid && element['faz_id'] == fazId);
 
   Map<int, List<Map<String, dynamic>>> groupedByPontoIdInacessivel = {};
 
@@ -99,8 +97,8 @@ Future atualizaTrSinc(
   var jaExisteTrSincroniza = FFAppState()
       .trSincroniza
       .where((element) =>
-          element['fazenda_id'] == widget.fazId.toString() &&
-          element['servico_id'] == widget.oservid.toString())
+          element['fazenda_id'] == fazId.toString() &&
+          element['servico_id'] == oservid.toString())
       .toList();
 
 // Checa se algum elemento foi encontrado
@@ -111,16 +109,16 @@ Future atualizaTrSinc(
     if (index != -1) {
       // Verifica se encontrou o índice corretamente
       FFAppState().trSincroniza[index] = {
-        "fazenda_id": widget.fazId.toString(),
-        "servico_id": widget.oservid.toString(),
+        "fazenda_id": fazId.toString(),
+        "servico_id": oservid.toString(),
         "pontos": transformedList + transformedListInacessiveis,
       };
     }
   } else {
     // Adiciona um novo elemento, pois não foi encontrado nenhum correspondente
     FFAppState().trSincroniza.add({
-      "fazenda_id": widget.fazId.toString(),
-      "servico_id": widget.oservid.toString(),
+      "fazenda_id": fazId.toString(),
+      "servico_id": oservid.toString(),
       "pontos": transformedList + transformedListInacessiveis,
     });
   }
