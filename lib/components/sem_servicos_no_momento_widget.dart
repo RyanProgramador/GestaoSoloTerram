@@ -89,12 +89,13 @@ class _SemServicosNoMomentoWidgetState
                             shape: BoxShape.circle,
                           ),
                           alignment: const AlignmentDirectional(0.0, 0.0),
-                          child: const Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
+                          child: Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
                                 0.0, 0.0, 5.0, 0.0),
                             child: Icon(
                               Icons.phonelink_erase_rounded,
-                              color: Color(0xFFD3422F),
+                              color: FlutterFlowTheme.of(context)
+                                  .primaryBackground,
                               size: 44.0,
                             ),
                           ),

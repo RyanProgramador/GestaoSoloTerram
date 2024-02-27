@@ -21,7 +21,8 @@ Future atualizaTrSinc(
   }
 
   var lista = FFAppState().PontosColetados.where((element) =>
-      element['oserv_id'] == oservid && element['faz_id'] == fazId);
+      element['oserv_id'] == oservid.toString() &&
+      element['faz_id'] == fazId.toString());
 
   Map<int, List<Map<String, dynamic>>> groupedByPontoId = {};
 
@@ -58,7 +59,8 @@ Future atualizaTrSinc(
   });
 
   var listaIna = FFAppState().PontosInacessiveis.where((element) =>
-      element['oserv_id'] == oservid && element['faz_id'] == fazId);
+      element['oserv_id'] == oservid.toString() &&
+      element['faz_id'] == fazId.toString());
 
   Map<int, List<Map<String, dynamic>>> groupedByPontoIdInacessivel = {};
 

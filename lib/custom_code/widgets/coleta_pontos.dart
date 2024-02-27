@@ -1931,15 +1931,21 @@ class _ColetaPontosState extends State<ColetaPontos> {
       novoMapa.remove('foto'); // Remove a chave 'foto'
       return novoMapa; // Retorna o novo mapa sem a chave 'foto'
     }).toList();
+    var coletados2 = FFAppState().PontosColetados.map((e) {
+      // Cria um novo mapa a partir do mapa original, excluindo a chave 'foto'
+      var novoMapa = Map.of(e); // Cria uma cópia do mapa
+      novoMapa.remove('foto'); // Remove a chave 'foto'
+      return novoMapa; // Retorna o novo mapa sem a chave 'foto'
+    }).toList();
     var inacessiveis = FFAppState().PontosInacessiveis.length;
     // var aColetar = pontosMedicao
     //     .expand((e) => e['profundidades'] as List<dynamic>)
     //     .map((profundidade) => profundidade['pprof_id'])
     //     .toList();
-    var coletasIniciadas = FFAppState().listaColetasInciadas.firstWhere(
-        (element) =>
-            element['oserv_id'] == widget.oservid &&
-            element['faz_id'] == widget.fazId);
+    // var coletasIniciadas = FFAppState().listaColetasInciadas.firstWhere(
+    //     (element) =>
+    //         element['oserv_id'] == widget.oservid &&
+    //         element['faz_id'] == widget.fazId);
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -1957,14 +1963,14 @@ class _ColetaPontosState extends State<ColetaPontos> {
                   "Pontos coletas iniciadas:${coletados}",
                   style: TextStyle(color: Colors.black, fontSize: 12.0),
                 ),
-                Text(
-                  "Pontos coleados:${registros}",
-                  style: TextStyle(color: Colors.black, fontSize: 12.0),
-                ),
-                Text(
-                  "Pontos a serem Coletados:${aColetar.length} ",
-                  style: TextStyle(color: Colors.black, fontSize: 12.0),
-                ),
+                // Text(
+                //   "Pontos coleados:${coletados2}",
+                //   style: TextStyle(color: Colors.black, fontSize: 12.0),
+                // ),
+                // Text(
+                //   "Pontos a serem Coletados:${aColetar.length} ",
+                //   style: TextStyle(color: Colors.black, fontSize: 12.0),
+                // ),
                 // Text(
                 //   "Pontos:${coletouTodas}",
                 //   style: TextStyle(color: Colors.black, fontSize: 12.0),
