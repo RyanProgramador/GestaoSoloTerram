@@ -110,14 +110,17 @@ class _LoadingSincWidgetState extends State<LoadingSincWidget> {
       decoration: const BoxDecoration(
         color: Color(0x23000000),
       ),
-      child: SizedBox(
-        width: 100.0,
-        height: 100.0,
-        child: custom_widgets.LoadingCircleSincronizao(
-          width: 100.0,
-          height: 100.0,
-          color: FlutterFlowTheme.of(context).primary,
-          circleRadius: 2.0,
+      child: Align(
+        alignment: const AlignmentDirectional(0.0, 0.0),
+        child: SizedBox(
+          width: 200.0,
+          height: 200.0,
+          child: custom_widgets.LoadingCircleSincronizao(
+            width: 200.0,
+            height: 200.0,
+            color: FlutterFlowTheme.of(context).primary,
+            circleRadius: 2.0,
+          ),
         ),
       ),
     );

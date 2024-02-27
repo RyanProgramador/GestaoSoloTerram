@@ -74,8 +74,10 @@ class _LoadingCircleSincronizaoState extends State<LoadingCircleSincronizao> {
           ),
         ),
         SizedBox(height: 20), // Espaço entre o indicador e o texto abaixo
-        Text(_messages[
-            _messageIndex]), // Mostra o texto que muda a cada 3 segundos
+        Text(_messages[_messageIndex],
+            style: TextStyle(
+                color:
+                    Colors.white)), // Mostra o texto que muda a cada 3 segundos
       ],
     );
   }
