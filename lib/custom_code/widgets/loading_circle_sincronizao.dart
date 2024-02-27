@@ -60,7 +60,7 @@ class _LoadingCircleSincronizaoState extends State<LoadingCircleSincronizao> {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text("Não desligue ou saia do aplicativo",
-            style: TextStyle(fontWeight: FontWeight.bold)),
+            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
         SizedBox(height: 20), // Espaço entre o texto e o indicador
         Container(
           width: widget.width,
