@@ -14,16 +14,16 @@ class ColetaPontosWidget extends StatefulWidget {
     required this.fazid,
     required this.fazNome,
     required this.fazLatlng,
-    bool? autoAuditoria,
+    required this.autoAuditoria,
     required this.quantidadeAutoAuditoria,
     required this.trPontos,
-  }) : autoAuditoria = autoAuditoria ?? false;
+  });
 
   final int? oservID;
   final int? fazid;
   final String? fazNome;
   final LatLng? fazLatlng;
-  final bool autoAuditoria;
+  final bool? autoAuditoria;
   final int? quantidadeAutoAuditoria;
   final List<dynamic>? trPontos;
 
@@ -91,7 +91,7 @@ class _ColetaPontosWidgetState extends State<ColetaPontosWidget> {
                           fazId: widget.fazid?.toString(),
                           fazNome: widget.fazNome,
                           fazLatlng: widget.fazLatlng,
-                          autoAuditoria: false,
+                          autoAuditoria: widget.autoAuditoria,
                           quantidadeAutoAuditoria:
                               widget.quantidadeAutoAuditoria?.toString(),
                           pontos: widget.trPontos,

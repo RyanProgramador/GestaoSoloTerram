@@ -81,8 +81,8 @@ Future atualizaTrSinc(
         .map((item) => {
               "id": item["profundidade"],
               "status": 2,
-              "obs": item["obs"].toString() ?? "Sem observação!",
-              "foto": item["foto"].toString() ?? "",
+              "obs": "",
+              "foto": "",
               "data": formatDateTime(item["data_hora"].toString()),
             })
         .toList();

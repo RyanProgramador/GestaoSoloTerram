@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 // Begin custom widget code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
+import 'index.dart'; // Imports other custom widgets
+
 // import 'package:camera/camera.dart';
 import 'dart:async';
 import 'package:flutter/gestures.dart';
@@ -129,11 +131,11 @@ class _ColetaPontosState extends State<ColetaPontos> {
     autoAuditoriaPontos = widget.autoAuditoria;
     // }
 
-// Para converter uma String para int
-//     if (widget.quantidadeAutoAuditoria != null) {
-    quantidadeDeVezesParaAutoAuditarComFoto = 3;
-    // int.tryParse(widget.quantidadeAutoAuditoria!)!;
-    // }
+// // Para converter uma String para int
+    if (widget.quantidadeAutoAuditoria != null) {
+      quantidadeDeVezesParaAutoAuditarComFoto =
+          int.tryParse(widget.quantidadeAutoAuditoria!)!;
+    }
     Map<String, dynamic> jsonSincronizaPosterior = {
       "fazenda_id": fazendaId,
       "servico_id": servicoId,
@@ -534,8 +536,8 @@ class _ColetaPontosState extends State<ColetaPontos> {
           .map((item) => {
                 "id": item["profundidade"],
                 "status": 2,
-                "obs": item["obs"].toString() ?? "Sem observação!",
-                "foto": item["foto"].toString() ?? "",
+                "obs": "",
+                "foto": "",
                 "data": formatDateTime(item["data_hora"].toString()),
               })
           .toList();
@@ -991,11 +993,11 @@ class _ColetaPontosState extends State<ColetaPontos> {
                         setState(() {
                           // Verifica se a string base64 da imagem foi definida
                           if (baseString != null) {
-                            textoCaptura = "Novamente";
+                            textoCaptura = "Capturar";
                             capturaImagem =
                                 "Foto capturada! Clique no botão abaixo caso queira capturar novamente.";
                           } else {
-                            textoCaptura = "Capturar";
+                            textoCaptura = "";
                             capturaImagem =
                                 'Ops! Algo deu errado. Tente novamente.';
                           }
@@ -1282,7 +1284,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
                   child: TextFormField(
                     controller: observaFotoController,
                     autofocus: true,
-                    maxLines: 2,
+                    maxLines: 3,
                     decoration: InputDecoration(
                       labelText: 'Observação:',
                       border: OutlineInputBorder(
@@ -1292,7 +1294,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  padding: EdgeInsets.symmetric(horizontal: 13, vertical: 13),
                   child: Wrap(
                     alignment: WrapAlignment
                         .center, // Center the buttons within the Wrap
@@ -1306,12 +1308,12 @@ class _ColetaPontosState extends State<ColetaPontos> {
                         },
                         icon: Icon(Icons.camera_alt, color: Colors.white),
                         label: Text(
-                          'Novamente',
-                          style: TextStyle(color: Colors.white, fontSize: 18),
+                          'Capturar',
+                          style: TextStyle(color: Colors.white, fontSize: 17),
                         ),
                         style: ElevatedButton.styleFrom(
                           padding: EdgeInsets.symmetric(
-                              horizontal: 24, vertical: 10),
+                              horizontal: 14, vertical: 10),
                           primary: Color(0xFF087071), // Cor do botão
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(
@@ -1341,11 +1343,11 @@ class _ColetaPontosState extends State<ColetaPontos> {
                         icon: Icon(Icons.arrow_forward, color: Colors.white),
                         label: Text(
                           'Salvar',
-                          style: TextStyle(color: Colors.white, fontSize: 18),
+                          style: TextStyle(color: Colors.white, fontSize: 17),
                         ),
                         style: ElevatedButton.styleFrom(
                           padding: EdgeInsets.symmetric(
-                              horizontal: 24, vertical: 10),
+                              horizontal: 14, vertical: 10),
                           primary: Color(0xFF087071), // Cor do botão
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(
@@ -1403,15 +1405,30 @@ class _ColetaPontosState extends State<ColetaPontos> {
       String latlng, String referencialProfundidadePontoId, String idPonto) {
     setState(() {
       if (isPrimeiraColeta == true) {
+        print("É A PRIMEIRA COLETA");
+        print("É A PRIMEIRA COLETA");
+        print("É A PRIMEIRA COLETA");
         FFAppState()
             .listaColetasInciadas
             .add({"oserv_id": widget.oservid, "faz_id": widget.fazId});
         _tiraFoto(marcadorNome, latlng, false, profundidadeNome, idPonto);
       } else {
+        print("NÃO É A PRIMEIRA COLETA");
+        print("NÃO É A PRIMEIRA COLETA");
+        print("NÃO É A PRIMEIRA COLETA");
         if (widget.autoAuditoria == true) {
+          print("AUTDITORIA TA TRUE!!");
+          print("AUTDITORIA TA TRUE!!");
+          print("AUTDITORIA TA TRUE!!");
           if (vezAtualDeFoto <= 0) {
+            print("VEZ ATUAL DA FOTO ESTA IGUAL OU MENOR QUE ZERO");
+            print("VEZ ATUAL DA FOTO ESTA IGUAL OU MENOR QUE ZERO");
+            print("VEZ ATUAL DA FOTO ESTA IGUAL OU MENOR QUE ZERO");
             _tiraFoto(marcadorNome, latlng, false, profundidadeNome, idPonto);
           } else {
+            print("NÃO É IGUAL OU MENOR QUE ZERO");
+            print("NÃO É IGUAL OU MENOR QUE ZERO");
+            print("NÃO É IGUAL OU MENOR QUE ZERO");
             quantidadeDeVezesParaAutoAuditarComFoto--;
             // ( ?? 0) - 1;
 
@@ -1434,6 +1451,9 @@ class _ColetaPontosState extends State<ColetaPontos> {
             _observacaoSemFoto(marcadorNome, latlng, idPonto, profundidadeNome);
           }
         } else {
+          print("AUTO AUDITORIA É OFF");
+          print("AUTO AUDITORIA É OFF");
+          print("AUTO AUDITORIA É OFF");
           quantidadeDeVezesParaAutoAuditarComFoto--;
           // ( ?? 0) - 1;
 
@@ -1566,7 +1586,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
                   keyboardType: TextInputType.multiline,
                   // Define o teclado para suportar entrada de texto multilinha
                   decoration: InputDecoration(
-                    labelText: 'Observação:',
+                    labelText: 'Observação(opcional): ',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
@@ -1946,6 +1966,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
     //     (element) =>
     //         element['oserv_id'] == widget.oservid &&
     //         element['faz_id'] == widget.fazId);
+    var aud = widget.autoAuditoria;
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -1960,7 +1981,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
                   style: TextStyle(color: Colors.black, fontSize: 12.0),
                 ),
                 Text(
-                  "Pontos coletas iniciadas:${coletados}",
+                  "Pontos coletas iniciadas:${aud}",
                   style: TextStyle(color: Colors.black, fontSize: 12.0),
                 ),
                 // Text(

@@ -510,7 +510,7 @@ class _InicioWidgetState extends State<InicioWidget> {
                                                                     title: const Text(
                                                                         'Ops!'),
                                                                     content: const Text(
-                                                                        'Você precisa coletar todos os pontos para poder sincronizar.'),
+                                                                        'Você precisa ter no mínimo um ponto coletado para poder sincronizar.'),
                                                                     actions: [
                                                                       TextButton(
                                                                         onPressed:
