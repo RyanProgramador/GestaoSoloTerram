@@ -148,13 +148,17 @@ class _ColetaPontosWidgetState extends State<ColetaPontosWidget> {
                                           },
                                         ) ??
                                         false;
-                                if (!confirmDialogResponse) {
+                                if (confirmDialogResponse) {
+                                  await actions.atualizaTrSinc(
+                                    widget.fazid,
+                                    widget.oservID,
+                                  );
+                                  await Future.delayed(
+                                      const Duration(milliseconds: 1000));
+                                } else {
                                   return;
                                 }
-                                await actions.atualizaTrSinc(
-                                  widget.fazid,
-                                  widget.oservID,
-                                );
+
                                 context.safePop();
                               },
                               child: Icon(

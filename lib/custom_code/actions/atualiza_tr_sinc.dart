@@ -122,22 +122,4 @@ Future atualizaTrSinc(
       "pontos": transformedList + transformedListInacessiveis,
     });
   }
-
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text('Finalizou coletas!'),
-        content: Text('Todos os pontos foram vistoriados.'),
-        actions: <Widget>[
-          TextButton(
-            child: Text('OK'),
-            onPressed: () {
-              Navigator.of(context).pop(); // Close the dialog
-            },
-          ),
-        ],
-      );
-    },
-  );
 }
