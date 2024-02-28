@@ -112,6 +112,18 @@ class FFAppState extends ChangeNotifier {
               }).toList() ??
               _listaColetasInciadas;
     });
+    _safeInit(() {
+      _PontosTotalmenteColetados =
+          prefs.getStringList('ff_PontosTotalmenteColetados')?.map((x) {
+                try {
+                  return jsonDecode(x);
+                } catch (e) {
+                  print("Can't decode persisted json. Error: $e.");
+                  return {};
+                }
+              }).toList() ??
+              _PontosTotalmenteColetados;
+    });
   }
 
   void update(VoidCallback callback) {
@@ -429,6 +441,48 @@ class FFAppState extends ChangeNotifier {
     _listaColetasInciadas.insert(index, value);
     prefs.setStringList('ff_listaColetasInciadas',
         _listaColetasInciadas.map((x) => jsonEncode(x)).toList());
+  }
+
+  List<dynamic> _PontosTotalmenteColetados = [];
+  List<dynamic> get PontosTotalmenteColetados => _PontosTotalmenteColetados;
+  set PontosTotalmenteColetados(List<dynamic> value) {
+    _PontosTotalmenteColetados = value;
+    prefs.setStringList('ff_PontosTotalmenteColetados',
+        value.map((x) => jsonEncode(x)).toList());
+  }
+
+  void addToPontosTotalmenteColetados(dynamic value) {
+    _PontosTotalmenteColetados.add(value);
+    prefs.setStringList('ff_PontosTotalmenteColetados',
+        _PontosTotalmenteColetados.map((x) => jsonEncode(x)).toList());
+  }
+
+  void removeFromPontosTotalmenteColetados(dynamic value) {
+    _PontosTotalmenteColetados.remove(value);
+    prefs.setStringList('ff_PontosTotalmenteColetados',
+        _PontosTotalmenteColetados.map((x) => jsonEncode(x)).toList());
+  }
+
+  void removeAtIndexFromPontosTotalmenteColetados(int index) {
+    _PontosTotalmenteColetados.removeAt(index);
+    prefs.setStringList('ff_PontosTotalmenteColetados',
+        _PontosTotalmenteColetados.map((x) => jsonEncode(x)).toList());
+  }
+
+  void updatePontosTotalmenteColetadosAtIndex(
+    int index,
+    dynamic Function(dynamic) updateFn,
+  ) {
+    _PontosTotalmenteColetados[index] =
+        updateFn(_PontosTotalmenteColetados[index]);
+    prefs.setStringList('ff_PontosTotalmenteColetados',
+        _PontosTotalmenteColetados.map((x) => jsonEncode(x)).toList());
+  }
+
+  void insertAtIndexInPontosTotalmenteColetados(int index, dynamic value) {
+    _PontosTotalmenteColetados.insert(index, value);
+    prefs.setStringList('ff_PontosTotalmenteColetados',
+        _PontosTotalmenteColetados.map((x) => jsonEncode(x)).toList());
   }
 }
 
