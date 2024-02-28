@@ -253,7 +253,7 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Total de pontos:${widget.listaJsonPontos?.length.toString()}',
+                                'Total de pontos: ${widget.listaJsonPontos?.length.toString()}',
                                 style: FlutterFlowTheme.of(context).bodyMedium,
                               ),
                               Text(
