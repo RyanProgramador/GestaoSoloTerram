@@ -129,3 +129,33 @@ dynamic buscaRegistro(
 
   return registroEncontrado;
 }
+
+String? quantosPontosFaltamParaColetar(
+  String? oservId,
+  String? fazId,
+  String? aColetar,
+  List<dynamic> pontosColetados,
+  List<dynamic> pontosInacessiveis,
+) {
+  int registros = pontosColetados
+          .where((element) =>
+              element['oserv_id'].toString() == oservId &&
+              element['faz_id'].toString() == fazId)
+          .length +
+      pontosInacessiveis
+          .where((element) =>
+              element['oserv_id'].toString() == oservId &&
+              element['faz_id'].toString() == fazId)
+          .length;
+
+  // Converte aColetar de String para int para realizar a operação
+  int aColetarInt = int.tryParse(aColetar ?? "0") ?? 0;
+
+  // Calcula quantas coletas faltam e converte o resultado para String
+  int faltam = aColetarInt - registros;
+
+  // Considerando que você pode querer retornar um valor positivo caso o cálculo resulte em negativo
+  faltam = faltam < 0 ? 0 : faltam;
+
+  return faltam.toString();
+}
