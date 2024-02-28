@@ -245,9 +245,18 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                             ],
                           ),
                         ),
-                        Text(
-                          'Quantidade a serem coletadas: ${widget.listaJsonPontos?.length.toString()}',
-                          style: FlutterFlowTheme.of(context).bodyMedium,
+                        Padding(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
+                              16.0, 0.0, 16.0, 0.0),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Text(
+                                'Total de pontos:${widget.listaJsonPontos?.length.toString()}',
+                                style: FlutterFlowTheme.of(context).bodyMedium,
+                              ),
+                            ],
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsetsDirectional.fromSTEB(

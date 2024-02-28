@@ -1,4 +1,3 @@
-import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'ajustes_configuracoes_widget.dart' show AjustesConfiguracoesWidget;
 import 'package:flutter/material.dart';
@@ -8,8 +7,6 @@ class AjustesConfiguracoesModel
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();
-  // Stores action output result for [Backend Call - API (tricones)] action in Button widget.
-  ApiCallResponse? trIcones;
 
   /// Initialization and disposal methods.
 
