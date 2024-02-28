@@ -263,8 +263,7 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                       widget.fazId?.toString(),
                                       widget.listaJsonPontos?.length
                                           .toString(),
-                                      FFAppState().PontosColetados.toList(),
-                                      FFAppState().PontosInacessiveis.toList()),
+                                      FFAppState().PontosColetados.toList()),
                                   '0',
                                 )}',
                                 style: FlutterFlowTheme.of(context).bodyMedium,

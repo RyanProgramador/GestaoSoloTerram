@@ -134,19 +134,13 @@ String? quantosPontosFaltamParaColetar(
   String? oservId,
   String? fazId,
   String? aColetar,
-  List<dynamic> pontosColetados,
-  List<dynamic> pontosInacessiveis,
+  List<dynamic> pontosTotalmenteColetados,
 ) {
-  int registros = pontosColetados
-          .where((element) =>
-              element['oserv_id'].toString() == oservId &&
-              element['faz_id'].toString() == fazId)
-          .length +
-      pontosInacessiveis
-          .where((element) =>
-              element['oserv_id'].toString() == oservId &&
-              element['faz_id'].toString() == fazId)
-          .length;
+  int registros = pontosTotalmenteColetados
+      .where((element) =>
+          element['oserv_id'].toString() == oservId &&
+          element['faz_id'].toString() == fazId)
+      .length;
 
   // Converte aColetar de String para int para realizar a operação
   int aColetarInt = int.tryParse(aColetar ?? "0") ?? 0;
