@@ -1967,7 +1967,6 @@ class _ColetaPontosState extends State<ColetaPontos> {
     //         element['oserv_id'] == widget.oservid &&
     //         element['faz_id'] == widget.fazId);
     var aud = widget.autoAuditoria;
-    var vez = vezAtualDeFoto;
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -1983,10 +1982,6 @@ class _ColetaPontosState extends State<ColetaPontos> {
                 ),
                 Text(
                   "Pontos coletas iniciadas:${aud}",
-                  style: TextStyle(color: Colors.black, fontSize: 12.0),
-                ),
-                Text(
-                  "Pontos coletas iniciadas:${vez}",
                   style: TextStyle(color: Colors.black, fontSize: 12.0),
                 ),
                 // Text(
