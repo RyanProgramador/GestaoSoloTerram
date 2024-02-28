@@ -650,6 +650,12 @@ class _ColetaPontosState extends State<ColetaPontos> {
           vezAtualDeFoto--;
         }
         ;
+        FFAppState().PontosTotalmenteColetados.add({
+          "oserv_id": widget.oservid,
+          "faz_id": widget.fazId,
+          "ponto": idPonto.toString(),
+        });
+
         int registros = FFAppState()
                 .PontosColetados
                 .where((element) =>
@@ -1039,7 +1045,11 @@ class _ColetaPontosState extends State<ColetaPontos> {
                                 "Foto capturada! Clique no botão abaixo caso queira capturar novamente.") {
                           _atualizaObservacaoDeColetaInacessivel(
                               marcadorNome, _observacaoController.text);
-
+                          FFAppState().PontosTotalmenteColetados.add({
+                            "oserv_id": widget.oservid,
+                            "faz_id": widget.fazId,
+                            "ponto": idPonto.toString(),
+                          });
                           _adicionaInacessiveis(
                               idPonto,
                               marcadorNome,
@@ -1067,6 +1077,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
                           if (registros == aColetar.length) {
                             _finalizouColeta();
                           }
+
                           baseString = null;
                           textoCaptura = "Capturar";
                           capturaImagem =
@@ -1753,13 +1764,13 @@ class _ColetaPontosState extends State<ColetaPontos> {
           mapToolbarEnabled: false,
           zoomControlsEnabled: false,
         ),
-        // floatingActionButton: FloatingActionButton(
-        //   onPressed: () => _exibirDados(),
-        //   child: Text(
-        //     '${quantidadeDeProfundidadesASeremColetadas ?? "teste"}',
-        //     style: TextStyle(color: Colors.white, fontSize: 18),
-        //   ),
-        // ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => _exibirDados(),
+          child: Text(
+            '${quantidadeDeProfundidadesASeremColetadas ?? "teste"}',
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
+        ),
       ),
     );
   }
@@ -1944,7 +1955,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
     if (registros == aColetar.length) {
       _finalizouColeta();
     }
-
+    var colteasTotalmente = FFAppState().PontosTotalmenteColetados;
     var coletados = FFAppState().trSincroniza.map((e) {
       // Cria um novo mapa a partir do mapa original, excluindo a chave 'foto'
       var novoMapa = Map.of(e); // Cria uma cópia do mapa
@@ -1967,6 +1978,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
     //         element['oserv_id'] == widget.oservid &&
     //         element['faz_id'] == widget.fazId);
     var aud = widget.autoAuditoria;
+    var vez = vezAtualDeFoto;
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -1981,7 +1993,11 @@ class _ColetaPontosState extends State<ColetaPontos> {
                   style: TextStyle(color: Colors.black, fontSize: 12.0),
                 ),
                 Text(
-                  "Pontos coletas iniciadas:${aud}",
+                  "Pontos coletas iniciadas:${colteasTotalmente}",
+                  style: TextStyle(color: Colors.black, fontSize: 12.0),
+                ),
+                Text(
+                  "Pontos coletas iniciadas:${vez}",
                   style: TextStyle(color: Colors.black, fontSize: 12.0),
                 ),
                 // Text(
