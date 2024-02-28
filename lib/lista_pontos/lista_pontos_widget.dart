@@ -263,7 +263,9 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                       widget.fazId?.toString(),
                                       widget.listaJsonPontos?.length
                                           .toString(),
-                                      FFAppState().PontosColetados.toList()),
+                                      FFAppState()
+                                          .PontosTotalmenteColetados
+                                          .toList()),
                                   '0',
                                 )}',
                                 style: FlutterFlowTheme.of(context).bodyMedium,
@@ -662,8 +664,42 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                                               r'''$.pprof_id''',
                                                                                             ).toString(),
                                                                                             FFAppState().PontosColetados.toList(),
-                                                                                            FFAppState().PontosInacessiveis.toList()) ==
+                                                                                            FFAppState().PontosInacessiveis.toList()) !=
                                                                                         'Pending or Error') {
+                                                                                      if (!(functions.pesquisaFotoBas64(
+                                                                                                  getJsonField(
+                                                                                                    listaFotosItem,
+                                                                                                    r'''$.pprof_id''',
+                                                                                                  ).toString(),
+                                                                                                  FFAppState().PontosColetados.toList(),
+                                                                                                  FFAppState().PontosInacessiveis.toList()) !=
+                                                                                              null &&
+                                                                                          functions.pesquisaFotoBas64(
+                                                                                                  getJsonField(
+                                                                                                    listaFotosItem,
+                                                                                                    r'''$.pprof_id''',
+                                                                                                  ).toString(),
+                                                                                                  FFAppState().PontosColetados.toList(),
+                                                                                                  FFAppState().PontosInacessiveis.toList()) !=
+                                                                                              '')) {
+                                                                                        await showDialog(
+                                                                                          context: context,
+                                                                                          builder: (alertDialogContext) {
+                                                                                            return AlertDialog(
+                                                                                              title: const Text('Ops!'),
+                                                                                              content: const Text('Não foi capturada foto para essa coleta!'),
+                                                                                              actions: [
+                                                                                                TextButton(
+                                                                                                  onPressed: () => Navigator.pop(alertDialogContext),
+                                                                                                  child: const Text('Entendi'),
+                                                                                                ),
+                                                                                              ],
+                                                                                            );
+                                                                                          },
+                                                                                        );
+                                                                                        return;
+                                                                                      }
+                                                                                    } else {
                                                                                       await showDialog(
                                                                                         context: context,
                                                                                         builder: (alertDialogContext) {
@@ -681,6 +717,7 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                                       );
                                                                                       return;
                                                                                     }
+
                                                                                     await showModalBottomSheet(
                                                                                       isScrollControlled: true,
                                                                                       backgroundColor: Colors.transparent,
