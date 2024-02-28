@@ -15,14 +15,18 @@ Future<String> contaQuantasColetasFaltam(
   int registros = FFAppState()
           .PontosColetados
           .where((element) =>
-              element['oserv_id'] == widget.oservid &&
-              element['faz_id'] == widget.fazId)
+              element['oserv_id'] == oservId.toString &&
+              element['faz_id'] == fazId.toString)
           .length +
       FFAppState()
           .PontosInacessiveis
           .where((element) =>
-              element['oserv_id'] == widget.oservid &&
-              element['faz_id'] == widget.fazId)
+              element['oserv_id'] == oservId.toString &&
+              element['faz_id'] == fazId.toString)
           .length;
-  return registros - aColetar;
+
+  // Aqui você calcula quantas coletas faltam e converte o resultado para String
+  // Garantindo que aColetar não seja null antes de realizar a operação
+  int faltam = aColetar != null ? aColetar - registros : 0;
+  return faltam.toString();
 }
