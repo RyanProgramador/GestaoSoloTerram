@@ -43,7 +43,7 @@ class _TrocaUrlWidgetState extends State<TrocaUrlWidget> {
     context.watch<FFAppState>();
 
     return Align(
-      alignment: const AlignmentDirectional(0.0, 0.0),
+      alignment: const AlignmentDirectional(0.0, 1.0),
       child: Container(
         height: 230.0,
         decoration: BoxDecoration(
