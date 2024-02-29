@@ -171,6 +171,7 @@ class _TrocaUrlWidgetState extends State<TrocaUrlWidget> {
                           );
                         },
                       );
+                      Navigator.pop(context);
                     } else {
                       return;
                     }
