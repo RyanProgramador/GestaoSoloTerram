@@ -153,3 +153,11 @@ String? quantosPontosFaltamParaColetar(
 
   return faltam.toString();
 }
+
+String? protocoloComSeguranca(String? url) {
+  if (url != null) {
+    url = url.replaceAll("http", ""); // Remove "http://"
+  }
+
+  return url;
+}
