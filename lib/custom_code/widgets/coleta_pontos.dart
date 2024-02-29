@@ -507,8 +507,8 @@ class _ColetaPontosState extends State<ColetaPontos> {
       transformedList.add({
         "id": idPonto,
         "status": 1,
-        "obs": items.first["obs"].toString(),
-        "foto": items.first["foto"].toString(),
+        "obs": "",
+        "foto": "",
         "profundidades": profundidades,
       });
     });
@@ -1978,7 +1978,6 @@ class _ColetaPontosState extends State<ColetaPontos> {
     //         element['oserv_id'] == widget.oservid &&
     //         element['faz_id'] == widget.fazId);
     var aud = widget.autoAuditoria;
-    var vez = vezAtualDeFoto;
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -1996,10 +1995,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
                   "Pontos coletas iniciadas:${colteasTotalmente}",
                   style: TextStyle(color: Colors.black, fontSize: 12.0),
                 ),
-                Text(
-                  "Pontos coletas iniciadas:${vez}",
-                  style: TextStyle(color: Colors.black, fontSize: 12.0),
-                ),
+
                 // Text(
                 //   "Pontos coleados:${coletados2}",
                 //   style: TextStyle(color: Colors.black, fontSize: 12.0),

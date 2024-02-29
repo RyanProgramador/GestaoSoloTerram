@@ -52,8 +52,8 @@ Future atualizaTrSinc(
     transformedList.add({
       "id": idPonto,
       "status": 1,
-      "obs": items.first["obs"].toString(),
-      "foto": items.first["foto"].toString(),
+      "obs": "",
+      "foto": "",
       "profundidades": profundidades,
     });
   });
