@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
 import 'index.dart'; // Imports other custom widgets
-
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 // import 'package:camera/camera.dart';
 import 'dart:async';
 import 'package:flutter/gestures.dart';
@@ -50,6 +50,9 @@ import 'package:wakelock/wakelock.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:xml/xml.dart' as xml;
 
+import 'package:qr_code_scanner/qr_code_scanner.dart';
+// import 'package:qr_scanner_overlay_shape/qr_scanner_overlay_shape.dart';
+
 class ColetaPontos extends StatefulWidget {
   const ColetaPontos(
       {super.key,
@@ -82,6 +85,12 @@ class _ColetaPontosState extends State<ColetaPontos> {
   final FocusNode observaFotoFocusNode = FocusNode();
 
   Map<String, dynamic> jsonSincronizaPosterior = {};
+
+  var qrText = "";
+  late QRViewController controller;
+  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+  bool Done_Button = false;
+  TextEditingController _codigoQr = TextEditingController();
 
   int quantidadeDeProfundidadesASeremColetadas = 0;
   // int totalProfundidades = 0;
@@ -205,6 +214,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
     _positionStreamSubscription?.cancel();
     _googleMapController?.dispose();
     _observacaoController.dispose();
+    _codigoQr.dispose();
     observaFotoController.dispose();
     super.dispose();
   }
@@ -1167,73 +1177,113 @@ class _ColetaPontosState extends State<ColetaPontos> {
     });
   }
 
+  Future<Uint8List?> convertToWebP(Uint8List imageBytes) async {
+    try {
+      // Ajuste a qualidade conforme necessário, 0-100
+      int quality = 75;
+      // Comprime e converte para WebP
+      Uint8List? result = await FlutterImageCompress.compressWithList(
+        imageBytes,
+        quality: quality,
+        format: CompressFormat.webp,
+      );
+      return result;
+    } catch (e) {
+      print("Erro ao converter para WebP: $e");
+      return null;
+    }
+  }
+
   void _tiraFoto(String nomeMarcadorAtual, String latlng,
       bool isInacessivelOuNao, String profundidade, String idPonto) async {
+    // final ImagePicker _picker = ImagePicker();
+    // final XFile? image = await _picker.pickImage(source: ImageSource.camera);
+    //
+    // if (image != null) {
+    //   // final bytes = await image.readAsBytes();
+    //   Uint8List bytes = await image.readAsBytes();
+    //
+    //   // Utiliza a biblioteca 'image' para decodificar a imagem
+    //   img.Image? originalImage = img.decodeImage(bytes);
+    //
+    //   if (originalImage != null) {
+    //     // Redimensiona a imagem para 33% da sua qualidade original
+    //     img.Image resizedImage = img.copyResize(originalImage,
+    //         width: (originalImage.width * 0.23).round(),
+    //         height: (originalImage.height * 0.23).round());
+    //
+    //     // Converte a imagem redimensionada de volta para bytes como PNG
+    //     List<int> resizedBytes = img.encodePng(resizedImage);
+    //
+    //
+    //     // Converte os bytes da imagem redimensionada para uma string base64
+    //     String base64Image = base64Encode(Uint8List.fromList(resizedBytes));
+
     final ImagePicker _picker = ImagePicker();
     final XFile? image = await _picker.pickImage(source: ImageSource.camera);
 
     if (image != null) {
-      // final bytes = await image.readAsBytes();
       Uint8List bytes = await image.readAsBytes();
-
-      // Utiliza a biblioteca 'image' para decodificar a imagem
       img.Image? originalImage = img.decodeImage(bytes);
-
       if (originalImage != null) {
-        // Redimensiona a imagem para 33% da sua qualidade original
         img.Image resizedImage = img.copyResize(originalImage,
             width: (originalImage.width * 0.23).round(),
             height: (originalImage.height * 0.23).round());
 
-        // Converte a imagem redimensionada de volta para bytes como PNG
-        List<int> resizedBytes = img.encodePng(resizedImage);
+        Uint8List resizedBytes =
+            Uint8List.fromList(img.encodePng(resizedImage));
 
-        // Converte os bytes da imagem redimensionada para uma string base64
-        String base64Image = base64Encode(Uint8List.fromList(resizedBytes));
+        // Comprime e converte para WebP
+        Uint8List? webPBytes = await convertToWebP(resizedBytes);
 
-        setState(() {
-          if (isInacessivelOuNao) {
-            quantidadeDeVezesParaAutoAuditarComFoto--;
+        if (webPBytes != null) {
+          // Converte os bytes da imagem WebP para uma string base64
+          String base64Image = base64Encode(webPBytes);
 
-            FFAppState().PontosInacessiveis.add({
-              "oserv_id": "${widget.oservid}",
-              "faz_id": "${widget.fazId}",
-              "id_ponto": idPonto,
-              "marcador_nome": nomeMarcadorAtual,
-              "profundidade": 'inacessivel',
-              // "foto": 'base64ImageInacessivel',
-              "foto": base64Image,
-              "latlng": '$latlng',
-              "obs": "",
-              "data_hora": DateTime.now().toString()
-            });
-            _observacaoController.clear();
-          } else {
-            // FFAppState().PontosColetados.add({
-            //   "id_ponto": idPonto,
-            //   "marcador_nome": nomeMarcadorAtual,
-            //   "profundidade": profundidade,
-            //   "obs": "",
-            //   "foto": 'base64Image',
-            //   "profundidade": profundidade,
-            //   "latlng": '$latlng',
-            //   "data_hora": DateTime.now().toString()
-            // });
-            Navigator.of(context).pop(); // Fecha o modal atual
-            _showModalObservaFoto(
-                idPonto, nomeMarcadorAtual, profundidade, latlng, base64Image);
-            // _mostrarModalSucesso(context, nomeMarcadorAtual);
-          }
-          // coletasPorMarcador.putIfAbsent(nomeMarcadorAtual, () => {});
-          // coletasPorMarcador[nomeMarcadorAtual]!.add(nomeProfundidade);
+          setState(() {
+            if (isInacessivelOuNao) {
+              quantidadeDeVezesParaAutoAuditarComFoto--;
 
-          // Verifica se todas as profundidades foram coletadas
-          var todasProfundidades = pontosMedicao
-              .firstWhere(
-                  (m) => m["pont_numero"] == nomeMarcadorAtual)["profundidades"]
-              .map((p) => p["pprof_id"])
-              .toSet();
-        });
+              FFAppState().PontosInacessiveis.add({
+                "oserv_id": "${widget.oservid}",
+                "faz_id": "${widget.fazId}",
+                "id_ponto": idPonto,
+                "marcador_nome": nomeMarcadorAtual,
+                "profundidade": 'inacessivel',
+                // "foto": 'base64ImageInacessivel',
+                "foto": base64Image,
+                "latlng": '$latlng',
+                "obs": "",
+                "data_hora": DateTime.now().toString()
+              });
+              _observacaoController.clear();
+            } else {
+              // FFAppState().PontosColetados.add({
+              //   "id_ponto": idPonto,
+              //   "marcador_nome": nomeMarcadorAtual,
+              //   "profundidade": profundidade,
+              //   "obs": "",
+              //   "foto": 'base64Image',
+              //   "profundidade": profundidade,
+              //   "latlng": '$latlng',
+              //   "data_hora": DateTime.now().toString()
+              // });
+              Navigator.of(context).pop(); // Fecha o modal atual
+              _showModalObservaFoto(idPonto, nomeMarcadorAtual, profundidade,
+                  latlng, base64Image);
+              // _mostrarModalSucesso(context, nomeMarcadorAtual);
+            }
+            // coletasPorMarcador.putIfAbsent(nomeMarcadorAtual, () => {});
+            // coletasPorMarcador[nomeMarcadorAtual]!.add(nomeProfundidade);
+
+            // Verifica se todas as profundidades foram coletadas
+            var todasProfundidades = pontosMedicao
+                .firstWhere((m) => m["pont_numero"] == nomeMarcadorAtual)[
+                    "profundidades"]
+                .map((p) => p["pprof_id"])
+                .toSet();
+          });
+        }
       }
     }
   }
@@ -1764,15 +1814,26 @@ class _ColetaPontosState extends State<ColetaPontos> {
           mapToolbarEnabled: false,
           zoomControlsEnabled: false,
         ),
-        //floatingActionButton: FloatingActionButton(
-        //  onPressed: () => _exibirDados(),
-        //  child: Text(
-        //    '${quantidadeDeProfundidadesASeremColetadas ?? "teste"}',
-        //    style: TextStyle(color: Colors.white, fontSize: 18),
-        //  ),
-        //),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => _exibirDados(),
+          child: Text(
+            '${quantidadeDeProfundidadesASeremColetadas ?? "teste"}',
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
+        ),
       ),
     );
+  }
+
+  void _onQRViewCreated(QRViewController controller) {
+    this.controller = controller;
+    controller.scannedDataStream.listen((scanData) {
+      setState(() {
+        _codigoQr.text = scanData.code!;
+        controller?.pauseCamera();
+        Done_Button = true;
+      });
+    });
   }
 
   void _exibirDados() {
@@ -1828,46 +1889,6 @@ class _ColetaPontosState extends State<ColetaPontos> {
     //   teste.add(cord);
     // }
 
-    List<Map<String, dynamic>> json = [
-      {
-        "pont_id": 13423,
-        "pont_numero": 404,
-        "pont_latitude": "-17.783655786",
-        "pont_longitude": "-51.05589056",
-        "pont_simbolo": "Pin, Green",
-        "profundidades": [
-          {
-            "pprof_id": 16157,
-            "pprof_status": "Pendente",
-            "pprof_icone": "Pin, Blue"
-          },
-          {
-            "pprof_id": 16158,
-            "pprof_status": "Pendente",
-            "pprof_icone": "Pin, Green"
-          }
-        ]
-      },
-      {
-        "pont_id": 13424,
-        "pont_numero": 424,
-        "pont_latitude": "-17.788035573",
-        "pont_longitude": "-51.045238875",
-        "pont_simbolo": "Pin, Green",
-        "profundidades": [
-          {
-            "pprof_id": 16159,
-            "pprof_status": "Pendente",
-            "pprof_icone": "Pin, Blue"
-          },
-          {
-            "pprof_id": 16160,
-            "pprof_status": "Pendente",
-            "pprof_icone": "Pin, Green"
-          }
-        ]
-      }
-    ];
 //     // var teste2 = FFAppState().PontosColetados.any((ponto) => ponto['profundidade'] == '16157');
 //     var allColetadosOuInacessiveis = FFAppState()
 //         .PontosColetados
@@ -1978,52 +1999,192 @@ class _ColetaPontosState extends State<ColetaPontos> {
     //         element['oserv_id'] == widget.oservid &&
     //         element['faz_id'] == widget.fazId);
     var aud = widget.autoAuditoria;
+    var vez = vezAtualDeFoto;
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          scrollable: true,
-          title: Text('Dados da Coleta'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: [
-                Text(
-                  "Json:}",
-                  style: TextStyle(color: Colors.black, fontSize: 12.0),
-                ),
-                Text(
-                  "Pontos coletas iniciadas:${colteasTotalmente}",
-                  style: TextStyle(color: Colors.black, fontSize: 12.0),
-                ),
+        // return AlertDialog(
+        //   scrollable: true,
+        //   title: Text('Dados da Coleta'),
+        //   content: SingleChildScrollView(
+        //     child: ListBody(
+        //       children: [
+        //         Text(
+        //           "Json:}",
+        //           style: TextStyle(color: Colors.black, fontSize: 12.0),
+        //         ),
+        //         Text(
+        //           "Pontos coletas iniciadas:${colteasTotalmente}",
+        //           style: TextStyle(color: Colors.black, fontSize: 12.0),
+        //         ),
+        //
+        //         // Text(
+        //         //   "Pontos coleados:${coletados2}",
+        //         //   style: TextStyle(color: Colors.black, fontSize: 12.0),
+        //         // ),
+        //         // Text(
+        //         //   "Pontos a serem Coletados:${aColetar.length} ",
+        //         //   style: TextStyle(color: Colors.black, fontSize: 12.0),
+        //         // ),
+        //         // Text(
+        //         //   "Pontos:${coletouTodas}",
+        //         //   style: TextStyle(color: Colors.black, fontSize: 12.0),
+        //         // ),
+        //         // Text(
+        //         //   "Pontos:${pontosin}",
+        //         //   style: TextStyle(color: Colors.black, fontSize: 12.0),
+        //         // ),
+        //         // Adicione mais widgets Text ou outros conforme necessário
+        //       ],
+        //     ),
+        //   ),
+        //   actions: <Widget>[
+        //     TextButton(
+        //       child: Text('Fechar'),
+        //       onPressed: () {
+        //         Navigator.of(context).pop();
+        //       },
+        //     ),
+        //   ],
+        // );
 
-                // Text(
-                //   "Pontos coleados:${coletados2}",
-                //   style: TextStyle(color: Colors.black, fontSize: 12.0),
-                // ),
-                // Text(
-                //   "Pontos a serem Coletados:${aColetar.length} ",
-                //   style: TextStyle(color: Colors.black, fontSize: 12.0),
-                // ),
-                // Text(
-                //   "Pontos:${coletouTodas}",
-                //   style: TextStyle(color: Colors.black, fontSize: 12.0),
-                // ),
-                // Text(
-                //   "Pontos:${pontosin}",
-                //   style: TextStyle(color: Colors.black, fontSize: 12.0),
-                // ),
-                // Adicione mais widgets Text ou outros conforme necessário
+        return AlertDialog(
+          // insetPadding: EdgeInsets.zero,
+          insetPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+          // Usa o topPadding dinâmico
+
+          title: Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Text(
+                    'Leia o QR-Code!',
+                    style: FlutterFlowTheme.of(context).bodyMedium.override(
+                          fontFamily: 'Outfit',
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
+                ),
+                InkWell(
+                  onTap: () => Navigator.of(context).pop(),
+                  child: Icon(
+                    Icons.close,
+                    color: FlutterFlowTheme.of(context).secondaryText,
+                    size: 32,
+                  ),
+                ),
               ],
             ),
           ),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Fechar'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+          content: Padding(
+            // padding: EdgeInsets.all(20),
+
+            padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: EdgeInsets.fromLTRB(
+                      0, 0, 0, 10), // Ajuste este valor conforme necessário
+                  child: SizedBox(
+                    // Envolve o QRView com um SizedBox para dar um tamanho fixo
+                    height: 180, // Defina a altura desejada
+                    width: double.infinity, // Ocupa toda a largura disponível
+                    child: QRView(
+                      key: qrKey,
+                      onQRViewCreated: _onQRViewCreated,
+                      overlay: QrScannerOverlayShape(
+                        borderColor: Color(0xFF00736D),
+                        borderRadius: 10,
+                        borderLength: 130,
+                        borderWidth: 5,
+                        overlayColor: Color(0xFFEEEBF5),
+                      ),
+                    ),
+                  ),
+                ),
+                TextField(
+                  controller: _codigoQr,
+                  autofocus: false,
+                  maxLines: 1,
+                  // Permite múltiplas linhas
+                  keyboardType: TextInputType.multiline,
+                  // Define o teclado para suportar entrada de texto multilinha
+                  decoration: InputDecoration(
+                    labelText: 'Código: ',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 6),
+                Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  // Centraliza os botões na Row
+                  children: <Widget>[
+                    ElevatedButton(
+                      onPressed: () {
+                        //passar aqui o codigo de abrir esse modal novamente passando as variaveis ponto id, coleta id, etc, profuncidade, latlng
+                      },
+                      style: ElevatedButton.styleFrom(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+                        primary: Color(0xFF087071), // Cor do botão
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.circular(100), // Bordas arredondadas
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        // Isso garante que o Row não ocupe mais espaço do que o necessário
+                        children: [
+                          Icon(Icons.refresh, color: Colors.white),
+                          // Ícone dentro do botão
+                        ],
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        // Implemente a ação para este botão
+                      },
+                      style: ElevatedButton.styleFrom(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 22, vertical: 10),
+                        primary: Color(0xFF087071), // Cor do botão
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.circular(100), // Bordas arredondadas
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        // Isso garante que o Row não ocupe mais espaço do que o necessário
+                        children: [
+                          Icon(Icons.arrow_forward, color: Colors.white),
+                          // Ícone dentro do botão
+                          SizedBox(width: 8),
+                          // Espaçamento entre o ícone e o texto
+                          Text("Próximo",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 18)),
+                          // Texto do botão
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
-          ],
+          ),
+          backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+          // elevation: 5,
         );
       },
     );
