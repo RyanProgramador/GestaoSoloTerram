@@ -702,10 +702,39 @@ class _InicioWidgetState extends State<InicioWidget> {
                                             );
                                           },
                                         ),
-                                        Text(
-                                          'Hello World',
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyMedium,
+                                        FutureBuilder<List<UsersssRow>>(
+                                          future:
+                                              SQLiteManager.instance.usersss(),
+                                          builder: (context, snapshot) {
+                                            // Customize what your widget looks like when it's loading.
+                                            if (!snapshot.hasData) {
+                                              return Center(
+                                                child: SizedBox(
+                                                  width: 50.0,
+                                                  height: 50.0,
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    valueColor:
+                                                        AlwaysStoppedAnimation<
+                                                            Color>(
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .primary,
+                                                    ),
+                                                  ),
+                                                ),
+                                              );
+                                            }
+                                            final textUsersssRowList =
+                                                snapshot.data!;
+                                            return Text(
+                                              (textUsersssRowList.isNotEmpty)
+                                                  .toString(),
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium,
+                                            );
+                                          },
                                         ),
                                       ],
                                     ),

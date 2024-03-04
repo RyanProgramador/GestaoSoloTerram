@@ -13,7 +13,7 @@ Future<List<ListatabelaRow>> performListatabela(
   Database database,
 ) {
   const query = '''
-Select * from tabela
+SELECT * FROM tabela
 ''';
   return _readQuery(database, query, (d) => ListatabelaRow(d));
 }
@@ -31,7 +31,7 @@ Future<List<UsersssRow>> performUsersss(
   Database database,
 ) {
   const query = '''
-select * from sqlite_sequence
+SELECT * FROM sqlite_sequence
 ''';
   return _readQuery(database, query, (d) => UsersssRow(d));
 }
