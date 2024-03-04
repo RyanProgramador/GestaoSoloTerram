@@ -51,6 +51,16 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
       setState(() {
         FFAppState().trSincroniza =
             FFAppState().trSincroniza.toList().cast<dynamic>();
+        FFAppState().listaColetasInciadas =
+            FFAppState().listaColetasInciadas.toList().cast<dynamic>();
+        FFAppState().PontosTotalmenteColetados =
+            FFAppState().PontosTotalmenteColetados.toList().cast<dynamic>();
+        FFAppState().PontosColetados =
+            FFAppState().PontosColetados.toList().cast<dynamic>();
+        FFAppState().PontosInacessiveis =
+            FFAppState().PontosInacessiveis.toList().cast<dynamic>();
+        FFAppState().trTalhoes =
+            FFAppState().trTalhoes.toList().cast<dynamic>();
       });
     });
   }
