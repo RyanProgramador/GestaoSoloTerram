@@ -8,21 +8,20 @@ Future<List<T>> _readQuery<T>(
 ) =>
     database.rawQuery(query).then((r) => r.map((e) => create(e)).toList());
 
-/// BEGIN LISTAUSERS
-Future<List<ListausersRow>> performListausers(
+/// BEGIN LISTATABELA
+Future<List<ListatabelaRow>> performListatabela(
   Database database,
 ) {
   const query = '''
-Select * from users
+Select * from tabela
 ''';
-  return _readQuery(database, query, (d) => ListausersRow(d));
+  return _readQuery(database, query, (d) => ListatabelaRow(d));
 }
 
-class ListausersRow extends SqliteRow {
-  ListausersRow(super.data);
+class ListatabelaRow extends SqliteRow {
+  ListatabelaRow(super.data);
 
-  String? get nome => data['nome'] as String?;
-  int? get idade => data['idade'] as int?;
+  String? get id => data['id'] as String?;
 }
 
-/// END LISTAUSERS
+/// END LISTATABELA

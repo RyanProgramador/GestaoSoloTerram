@@ -21,14 +21,14 @@ class SQLiteManager {
       return;
     }
     _database = await initializeDatabaseFromDbFile(
-      'lista',
+      'banco_lista',
       'bancoLista.db',
     );
   }
 
   /// START READ QUERY CALLS
 
-  Future<List<ListausersRow>> listausers() => performListausers(
+  Future<List<ListatabelaRow>> listatabela() => performListatabela(
         _database,
       );
 
