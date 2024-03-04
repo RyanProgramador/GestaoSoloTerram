@@ -32,6 +32,14 @@ class SQLiteManager {
         _database,
       );
 
+  Future<List<UsersssRow>> usersss() => performUsersss(
+        _database,
+      );
+
+  Future<List<SqliteRow>> sqlite() => performSqlite(
+        _database,
+      );
+
   /// END READ QUERY CALLS
 
   /// START UPDATE QUERY CALLS

@@ -155,10 +155,10 @@ String? quantosPontosFaltamParaColetar(
   return faltam.toString();
 }
 
-String? protocoloComSeguranca(String? url) {
-  if (url != null) {
-    url = url.replaceAll("http", ""); // Remove "http://"
+String? protocoloComSeguranca(String? urL) {
+  if (urL != null) {
+    urL = urL.replaceAll("http", ""); // Remove "http://"
   }
 
-  return url;
+  return urL;
 }

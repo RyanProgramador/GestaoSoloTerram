@@ -625,35 +625,118 @@ class _InicioWidgetState extends State<InicioWidget> {
                                         color: const Color(0xFF00736D),
                                       ),
                                     ),
-                                    child: FutureBuilder<List<ListatabelaRow>>(
-                                      future:
-                                          SQLiteManager.instance.listatabela(),
-                                      builder: (context, snapshot) {
-                                        // Customize what your widget looks like when it's loading.
-                                        if (!snapshot.hasData) {
-                                          return Center(
-                                            child: SizedBox(
-                                              width: 50.0,
-                                              height: 50.0,
-                                              child: CircularProgressIndicator(
-                                                valueColor:
-                                                    AlwaysStoppedAnimation<
-                                                        Color>(
-                                                  FlutterFlowTheme.of(context)
-                                                      .primary,
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: [
+                                        FutureBuilder<List<UsersssRow>>(
+                                          future:
+                                              SQLiteManager.instance.usersss(),
+                                          builder: (context, snapshot) {
+                                            // Customize what your widget looks like when it's loading.
+                                            if (!snapshot.hasData) {
+                                              return Center(
+                                                child: SizedBox(
+                                                  width: 50.0,
+                                                  height: 50.0,
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    valueColor:
+                                                        AlwaysStoppedAnimation<
+                                                            Color>(
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .primary,
+                                                    ),
+                                                  ),
                                                 ),
+                                              );
+                                            }
+                                            final textUsersssRowList =
+                                                snapshot.data!;
+                                            return Text(
+                                              valueOrDefault<String>(
+                                                textUsersssRowList.first.nome,
+                                                '123',
                                               ),
-                                            ),
-                                          );
-                                        }
-                                        final textListatabelaRowList =
-                                            snapshot.data!;
-                                        return Text(
-                                          'Hello World',
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyMedium,
-                                        );
-                                      },
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium,
+                                            );
+                                          },
+                                        ),
+                                        FutureBuilder<List<ListatabelaRow>>(
+                                          future: SQLiteManager.instance
+                                              .listatabela(),
+                                          builder: (context, snapshot) {
+                                            // Customize what your widget looks like when it's loading.
+                                            if (!snapshot.hasData) {
+                                              return Center(
+                                                child: SizedBox(
+                                                  width: 50.0,
+                                                  height: 50.0,
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    valueColor:
+                                                        AlwaysStoppedAnimation<
+                                                            Color>(
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .primary,
+                                                    ),
+                                                  ),
+                                                ),
+                                              );
+                                            }
+                                            final textListatabelaRowList =
+                                                snapshot.data!;
+                                            return Text(
+                                              valueOrDefault<String>(
+                                                textListatabelaRowList.first.id,
+                                                '1231231',
+                                              ),
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium,
+                                            );
+                                          },
+                                        ),
+                                        FutureBuilder<List<SqliteRow>>(
+                                          future:
+                                              SQLiteManager.instance.sqlite(),
+                                          builder: (context, snapshot) {
+                                            // Customize what your widget looks like when it's loading.
+                                            if (!snapshot.hasData) {
+                                              return Center(
+                                                child: SizedBox(
+                                                  width: 50.0,
+                                                  height: 50.0,
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    valueColor:
+                                                        AlwaysStoppedAnimation<
+                                                            Color>(
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .primary,
+                                                    ),
+                                                  ),
+                                                ),
+                                              );
+                                            }
+                                            final textSqliteRowList =
+                                                snapshot.data!;
+                                            return Text(
+                                              valueOrDefault<String>(
+                                                textSqliteRowList.first.name,
+                                                '123123',
+                                              ),
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium,
+                                            );
+                                          },
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),
