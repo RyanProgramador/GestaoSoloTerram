@@ -160,6 +160,12 @@ class _ColetaPontosWidgetState extends State<ColetaPontosWidget> {
                                 }
 
                                 context.safePop();
+                                setState(() {
+                                  FFAppState().trSincroniza = FFAppState()
+                                      .trSincroniza
+                                      .toList()
+                                      .cast<dynamic>();
+                                });
                               },
                               child: Icon(
                                 Icons.arrow_back_sharp,

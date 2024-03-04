@@ -6,6 +6,7 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/custom_code/widgets/index.dart' as custom_widgets;
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'lista_pontos_model.dart';
@@ -44,6 +45,14 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => ListaPontosModel());
+
+    // On page load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      setState(() {
+        FFAppState().trSincroniza =
+            FFAppState().trSincroniza.toList().cast<dynamic>();
+      });
+    });
   }
 
   @override
