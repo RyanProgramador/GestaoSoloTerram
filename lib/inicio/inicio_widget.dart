@@ -607,61 +607,61 @@ class _InicioWidgetState extends State<InicioWidget> {
                         Padding(
                           padding: const EdgeInsetsDirectional.fromSTEB(
                               0.0, 10.0, 0.0, 0.0),
-                          child: FutureBuilder<List<ListausersRow>>(
-                            future: SQLiteManager.instance.listausers(),
-                            builder: (context, snapshot) {
-                              // Customize what your widget looks like when it's loading.
-                              if (!snapshot.hasData) {
-                                return Center(
-                                  child: SizedBox(
-                                    width: 40.0,
-                                    height: 40.0,
-                                    child: CircularProgressIndicator(
-                                      valueColor: AlwaysStoppedAnimation<Color>(
-                                        FlutterFlowTheme.of(context).primary,
+                          child: SingleChildScrollView(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      16.0, 0.0, 16.0, 0.0),
+                                  child: Container(
+                                    width: double.infinity,
+                                    height: 78.0,
+                                    decoration: BoxDecoration(
+                                      color: FlutterFlowTheme.of(context)
+                                          .alternate,
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      border: Border.all(
+                                        color: const Color(0xFF00736D),
                                       ),
                                     ),
-                                  ),
-                                );
-                              }
-                              final columnListausersRowList = snapshot.data!;
-                              return SingleChildScrollView(
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: List.generate(
-                                      columnListausersRowList.length,
-                                      (columnIndex) {
-                                    final columnListausersRow =
-                                        columnListausersRowList[columnIndex];
-                                    return Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          16.0, 0.0, 16.0, 0.0),
-                                      child: Container(
-                                        width: double.infinity,
-                                        height: 78.0,
-                                        decoration: BoxDecoration(
-                                          color: FlutterFlowTheme.of(context)
-                                              .alternate,
-                                          borderRadius:
-                                              BorderRadius.circular(8.0),
-                                          border: Border.all(
-                                            color: const Color(0xFF00736D),
-                                          ),
-                                        ),
-                                        child: Text(
+                                    child: FutureBuilder<List<ListausersRow>>(
+                                      future:
+                                          SQLiteManager.instance.listausers(),
+                                      builder: (context, snapshot) {
+                                        // Customize what your widget looks like when it's loading.
+                                        if (!snapshot.hasData) {
+                                          return Center(
+                                            child: SizedBox(
+                                              width: 50.0,
+                                              height: 50.0,
+                                              child: CircularProgressIndicator(
+                                                valueColor:
+                                                    AlwaysStoppedAnimation<
+                                                        Color>(
+                                                  FlutterFlowTheme.of(context)
+                                                      .primary,
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        }
+                                        final textListausersRowList =
+                                            snapshot.data!;
+                                        return Text(
                                           valueOrDefault<String>(
-                                            columnListausersRow.nome,
+                                            textListausersRowList.first.nome,
                                             '123',
                                           ),
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium,
-                                        ),
-                                      ),
-                                    );
-                                  }).divide(const SizedBox(height: 10.0)),
+                                        );
+                                      },
+                                    ),
+                                  ),
                                 ),
-                              );
-                            },
+                              ].divide(const SizedBox(height: 10.0)),
+                            ),
                           ),
                         ),
                       ],
