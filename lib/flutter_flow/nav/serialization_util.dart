@@ -208,8 +208,6 @@ dynamic deserializeParam<T>(
             return ListatabelaRow(data);
           case UsersssRow:
             return UsersssRow(data);
-          case SqliteRow:
-            return SqliteRow(data);
           default:
             return null;
         }

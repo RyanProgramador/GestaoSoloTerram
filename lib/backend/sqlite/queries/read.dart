@@ -1,3 +1,4 @@
+import '/backend/sqlite/queries/sqlite_row.dart';
 import 'package:sqflite/sqflite.dart';
 
 Future<List<T>> _readQuery<T>(
@@ -30,7 +31,7 @@ Future<List<UsersssRow>> performUsersss(
   Database database,
 ) {
   const query = '''
-select * from users
+select * from sqlite_sequence
 ''';
   return _readQuery(database, query, (d) => UsersssRow(d));
 }
@@ -38,25 +39,7 @@ select * from users
 class UsersssRow extends SqliteRow {
   UsersssRow(super.data);
 
-  String? get nome => data['nome'] as String?;
-}
-
-/// END USERSSS
-
-/// BEGIN SQLITE
-Future<List<SqliteRow>> performSqlite(
-  Database database,
-) {
-  const query = '''
-select * from sqlite_sequence
-''';
-  return _readQuery(database, query, (d) => SqliteRow(d));
-}
-
-class SqliteRow extends SqliteRow {
-  SqliteRow(super.data);
-
   String? get name => data['name'] as String?;
 }
 
-/// END SQLITE
+/// END USERSSS
