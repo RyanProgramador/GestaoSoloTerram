@@ -5,6 +5,7 @@ import '/custom_code/actions/index.dart' as actions;
 import '/custom_code/widgets/index.dart' as custom_widgets;
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import 'coleta_pontos_model.dart';
 export 'coleta_pontos_model.dart';
@@ -42,6 +43,11 @@ class _ColetaPontosWidgetState extends State<ColetaPontosWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => ColetaPontosModel());
+
+    // On page load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      _model.timerController.onStartTimer();
+    });
 
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
