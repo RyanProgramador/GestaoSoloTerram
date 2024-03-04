@@ -1,7 +1,9 @@
 import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_timer.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/custom_code/actions/index.dart' as actions;
 import '/custom_code/widgets/index.dart' as custom_widgets;
+import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'coleta_pontos_model.dart';
@@ -40,6 +42,8 @@ class _ColetaPontosWidgetState extends State<ColetaPontosWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => ColetaPontosModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -184,6 +188,58 @@ class _ColetaPontosWidgetState extends State<ColetaPontosWidget> {
                                 width: double.infinity,
                                 height: 30.0,
                               ),
+                            ),
+                          ),
+                          Align(
+                            alignment: const AlignmentDirectional(0.0, -1.0),
+                            child: FlutterFlowTimer(
+                              initialTime: _model.timerMilliseconds,
+                              getDisplayTime: (value) =>
+                                  StopWatchTimer.getDisplayTime(
+                                value,
+                                hours: false,
+                                milliSecond: false,
+                              ),
+                              controller: _model.timerController,
+                              updateStateInterval: const Duration(milliseconds: 500),
+                              onChanged: (value, displayTime, shouldUpdate) {
+                                _model.timerMilliseconds = value;
+                                _model.timerValue = displayTime;
+                                if (shouldUpdate) setState(() {});
+                              },
+                              onEnded: () async {
+                                setState(() {
+                                  FFAppState().trSincroniza = FFAppState()
+                                      .trSincroniza
+                                      .toList()
+                                      .cast<dynamic>();
+                                  FFAppState().listaColetasInciadas =
+                                      FFAppState()
+                                          .listaColetasInciadas
+                                          .toList()
+                                          .cast<dynamic>();
+                                  FFAppState().PontosTotalmenteColetados =
+                                      FFAppState()
+                                          .PontosTotalmenteColetados
+                                          .toList()
+                                          .cast<dynamic>();
+                                  FFAppState().PontosColetados = FFAppState()
+                                      .PontosColetados
+                                      .toList()
+                                      .cast<dynamic>();
+                                  FFAppState().PontosInacessiveis = FFAppState()
+                                      .PontosInacessiveis
+                                      .toList()
+                                      .cast<dynamic>();
+                                  FFAppState().trTalhoes = FFAppState()
+                                      .trTalhoes
+                                      .toList()
+                                      .cast<dynamic>();
+                                });
+                                _model.timerController.onResetTimer();
+                              },
+                              textAlign: TextAlign.start,
+                              style: FlutterFlowTheme.of(context).headlineSmall,
                             ),
                           ),
                         ],
