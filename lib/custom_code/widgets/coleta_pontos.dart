@@ -2131,6 +2131,10 @@ class _ColetaPontosState extends State<ColetaPontos> {
                     ElevatedButton(
                       onPressed: () {
                         //passar aqui o codigo de abrir esse modal novamente passando as variaveis ponto id, coleta id, etc, profuncidade, latlng
+                        // Navigator.of(context).pop();
+                        controller?.resumeCamera();
+                        _codigoQr.clear();
+                        // _exibirDados();
                       },
                       style: ElevatedButton.styleFrom(
                         padding:
@@ -2153,6 +2157,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
                     ElevatedButton(
                       onPressed: () {
                         // Implemente a ação para este botão
+                        Navigator.of(context).pop();
                       },
                       style: ElevatedButton.styleFrom(
                         padding:
