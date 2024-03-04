@@ -248,6 +248,8 @@ class _ColetaPontosWidgetState extends State<ColetaPontosWidget> {
                                         .cast<dynamic>();
                                   });
                                   _model.timerController.onResetTimer();
+
+                                  _model.timerController.onStartTimer();
                                 },
                                 textAlign: TextAlign.start,
                                 style: FlutterFlowTheme.of(context)
