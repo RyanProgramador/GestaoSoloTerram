@@ -73,35 +73,37 @@ class _AjustesConfiguracoesWidgetState
                           const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 50.0),
                       child: Container(
                         decoration: const BoxDecoration(),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Text(
-                              'Em desenvolvimento',
-                              style: FlutterFlowTheme.of(context).bodyMedium,
-                            ),
-                            Builder(
-                              builder: (context) {
-                                final sincr =
-                                    FFAppState().trSincroniza.toList();
-                                return SingleChildScrollView(
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: List.generate(sincr.length,
-                                        (sincrIndex) {
-                                      final sincrItem = sincr[sincrIndex];
-                                      return SelectionArea(
-                                          child: Text(
-                                        sincrItem.toString(),
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyMedium,
-                                      ));
-                                    }),
-                                  ),
-                                );
-                              },
-                            ),
-                          ],
+                        child: SingleChildScrollView(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Text(
+                                'Em desenvolvimento',
+                                style: FlutterFlowTheme.of(context).bodyMedium,
+                              ),
+                              Builder(
+                                builder: (context) {
+                                  final sincr =
+                                      FFAppState().trSincroniza.toList();
+                                  return SingleChildScrollView(
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: List.generate(sincr.length,
+                                          (sincrIndex) {
+                                        final sincrItem = sincr[sincrIndex];
+                                        return SelectionArea(
+                                            child: Text(
+                                          sincrItem.toString(),
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyMedium,
+                                        ));
+                                      }),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
