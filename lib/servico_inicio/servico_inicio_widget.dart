@@ -3,6 +3,7 @@ import '/flutter_flow/flutter_flow_google_map.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/custom_code/actions/index.dart' as actions;
 import 'package:flutter/material.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
 import 'package:provider/provider.dart';
@@ -286,11 +287,57 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                         children: [
                           FFButtonWidget(
                             onPressed: () async {
+                              var shouldSetState = false;
+                              _model.temNet = await actions.checkinternet();
+                              shouldSetState = true;
                               _model.trPontos =
                                   await TrOsServicosGroup.trPontosCall.call(
                                 urlApi: FFAppState().UrlApi,
                                 servicoId: widget.servico,
                               );
+                              shouldSetState = true;
+                              if (!_model.temNet!) {
+                                context.pushNamed(
+                                  'listaPontos',
+                                  queryParameters: {
+                                    'listaJsonPontos': serializeParam(
+                                      TrOsServicosGroup.trPontosCall
+                                          .dadosTrBuscaPontos(
+                                        (_model.trPontos?.jsonBody ?? ''),
+                                      ),
+                                      ParamType.JSON,
+                                      true,
+                                    ),
+                                    'oservId': serializeParam(
+                                      widget.servico,
+                                      ParamType.int,
+                                    ),
+                                    'fazId': serializeParam(
+                                      widget.fazId,
+                                      ParamType.int,
+                                    ),
+                                    'fazNome': serializeParam(
+                                      widget.fazNome,
+                                      ParamType.String,
+                                    ),
+                                    'fazLatlng': serializeParam(
+                                      widget.fazLatLng,
+                                      ParamType.LatLng,
+                                    ),
+                                    'autoAuditoria': serializeParam(
+                                      widget.autoAuditoria,
+                                      ParamType.bool,
+                                    ),
+                                    'quantidadeAutoAuditoria': serializeParam(
+                                      widget.quantiadeDeFotosParaIntervalo,
+                                      ParamType.int,
+                                    ),
+                                  }.withoutNulls,
+                                );
+
+                                if (shouldSetState) setState(() {});
+                                return;
+                              }
                               if (TrOsServicosGroup.trPontosCall
                                   .statusTrBuscaPontos(
                                 (_model.trPontos?.jsonBody ?? ''),
@@ -354,7 +401,7 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                                 );
                               }
 
-                              setState(() {});
+                              if (shouldSetState) setState(() {});
                             },
                             text: 'Coletas',
                             options: FFButtonOptions(

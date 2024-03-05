@@ -11,6 +11,8 @@ class ServicoInicioModel extends FlutterFlowModel<ServicoInicioWidget> {
   // State field(s) for GoogleMap widget.
   LatLng? googleMapsCenter;
   final googleMapsController = Completer<GoogleMapController>();
+  // Stores action output result for [Custom Action - checkinternet] action in Button widget.
+  bool? temNet;
   // Stores action output result for [Backend Call - API (trPontos)] action in Button widget.
   ApiCallResponse? trPontos;
 
