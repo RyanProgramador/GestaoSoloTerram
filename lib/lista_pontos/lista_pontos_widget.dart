@@ -286,7 +286,7 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                         },
                                       );
                                     },
-                                    text: 'Realizar coletas',
+                                    text: 'Volume',
                                     options: FFButtonOptions(
                                       width: MediaQuery.sizeOf(context).width *
                                           0.4,

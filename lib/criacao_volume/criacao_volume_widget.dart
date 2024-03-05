@@ -1,7 +1,6 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/custom_code/widgets/index.dart' as custom_widgets;
-import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
@@ -9,24 +8,7 @@ import 'criacao_volume_model.dart';
 export 'criacao_volume_model.dart';
 
 class CriacaoVolumeWidget extends StatefulWidget {
-  const CriacaoVolumeWidget({
-    super.key,
-    required this.listaJsonPontos,
-    required this.oservId,
-    required this.fazId,
-    required this.fazNome,
-    required this.fazLatlng,
-    required this.autoAuditoria,
-    required this.quantidadeAutoAuditoria,
-  });
-
-  final List<dynamic>? listaJsonPontos;
-  final int? oservId;
-  final int? fazId;
-  final String? fazNome;
-  final LatLng? fazLatlng;
-  final bool? autoAuditoria;
-  final int? quantidadeAutoAuditoria;
+  const CriacaoVolumeWidget({super.key});
 
   @override
   State<CriacaoVolumeWidget> createState() => _CriacaoVolumeWidgetState();
@@ -184,8 +166,13 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
                                     color: FlutterFlowTheme.of(context).primary,
                                     borderRadius: BorderRadius.circular(12.0),
                                   ),
-                                  child: Container(
-                                    child: const custom_widgets.QrcodeScanner(),
+                                  child: const SizedBox(
+                                    width: double.infinity,
+                                    height: double.infinity,
+                                    child: custom_widgets.QrcodeScanner(
+                                      width: double.infinity,
+                                      height: double.infinity,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -221,26 +208,7 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
                                     16.0, 0.0, 16.0, 0.0),
                                 child: Container(
                                   width: double.infinity,
-                                  height: () {
-                                    if (functions.contadorDeIntensNaLista() ==
-                                        4) {
-                                      return 190.0;
-                                    } else if (functions
-                                            .contadorDeIntensNaLista() ==
-                                        3) {
-                                      return 170.0;
-                                    } else if (functions
-                                            .contadorDeIntensNaLista() ==
-                                        2) {
-                                      return 150.0;
-                                    } else if (functions
-                                            .contadorDeIntensNaLista() ==
-                                        1) {
-                                      return 125.0;
-                                    } else {
-                                      return 100.0;
-                                    }
-                                  }(),
+                                  height: 200.0,
                                   decoration: BoxDecoration(
                                     color: const Color(0xFFE1E3E7),
                                     borderRadius: BorderRadius.circular(8.0),
