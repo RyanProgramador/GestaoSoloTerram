@@ -296,10 +296,14 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                                   'listaPontos',
                                   queryParameters: {
                                     'listaJsonPontos': serializeParam(
-                                      functions.buscaRegistro(
-                                          widget.fazId!.toString(),
-                                          widget.servico!.toString(),
-                                          FFAppState().trSincroniza.toList()),
+                                      getJsonField(
+                                        functions.buscaRegistro(
+                                            widget.fazId!.toString(),
+                                            widget.servico!.toString(),
+                                            FFAppState().trSincroniza.toList()),
+                                        r'''$.pontos''',
+                                        true,
+                                      ),
                                       ParamType.JSON,
                                       true,
                                     ),
@@ -344,6 +348,68 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                                   .statusTrBuscaPontos(
                                 (_model.trPontos?.jsonBody ?? ''),
                               )!) {
+                                if (!(functions.buscaRegistro(
+                                        widget.fazId!.toString(),
+                                        widget.servico!.toString(),
+                                        FFAppState().trSincroniza.toList()) !=
+                                    null)) {
+                                  await showDialog(
+                                    context: context,
+                                    builder: (alertDialogContext) {
+                                      return AlertDialog(
+                                        title: const Text('1'),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () => Navigator.pop(
+                                                alertDialogContext),
+                                            child: const Text('Ok'),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+
+                                  context.pushNamed(
+                                    'listaPontos',
+                                    queryParameters: {
+                                      'listaJsonPontos': serializeParam(
+                                        TrOsServicosGroup.trPontosCall
+                                            .dadosTrBuscaPontos(
+                                          (_model.trPontos?.jsonBody ?? ''),
+                                        ),
+                                        ParamType.JSON,
+                                        true,
+                                      ),
+                                      'oservId': serializeParam(
+                                        widget.servico,
+                                        ParamType.int,
+                                      ),
+                                      'fazId': serializeParam(
+                                        widget.fazId,
+                                        ParamType.int,
+                                      ),
+                                      'fazNome': serializeParam(
+                                        widget.fazNome,
+                                        ParamType.String,
+                                      ),
+                                      'fazLatlng': serializeParam(
+                                        widget.fazLatLng,
+                                        ParamType.LatLng,
+                                      ),
+                                      'autoAuditoria': serializeParam(
+                                        widget.autoAuditoria,
+                                        ParamType.bool,
+                                      ),
+                                      'quantidadeAutoAuditoria': serializeParam(
+                                        widget.quantiadeDeFotosParaIntervalo,
+                                        ParamType.int,
+                                      ),
+                                    }.withoutNulls,
+                                  );
+
+                                  if (shouldSetState) setState(() {});
+                                  return;
+                                }
                                 _model.listasUnidas =
                                     await actions.atualizaListas(
                                   functions.buscaRegistro(
