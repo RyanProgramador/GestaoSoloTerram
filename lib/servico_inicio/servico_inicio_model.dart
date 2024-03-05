@@ -15,6 +15,8 @@ class ServicoInicioModel extends FlutterFlowModel<ServicoInicioWidget> {
   bool? temNet;
   // Stores action output result for [Backend Call - API (trPontos)] action in Button widget.
   ApiCallResponse? trPontos;
+  // Stores action output result for [Custom Action - atualizaListas] action in Button widget.
+  dynamic listasUnidas;
 
   /// Initialization and disposal methods.
 

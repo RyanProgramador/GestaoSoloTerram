@@ -385,12 +385,24 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                                   }.withoutNulls,
                                 );
 
+                                _model.listasUnidas =
+                                    await actions.atualizaListas(
+                                  functions.buscaRegistro(
+                                      widget.fazId!.toString(),
+                                      widget.servico!.toString(),
+                                      FFAppState().trSincroniza.toList()),
+                                  TrOsServicosGroup.trPontosCall
+                                      .dadosTrBuscaPontos(
+                                        (_model.trPontos?.jsonBody ?? ''),
+                                      )!
+                                      .toList(),
+                                );
+                                shouldSetState = true;
                                 setState(() {
-                                  FFAppState().addToDadosTrBuscaPontosLista(
-                                      getJsonField(
-                                    (_model.trPontos?.jsonBody ?? ''),
-                                    r'''$.dados''',
-                                  ));
+                                  FFAppState().trSincroniza = _model
+                                      .listasUnidas!
+                                      .toList()
+                                      .cast<dynamic>();
                                 });
                               } else {
                                 await showDialog(

@@ -42,34 +42,34 @@ Future atualizaTrSinc(
   List<Map<String, dynamic>> transformedList = [];
 
   groupedByPontoId.forEach((idPonto, items) {
-    for (var item in items) {
-      var profundidades = items
-          .map((item) => {
-                "pprof_id": item["profundidade"],
-                "pprof_status": 1,
-                "pprof_icone": "",
-                "pprof_observacao": item["obs"].toString() ?? "Sem observação!",
-                "pprof_foto": item["foto"].toString() ?? "",
-                "pprof_datahora": formatDateTime(item["data_hora"].toString()),
-              })
-          .toList();
-      var splittedLatLng = item["latlng"].split(",");
+    // for (var item in items) {
+    var profundidades = items
+        .map((item) => {
+              "pprof_id": int.parse(item["profundidade"]),
+              "pprof_status": 1,
+              "pprof_icone": "Pin, Green",
+              "pprof_observacao": item["obs"].toString() ?? "Sem observação!",
+              "pprof_foto": item["fot"].toString() ?? "",
+              "pprof_datahora": formatDateTime(item["data_hora"].toString()),
+            })
+        .toList();
+    // var splittedLatLng = item["latlng"].split(",");
+    //
+    // var latitude = double.parse(splittedLatLng[0]);
+    // var longitude = double.parse(splittedLatLng[1]);
 
-      var latitude = double.parse(splittedLatLng[0]);
-      var longitude = double.parse(splittedLatLng[1]);
-
-      transformedList.add({
-        "pont_id": idPonto,
-        "pont_numero": item["marcador_nome"],
-        "pont_latitude": latitude.toString(),
-        "pont_longitude": longitude.toString(),
-        "pont_simbolo": "Pin, Green",
-        "pont_status": 1,
-        "pont_observacao": "",
-        "pont_foto": "",
-        "profundidades": profundidades,
-      });
-    }
+    transformedList.add({
+      "pont_id": idPonto,
+      "pont_numero": 393, //item["marcador_nome"],
+      "pont_latitude": "-17.780151593", //latitude.toString(),
+      "pont_longitude": "-51.061255731", //longitude.toString(),
+      "pont_simbolo": "Pin, Green",
+      "pont_status": 1,
+      "pont_observacao": "",
+      "pont_foto": "",
+      "profundidades": profundidades,
+    });
+    // }
   });
 
   var listaIna = FFAppState().PontosInacessiveis.where((element) =>
