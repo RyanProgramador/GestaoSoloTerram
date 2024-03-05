@@ -296,14 +296,10 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                                   'listaPontos',
                                   queryParameters: {
                                     'listaJsonPontos': serializeParam(
-                                      getJsonField(
-                                        functions.buscaRegistro(
-                                            widget.fazId!.toString(),
-                                            widget.servico!.toString(),
-                                            FFAppState().trSincroniza.toList()),
-                                        r'''$.pontos''',
-                                        true,
-                                      ),
+                                      functions.buscaRegistro(
+                                          widget.fazId!.toString(),
+                                          widget.servico!.toString(),
+                                          FFAppState().trSincroniza.toList()),
                                       ParamType.JSON,
                                       true,
                                     ),
@@ -362,11 +358,8 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                                 );
                                 shouldSetState = true;
                                 setState(() {
-                                  FFAppState().trSincroniza = getJsonField(
-                                    _model.listasUnidas,
-                                    r'''$.pontos''',
-                                    true,
-                                  )!
+                                  FFAppState().trSincroniza = _model
+                                      .listasUnidas!
                                       .toList()
                                       .cast<dynamic>();
                                 });
