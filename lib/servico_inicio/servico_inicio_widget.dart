@@ -351,7 +351,7 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                                 if (!(functions.buscaRegistro(
                                         widget.fazId!.toString(),
                                         widget.servico!.toString(),
-                                        FFAppState().trSincroniza.toList()) ==
+                                        FFAppState().trSincroniza.toList()) !=
                                     null)) {
                                   await showDialog(
                                     context: context,
