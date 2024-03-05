@@ -30,6 +30,8 @@ Future atualizaTrSinc(
   for (var item in lista) {
     // Tenta converter o valor de item["id_ponto"] para int, se não for possível, atribui 0 ou trata o erro de outra forma.
     int idPonto = (int.parse(item["id_ponto"]) as int?) ?? 0;
+    int marcador_nome =
+        (int.parse(item["marcador_nome"]) as int?) ?? 0; /* id numero valor */
 
     if (!groupedByPontoId.containsKey(idPonto)) {
       groupedByPontoId[idPonto] = [];
@@ -40,23 +42,34 @@ Future atualizaTrSinc(
   List<Map<String, dynamic>> transformedList = [];
 
   groupedByPontoId.forEach((idPonto, items) {
-    var profundidades = items
-        .map((item) => {
-              "id": item["profundidade"],
-              "status": 1,
-              "obs": item["obs"].toString() ?? "Sem observação!",
-              "foto": item["foto"].toString() ?? "",
-              "data": formatDateTime(item["data_hora"].toString()),
-            })
-        .toList();
+    for (var item in items) {
+      var profundidades = items
+          .map((item) => {
+                "pprof_id": item["profundidade"],
+                "pprof_status": 1,
+                "pprof_icone": "",
+                "pprof_observacao": item["obs"].toString() ?? "Sem observação!",
+                "pprof_foto": item["foto"].toString() ?? "",
+                "pprof_datahora": formatDateTime(item["data_hora"].toString()),
+              })
+          .toList();
+      var splittedLatLng = item["latlng"].split(",");
 
-    transformedList.add({
-      "id": idPonto,
-      "status": 1,
-      "obs": "",
-      "foto": "",
-      "profundidades": profundidades,
-    });
+      var latitude = double.parse(splittedLatLng[0]);
+      var longitude = double.parse(splittedLatLng[1]);
+
+      transformedList.add({
+        "pont_id": idPonto,
+        "pont_numero": item["marcador_nome"],
+        "pont_latitude": latitude.toString(),
+        "pont_longitude": longitude.toString(),
+        "pont_simbolo": "Pin, Green",
+        "pont_status": 1,
+        "pont_observacao": "",
+        "pont_foto": "",
+        "profundidades": profundidades,
+      });
+    }
   });
 
   var listaIna = FFAppState().PontosInacessiveis.where((element) =>
@@ -78,23 +91,30 @@ Future atualizaTrSinc(
   List<Map<String, dynamic>> transformedListInacessiveis = [];
 
   groupedByPontoIdInacessivel.forEach((idPonto, items) {
-    var profundidades = items
-        .map((item) => {
-              "id": item["profundidade"],
-              "status": 2,
-              "obs": "",
-              "foto": "",
-              "data": formatDateTime(item["data_hora"].toString()),
-            })
-        .toList();
+    for (var item in items) {
+      var profundidades = items
+          .map((item) => {
+                "pprof_id": item["profundidade"],
+                "pprof_status": 2,
+                "pprof_icone": "pin sla",
+                "pprof_observacao": "",
+                "pprof_foto": "",
+                "pprof_datahora": formatDateTime(item["data_hora"].toString()),
+              })
+          .toList();
 
-    transformedListInacessiveis.add({
-      "id": idPonto,
-      "status": 2,
-      "obs": items.first["obs"].toString(),
-      "foto": items.first["foto"].toString(),
-      "profundidades": profundidades,
-    });
+      transformedListInacessiveis.add({
+        "pont_id": idPonto,
+        "pont_numero": item["marcador_nome"],
+        "pont_latitude": "",
+        "pont_longitude": "",
+        "pont_simbolo": "",
+        "pont_status": 2,
+        "pont_observacao": items.first["obs"].toString(),
+        "pont_foto": items.first["foto"].toString(),
+        "profundidades": profundidades,
+      });
+    }
   });
 
   var jaExisteTrSincroniza = FFAppState()

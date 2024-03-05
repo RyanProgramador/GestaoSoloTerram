@@ -4,6 +4,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/custom_code/actions/index.dart' as actions;
+import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
 import 'package:provider/provider.dart';
@@ -290,21 +291,15 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                               var shouldSetState = false;
                               _model.temNet = await actions.checkinternet();
                               shouldSetState = true;
-                              _model.trPontos =
-                                  await TrOsServicosGroup.trPontosCall.call(
-                                urlApi: FFAppState().UrlApi,
-                                servicoId: widget.servico,
-                              );
-                              shouldSetState = true;
                               if (!_model.temNet!) {
                                 context.pushNamed(
                                   'listaPontos',
                                   queryParameters: {
                                     'listaJsonPontos': serializeParam(
-                                      TrOsServicosGroup.trPontosCall
-                                          .dadosTrBuscaPontos(
-                                        (_model.trPontos?.jsonBody ?? ''),
-                                      ),
+                                      functions.buscaRegistro(
+                                          widget.fazId!.toString(),
+                                          widget.servico!.toString(),
+                                          FFAppState().trSincroniza.toList()),
                                       ParamType.JSON,
                                       true,
                                     ),
@@ -338,6 +333,12 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                                 if (shouldSetState) setState(() {});
                                 return;
                               }
+                              _model.trPontos =
+                                  await TrOsServicosGroup.trPontosCall.call(
+                                urlApi: FFAppState().UrlApi,
+                                servicoId: widget.servico,
+                              );
+                              shouldSetState = true;
                               if (TrOsServicosGroup.trPontosCall
                                   .statusTrBuscaPontos(
                                 (_model.trPontos?.jsonBody ?? ''),

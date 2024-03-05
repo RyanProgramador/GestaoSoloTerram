@@ -484,6 +484,8 @@ class _ColetaPontosState extends State<ColetaPontos> {
     for (var item in lista) {
       // Tenta converter o valor de item["id_ponto"] para int, se não for possível, atribui 0 ou trata o erro de outra forma.
       int idPonto = (int.parse(item["id_ponto"]) as int?) ?? 0;
+      int marcador_nome =
+          (int.parse(item["marcador_nome"]) as int?) ?? 0; /* id numero valor */
 
       if (!groupedByPontoId.containsKey(idPonto)) {
         groupedByPontoId[idPonto] = [];
@@ -493,24 +495,48 @@ class _ColetaPontosState extends State<ColetaPontos> {
 
     List<Map<String, dynamic>> transformedList = [];
 
-    groupedByPontoId.forEach((idPonto, items) {
-      var profundidades = items
-          .map((item) => {
-                "id": item["profundidade"],
-                "status": 1,
-                "obs": item["obs"].toString() ?? "Sem observação!",
-                "foto": item["foto"].toString() ?? "",
-                "data": formatDateTime(item["data_hora"].toString()),
-              })
-          .toList();
+    // groupedByPontoId.forEach((idPonto, items) {
+    //   var profundidades = items
+    //       .map((item) => {
+    //             "id": item["profundidade"],
+    //             "status": 1,
+    //             "obs": item["obs"].toString() ?? "Sem observação!",
+    //             "foto": item["foto"].toString() ?? "",
+    //             "data": formatDateTime(item["data_hora"].toString()),
+    //           })
+    //       .toList();
+    //
+    //   transformedList.add({
+    //     "id": idPonto,
+    //     "marcador_nome": item["marcador_nome"],
+    //     "status": 1,
+    //     "obs": "",
+    //     "foto": "",
+    //     "profundidades": profundidades,
+    //   });
+    // });
 
-      transformedList.add({
-        "id": idPonto,
-        "status": 1,
-        "obs": "",
-        "foto": "",
-        "profundidades": profundidades,
-      });
+    groupedByPontoId.forEach((idPonto, items) {
+      for (var item in items) {
+        var profundidades = items
+            .map((item) => {
+                  "id": item["profundidade"],
+                  "status": 1,
+                  "obs": item["obs"].toString() ?? "Sem observação!",
+                  "foto": item["foto"].toString() ?? "",
+                  "data": formatDateTime(item["data_hora"].toString()),
+                })
+            .toList();
+
+        transformedList.add({
+          "id": idPonto,
+          "pont_numero": item["marcador_nome"],
+          "status": 1,
+          "obs": "",
+          "foto": "",
+          "profundidades": profundidades,
+        });
+      }
     });
 
     var listaIna = FFAppState().PontosInacessiveis.where((element) =>
@@ -522,6 +548,8 @@ class _ColetaPontosState extends State<ColetaPontos> {
     for (var item in listaIna) {
       // Tenta converter o valor de item["id_ponto"] para int, se não for possível, atribui 0 ou trata o erro de outra forma.
       int idPonto = (int.parse(item["id_ponto"]) as int?) ?? 0;
+      int marcador_nome =
+          (int.parse(item["marcador_nome"]) as int?) ?? 0; /* id numero valor */
 
       if (!groupedByPontoIdInacessivel.containsKey(idPonto)) {
         groupedByPontoIdInacessivel[idPonto] = [];
@@ -532,23 +560,26 @@ class _ColetaPontosState extends State<ColetaPontos> {
     List<Map<String, dynamic>> transformedListInacessiveis = [];
 
     groupedByPontoIdInacessivel.forEach((idPonto, items) {
-      var profundidades = items
-          .map((item) => {
-                "id": item["profundidade"],
-                "status": 2,
-                "obs": "",
-                "foto": "",
-                "data": formatDateTime(item["data_hora"].toString()),
-              })
-          .toList();
+      for (var item in items) {
+        var profundidades = items
+            .map((item) => {
+                  "id": item["profundidade"],
+                  "status": 2,
+                  "obs": "",
+                  "foto": "",
+                  "data": formatDateTime(item["data_hora"].toString()),
+                })
+            .toList();
 
-      transformedListInacessiveis.add({
-        "id": idPonto,
-        "status": 2,
-        "obs": items.first["obs"].toString(),
-        "foto": items.first["foto"].toString(),
-        "profundidades": profundidades,
-      });
+        transformedListInacessiveis.add({
+          "id": idPonto,
+          "pont_numero": item["marcador_nome"],
+          "status": 2,
+          "obs": items.first["obs"].toString(),
+          "foto": items.first["foto"].toString(),
+          "profundidades": profundidades,
+        });
+      }
     });
 
     var jaExisteTrSincroniza = FFAppState()
