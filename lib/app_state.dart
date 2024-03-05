@@ -124,6 +124,18 @@ class FFAppState extends ChangeNotifier {
               }).toList() ??
               _PontosTotalmenteColetados;
     });
+    _safeInit(() {
+      _dadosTrBuscaPontosLista =
+          prefs.getStringList('ff_dadosTrBuscaPontosLista')?.map((x) {
+                try {
+                  return jsonDecode(x);
+                } catch (e) {
+                  print("Can't decode persisted json. Error: $e.");
+                  return {};
+                }
+              }).toList() ??
+              _dadosTrBuscaPontosLista;
+    });
   }
 
   void update(VoidCallback callback) {
@@ -483,6 +495,48 @@ class FFAppState extends ChangeNotifier {
     _PontosTotalmenteColetados.insert(index, value);
     prefs.setStringList('ff_PontosTotalmenteColetados',
         _PontosTotalmenteColetados.map((x) => jsonEncode(x)).toList());
+  }
+
+  List<dynamic> _dadosTrBuscaPontosLista = [];
+  List<dynamic> get dadosTrBuscaPontosLista => _dadosTrBuscaPontosLista;
+  set dadosTrBuscaPontosLista(List<dynamic> value) {
+    _dadosTrBuscaPontosLista = value;
+    prefs.setStringList('ff_dadosTrBuscaPontosLista',
+        value.map((x) => jsonEncode(x)).toList());
+  }
+
+  void addToDadosTrBuscaPontosLista(dynamic value) {
+    _dadosTrBuscaPontosLista.add(value);
+    prefs.setStringList('ff_dadosTrBuscaPontosLista',
+        _dadosTrBuscaPontosLista.map((x) => jsonEncode(x)).toList());
+  }
+
+  void removeFromDadosTrBuscaPontosLista(dynamic value) {
+    _dadosTrBuscaPontosLista.remove(value);
+    prefs.setStringList('ff_dadosTrBuscaPontosLista',
+        _dadosTrBuscaPontosLista.map((x) => jsonEncode(x)).toList());
+  }
+
+  void removeAtIndexFromDadosTrBuscaPontosLista(int index) {
+    _dadosTrBuscaPontosLista.removeAt(index);
+    prefs.setStringList('ff_dadosTrBuscaPontosLista',
+        _dadosTrBuscaPontosLista.map((x) => jsonEncode(x)).toList());
+  }
+
+  void updateDadosTrBuscaPontosListaAtIndex(
+    int index,
+    dynamic Function(dynamic) updateFn,
+  ) {
+    _dadosTrBuscaPontosLista[index] =
+        updateFn(_dadosTrBuscaPontosLista[index]);
+    prefs.setStringList('ff_dadosTrBuscaPontosLista',
+        _dadosTrBuscaPontosLista.map((x) => jsonEncode(x)).toList());
+  }
+
+  void insertAtIndexInDadosTrBuscaPontosLista(int index, dynamic value) {
+    _dadosTrBuscaPontosLista.insert(index, value);
+    prefs.setStringList('ff_dadosTrBuscaPontosLista',
+        _dadosTrBuscaPontosLista.map((x) => jsonEncode(x)).toList());
   }
 }
 

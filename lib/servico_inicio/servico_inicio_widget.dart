@@ -384,6 +384,14 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                                     ),
                                   }.withoutNulls,
                                 );
+
+                                setState(() {
+                                  FFAppState().addToDadosTrBuscaPontosLista(
+                                      getJsonField(
+                                    (_model.trPontos?.jsonBody ?? ''),
+                                    r'''$.dados''',
+                                  ));
+                                });
                               } else {
                                 await showDialog(
                                   context: context,
