@@ -148,6 +148,21 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'blancRedirInicio',
           path: '/blancRedirInicio',
           builder: (context, params) => const BlancRedirInicioWidget(),
+        ),
+        FFRoute(
+          name: 'criacaoVolume',
+          path: '/criacaoVolume',
+          builder: (context, params) => CriacaoVolumeWidget(
+            listaJsonPontos: params.getParam<dynamic>(
+                'listaJsonPontos', ParamType.JSON, true),
+            oservId: params.getParam('oservId', ParamType.int),
+            fazId: params.getParam('fazId', ParamType.int),
+            fazNome: params.getParam('fazNome', ParamType.String),
+            fazLatlng: params.getParam('fazLatlng', ParamType.LatLng),
+            autoAuditoria: params.getParam('autoAuditoria', ParamType.bool),
+            quantidadeAutoAuditoria:
+                params.getParam('quantidadeAutoAuditoria', ParamType.int),
+          ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

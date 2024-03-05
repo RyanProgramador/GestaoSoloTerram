@@ -10,3 +10,4 @@ export '/login/login_widget.dart' show LoginWidget;
 export '/esqueceu_senha/esqueceu_senha_widget.dart' show EsqueceuSenhaWidget;
 export '/blanc_redir_inicio/blanc_redir_inicio_widget.dart'
     show BlancRedirInicioWidget;
+export '/criacao_volume/criacao_volume_widget.dart' show CriacaoVolumeWidget;
