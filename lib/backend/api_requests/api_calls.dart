@@ -99,11 +99,13 @@ class TrPontosCall {
   Future<ApiCallResponse> call({
     String? urlApi = '',
     int? servicoId,
+    int? fazendaId,
   }) async {
     final ffApiRequestBody = '''
 {
   "tipo": "ff_busca_pontos",
-  "servico_id": "$servicoId"
+  "servico_id": "$servicoId",
+"fazenda_id":"$fazendaId"
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'trPontos',

@@ -341,6 +341,7 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                                   await TrOsServicosGroup.trPontosCall.call(
                                 urlApi: FFAppState().UrlApi,
                                 servicoId: widget.servico,
+                                fazendaId: widget.fazId,
                               );
                               shouldSetState = true;
                               if (TrOsServicosGroup.trPontosCall
@@ -360,29 +361,6 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                                       .toList(),
                                 );
                                 shouldSetState = true;
-                                var confirmDialogResponse = await showDialog<
-                                        bool>(
-                                      context: context,
-                                      builder: (alertDialogContext) {
-                                        return AlertDialog(
-                                          title: Text(
-                                              _model.listasUnidas!.toString()),
-                                          actions: [
-                                            TextButton(
-                                              onPressed: () => Navigator.pop(
-                                                  alertDialogContext, false),
-                                              child: const Text('Cancel'),
-                                            ),
-                                            TextButton(
-                                              onPressed: () => Navigator.pop(
-                                                  alertDialogContext, true),
-                                              child: const Text('Confirm'),
-                                            ),
-                                          ],
-                                        );
-                                      },
-                                    ) ??
-                                    false;
                                 setState(() {
                                   FFAppState().trSincroniza = _model
                                       .listasUnidas!
