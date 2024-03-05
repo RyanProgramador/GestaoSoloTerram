@@ -362,8 +362,11 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                                 );
                                 shouldSetState = true;
                                 setState(() {
-                                  FFAppState().trSincroniza = _model
-                                      .listasUnidas!
+                                  FFAppState().trSincroniza = getJsonField(
+                                    _model.listasUnidas,
+                                    r'''$.pontos''',
+                                    true,
+                                  )!
                                       .toList()
                                       .cast<dynamic>();
                                 });
