@@ -177,89 +177,142 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              FFButtonWidget(
-                                onPressed: () async {
-                                  _model.trTalh =
-                                      await TrOsServicosGroup.trTalhaoCall.call(
-                                    urlApi: FFAppState().UrlApi,
-                                    fazId: widget.fazId,
-                                  );
-                                  setState(() {
-                                    FFAppState().trTalhoes = getJsonField(
-                                      (_model.trTalh?.jsonBody ?? ''),
-                                      r'''$.dados''',
-                                      true,
-                                    )!
-                                        .toList()
-                                        .cast<dynamic>();
-                                  });
+                              Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  FFButtonWidget(
+                                    onPressed: () async {
+                                      _model.trTalh = await TrOsServicosGroup
+                                          .trTalhaoCall
+                                          .call(
+                                        urlApi: FFAppState().UrlApi,
+                                        fazId: widget.fazId,
+                                      );
+                                      setState(() {
+                                        FFAppState().trTalhoes = getJsonField(
+                                          (_model.trTalh?.jsonBody ?? ''),
+                                          r'''$.dados''',
+                                          true,
+                                        )!
+                                            .toList()
+                                            .cast<dynamic>();
+                                      });
 
-                                  context.pushNamed(
-                                    'ColetaPontos',
-                                    queryParameters: {
-                                      'oservID': serializeParam(
-                                        widget.oservId,
-                                        ParamType.int,
-                                      ),
-                                      'fazid': serializeParam(
-                                        widget.fazId,
-                                        ParamType.int,
-                                      ),
-                                      'fazNome': serializeParam(
-                                        widget.fazNome,
-                                        ParamType.String,
-                                      ),
-                                      'fazLatlng': serializeParam(
-                                        widget.fazLatlng,
-                                        ParamType.LatLng,
-                                      ),
-                                      'autoAuditoria': serializeParam(
-                                        widget.autoAuditoria,
-                                        ParamType.bool,
-                                      ),
-                                      'quantidadeAutoAuditoria': serializeParam(
-                                        widget.quantidadeAutoAuditoria,
-                                        ParamType.int,
-                                      ),
-                                      'trPontos': serializeParam(
-                                        widget.listaJsonPontos,
-                                        ParamType.JSON,
-                                        true,
-                                      ),
-                                    }.withoutNulls,
-                                    extra: <String, dynamic>{
-                                      kTransitionInfoKey: const TransitionInfo(
-                                        hasTransition: true,
-                                        transitionType: PageTransitionType.fade,
-                                        duration: Duration(milliseconds: 0),
-                                      ),
+                                      context.pushNamed(
+                                        'ColetaPontos',
+                                        queryParameters: {
+                                          'oservID': serializeParam(
+                                            widget.oservId,
+                                            ParamType.int,
+                                          ),
+                                          'fazid': serializeParam(
+                                            widget.fazId,
+                                            ParamType.int,
+                                          ),
+                                          'fazNome': serializeParam(
+                                            widget.fazNome,
+                                            ParamType.String,
+                                          ),
+                                          'fazLatlng': serializeParam(
+                                            widget.fazLatlng,
+                                            ParamType.LatLng,
+                                          ),
+                                          'autoAuditoria': serializeParam(
+                                            widget.autoAuditoria,
+                                            ParamType.bool,
+                                          ),
+                                          'quantidadeAutoAuditoria':
+                                              serializeParam(
+                                            widget.quantidadeAutoAuditoria,
+                                            ParamType.int,
+                                          ),
+                                          'trPontos': serializeParam(
+                                            widget.listaJsonPontos,
+                                            ParamType.JSON,
+                                            true,
+                                          ),
+                                        }.withoutNulls,
+                                        extra: <String, dynamic>{
+                                          kTransitionInfoKey: const TransitionInfo(
+                                            hasTransition: true,
+                                            transitionType:
+                                                PageTransitionType.fade,
+                                            duration: Duration(milliseconds: 0),
+                                          ),
+                                        },
+                                      );
+
+                                      setState(() {});
                                     },
-                                  );
-
-                                  setState(() {});
-                                },
-                                text: 'Realizar coletas',
-                                options: FFButtonOptions(
-                                  width: MediaQuery.sizeOf(context).width * 0.4,
-                                  height: 50.0,
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      24.0, 0.0, 24.0, 0.0),
-                                  iconPadding: const EdgeInsetsDirectional.fromSTEB(
-                                      0.0, 0.0, 0.0, 0.0),
-                                  color: FlutterFlowTheme.of(context).primary,
-                                  textStyle: FlutterFlowTheme.of(context)
-                                      .titleSmall
-                                      .override(
-                                        fontFamily: 'Readex Pro',
-                                        color: Colors.white,
+                                    text: 'Realizar coletas',
+                                    options: FFButtonOptions(
+                                      width: MediaQuery.sizeOf(context).width *
+                                          0.4,
+                                      height: 50.0,
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                          24.0, 0.0, 24.0, 0.0),
+                                      iconPadding:
+                                          const EdgeInsetsDirectional.fromSTEB(
+                                              0.0, 0.0, 0.0, 0.0),
+                                      color:
+                                          FlutterFlowTheme.of(context).primary,
+                                      textStyle: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .override(
+                                            fontFamily: 'Readex Pro',
+                                            color: Colors.white,
+                                          ),
+                                      elevation: 3.0,
+                                      borderSide: const BorderSide(
+                                        color: Colors.transparent,
+                                        width: 1.0,
                                       ),
-                                  elevation: 3.0,
-                                  borderSide: const BorderSide(
-                                    color: Colors.transparent,
-                                    width: 1.0,
+                                      borderRadius: BorderRadius.circular(24.0),
+                                    ),
                                   ),
-                                  borderRadius: BorderRadius.circular(24.0),
-                                ),
+                                  FFButtonWidget(
+                                    onPressed: () async {
+                                      context.pushNamed(
+                                        'criacaoVolume',
+                                        extra: <String, dynamic>{
+                                          kTransitionInfoKey: const TransitionInfo(
+                                            hasTransition: true,
+                                            transitionType:
+                                                PageTransitionType.fade,
+                                            duration: Duration(milliseconds: 0),
+                                          ),
+                                        },
+                                      );
+                                    },
+                                    text: 'Realizar coletas',
+                                    options: FFButtonOptions(
+                                      width: MediaQuery.sizeOf(context).width *
+                                          0.4,
+                                      height: 50.0,
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                          24.0, 0.0, 24.0, 0.0),
+                                      iconPadding:
+                                          const EdgeInsetsDirectional.fromSTEB(
+                                              0.0, 0.0, 0.0, 0.0),
+                                      color:
+                                          FlutterFlowTheme.of(context).primary,
+                                      textStyle: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .override(
+                                            fontFamily: 'Readex Pro',
+                                            color: Colors.white,
+                                          ),
+                                      elevation: 3.0,
+                                      borderSide: const BorderSide(
+                                        color: Colors.transparent,
+                                        width: 1.0,
+                                      ),
+                                      borderRadius: BorderRadius.circular(24.0),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
