@@ -347,6 +347,49 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                                   .statusTrBuscaPontos(
                                 (_model.trPontos?.jsonBody ?? ''),
                               )!) {
+                                _model.listasUnidas =
+                                    await actions.atualizaListas(
+                                  functions.buscaRegistro(
+                                      widget.fazId!.toString(),
+                                      widget.servico!.toString(),
+                                      FFAppState().trSincroniza.toList()),
+                                  TrOsServicosGroup.trPontosCall
+                                      .dadosTrBuscaPontos(
+                                        (_model.trPontos?.jsonBody ?? ''),
+                                      )!
+                                      .toList(),
+                                );
+                                shouldSetState = true;
+                                var confirmDialogResponse = await showDialog<
+                                        bool>(
+                                      context: context,
+                                      builder: (alertDialogContext) {
+                                        return AlertDialog(
+                                          title: Text(
+                                              _model.listasUnidas!.toString()),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () => Navigator.pop(
+                                                  alertDialogContext, false),
+                                              child: const Text('Cancel'),
+                                            ),
+                                            TextButton(
+                                              onPressed: () => Navigator.pop(
+                                                  alertDialogContext, true),
+                                              child: const Text('Confirm'),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    ) ??
+                                    false;
+                                setState(() {
+                                  FFAppState().trSincroniza = _model
+                                      .listasUnidas!
+                                      .toList()
+                                      .cast<dynamic>();
+                                });
+
                                 context.pushNamed(
                                   'listaPontos',
                                   queryParameters: {
@@ -384,26 +427,6 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                                     ),
                                   }.withoutNulls,
                                 );
-
-                                _model.listasUnidas =
-                                    await actions.atualizaListas(
-                                  functions.buscaRegistro(
-                                      widget.fazId!.toString(),
-                                      widget.servico!.toString(),
-                                      FFAppState().trSincroniza.toList()),
-                                  TrOsServicosGroup.trPontosCall
-                                      .dadosTrBuscaPontos(
-                                        (_model.trPontos?.jsonBody ?? ''),
-                                      )!
-                                      .toList(),
-                                );
-                                shouldSetState = true;
-                                setState(() {
-                                  FFAppState().trSincroniza = _model
-                                      .listasUnidas!
-                                      .toList()
-                                      .cast<dynamic>();
-                                });
                               } else {
                                 await showDialog(
                                   context: context,
