@@ -122,8 +122,8 @@ dynamic buscaRegistro(
 ) {
   var registroEncontrado = trSinc.firstWhere(
     (registro) =>
-        registro['fazenda_id'].toString() == fazid &&
-        registro['servico_id'].toString() == oservid,
+        registro['fazenda_id'].toString() == fazid.toString() &&
+        registro['servico_id'].toString() == oservid.toString(),
     orElse: () =>
         null, // Retorna null se nenhum registro correspondente for encontrado
   );
@@ -170,8 +170,8 @@ int? buscaRegistroIndex(
 ) {
   var indiceEncontrado = trSinc.indexWhere(
     (registro) =>
-        registro['fazenda_id'].toString() == fazid &&
-        registro['servico_id'].toString() == oservid,
+        registro['fazenda_id'].toString() == fazid.toString() &&
+        registro['servico_id'].toString() == oservid.toString(),
   );
 
   /// Se o índice não for encontrado, retorna -1

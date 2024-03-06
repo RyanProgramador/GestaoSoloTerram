@@ -164,20 +164,6 @@ class _LoadingWidgetState extends State<LoadingWidget> {
         if (functions.buscaRegistro(widget.fazID!, widget.servico!,
                 FFAppState().trSincroniza.toList()) !=
             null) {
-          await showDialog(
-            context: context,
-            builder: (alertDialogContext) {
-              return AlertDialog(
-                title: const Text('Não passou do busca registro'),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.pop(alertDialogContext),
-                    child: const Text('Ok'),
-                  ),
-                ],
-              );
-            },
-          );
           if (functions.buscaRegistro(widget.fazID!, widget.servico!,
                   FFAppState().trTalhoesEmCadaServico.toList()) !=
               null) {
@@ -216,21 +202,6 @@ class _LoadingWidgetState extends State<LoadingWidget> {
               ));
             });
           }
-
-          await showDialog(
-            context: context,
-            builder: (alertDialogContext) {
-              return AlertDialog(
-                title: const Text('passou do busca registro'),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.pop(alertDialogContext),
-                    child: const Text('Ok'),
-                  ),
-                ],
-              );
-            },
-          );
         } else {
           await showDialog(
             context: context,
