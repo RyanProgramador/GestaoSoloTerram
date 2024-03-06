@@ -196,72 +196,85 @@ class _ColetaPontosWidgetState extends State<ColetaPontosWidget> {
                               ),
                             ),
                           ),
-                          if (true == false)
-                            Align(
-                              alignment: const AlignmentDirectional(0.0, -1.0),
-                              child: Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 34.0, 0.0, 0.0),
-                                child: FlutterFlowTimer(
-                                  initialTime: _model.timerMilliseconds,
-                                  getDisplayTime: (value) =>
-                                      StopWatchTimer.getDisplayTime(
-                                    value,
-                                    hours: false,
-                                    milliSecond: false,
-                                  ),
-                                  controller: _model.timerController,
-                                  updateStateInterval:
-                                      const Duration(milliseconds: 500),
-                                  onChanged:
-                                      (value, displayTime, shouldUpdate) {
-                                    _model.timerMilliseconds = value;
-                                    _model.timerValue = displayTime;
-                                    if (shouldUpdate) setState(() {});
-                                  },
-                                  onEnded: () async {
-                                    setState(() {
-                                      FFAppState().trSincroniza = FFAppState()
-                                          .trSincroniza
-                                          .toList()
-                                          .cast<dynamic>();
-                                      FFAppState().listaColetasInciadas =
-                                          FFAppState()
-                                              .listaColetasInciadas
-                                              .toList()
-                                              .cast<dynamic>();
-                                      FFAppState().PontosTotalmenteColetados =
-                                          FFAppState()
-                                              .PontosTotalmenteColetados
-                                              .toList()
-                                              .cast<dynamic>();
-                                      FFAppState().PontosColetados =
-                                          FFAppState()
-                                              .PontosColetados
-                                              .toList()
-                                              .cast<dynamic>();
-                                      FFAppState().PontosInacessiveis =
-                                          FFAppState()
-                                              .PontosInacessiveis
-                                              .toList()
-                                              .cast<dynamic>();
-                                      FFAppState().trTalhoes = FFAppState()
-                                          .trTalhoes
-                                          .toList()
-                                          .cast<dynamic>();
-                                    });
-                                    _model.timerController.onResetTimer();
+                          if (true == true)
+                            Opacity(
+                              opacity: 0.03,
+                              child: Align(
+                                alignment: const AlignmentDirectional(0.0, -1.0),
+                                child: Padding(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      0.0, 34.0, 0.0, 0.0),
+                                  child: FlutterFlowTimer(
+                                    initialTime: _model.timerMilliseconds,
+                                    getDisplayTime: (value) =>
+                                        StopWatchTimer.getDisplayTime(
+                                      value,
+                                      hours: false,
+                                      milliSecond: false,
+                                    ),
+                                    controller: _model.timerController,
+                                    updateStateInterval:
+                                        const Duration(milliseconds: 500),
+                                    onChanged:
+                                        (value, displayTime, shouldUpdate) {
+                                      _model.timerMilliseconds = value;
+                                      _model.timerValue = displayTime;
+                                      if (shouldUpdate) setState(() {});
+                                    },
+                                    onEnded: () async {
+                                      setState(() {
+                                        FFAppState().trSincroniza = FFAppState()
+                                            .trSincroniza
+                                            .toList()
+                                            .cast<dynamic>();
+                                        FFAppState().listaColetasInciadas =
+                                            FFAppState()
+                                                .listaColetasInciadas
+                                                .toList()
+                                                .cast<dynamic>();
+                                        FFAppState().PontosTotalmenteColetados =
+                                            FFAppState()
+                                                .PontosTotalmenteColetados
+                                                .toList()
+                                                .cast<dynamic>();
+                                        FFAppState().PontosColetados =
+                                            FFAppState()
+                                                .PontosColetados
+                                                .toList()
+                                                .cast<dynamic>();
+                                        FFAppState().PontosInacessiveis =
+                                            FFAppState()
+                                                .PontosInacessiveis
+                                                .toList()
+                                                .cast<dynamic>();
+                                        FFAppState().trTalhoes = FFAppState()
+                                            .trTalhoes
+                                            .toList()
+                                            .cast<dynamic>();
+                                        FFAppState().trTalhoesEmCadaServico =
+                                            FFAppState()
+                                                .trTalhoesEmCadaServico
+                                                .toList()
+                                                .cast<dynamic>();
+                                        FFAppState().dadosTrBuscaPontosLista =
+                                            FFAppState()
+                                                .dadosTrBuscaPontosLista
+                                                .toList()
+                                                .cast<dynamic>();
+                                      });
+                                      _model.timerController.onResetTimer();
 
-                                    _model.timerController.onStartTimer();
-                                  },
-                                  textAlign: TextAlign.start,
-                                  style: FlutterFlowTheme.of(context)
-                                      .headlineSmall
-                                      .override(
-                                        fontFamily: 'Outfit',
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryBackground,
-                                      ),
+                                      _model.timerController.onStartTimer();
+                                    },
+                                    textAlign: TextAlign.start,
+                                    style: FlutterFlowTheme.of(context)
+                                        .headlineSmall
+                                        .override(
+                                          fontFamily: 'Outfit',
+                                          color: FlutterFlowTheme.of(context)
+                                              .primaryBackground,
+                                        ),
+                                  ),
                                 ),
                               ),
                             ),

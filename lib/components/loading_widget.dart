@@ -270,7 +270,7 @@ class _LoadingWidgetState extends State<LoadingWidget> {
           }
 
           Navigator.pop(context);
-          setState(() {
+          FFAppState().update(() {
             FFAppState().trSincroniza =
                 FFAppState().trSincroniza.toList().cast<dynamic>();
             FFAppState().trTalhoesEmCadaServico =
