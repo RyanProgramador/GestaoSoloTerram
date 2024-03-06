@@ -65,9 +65,7 @@ class _LoadingWidgetState extends State<LoadingWidget> {
       }
       _model.temNet = await actions.checkinternet();
       if (!_model.temNet!) {
-        if (functions.buscaRegistro(
-                widget.fazID!.toString(),
-                widget.servico!.toString(),
+        if (functions.buscaRegistro(widget.fazID!, widget.servico!,
                 FFAppState().trSincroniza.toList()) !=
             null) {
           Navigator.pop(context);
@@ -163,9 +161,7 @@ class _LoadingWidgetState extends State<LoadingWidget> {
       if (TrOsServicosGroup.trPontosCall.statusTrBuscaPontos(
         (_model.trPontos?.jsonBody ?? ''),
       )!) {
-        if (functions.buscaRegistro(
-                widget.fazID!.toString(),
-                widget.servico!.toString(),
+        if (functions.buscaRegistro(widget.fazID!, widget.servico!,
                 FFAppState().trSincroniza.toList()) !=
             null) {
           await showDialog(
@@ -182,9 +178,7 @@ class _LoadingWidgetState extends State<LoadingWidget> {
               );
             },
           );
-          if (functions.buscaRegistro(
-                  widget.fazID!.toString(),
-                  widget.servico!.toString(),
+          if (functions.buscaRegistro(widget.fazID!, widget.servico!,
                   FFAppState().trTalhoesEmCadaServico.toList()) !=
               null) {
             setState(() {
@@ -251,9 +245,7 @@ class _LoadingWidgetState extends State<LoadingWidget> {
               r'''$''',
             ));
           });
-          if (functions.buscaRegistro(
-                  widget.fazID!.toString(),
-                  widget.servico!.toString(),
+          if (functions.buscaRegistro(widget.fazID!, widget.servico!,
                   FFAppState().trTalhoesEmCadaServico.toList()) !=
               null) {
             setState(() {

@@ -42,8 +42,8 @@ class _LoadingSincWidgetState extends State<LoadingSincWidget> {
       _model.trSinc =
           await TrOsServicosGroup.trSincronizaPontosColetadosCall.call(
         urlApi: FFAppState().UrlApi,
-        pontosJson: functions.buscaRegistro(widget.fazID!.toString(),
-            widget.servico!.toString(), FFAppState().trSincroniza.toList()),
+        pontosJson: functions.buscaRegistro(
+            widget.fazID!, widget.servico!, FFAppState().trSincroniza.toList()),
       );
       if (getJsonField(
         (_model.trSinc?.jsonBody ?? ''),

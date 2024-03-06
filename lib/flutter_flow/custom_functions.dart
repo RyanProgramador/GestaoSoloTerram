@@ -116,8 +116,8 @@ bool? pesquisaOservEFazIdNoTrSinc(
 }
 
 dynamic buscaRegistro(
-  String fazid,
-  String oservid,
+  int fazid,
+  int oservid,
   List<dynamic> trSinc,
 ) {
   var registroEncontrado = trSinc.firstWhere(
