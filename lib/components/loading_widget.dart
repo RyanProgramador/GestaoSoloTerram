@@ -156,14 +156,59 @@ class _LoadingWidgetState extends State<LoadingWidget> {
         servicoId: widget.servico,
         fazendaId: widget.fazID,
       );
+      _model.trTalhaoDoServico = await TrOsServicosGroup.trTalhaoCall.call(
+        urlApi: FFAppState().UrlApi,
+        fazId: widget.fazID,
+      );
       if (TrOsServicosGroup.trPontosCall.statusTrBuscaPontos(
         (_model.trPontos?.jsonBody ?? ''),
       )!) {
-        if (!(functions.buscaRegistro(
+        if (functions.buscaRegistro(
                 widget.fazID!.toString(),
                 widget.servico!.toString(),
                 FFAppState().trSincroniza.toList()) !=
-            null)) {
+            null) {
+          if (functions.buscaRegistro(
+                  widget.fazID!.toString(),
+                  widget.servico!.toString(),
+                  FFAppState().trTalhoesEmCadaServico.toList()) !=
+              null) {
+            setState(() {
+              FFAppState().updateTrTalhoesEmCadaServicoAtIndex(
+                valueOrDefault<int>(
+                  functions.buscaRegistroIndex(widget.fazID!, widget.servico!,
+                      FFAppState().trTalhoesEmCadaServico.toList()),
+                  -1,
+                ),
+                (_) => getJsonField(
+                  <String, dynamic>{
+                    'fazenda_id': widget.fazID,
+                    'servico_id': widget.servico,
+                    'dados': getJsonField(
+                      (_model.trTalhaoDoServico?.jsonBody ?? ''),
+                      r'''$.dados''',
+                    ),
+                  },
+                  r'''$''',
+                ),
+              );
+            });
+          } else {
+            setState(() {
+              FFAppState().addToTrTalhoesEmCadaServico(getJsonField(
+                <String, dynamic>{
+                  'fazenda_id': widget.fazID,
+                  'servico_id': widget.servico,
+                  'dados': getJsonField(
+                    (_model.trTalhaoDoServico?.jsonBody ?? ''),
+                    r'''$.dados''',
+                  ),
+                },
+                r'''$''',
+              ));
+            });
+          }
+        } else {
           setState(() {
             FFAppState().addToTrSincroniza(getJsonField(
               <String, dynamic>{
@@ -177,6 +222,47 @@ class _LoadingWidgetState extends State<LoadingWidget> {
               r'''$''',
             ));
           });
+          if (functions.buscaRegistro(
+                  widget.fazID!.toString(),
+                  widget.servico!.toString(),
+                  FFAppState().trTalhoesEmCadaServico.toList()) !=
+              null) {
+            setState(() {
+              FFAppState().updateTrTalhoesEmCadaServicoAtIndex(
+                valueOrDefault<int>(
+                  functions.buscaRegistroIndex(widget.fazID!, widget.servico!,
+                      FFAppState().trTalhoesEmCadaServico.toList()),
+                  -1,
+                ),
+                (_) => getJsonField(
+                  <String, dynamic>{
+                    'fazenda_id': widget.fazID,
+                    'servico_id': widget.servico,
+                    'dados': getJsonField(
+                      (_model.trTalhaoDoServico?.jsonBody ?? ''),
+                      r'''$.dados''',
+                    ),
+                  },
+                  r'''$''',
+                ),
+              );
+            });
+          } else {
+            setState(() {
+              FFAppState().addToTrTalhoesEmCadaServico(getJsonField(
+                <String, dynamic>{
+                  'fazenda_id': widget.fazID,
+                  'servico_id': widget.servico,
+                  'dados': getJsonField(
+                    (_model.trTalhaoDoServico?.jsonBody ?? ''),
+                    r'''$.dados''',
+                  ),
+                },
+                r'''$''',
+              ));
+            });
+          }
+
           Navigator.pop(context);
 
           context.pushNamed(
@@ -238,6 +324,7 @@ class _LoadingWidgetState extends State<LoadingWidget> {
 
           return;
         }
+
         Navigator.pop(context);
 
         context.pushNamed(

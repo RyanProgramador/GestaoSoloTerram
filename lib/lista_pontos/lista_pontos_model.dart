@@ -7,6 +7,8 @@ class ListaPontosModel extends FlutterFlowModel<ListaPontosWidget> {
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();
+  // Stores action output result for [Custom Action - checkinternet] action in Button widget.
+  bool? temNet;
   // Stores action output result for [Backend Call - API (trTalhao)] action in Button widget.
   ApiCallResponse? trTalh;
 

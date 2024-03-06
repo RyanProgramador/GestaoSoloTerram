@@ -136,6 +136,18 @@ class FFAppState extends ChangeNotifier {
               }).toList() ??
               _dadosTrBuscaPontosLista;
     });
+    _safeInit(() {
+      _trTalhoesEmCadaServico =
+          prefs.getStringList('ff_trTalhoesEmCadaServico')?.map((x) {
+                try {
+                  return jsonDecode(x);
+                } catch (e) {
+                  print("Can't decode persisted json. Error: $e.");
+                  return {};
+                }
+              }).toList() ??
+              _trTalhoesEmCadaServico;
+    });
   }
 
   void update(VoidCallback callback) {
@@ -537,6 +549,47 @@ class FFAppState extends ChangeNotifier {
     _dadosTrBuscaPontosLista.insert(index, value);
     prefs.setStringList('ff_dadosTrBuscaPontosLista',
         _dadosTrBuscaPontosLista.map((x) => jsonEncode(x)).toList());
+  }
+
+  List<dynamic> _trTalhoesEmCadaServico = [];
+  List<dynamic> get trTalhoesEmCadaServico => _trTalhoesEmCadaServico;
+  set trTalhoesEmCadaServico(List<dynamic> value) {
+    _trTalhoesEmCadaServico = value;
+    prefs.setStringList(
+        'ff_trTalhoesEmCadaServico', value.map((x) => jsonEncode(x)).toList());
+  }
+
+  void addToTrTalhoesEmCadaServico(dynamic value) {
+    _trTalhoesEmCadaServico.add(value);
+    prefs.setStringList('ff_trTalhoesEmCadaServico',
+        _trTalhoesEmCadaServico.map((x) => jsonEncode(x)).toList());
+  }
+
+  void removeFromTrTalhoesEmCadaServico(dynamic value) {
+    _trTalhoesEmCadaServico.remove(value);
+    prefs.setStringList('ff_trTalhoesEmCadaServico',
+        _trTalhoesEmCadaServico.map((x) => jsonEncode(x)).toList());
+  }
+
+  void removeAtIndexFromTrTalhoesEmCadaServico(int index) {
+    _trTalhoesEmCadaServico.removeAt(index);
+    prefs.setStringList('ff_trTalhoesEmCadaServico',
+        _trTalhoesEmCadaServico.map((x) => jsonEncode(x)).toList());
+  }
+
+  void updateTrTalhoesEmCadaServicoAtIndex(
+    int index,
+    dynamic Function(dynamic) updateFn,
+  ) {
+    _trTalhoesEmCadaServico[index] = updateFn(_trTalhoesEmCadaServico[index]);
+    prefs.setStringList('ff_trTalhoesEmCadaServico',
+        _trTalhoesEmCadaServico.map((x) => jsonEncode(x)).toList());
+  }
+
+  void insertAtIndexInTrTalhoesEmCadaServico(int index, dynamic value) {
+    _trTalhoesEmCadaServico.insert(index, value);
+    prefs.setStringList('ff_trTalhoesEmCadaServico',
+        _trTalhoesEmCadaServico.map((x) => jsonEncode(x)).toList());
   }
 }
 

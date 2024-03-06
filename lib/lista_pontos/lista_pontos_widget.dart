@@ -3,6 +3,7 @@ import '/components/foto_coleta_widget_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/custom_code/actions/index.dart' as actions;
 import '/custom_code/widgets/index.dart' as custom_widgets;
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
@@ -184,21 +185,60 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                 children: [
                                   FFButtonWidget(
                                     onPressed: () async {
+                                      _model.temNet =
+                                          await actions.checkinternet();
+                                      if (!_model.temNet!) {
+                                        context.pushNamed(
+                                          'ColetaPontos',
+                                          queryParameters: {
+                                            'oservID': serializeParam(
+                                              widget.oservId,
+                                              ParamType.int,
+                                            ),
+                                            'fazid': serializeParam(
+                                              widget.fazId,
+                                              ParamType.int,
+                                            ),
+                                            'fazNome': serializeParam(
+                                              widget.fazNome,
+                                              ParamType.String,
+                                            ),
+                                            'fazLatlng': serializeParam(
+                                              widget.fazLatlng,
+                                              ParamType.LatLng,
+                                            ),
+                                            'autoAuditoria': serializeParam(
+                                              widget.autoAuditoria,
+                                              ParamType.bool,
+                                            ),
+                                            'quantidadeAutoAuditoria':
+                                                serializeParam(
+                                              widget.quantidadeAutoAuditoria,
+                                              ParamType.int,
+                                            ),
+                                            'trPontos': serializeParam(
+                                              widget.listaJsonPontos,
+                                              ParamType.JSON,
+                                              true,
+                                            ),
+                                          }.withoutNulls,
+                                          extra: <String, dynamic>{
+                                            kTransitionInfoKey: const TransitionInfo(
+                                              hasTransition: true,
+                                              transitionType:
+                                                  PageTransitionType.fade,
+                                              duration:
+                                                  Duration(milliseconds: 0),
+                                            ),
+                                          },
+                                        );
+                                      }
                                       _model.trTalh = await TrOsServicosGroup
                                           .trTalhaoCall
                                           .call(
                                         urlApi: FFAppState().UrlApi,
                                         fazId: widget.fazId,
                                       );
-                                      setState(() {
-                                        FFAppState().trTalhoes = getJsonField(
-                                          (_model.trTalh?.jsonBody ?? ''),
-                                          r'''$.dados''',
-                                          true,
-                                        )!
-                                            .toList()
-                                            .cast<dynamic>();
-                                      });
 
                                       context.pushNamed(
                                         'ColetaPontos',
