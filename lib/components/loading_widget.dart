@@ -232,6 +232,20 @@ class _LoadingWidgetState extends State<LoadingWidget> {
             },
           );
         } else {
+          await showDialog(
+            context: context,
+            builder: (alertDialogContext) {
+              return AlertDialog(
+                title: const Text('Não achou nada no busca registro do trSinc'),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(alertDialogContext),
+                    child: const Text('Ok'),
+                  ),
+                ],
+              );
+            },
+          );
           setState(() {
             FFAppState().addToTrSincroniza(getJsonField(
               <String, dynamic>{
