@@ -61,7 +61,6 @@ class _LoadingWidgetState extends State<LoadingWidget> {
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       if (widget.tipo == 'Coleta') {
         await Future.delayed(const Duration(milliseconds: 2000));
-        Navigator.pop(context);
       }
       _model.trPontos = await TrOsServicosGroup.trPontosCall.call(
         urlApi: FFAppState().UrlApi,
@@ -89,6 +88,7 @@ class _LoadingWidgetState extends State<LoadingWidget> {
               r'''$''',
             ));
           });
+          Navigator.pop(context);
 
           context.pushNamed(
             'ServicoInicio',
@@ -149,6 +149,7 @@ class _LoadingWidgetState extends State<LoadingWidget> {
 
           return;
         }
+        Navigator.pop(context);
 
         context.pushNamed(
           'ServicoInicio',
