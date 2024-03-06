@@ -1,4 +1,3 @@
-import '/backend/api_requests/api_calls.dart';
 import '/components/foto_coleta_widget_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -185,8 +184,10 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                 children: [
                                   FFButtonWidget(
                                     onPressed: () async {
+                                      var shouldSetState = false;
                                       _model.temNet =
                                           await actions.checkinternet();
+                                      shouldSetState = true;
                                       if (!_model.temNet!) {
                                         context.pushNamed(
                                           'ColetaPontos',
@@ -232,13 +233,10 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                             ),
                                           },
                                         );
+
+                                        if (shouldSetState) setState(() {});
+                                        return;
                                       }
-                                      _model.trTalh = await TrOsServicosGroup
-                                          .trTalhaoCall
-                                          .call(
-                                        urlApi: FFAppState().UrlApi,
-                                        fazId: widget.fazId,
-                                      );
 
                                       context.pushNamed(
                                         'ColetaPontos',
@@ -284,7 +282,7 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                         },
                                       );
 
-                                      setState(() {});
+                                      if (shouldSetState) setState(() {});
                                     },
                                     text: 'Realizar coletas',
                                     options: FFButtonOptions(
