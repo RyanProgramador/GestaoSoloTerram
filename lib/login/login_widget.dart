@@ -626,24 +626,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                             return;
                                                           }
 
-                                                          context.pushNamed(
-                                                            'Inicio',
-                                                            extra: <String,
-                                                                dynamic>{
-                                                              kTransitionInfoKey:
-                                                                  const TransitionInfo(
-                                                                hasTransition:
-                                                                    true,
-                                                                transitionType:
-                                                                    PageTransitionType
-                                                                        .fade,
-                                                                duration: Duration(
-                                                                    milliseconds:
-                                                                        600),
-                                                              ),
-                                                            },
-                                                          );
-
                                                           _model.trIcones =
                                                               await TrOsServicosGroup
                                                                   .triconesCall
@@ -705,6 +687,24 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                             }
                                                             return;
                                                           }
+
+                                                          context.pushNamed(
+                                                            'Inicio',
+                                                            extra: <String,
+                                                                dynamic>{
+                                                              kTransitionInfoKey:
+                                                                  const TransitionInfo(
+                                                                hasTransition:
+                                                                    true,
+                                                                transitionType:
+                                                                    PageTransitionType
+                                                                        .fade,
+                                                                duration: Duration(
+                                                                    milliseconds:
+                                                                        600),
+                                                              ),
+                                                            },
+                                                          );
 
                                                           if (shouldSetState) {
                                                             setState(() {});
