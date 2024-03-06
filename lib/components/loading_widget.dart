@@ -1,6 +1,7 @@
 import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/custom_code/actions/index.dart' as actions;
 import '/custom_code/widgets/index.dart' as custom_widgets;
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
@@ -61,6 +62,94 @@ class _LoadingWidgetState extends State<LoadingWidget> {
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       if (widget.tipo == 'Coleta') {
         await Future.delayed(const Duration(milliseconds: 2000));
+      }
+      _model.temNet = await actions.checkinternet();
+      if (!_model.temNet!) {
+        if (functions.buscaRegistro(
+                widget.fazID!.toString(),
+                widget.servico!.toString(),
+                FFAppState().trSincroniza.toList()) !=
+            null) {
+          Navigator.pop(context);
+
+          context.pushNamed(
+            'ServicoInicio',
+            queryParameters: {
+              'fazLatLng': serializeParam(
+                widget.fazlatlng,
+                ParamType.LatLng,
+              ),
+              'fazNome': serializeParam(
+                widget.fazNome,
+                ParamType.String,
+              ),
+              'estadoFaz': serializeParam(
+                widget.fazEstado,
+                ParamType.String,
+              ),
+              'cidadeFaz': serializeParam(
+                widget.fazCidade,
+                ParamType.String,
+              ),
+              'data': serializeParam(
+                widget.data,
+                ParamType.String,
+              ),
+              'observacao': serializeParam(
+                widget.observacao,
+                ParamType.String,
+              ),
+              'servico': serializeParam(
+                widget.servico,
+                ParamType.int,
+              ),
+              'fazId': serializeParam(
+                widget.fazID,
+                ParamType.int,
+              ),
+              'localizacao': serializeParam(
+                widget.fazlocalizacao,
+                ParamType.String,
+              ),
+              'autoAuditoria': serializeParam(
+                widget.autoAuditoria,
+                ParamType.bool,
+              ),
+              'quantiadeDeFotosParaIntervalo': serializeParam(
+                widget.quantidadeDeIntervaloDeFotosAutoAuditoria,
+                ParamType.int,
+              ),
+            }.withoutNulls,
+            extra: <String, dynamic>{
+              kTransitionInfoKey: const TransitionInfo(
+                hasTransition: true,
+                transitionType: PageTransitionType.fade,
+                duration: Duration(milliseconds: 0),
+              ),
+            },
+          );
+        } else {
+          Navigator.pop(context);
+          await showDialog(
+            context: context,
+            builder: (alertDialogContext) {
+              return AlertDialog(
+                title: const Text('Ops!'),
+                content: const Text(
+                    'Parece que é sua primeira vez no serviço, necessário sincronizar '),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(alertDialogContext),
+                    child: const Text('Entendi'),
+                  ),
+                ],
+              );
+            },
+          );
+          return;
+        }
+
+        return;
       }
       _model.trPontos = await TrOsServicosGroup.trPontosCall.call(
         urlApi: FFAppState().UrlApi,

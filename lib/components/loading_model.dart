@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 class LoadingModel extends FlutterFlowModel<LoadingWidget> {
   ///  State fields for stateful widgets in this component.
 
+  // Stores action output result for [Custom Action - checkinternet] action in Loading widget.
+  bool? temNet;
   // Stores action output result for [Backend Call - API (trPontos)] action in Loading widget.
   ApiCallResponse? trPontos;
 
