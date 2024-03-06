@@ -1,3 +1,4 @@
+import '/backend/api_requests/api_calls.dart';
 import '/components/foto_coleta_widget_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -237,6 +238,22 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                         if (shouldSetState) setState(() {});
                                         return;
                                       }
+                                      _model.trTalh = await TrOsServicosGroup
+                                          .trTalhaoCall
+                                          .call(
+                                        urlApi: FFAppState().UrlApi,
+                                        fazId: widget.fazId,
+                                      );
+                                      shouldSetState = true;
+                                      setState(() {
+                                        FFAppState().trTalhoes = getJsonField(
+                                          (_model.trTalh?.jsonBody ?? ''),
+                                          r'''$.dados''',
+                                          true,
+                                        )!
+                                            .toList()
+                                            .cast<dynamic>();
+                                      });
 
                                       context.pushNamed(
                                         'ColetaPontos',
