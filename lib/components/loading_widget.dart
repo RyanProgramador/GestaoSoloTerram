@@ -203,7 +203,7 @@ class _LoadingWidgetState extends State<LoadingWidget> {
                       r'''$.dados''',
                     ),
                   },
-                  r'''$[:]''',
+                  r'''$''',
                 ),
               );
             });
@@ -218,7 +218,7 @@ class _LoadingWidgetState extends State<LoadingWidget> {
                     r'''$.dados''',
                   ),
                 },
-                r'''$[:]''',
+                r'''$''',
               ));
             });
           }

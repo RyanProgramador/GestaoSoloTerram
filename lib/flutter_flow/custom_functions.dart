@@ -122,8 +122,8 @@ dynamic buscaRegistro(
 ) {
   var registroEncontrado = trSinc.firstWhere(
     (registro) =>
-        registro['fazenda_id'].toString() == fazid.toString() &&
-        registro['servico_id'].toString() == oservid.toString(),
+        registro['fazenda_id'].toString() == fazid &&
+        registro['servico_id'].toString() == oservid,
     orElse: () =>
         null, // Retorna null se nenhum registro correspondente for encontrado
   );
