@@ -369,15 +369,20 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                                     },
                                   );
                                   setState(() {
-                                    FFAppState().trSincroniza =
-                                        <String, dynamic>{
-                                      'fazenda_id': widget.fazId,
-                                      'servico_id': widget.servico,
-                                      'pontos': getJsonField(
-                                        (_model.trPontos?.jsonBody ?? ''),
-                                        r'''$.dados''',
-                                      ),
-                                    }.toList().cast<dynamic>();
+                                    FFAppState().trSincroniza = getJsonField(
+                                      <String, dynamic>{
+                                        'fazenda_id': widget.fazId!,
+                                        'servico_id': widget.servico!,
+                                        'pontos': getJsonField(
+                                          (_model.trPontos?.jsonBody ?? ''),
+                                          r'''$.dados''',
+                                        ),
+                                      },
+                                      r'''$''',
+                                      true,
+                                    )!
+                                        .toList()
+                                        .cast<dynamic>();
                                   });
 
                                   context.pushNamed(
