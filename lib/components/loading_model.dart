@@ -1,8 +1,16 @@
+import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'loading_widget.dart' show LoadingWidget;
 import 'package:flutter/material.dart';
 
 class LoadingModel extends FlutterFlowModel<LoadingWidget> {
+  ///  State fields for stateful widgets in this component.
+
+  // Stores action output result for [Backend Call - API (trPontos)] action in Loading widget.
+  ApiCallResponse? trPontos;
+  // Stores action output result for [Custom Action - atualizaListas] action in Loading widget.
+  dynamic listasUnidas;
+
   /// Initialization and disposal methods.
 
   @override

@@ -162,3 +162,18 @@ String? protocoloComSeguranca(String? urL) {
 
   return urL;
 }
+
+int? buscaRegistroIndex(
+  int fazid,
+  int oservid,
+  List<dynamic> trSinc,
+) {
+  var indiceEncontrado = trSinc.indexWhere(
+    (registro) =>
+        registro['fazenda_id'].toString() == fazid &&
+        registro['servico_id'].toString() == oservid,
+  );
+
+  /// Se o índice não for encontrado, retorna -1
+  return indiceEncontrado == -1 ? null : indiceEncontrado;
+}

@@ -1,4 +1,3 @@
-import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_google_map.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -337,176 +336,44 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                                 if (shouldSetState) setState(() {});
                                 return;
                               }
-                              _model.trPontos =
-                                  await TrOsServicosGroup.trPontosCall.call(
-                                urlApi: FFAppState().UrlApi,
-                                servicoId: widget.servico,
-                                fazendaId: widget.fazId,
-                              );
-                              shouldSetState = true;
-                              if (TrOsServicosGroup.trPontosCall
-                                  .statusTrBuscaPontos(
-                                (_model.trPontos?.jsonBody ?? ''),
-                              )!) {
-                                if (!(functions.buscaRegistro(
+
+                              context.pushNamed(
+                                'listaPontos',
+                                queryParameters: {
+                                  'listaJsonPontos': serializeParam(
+                                    functions.buscaRegistro(
                                         widget.fazId!.toString(),
                                         widget.servico!.toString(),
-                                        FFAppState().trSincroniza.toList()) !=
-                                    null)) {
-                                  await showDialog(
-                                    context: context,
-                                    builder: (alertDialogContext) {
-                                      return AlertDialog(
-                                        title: const Text('1'),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () => Navigator.pop(
-                                                alertDialogContext),
-                                            child: const Text('Ok'),
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
-                                  setState(() {
-                                    FFAppState().trSincroniza = getJsonField(
-                                      <String, dynamic>{
-                                        'fazenda_id': widget.fazId!,
-                                        'servico_id': widget.servico!,
-                                        'pontos': getJsonField(
-                                          (_model.trPontos?.jsonBody ?? ''),
-                                          r'''$.dados''',
-                                        ),
-                                      },
-                                      r'''$''',
-                                      true,
-                                    )!
-                                        .toList()
-                                        .cast<dynamic>();
-                                  });
-
-                                  context.pushNamed(
-                                    'listaPontos',
-                                    queryParameters: {
-                                      'listaJsonPontos': serializeParam(
-                                        TrOsServicosGroup.trPontosCall
-                                            .dadosTrBuscaPontos(
-                                          (_model.trPontos?.jsonBody ?? ''),
-                                        ),
-                                        ParamType.JSON,
-                                        true,
-                                      ),
-                                      'oservId': serializeParam(
-                                        widget.servico,
-                                        ParamType.int,
-                                      ),
-                                      'fazId': serializeParam(
-                                        widget.fazId,
-                                        ParamType.int,
-                                      ),
-                                      'fazNome': serializeParam(
-                                        widget.fazNome,
-                                        ParamType.String,
-                                      ),
-                                      'fazLatlng': serializeParam(
-                                        widget.fazLatLng,
-                                        ParamType.LatLng,
-                                      ),
-                                      'autoAuditoria': serializeParam(
-                                        widget.autoAuditoria,
-                                        ParamType.bool,
-                                      ),
-                                      'quantidadeAutoAuditoria': serializeParam(
-                                        widget.quantiadeDeFotosParaIntervalo,
-                                        ParamType.int,
-                                      ),
-                                    }.withoutNulls,
-                                  );
-
-                                  if (shouldSetState) setState(() {});
-                                  return;
-                                }
-                                _model.listasUnidas =
-                                    await actions.atualizaListas(
-                                  functions.buscaRegistro(
-                                      widget.fazId!.toString(),
-                                      widget.servico!.toString(),
-                                      FFAppState().trSincroniza.toList()),
-                                  TrOsServicosGroup.trPontosCall
-                                      .dadosTrBuscaPontos(
-                                        (_model.trPontos?.jsonBody ?? ''),
-                                      )!
-                                      .toList(),
-                                );
-                                shouldSetState = true;
-                                setState(() {
-                                  FFAppState().trSincroniza = getJsonField(
-                                    _model.listasUnidas,
-                                    r'''$''',
+                                        FFAppState().trSincroniza.toList()),
+                                    ParamType.JSON,
                                     true,
-                                  )!
-                                      .toList()
-                                      .cast<dynamic>();
-                                });
-
-                                context.pushNamed(
-                                  'listaPontos',
-                                  queryParameters: {
-                                    'listaJsonPontos': serializeParam(
-                                      TrOsServicosGroup.trPontosCall
-                                          .dadosTrBuscaPontos(
-                                        (_model.trPontos?.jsonBody ?? ''),
-                                      ),
-                                      ParamType.JSON,
-                                      true,
-                                    ),
-                                    'oservId': serializeParam(
-                                      widget.servico,
-                                      ParamType.int,
-                                    ),
-                                    'fazId': serializeParam(
-                                      widget.fazId,
-                                      ParamType.int,
-                                    ),
-                                    'fazNome': serializeParam(
-                                      widget.fazNome,
-                                      ParamType.String,
-                                    ),
-                                    'fazLatlng': serializeParam(
-                                      widget.fazLatLng,
-                                      ParamType.LatLng,
-                                    ),
-                                    'autoAuditoria': serializeParam(
-                                      widget.autoAuditoria,
-                                      ParamType.bool,
-                                    ),
-                                    'quantidadeAutoAuditoria': serializeParam(
-                                      widget.quantiadeDeFotosParaIntervalo,
-                                      ParamType.int,
-                                    ),
-                                  }.withoutNulls,
-                                );
-                              } else {
-                                await showDialog(
-                                  context: context,
-                                  builder: (alertDialogContext) {
-                                    return AlertDialog(
-                                      title: const Text('Ops!'),
-                                      content: Text(getJsonField(
-                                        (_model.trPontos?.jsonBody ?? ''),
-                                        r'''$.message''',
-                                      ).toString()),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () =>
-                                              Navigator.pop(alertDialogContext),
-                                          child: const Text('Fechar'),
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                );
-                              }
+                                  ),
+                                  'oservId': serializeParam(
+                                    widget.servico,
+                                    ParamType.int,
+                                  ),
+                                  'fazId': serializeParam(
+                                    widget.fazId,
+                                    ParamType.int,
+                                  ),
+                                  'fazNome': serializeParam(
+                                    widget.fazNome,
+                                    ParamType.String,
+                                  ),
+                                  'fazLatlng': serializeParam(
+                                    widget.fazLatLng,
+                                    ParamType.LatLng,
+                                  ),
+                                  'autoAuditoria': serializeParam(
+                                    widget.autoAuditoria,
+                                    ParamType.bool,
+                                  ),
+                                  'quantidadeAutoAuditoria': serializeParam(
+                                    widget.quantiadeDeFotosParaIntervalo,
+                                    ParamType.int,
+                                  ),
+                                }.withoutNulls,
+                              );
 
                               if (shouldSetState) setState(() {});
                             },

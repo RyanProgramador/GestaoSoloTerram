@@ -1,4 +1,3 @@
-import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_google_map.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'servico_inicio_widget.dart' show ServicoInicioWidget;
@@ -13,10 +12,6 @@ class ServicoInicioModel extends FlutterFlowModel<ServicoInicioWidget> {
   final googleMapsController = Completer<GoogleMapController>();
   // Stores action output result for [Custom Action - checkinternet] action in Button widget.
   bool? temNet;
-  // Stores action output result for [Backend Call - API (trPontos)] action in Button widget.
-  ApiCallResponse? trPontos;
-  // Stores action output result for [Custom Action - atualizaListas] action in Button widget.
-  dynamic listasUnidas;
 
   /// Initialization and disposal methods.
 
