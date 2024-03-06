@@ -83,8 +83,9 @@ class _AjustesConfiguracoesWidgetState
                               ),
                               Builder(
                                 builder: (context) {
-                                  final sincr =
-                                      FFAppState().trSincroniza.toList();
+                                  final sincr = FFAppState()
+                                      .trTalhoesEmCadaServico
+                                      .toList();
                                   return SingleChildScrollView(
                                     child: Column(
                                       mainAxisSize: MainAxisSize.max,
