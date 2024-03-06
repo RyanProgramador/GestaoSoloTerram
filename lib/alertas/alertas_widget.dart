@@ -48,7 +48,7 @@ class _AlertasWidgetState extends State<AlertasWidget> {
             Align(
               alignment: const AlignmentDirectional(0.0, 0.0),
               child: Text(
-                'Em desenvolvimento',
+                'Em desenvolvimento!',
                 style: FlutterFlowTheme.of(context).bodyMedium,
               ),
             ),
