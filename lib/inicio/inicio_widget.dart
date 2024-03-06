@@ -35,6 +35,9 @@ class _InicioWidgetState extends State<InicioWidget> {
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       _model.temInternet = await actions.checkinternet();
+      setState(() {
+        _model.net = _model.temInternet!;
+      });
       await requestPermission(locationPermission);
       if (_model.temInternet!) {
         _model.apiTrOsServicos = await TrOsServicosGroup.trOsServicosCall.call(
@@ -141,7 +144,7 @@ class _InicioWidgetState extends State<InicioWidget> {
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    if (_model.temInternet == true)
+                    if (_model.net == true)
                       Padding(
                         padding:
                             const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
@@ -596,7 +599,7 @@ class _InicioWidgetState extends State<InicioWidget> {
                           },
                         ),
                       ),
-                    if (_model.temInternet == false)
+                    if (_model.net == false)
                       Padding(
                         padding:
                             const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),

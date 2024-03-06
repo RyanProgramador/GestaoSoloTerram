@@ -5,6 +5,10 @@ import 'inicio_widget.dart' show InicioWidget;
 import 'package:flutter/material.dart';
 
 class InicioModel extends FlutterFlowModel<InicioWidget> {
+  ///  Local state fields for this page.
+
+  bool net = false;
+
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();
