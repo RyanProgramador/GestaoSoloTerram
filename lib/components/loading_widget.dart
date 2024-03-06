@@ -217,7 +217,7 @@ class _LoadingWidgetState extends State<LoadingWidget> {
               );
             },
           );
-          setState(() {
+          FFAppState().update(() {
             FFAppState().addToTrSincroniza(getJsonField(
               <String, dynamic>{
                 'fazenda_id': widget.fazID!,
@@ -270,6 +270,14 @@ class _LoadingWidgetState extends State<LoadingWidget> {
           }
 
           Navigator.pop(context);
+          setState(() {
+            FFAppState().trSincroniza =
+                FFAppState().trSincroniza.toList().cast<dynamic>();
+            FFAppState().trTalhoesEmCadaServico =
+                FFAppState().trTalhoesEmCadaServico.toList().cast<dynamic>();
+            FFAppState().trTalhoes =
+                FFAppState().trTalhoes.toList().cast<dynamic>();
+          });
 
           context.pushNamed(
             'ServicoInicio',
@@ -332,6 +340,14 @@ class _LoadingWidgetState extends State<LoadingWidget> {
         }
 
         Navigator.pop(context);
+        setState(() {
+          FFAppState().trSincroniza =
+              FFAppState().trSincroniza.toList().cast<dynamic>();
+          FFAppState().trTalhoesEmCadaServico =
+              FFAppState().trTalhoesEmCadaServico.toList().cast<dynamic>();
+          FFAppState().trTalhoes =
+              FFAppState().trTalhoes.toList().cast<dynamic>();
+        });
 
         context.pushNamed(
           'ServicoInicio',
