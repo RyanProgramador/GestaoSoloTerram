@@ -222,7 +222,10 @@ class _ColetaPontosState extends State<ColetaPontos> {
 
   void _adicionaPoligonos() {
     // Supondo que trTalhoes seja uma lista de talhões, onde cada talhão tem uma lista de coordenadas 'coordenadas'
-    var talhoes = FFAppState().trTalhoes;
+    var talhoes = FFAppState().trTalhoesEmCadaServico.firstWhere((registro) =>
+        registro['fazenda_id'].toString() == widget.fazId! &&
+        registro['servico_id'].toString() == widget.oservid!)['dados'];
+    // var talhoes = FFAppState().trTalhoes;
 
     for (var talhao in talhoes) {
       var coordenadas = talhao['coordenadas'] as List<dynamic>;
@@ -1770,187 +1773,209 @@ class _ColetaPontosState extends State<ColetaPontos> {
   }
 
   void _exibirDados() {
-    int registros = FFAppState()
-            .PontosColetados
-            .where((element) =>
-                element['oserv_id'] == widget.oservid &&
-                element['faz_id'] == widget.fazId)
-            .length +
-        FFAppState()
-            .PontosInacessiveis
-            .where((element) =>
-                element['oserv_id'] == widget.oservid &&
-                element['faz_id'] == widget.fazId)
-            .length;
-    var aColetar = pontosMedicao
-        .expand((e) => e['profundidades'] as List<dynamic>)
-        .map((profundidade) => profundidade['pprof_id'])
-        .toList();
-    if (registros == aColetar.length) {
-      _finalizouColeta();
-    }
-    var colteasTotalmente = FFAppState().PontosTotalmenteColetados;
-    var coletados = FFAppState().trSincroniza.map((e) {
-      // Cria um novo mapa a partir do mapa original, excluindo a chave 'foto'
-      var novoMapa = Map.of(e); // Cria uma cópia do mapa
-      novoMapa.remove('foto'); // Remove a chave 'foto'
-      return novoMapa; // Retorna o novo mapa sem a chave 'foto'
-    }).toList();
-    var coletados2 = FFAppState().PontosColetados.map((e) {
-      // Cria um novo mapa a partir do mapa original, excluindo a chave 'foto'
-      var novoMapa = Map.of(e); // Cria uma cópia do mapa
-      novoMapa.remove('foto'); // Remove a chave 'foto'
-      return novoMapa; // Retorna o novo mapa sem a chave 'foto'
-    }).toList();
-    var inacessiveis = FFAppState().PontosInacessiveis.length;
+    //   int registros = FFAppState()
+    //           .PontosColetados
+    //           .where((element) =>
+    //               element['oserv_id'] == widget.oservid &&
+    //               element['faz_id'] == widget.fazId)
+    //           .length +
+    //       FFAppState()
+    //           .PontosInacessiveis
+    //           .where((element) =>
+    //               element['oserv_id'] == widget.oservid &&
+    //               element['faz_id'] == widget.fazId)
+    //           .length;
+    //   var aColetar = pontosMedicao
+    //       .expand((e) => e['profundidades'] as List<dynamic>)
+    //       .map((profundidade) => profundidade['pprof_id'])
+    //       .toList();
+    //   if (registros == aColetar.length) {
+    //     _finalizouColeta();
+    //   }
+    //   var colteasTotalmente = FFAppState().PontosTotalmenteColetados;
+    //   var coletados = FFAppState().trSincroniza.map((e) {
+    //     // Cria um novo mapa a partir do mapa original, excluindo a chave 'foto'
+    //     var novoMapa = Map.of(e); // Cria uma cópia do mapa
+    //     novoMapa.remove('foto'); // Remove a chave 'foto'
+    //     return novoMapa; // Retorna o novo mapa sem a chave 'foto'
+    //   }).toList();
+    //   var coletados2 = FFAppState().PontosColetados.map((e) {
+    //     // Cria um novo mapa a partir do mapa original, excluindo a chave 'foto'
+    //     var novoMapa = Map.of(e); // Cria uma cópia do mapa
+    //     novoMapa.remove('foto'); // Remove a chave 'foto'
+    //     return novoMapa; // Retorna o novo mapa sem a chave 'foto'
+    //   }).toList();
+    //   var inacessiveis = FFAppState().PontosInacessiveis.length;
+    //
+    //   var aud = widget.autoAuditoria;
+    //   var vez = vezAtualDeFoto;
+    //   showDialog(
+    //     context: context,
+    //     builder: (BuildContext context) {
+    //       return AlertDialog(
+    //         // insetPadding: EdgeInsets.zero,
+    //         insetPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+    //         // Usa o topPadding dinâmico
+    //
+    //         title: Padding(
+    //           padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+    //           child: Row(
+    //             mainAxisSize: MainAxisSize.max,
+    //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    //             crossAxisAlignment: CrossAxisAlignment.start,
+    //             children: [
+    //               Expanded(
+    //                 child: Text(
+    //                   'Leia o QR-Code!',
+    //                   style: FlutterFlowTheme.of(context).bodyMedium.override(
+    //                         fontFamily: 'Outfit',
+    //                         fontSize: 18,
+    //                         fontWeight: FontWeight.bold,
+    //                       ),
+    //                 ),
+    //               ),
+    //               InkWell(
+    //                 onTap: () => Navigator.of(context).pop(),
+    //                 child: Icon(
+    //                   Icons.close,
+    //                   color: FlutterFlowTheme.of(context).secondaryText,
+    //                   size: 32,
+    //                 ),
+    //               ),
+    //             ],
+    //           ),
+    //         ),
+    //         content: Padding(
+    //           // padding: EdgeInsets.all(20),
+    //
+    //           padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+    //           child: Column(
+    //             mainAxisSize: MainAxisSize.min,
+    //             children: [
+    //               Padding(
+    //                 padding: EdgeInsets.fromLTRB(
+    //                     0, 0, 0, 10), // Ajuste este valor conforme necessário
+    //                 child: SizedBox(
+    //                   // Envolve o QRView com um SizedBox para dar um tamanho fixo
+    //                   height: 180, // Defina a altura desejada
+    //                   width: double.infinity, // Ocupa toda a largura disponível
+    //                   child: QRView(
+    //                     key: qrKey,
+    //                     onQRViewCreated: _onQRViewCreated,
+    //                     overlay: QrScannerOverlayShape(
+    //                       borderColor: Color(0xFF00736D),
+    //                       borderRadius: 10,
+    //                       borderLength: 130,
+    //                       borderWidth: 5,
+    //                       overlayColor: Color(0xFFEEEBF5),
+    //                     ),
+    //                   ),
+    //                 ),
+    //               ),
+    //               TextField(
+    //                 controller: _codigoQr,
+    //                 autofocus: false,
+    //                 maxLines: 1,
+    //                 // Permite múltiplas linhas
+    //                 keyboardType: TextInputType.multiline,
+    //                 // Define o teclado para suportar entrada de texto multilinha
+    //                 decoration: InputDecoration(
+    //                   labelText: 'Código: ',
+    //                   border: OutlineInputBorder(
+    //                     borderRadius: BorderRadius.circular(10),
+    //                   ),
+    //                 ),
+    //               ),
+    //               SizedBox(height: 6),
+    //               Row(
+    //                 mainAxisSize: MainAxisSize.max,
+    //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //                 // Centraliza os botões na Row
+    //                 children: <Widget>[
+    //                   ElevatedButton(
+    //                     onPressed: () {
+    //                       //passar aqui o codigo de abrir esse modal novamente passando as variaveis ponto id, coleta id, etc, profuncidade, latlng
+    //                       // Navigator.of(context).pop();
+    //                       controller?.resumeCamera();
+    //                       _codigoQr.clear();
+    //                       // _exibirDados();
+    //                     },
+    //                     style: ElevatedButton.styleFrom(
+    //                       padding:
+    //                           EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+    //                       primary: Color(0xFF087071), // Cor do botão
+    //                       shape: RoundedRectangleBorder(
+    //                         borderRadius:
+    //                             BorderRadius.circular(100), // Bordas arredondadas
+    //                       ),
+    //                     ),
+    //                     child: Row(
+    //                       mainAxisSize: MainAxisSize.min,
+    //                       // Isso garante que o Row não ocupe mais espaço do que o necessário
+    //                       children: [
+    //                         Icon(Icons.refresh, color: Colors.white),
+    //                         // Ícone dentro do botão
+    //                       ],
+    //                     ),
+    //                   ),
+    //                   ElevatedButton(
+    //                     onPressed: () {
+    //                       // Implemente a ação para este botão
+    //                       Navigator.of(context).pop();
+    //                     },
+    //                     style: ElevatedButton.styleFrom(
+    //                       padding:
+    //                           EdgeInsets.symmetric(horizontal: 22, vertical: 10),
+    //                       primary: Color(0xFF087071), // Cor do botão
+    //                       shape: RoundedRectangleBorder(
+    //                         borderRadius:
+    //                             BorderRadius.circular(100), // Bordas arredondadas
+    //                       ),
+    //                     ),
+    //                     child: Row(
+    //                       mainAxisSize: MainAxisSize.max,
+    //                       // Isso garante que o Row não ocupe mais espaço do que o necessário
+    //                       children: [
+    //                         Icon(Icons.arrow_forward, color: Colors.white),
+    //                         // Ícone dentro do botão
+    //                         SizedBox(width: 8),
+    //                         // Espaçamento entre o ícone e o texto
+    //                         Text("Próximo",
+    //                             style:
+    //                                 TextStyle(color: Colors.white, fontSize: 18)),
+    //                         // Texto do botão
+    //                       ],
+    //                     ),
+    //                   ),
+    //                 ],
+    //               ),
+    //             ],
+    //           ),
+    //         ),
+    //         backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+    //         // elevation: 5,
+    //       );
+    //     },
+    //   );
+    // }
+    var talhoes = FFAppState().trTalhoesEmCadaServico.firstWhere((registro) =>
+        registro['fazenda_id'].toString() == widget.fazId! &&
+        registro['servico_id'].toString() == widget.oservid!)['dados'];
 
-    var aud = widget.autoAuditoria;
-    var vez = vezAtualDeFoto;
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          // insetPadding: EdgeInsets.zero,
-          insetPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-          // Usa o topPadding dinâmico
-
-          title: Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Text(
-                    'Leia o QR-Code!',
-                    style: FlutterFlowTheme.of(context).bodyMedium.override(
-                          fontFamily: 'Outfit',
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                  ),
-                ),
-                InkWell(
-                  onTap: () => Navigator.of(context).pop(),
-                  child: Icon(
-                    Icons.close,
-                    color: FlutterFlowTheme.of(context).secondaryText,
-                    size: 32,
-                  ),
-                ),
-              ],
+          title: Text('Aproxime-se do ponto!'),
+          content: Text('$talhoes'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
             ),
-          ),
-          content: Padding(
-            // padding: EdgeInsets.all(20),
-
-            padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: EdgeInsets.fromLTRB(
-                      0, 0, 0, 10), // Ajuste este valor conforme necessário
-                  child: SizedBox(
-                    // Envolve o QRView com um SizedBox para dar um tamanho fixo
-                    height: 180, // Defina a altura desejada
-                    width: double.infinity, // Ocupa toda a largura disponível
-                    child: QRView(
-                      key: qrKey,
-                      onQRViewCreated: _onQRViewCreated,
-                      overlay: QrScannerOverlayShape(
-                        borderColor: Color(0xFF00736D),
-                        borderRadius: 10,
-                        borderLength: 130,
-                        borderWidth: 5,
-                        overlayColor: Color(0xFFEEEBF5),
-                      ),
-                    ),
-                  ),
-                ),
-                TextField(
-                  controller: _codigoQr,
-                  autofocus: false,
-                  maxLines: 1,
-                  // Permite múltiplas linhas
-                  keyboardType: TextInputType.multiline,
-                  // Define o teclado para suportar entrada de texto multilinha
-                  decoration: InputDecoration(
-                    labelText: 'Código: ',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 6),
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  // Centraliza os botões na Row
-                  children: <Widget>[
-                    ElevatedButton(
-                      onPressed: () {
-                        //passar aqui o codigo de abrir esse modal novamente passando as variaveis ponto id, coleta id, etc, profuncidade, latlng
-                        // Navigator.of(context).pop();
-                        controller?.resumeCamera();
-                        _codigoQr.clear();
-                        // _exibirDados();
-                      },
-                      style: ElevatedButton.styleFrom(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 0, vertical: 10),
-                        primary: Color(0xFF087071), // Cor do botão
-                        shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(100), // Bordas arredondadas
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        // Isso garante que o Row não ocupe mais espaço do que o necessário
-                        children: [
-                          Icon(Icons.refresh, color: Colors.white),
-                          // Ícone dentro do botão
-                        ],
-                      ),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        // Implemente a ação para este botão
-                        Navigator.of(context).pop();
-                      },
-                      style: ElevatedButton.styleFrom(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 22, vertical: 10),
-                        primary: Color(0xFF087071), // Cor do botão
-                        shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(100), // Bordas arredondadas
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        // Isso garante que o Row não ocupe mais espaço do que o necessário
-                        children: [
-                          Icon(Icons.arrow_forward, color: Colors.white),
-                          // Ícone dentro do botão
-                          SizedBox(width: 8),
-                          // Espaçamento entre o ícone e o texto
-                          Text("Próximo",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 18)),
-                          // Texto do botão
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
-          // elevation: 5,
+          ],
         );
       },
     );
