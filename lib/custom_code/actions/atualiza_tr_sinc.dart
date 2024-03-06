@@ -131,11 +131,16 @@ Future atualizaTrSinc(
     int index = FFAppState().trSincroniza.indexOf(jaExisteTrSincroniza.first);
     if (index != -1) {
       // Verifica se encontrou o índice corretamente
-      FFAppState().trSincroniza[index] = {
-        "fazenda_id": fazId.toString(),
-        "servico_id": oservid.toString(),
-        "pontos": transformedList + transformedListInacessiveis,
-      };
+      var listaCompleta = transformedList + transformedListInacessiveis;
+
+      FFAppState().trSincroniza[index] =
+          await atualizaListas(FFAppState().trSincroniza[index], listaCompleta);
+
+      // FFAppState().trSincroniza[index] = {
+      //   "fazenda_id": fazId.toString(),
+      //   "servico_id": oservid.toString(),
+      //   "pontos": transformedList + transformedListInacessiveis, //NESSA PARTE AQUI, FAÇA EM VEZ DE ADICIONAR E TROCAR O QUE JA TEM, ADICIONAR E MANTEM ESSES, TIPO ATUALIZA A LISTA trSincroniza ATUALIZA ELA COM OS PONTOS ESSES
+      // };
     }
   } else {
     // Adiciona um novo elemento, pois não foi encontrado nenhum correspondente
