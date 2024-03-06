@@ -8,8 +8,6 @@ class LoadingModel extends FlutterFlowModel<LoadingWidget> {
 
   // Stores action output result for [Backend Call - API (trPontos)] action in Loading widget.
   ApiCallResponse? trPontos;
-  // Stores action output result for [Custom Action - atualizaListas] action in Loading widget.
-  dynamic listasUnidas;
 
   /// Initialization and disposal methods.
 

@@ -341,10 +341,14 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                                 'listaPontos',
                                 queryParameters: {
                                   'listaJsonPontos': serializeParam(
-                                    functions.buscaRegistro(
-                                        widget.fazId!.toString(),
-                                        widget.servico!.toString(),
-                                        FFAppState().trSincroniza.toList()),
+                                    getJsonField(
+                                      functions.buscaRegistro(
+                                          widget.fazId!.toString(),
+                                          widget.servico!.toString(),
+                                          FFAppState().trSincroniza.toList()),
+                                      r'''$.pontos''',
+                                      true,
+                                    ),
                                     ParamType.JSON,
                                     true,
                                   ),
