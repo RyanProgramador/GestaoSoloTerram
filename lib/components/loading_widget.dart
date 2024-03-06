@@ -168,6 +168,20 @@ class _LoadingWidgetState extends State<LoadingWidget> {
                 widget.servico!.toString(),
                 FFAppState().trSincroniza.toList()) !=
             null) {
+          await showDialog(
+            context: context,
+            builder: (alertDialogContext) {
+              return AlertDialog(
+                title: const Text('Não passou do busca registro'),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(alertDialogContext),
+                    child: const Text('Ok'),
+                  ),
+                ],
+              );
+            },
+          );
           if (functions.buscaRegistro(
                   widget.fazID!.toString(),
                   widget.servico!.toString(),
@@ -189,7 +203,7 @@ class _LoadingWidgetState extends State<LoadingWidget> {
                       r'''$.dados''',
                     ),
                   },
-                  r'''$''',
+                  r'''$[:]''',
                 ),
               );
             });
@@ -204,10 +218,25 @@ class _LoadingWidgetState extends State<LoadingWidget> {
                     r'''$.dados''',
                   ),
                 },
-                r'''$''',
+                r'''$[:]''',
               ));
             });
           }
+
+          await showDialog(
+            context: context,
+            builder: (alertDialogContext) {
+              return AlertDialog(
+                title: const Text('passou do busca registro'),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(alertDialogContext),
+                    child: const Text('Ok'),
+                  ),
+                ],
+              );
+            },
+          );
         } else {
           setState(() {
             FFAppState().addToTrSincroniza(getJsonField(
