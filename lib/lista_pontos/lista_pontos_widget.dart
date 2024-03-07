@@ -818,6 +818,27 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                                           context: context,
                                                                                           builder: (alertDialogContext) {
                                                                                             return AlertDialog(
+                                                                                              title: Text(functions.pesquisaFotoBas64HTML(
+                                                                                                  getJsonField(
+                                                                                                    listaFotosItem,
+                                                                                                    r'''$.pprof_id''',
+                                                                                                  ).toString(),
+                                                                                                  FFAppState().PontosColetados.toList(),
+                                                                                                  FFAppState().PontosInacessiveis.toList(),
+                                                                                                  functions.buscaRegistro(widget.fazId!, widget.oservId!, FFAppState().trSincroniza.toList()))!),
+                                                                                              actions: [
+                                                                                                TextButton(
+                                                                                                  onPressed: () => Navigator.pop(alertDialogContext),
+                                                                                                  child: const Text('Ok'),
+                                                                                                ),
+                                                                                              ],
+                                                                                            );
+                                                                                          },
+                                                                                        );
+                                                                                        await showDialog(
+                                                                                          context: context,
+                                                                                          builder: (alertDialogContext) {
+                                                                                            return AlertDialog(
                                                                                               title: const Text('Ops!'),
                                                                                               content: const Text('Não foi capturada foto para essa coleta!'),
                                                                                               actions: [
@@ -832,6 +853,46 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                                         return;
                                                                                       }
                                                                                     } else {
+                                                                                      if (functions.pesquisaFotoBas64HTML(
+                                                                                                  getJsonField(
+                                                                                                    listaFotosItem,
+                                                                                                    r'''$.pprof_id''',
+                                                                                                  ).toString(),
+                                                                                                  FFAppState().PontosColetados.toList(),
+                                                                                                  FFAppState().PontosInacessiveis.toList(),
+                                                                                                  functions.buscaRegistro(widget.fazId!, widget.oservId!, FFAppState().trSincroniza.toList())) !=
+                                                                                              null &&
+                                                                                          functions.pesquisaFotoBas64HTML(
+                                                                                                  getJsonField(
+                                                                                                    listaFotosItem,
+                                                                                                    r'''$.pprof_id''',
+                                                                                                  ).toString(),
+                                                                                                  FFAppState().PontosColetados.toList(),
+                                                                                                  FFAppState().PontosInacessiveis.toList(),
+                                                                                                  functions.buscaRegistro(widget.fazId!, widget.oservId!, FFAppState().trSincroniza.toList())) !=
+                                                                                              '') {
+                                                                                        await showDialog(
+                                                                                          context: context,
+                                                                                          builder: (alertDialogContext) {
+                                                                                            return AlertDialog(
+                                                                                              title: Text(functions.pesquisaFotoBas64HTML(
+                                                                                                  getJsonField(
+                                                                                                    listaFotosItem,
+                                                                                                    r'''$.pprof_id''',
+                                                                                                  ).toString(),
+                                                                                                  FFAppState().PontosColetados.toList(),
+                                                                                                  FFAppState().PontosInacessiveis.toList(),
+                                                                                                  functions.buscaRegistro(widget.fazId!, widget.oservId!, FFAppState().trSincroniza.toList()))!),
+                                                                                              actions: [
+                                                                                                TextButton(
+                                                                                                  onPressed: () => Navigator.pop(alertDialogContext),
+                                                                                                  child: const Text('Ok'),
+                                                                                                ),
+                                                                                              ],
+                                                                                            );
+                                                                                          },
+                                                                                        );
+                                                                                      }
                                                                                       await showDialog(
                                                                                         context: context,
                                                                                         builder: (alertDialogContext) {

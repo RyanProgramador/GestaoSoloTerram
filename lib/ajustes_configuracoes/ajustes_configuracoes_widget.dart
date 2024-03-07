@@ -81,6 +81,25 @@ class _AjustesConfiguracoesWidgetState
                                 'Em desenvolvimento',
                                 style: FlutterFlowTheme.of(context).bodyMedium,
                               ),
+                              Builder(
+                                builder: (context) {
+                                  final tese = FFAppState()
+                                      .trTalhoesEmCadaServico
+                                      .toList();
+                                  return Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children:
+                                        List.generate(tese.length, (teseIndex) {
+                                      final teseItem = tese[teseIndex];
+                                      return Text(
+                                        'Em desenvolvimento',
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyMedium,
+                                      );
+                                    }),
+                                  );
+                                },
+                              ),
                             ],
                           ),
                         ),

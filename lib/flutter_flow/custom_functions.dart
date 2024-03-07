@@ -142,16 +142,42 @@ String? pesquisaParaVerSeOPontoFoiColetado(
 //  // If neither collected nor inaccessible, it's pending
 //  return "Pendente";
 
-  // Lista de pontos do serviço
   List<dynamic> pontosDoServico = listaJsonDoServico['pontos'];
 
-  // Verifica se o ponto está na lista de pontos do serviço
-  bool pontoEncontrado = pontosDoServico
-      .any((ponto) => ponto['pont_id'] == pprofIDdoPonto.toString());
+  for (var item in pontosDoServico) {
+    for (var profundidade in item['profundidades']) {
+      // Verifica se o pprof_id está presente na profundidade
+      if (profundidade['pprof_id'] == pprofIDdoPonto) {
+        print(profundidade['pprof_id']);
+        print(profundidade['pprof_status']);
+        print(profundidade['pprof_foto']);
+        // Retorna o status da profundidade
+        if (profundidade['pprof_status'] == 1) {
+          return "Coletado";
+        } else if (profundidade['pprof_status'] == 2) {
+          return "Inacessível";
+        } else {
+          // Verifica se o ponto foi coletado
+          bool isCollected = pontosColetados.any(
+              (ponto) => ponto['profundidade'] == pprofIDdoPonto.toString());
 
-  // Se o ponto não está na lista, retorna null
-  if (!pontoEncontrado) {
-    return null;
+          // Se o ponto foi coletado, retorna "Coletado"
+          if (isCollected) {
+            return "Coletado";
+          }
+
+          // Verifica se o ponto é inacessível
+          bool isInaccessible = pontosInacessiveis.any(
+              (ponto) => ponto['profundidade'] == pprofIDdoPonto.toString());
+
+          // Se o ponto é inacessível, retorna "Inacessível"
+          if (isInaccessible) {
+            return "Inacessível";
+          }
+          return "Pendente";
+        }
+      }
+    }
   }
 
   // Verifica se o ponto foi coletado
@@ -181,6 +207,59 @@ String? pesquisaFotoBas64(
   List<dynamic> pontosColetados,
   List<dynamic> pontosInacessivel,
 ) {
+  // Attempt to find a collected point with the matching profundidade
+  var collectedPoint = pontosColetados.firstWhere(
+    (ponto) => ponto['profundidade'].toString() == pprofID,
+    orElse: () => null,
+  );
+
+  if (collectedPoint != null) {
+    return collectedPoint['foto'];
+  }
+
+  // Attempt to find an inaccessible point with the matching profundidade
+  var inaccessiblePoint = pontosInacessivel.firstWhere(
+    (ponto) => ponto['profundidade'].toString() == pprofID,
+    orElse: () => null,
+  );
+
+  if (inaccessiblePoint != null) {
+    return inaccessiblePoint['foto'];
+  }
+
+  // If neither collected nor inaccessible, it's pending or an error
+  return "Pending or Error"; // Adjust this return value based on your needs
+}
+
+String? pesquisaFotoBas64HTML(
+  String? pprofID,
+  List<dynamic> pontosColetados,
+  List<dynamic> pontosInacessivel,
+  dynamic listaJsonDoServico,
+) {
+  // Função para verificar se o ponto possui foto na listaJsonDoServico
+  String? fotoDoPonto(dynamic ponto) {
+    if (ponto['profundidades'] is List) {
+      for (var profundidade in ponto['profundidades']) {
+        if (profundidade['pprof_id'].toString() == pprofID &&
+            profundidade['pprof_foto'] != null &&
+            profundidade['pprof_foto'] != '') {
+          return profundidade['pprof_foto'];
+        }
+      }
+    }
+    return null;
+  }
+
+  // Verifica se o ponto possui foto na listaJsonDoServico
+  String? fotoEncontrada = listaJsonDoServico['pontos'].fold(
+      null, (previousValue, ponto) => previousValue ?? fotoDoPonto(ponto));
+
+  // Se a foto foi encontrada, retorna
+  if (fotoEncontrada != null) {
+    return fotoEncontrada;
+  }
+
   // Attempt to find a collected point with the matching profundidade
   var collectedPoint = pontosColetados.firstWhere(
     (ponto) => ponto['profundidade'].toString() == pprofID,

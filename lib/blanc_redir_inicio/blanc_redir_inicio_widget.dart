@@ -1,7 +1,6 @@
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:provider/provider.dart';
 import 'blanc_redir_inicio_model.dart';
 export 'blanc_redir_inicio_model.dart';
 
@@ -46,8 +45,6 @@ class _BlancRedirInicioWidgetState extends State<BlancRedirInicioWidget> {
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
-
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: const Color(0x00F1F4F8),

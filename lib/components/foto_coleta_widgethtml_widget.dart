@@ -1,28 +1,31 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/custom_code/widgets/index.dart' as custom_widgets;
 import 'package:flutter/material.dart';
-import 'foto_coleta_widget_model.dart';
-export 'foto_coleta_widget_model.dart';
+import 'foto_coleta_widgethtml_model.dart';
+export 'foto_coleta_widgethtml_model.dart';
 
-class FotoColetaWidgetWidget extends StatefulWidget {
-  const FotoColetaWidgetWidget({
+class FotoColetaWidgethtmlWidget extends StatefulWidget {
+  const FotoColetaWidgethtmlWidget({
     super.key,
-    required this.base64,
+    this.base64,
     required this.marcadorNomeIdPontoNumero,
     required this.profundidade,
+    this.html,
   });
 
   final String? base64;
   final String? marcadorNomeIdPontoNumero;
   final String? profundidade;
+  final String? html;
 
   @override
-  State<FotoColetaWidgetWidget> createState() => _FotoColetaWidgetWidgetState();
+  State<FotoColetaWidgethtmlWidget> createState() =>
+      _FotoColetaWidgethtmlWidgetState();
 }
 
-class _FotoColetaWidgetWidgetState extends State<FotoColetaWidgetWidget> {
-  late FotoColetaWidgetModel _model;
+class _FotoColetaWidgethtmlWidgetState
+    extends State<FotoColetaWidgethtmlWidget> {
+  late FotoColetaWidgethtmlModel _model;
 
   @override
   void setState(VoidCallback callback) {
@@ -33,7 +36,7 @@ class _FotoColetaWidgetWidgetState extends State<FotoColetaWidgetWidget> {
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => FotoColetaWidgetModel());
+    _model = createModel(context, () => FotoColetaWidgethtmlModel());
   }
 
   @override
@@ -150,13 +153,13 @@ class _FotoColetaWidgetWidgetState extends State<FotoColetaWidgetWidget> {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(14.0),
                             ),
-                            child: SizedBox(
-                              width: double.infinity,
-                              height: double.infinity,
-                              child: custom_widgets.FotoBase64(
-                                width: double.infinity,
-                                height: double.infinity,
-                                base64Foto: widget.base64,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: Image.network(
+                                'https://dev.conceittosistemas.com.br/scriptcase/file/doc/1/1/PF_20311.png',
+                                width: 300.0,
+                                height: 200.0,
+                                fit: BoxFit.cover,
                               ),
                             ),
                           ),
