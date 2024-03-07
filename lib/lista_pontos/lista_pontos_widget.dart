@@ -826,6 +826,7 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                                                   FFAppState().PontosColetados.toList(),
                                                                                                   FFAppState().PontosInacessiveis.toList(),
                                                                                                   functions.buscaRegistro(widget.fazId!, widget.oservId!, FFAppState().trSincroniza.toList()))!),
+                                                                                              content: const Text('teste'),
                                                                                               actions: [
                                                                                                 TextButton(
                                                                                                   onPressed: () => Navigator.pop(alertDialogContext),
