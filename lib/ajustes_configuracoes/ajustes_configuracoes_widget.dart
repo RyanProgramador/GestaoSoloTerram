@@ -81,28 +81,6 @@ class _AjustesConfiguracoesWidgetState
                                 'Em desenvolvimento',
                                 style: FlutterFlowTheme.of(context).bodyMedium,
                               ),
-                              Builder(
-                                builder: (context) {
-                                  final sincr = FFAppState()
-                                      .trTalhoesEmCadaServico
-                                      .toList();
-                                  return SingleChildScrollView(
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: List.generate(sincr.length,
-                                          (sincrIndex) {
-                                        final sincrItem = sincr[sincrIndex];
-                                        return SelectionArea(
-                                            child: Text(
-                                          sincrItem.toString(),
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyMedium,
-                                        ));
-                                      }),
-                                    ),
-                                  );
-                                },
-                              ),
                             ],
                           ),
                         ),
