@@ -90,11 +90,12 @@ class _AjustesConfiguracoesWidgetState
                                     children:
                                         List.generate(tese.length, (teseIndex) {
                                       final teseItem = tese[teseIndex];
-                                      return Text(
+                                      return SelectionArea(
+                                          child: Text(
                                         teseItem.toString(),
                                         style: FlutterFlowTheme.of(context)
                                             .bodyMedium,
-                                      );
+                                      ));
                                     }),
                                   );
                                 },
