@@ -58,21 +58,121 @@ String? pesquisaParaVerSeOPontoFoiColetado(
   int? pprofIDdoPonto,
   List<dynamic> pontosColetados,
   List<dynamic> pontosInacessiveis,
+  dynamic listaJsonDoServico,
 ) {
+//listaJsonDoServico = {
+//   "fazenda_id":1,
+//   "servico_id":1,
+//   "pontos":[
+//      {
+//         "pont_id":17429,
+//         "pont_numero":393,
+//         "pont_latitude":"-17.780151593",
+//         "pont_longitude":"-51.061255731",
+//         "pont_simbolo":"Pin, Green",
+//         "pont_status":1,
+//         "pont_observacao":"",
+//         "pont_foto":"",
+//         "profundidades":[
+//            {
+//               "pprof_id":20319,
+//               "pprof_status":1,
+//               "pprof_icone":"Pin, Green",
+//               "pprof_observacao":"",
+//               "pprof_foto":"null",
+//               "pprof_datahora":"2024-03-05 19:29"
+//            },
+//            {
+//               "pprof_id":20320,
+//               "pprof_status":1,
+//               "pprof_icone":"Pin, Green",
+//               "pprof_observacao":"",
+//               "pprof_foto":"null",
+//               "pprof_datahora":"2024-03-05 19:29"
+//            }
+//         ]
+//      },
+//	{
+//         "pont_id":17429,
+//         "pont_numero":394,
+//         "pont_latitude":"-17.780151593",
+//         "pont_longitude":"-51.061255731",
+//         "pont_simbolo":"Pin, Green",
+//         "pont_status":1,
+//         "pont_observacao":"",
+//         "pont_foto":"",
+//         "profundidades":[
+//            {
+//               "pprof_id":20319,
+//               "pprof_status":0,
+//               "pprof_icone":"Pin, Green",
+//               "pprof_observacao":"",
+//               "pprof_foto":"null",
+//               "pprof_datahora":"2024-03-05 19:29"
+//            },
+//            {
+//               "pprof_id":20320,
+//               "pprof_status":0,
+//               "pprof_icone":"Pin, Green",
+//               "pprof_observacao":"",
+//               "pprof_foto":"null",
+//               "pprof_datahora":"2024-03-05 19:29"
+//            }
+//         ]
+//      }
+//
+//   ]
+//}
+//
+//VERIFICA TABEM SE O pprofIDdoPonto NA listaJsonDoServico[pprof_id] O PPROF_STATUS É IGUAL A 0 OU 1, SE FOR 1 É COLETADO SE FOR 0 É NÃO COLETADO
+//
+//  bool isCollected = pontosColetados
+//      .any((ponto) => ponto['profundidade'] == pprofIDdoPonto.toString());
+//  if (isCollected) {
+//    return "Coletado";
+//  }
+//
+//  // Check if the point is inaccessible
+//  bool isInaccessible = pontosInacessiveis
+//      .any((ponto) => ponto['profundidade'] == pprofIDdoPonto.toString());
+//  if (isInaccessible) {
+//    return "Inacessível";
+//  }
+//
+//  // If neither collected nor inaccessible, it's pending
+//  return "Pendente";
+
+  // Lista de pontos do serviço
+  List<dynamic> pontosDoServico = listaJsonDoServico['pontos'];
+
+  // Verifica se o ponto está na lista de pontos do serviço
+  bool pontoEncontrado = pontosDoServico
+      .any((ponto) => ponto['pont_id'] == pprofIDdoPonto.toString());
+
+  // Se o ponto não está na lista, retorna null
+  if (!pontoEncontrado) {
+    return null;
+  }
+
+  // Verifica se o ponto foi coletado
   bool isCollected = pontosColetados
       .any((ponto) => ponto['profundidade'] == pprofIDdoPonto.toString());
+
+  // Se o ponto foi coletado, retorna "Coletado"
   if (isCollected) {
     return "Coletado";
   }
 
-  // Check if the point is inaccessible
+  // Verifica se o ponto é inacessível
   bool isInaccessible = pontosInacessiveis
       .any((ponto) => ponto['profundidade'] == pprofIDdoPonto.toString());
+
+  // Se o ponto é inacessível, retorna "Inacessível"
   if (isInaccessible) {
     return "Inacessível";
   }
 
-  // If neither collected nor inaccessible, it's pending
+  // Se o ponto não foi coletado nem é inacessível, é pendente
   return "Pendente";
 }
 

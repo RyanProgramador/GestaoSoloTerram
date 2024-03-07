@@ -705,7 +705,8 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                                         r'''$.pprof_id''',
                                                                                       ),
                                                                                       FFAppState().PontosColetados.toList(),
-                                                                                      FFAppState().PontosInacessiveis.toList()),
+                                                                                      FFAppState().PontosInacessiveis.toList(),
+                                                                                      functions.buscaRegistro(widget.fazId!, widget.oservId!, FFAppState().trSincroniza.toList())),
                                                                                   'Ops!',
                                                                                 ),
                                                                                 style: FlutterFlowTheme.of(context).bodyMedium.override(
