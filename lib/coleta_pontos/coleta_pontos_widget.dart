@@ -223,10 +223,6 @@ class _ColetaPontosWidgetState extends State<ColetaPontosWidget> {
                                     },
                                     onEnded: () async {
                                       setState(() {
-                                        FFAppState().trSincroniza = FFAppState()
-                                            .trSincroniza
-                                            .toList()
-                                            .cast<dynamic>();
                                         FFAppState().listaColetasInciadas =
                                             FFAppState()
                                                 .listaColetasInciadas
