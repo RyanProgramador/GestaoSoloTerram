@@ -281,7 +281,7 @@ String? pesquisaFotoBas64HTML(
   }
 
   // If neither collected nor inaccessible, it's pending or an error
-  return "Pending or Error"; // Adjust this return value based on your needs
+  return null; // Adjust this return value based on your needs
 }
 
 bool? pesquisaOservEFazIdNoTrSinc(
