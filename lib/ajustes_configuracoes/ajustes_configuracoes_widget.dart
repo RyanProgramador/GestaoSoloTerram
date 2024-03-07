@@ -83,9 +83,8 @@ class _AjustesConfiguracoesWidgetState
                               ),
                               Builder(
                                 builder: (context) {
-                                  final tese = FFAppState()
-                                      .trTalhoesEmCadaServico
-                                      .toList();
+                                  final tese =
+                                      FFAppState().trSincroniza.toList();
                                   return Column(
                                     mainAxisSize: MainAxisSize.max,
                                     children:
