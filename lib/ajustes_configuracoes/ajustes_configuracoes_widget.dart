@@ -92,7 +92,7 @@ class _AjustesConfiguracoesWidgetState
                                         List.generate(tese.length, (teseIndex) {
                                       final teseItem = tese[teseIndex];
                                       return Text(
-                                        'Em desenvolvimento',
+                                        teseItem.toString(),
                                         style: FlutterFlowTheme.of(context)
                                             .bodyMedium,
                                       );
