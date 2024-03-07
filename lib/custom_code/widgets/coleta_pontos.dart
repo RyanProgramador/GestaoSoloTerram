@@ -1750,13 +1750,13 @@ class _ColetaPontosState extends State<ColetaPontos> {
           mapToolbarEnabled: false,
           zoomControlsEnabled: false,
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () => _exibirDados(),
-          child: Text(
-            '${quantidadeDeProfundidadesASeremColetadas ?? "teste"}',
-            style: TextStyle(color: Colors.white, fontSize: 18),
-          ),
-        ),
+        // floatingActionButton: FloatingActionButton(
+        //   onPressed: () => _exibirDados(),
+        //   child: Text(
+        //     '${quantidadeDeProfundidadesASeremColetadas ?? "teste"}',
+        //     style: TextStyle(color: Colors.white, fontSize: 18),
+        //   ),
+        // ),
       ),
     );
   }
@@ -1962,12 +1962,16 @@ class _ColetaPontosState extends State<ColetaPontos> {
         registro['fazenda_id'].toString() == widget.fazId! &&
         registro['servico_id'].toString() == widget.oservid!)['dados'];
 
+    var talh2 = FFAppState().trSincroniza.firstWhere((registro) =>
+        registro['fazenda_id'].toString() == widget.fazId! &&
+        registro['servico_id'].toString() == widget.oservid!);
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Aproxime-se do ponto!'),
-          content: Text('$talhoes'),
+          content: Text('$talh2'),
           actions: <Widget>[
             TextButton(
               child: Text('OK'),
