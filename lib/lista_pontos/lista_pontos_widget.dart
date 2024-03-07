@@ -852,14 +852,23 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                                                   functions.buscaRegistro(widget.fazId!, widget.oservId!, FFAppState().trSincroniza.toList())) !=
                                                                                               '') {
                                                                                         if (functions.pesquisaFotoBas64HTML(
-                                                                                                getJsonField(
-                                                                                                  listaFotosItem,
-                                                                                                  r'''$.pprof_id''',
-                                                                                                ).toString(),
-                                                                                                FFAppState().PontosColetados.toList(),
-                                                                                                FFAppState().PontosInacessiveis.toList(),
-                                                                                                functions.buscaRegistro(widget.fazId!, widget.oservId!, FFAppState().trSincroniza.toList())) !=
-                                                                                            'Pending or Error') {
+                                                                                                    getJsonField(
+                                                                                                      listaFotosItem,
+                                                                                                      r'''$.pprof_id''',
+                                                                                                    ).toString(),
+                                                                                                    FFAppState().PontosColetados.toList(),
+                                                                                                    FFAppState().PontosInacessiveis.toList(),
+                                                                                                    functions.buscaRegistro(widget.fazId!, widget.oservId!, FFAppState().trSincroniza.toList())) !=
+                                                                                                null &&
+                                                                                            functions.pesquisaFotoBas64HTML(
+                                                                                                    getJsonField(
+                                                                                                      listaFotosItem,
+                                                                                                      r'''$.pprof_id''',
+                                                                                                    ).toString(),
+                                                                                                    FFAppState().PontosColetados.toList(),
+                                                                                                    FFAppState().PontosInacessiveis.toList(),
+                                                                                                    functions.buscaRegistro(widget.fazId!, widget.oservId!, FFAppState().trSincroniza.toList())) !=
+                                                                                                '') {
                                                                                           await showModalBottomSheet(
                                                                                             isScrollControlled: true,
                                                                                             backgroundColor: Colors.transparent,
