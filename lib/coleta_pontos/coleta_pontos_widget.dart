@@ -198,7 +198,7 @@ class _ColetaPontosWidgetState extends State<ColetaPontosWidget> {
                           ),
                           if (true == true)
                             Opacity(
-                              opacity: 0.03,
+                              opacity: 0.001,
                               child: Align(
                                 alignment: const AlignmentDirectional(0.0, -1.0),
                                 child: Padding(
