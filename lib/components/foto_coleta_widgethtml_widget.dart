@@ -1,5 +1,6 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
 import 'foto_coleta_widgethtml_model.dart';
 export 'foto_coleta_widgethtml_model.dart';
@@ -156,7 +157,7 @@ class _FotoColetaWidgethtmlWidgetState
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(8.0),
                               child: Image.network(
-                                widget.html!,
+                                functions.indentificahtml(widget.html)!,
                                 width: 300.0,
                                 height: 200.0,
                                 fit: BoxFit.cover,

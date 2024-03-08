@@ -373,3 +373,28 @@ String? pontosASemreColetadosTrSinc(
       .length
       .toString();
 }
+
+String? indentificahtml(String? string) {
+  if (string != null) {
+    // Check for valid HTTP or HTTPS URL
+    if (string.startsWith('http://') || string.startsWith('https://')) {
+      return string; // Return the URL directly
+    } else {
+      // Attempt to decode base64 (handle potential errors)
+      try {
+        // Decode the base64 string
+        base64Decode(string);
+        // If decoding is successful, return the data URI with PNG format
+        return 'data:image/png;base64,$string';
+      } on FormatException {
+        // Handle potential base64 decoding errors gracefully
+        print('Error: Invalid base64 string provided.');
+        return null; // Or return a specific error message if desired
+      }
+    }
+  } else {
+    // Handle null input string
+    print('Error: Input string is null.');
+    return null;
+  }
+}

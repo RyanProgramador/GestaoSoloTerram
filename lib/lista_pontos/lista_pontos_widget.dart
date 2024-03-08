@@ -389,7 +389,7 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                 style: FlutterFlowTheme.of(context).bodyMedium,
                               ),
                               Text(
-                                'Pontos à coletar: ${functions.pontosASemreColetadosTrSinc(widget.oservId?.toString(), widget.fazId?.toString(), FFAppState().trSincroniza.toList())}',
+                                'Pontos coletados: ${functions.pontosASemreColetadosTrSinc(widget.oservId?.toString(), widget.fazId?.toString(), FFAppState().trSincroniza.toList())}',
                                 style: FlutterFlowTheme.of(context).bodyMedium,
                               ),
                             ],
