@@ -49,6 +49,25 @@ class _LoadingSincWidgetState extends State<LoadingSincWidget> {
         (_model.trSinc?.jsonBody ?? ''),
         r'''$.status''',
       )) {
+        _model.trPontos = await TrOsServicosGroup.trPontosCall.call(
+          urlApi: FFAppState().UrlApi,
+          servicoId: widget.servico,
+          fazendaId: widget.fazID,
+        );
+        _model.trTalhaoDoServico = await TrOsServicosGroup.trTalhaoCall.call(
+          urlApi: FFAppState().UrlApi,
+          fazId: widget.fazID,
+        );
+        setState(() {
+          FFAppState().updateTrSincronizaAtIndex(
+            functions.buscaRegistroIndex(widget.fazID!, widget.servico!,
+                FFAppState().trSincroniza.toList())!,
+            (_) => getJsonField(
+              (_model.trPontos?.jsonBody ?? ''),
+              r'''$''',
+            ),
+          );
+        });
         await showDialog(
           context: context,
           builder: (alertDialogContext) {

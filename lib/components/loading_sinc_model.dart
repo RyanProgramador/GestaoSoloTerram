@@ -8,6 +8,10 @@ class LoadingSincModel extends FlutterFlowModel<LoadingSincWidget> {
 
   // Stores action output result for [Backend Call - API (trSincronizaPontosColetados)] action in LoadingSinc widget.
   ApiCallResponse? trSinc;
+  // Stores action output result for [Backend Call - API (trPontos)] action in LoadingSinc widget.
+  ApiCallResponse? trPontos;
+  // Stores action output result for [Backend Call - API (trTalhao)] action in LoadingSinc widget.
+  ApiCallResponse? trTalhaoDoServico;
 
   /// Initialization and disposal methods.
 
