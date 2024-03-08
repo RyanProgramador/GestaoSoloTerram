@@ -130,8 +130,8 @@ class _PasswordParaURLWidgetState extends State<PasswordParaURLWidget> {
                   Align(
                     alignment: const AlignmentDirectional(1.0, 1.0),
                     child: FFButtonWidget(
-                      onPressed: () {
-                        print('Button pressed ...');
+                      onPressed: () async {
+                        Navigator.pop(context);
                       },
                       text: 'Cancelar',
                       options: FFButtonOptions(
