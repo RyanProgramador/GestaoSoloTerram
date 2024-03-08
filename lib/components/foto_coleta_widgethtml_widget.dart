@@ -117,7 +117,7 @@ class _FotoColetaWidgethtmlWidgetState
                                 width: double.infinity,
                                 decoration: const BoxDecoration(),
                                 child: Text(
-                                  'Profundidade ${widget.profundidade} do ponto ${widget.marcadorNomeIdPontoNumero}',
+                                  'Profundidade ${widget.profundidade} do ponto html${widget.marcadorNomeIdPontoNumero}',
                                   style: FlutterFlowTheme.of(context)
                                       .bodyLarge
                                       .override(
@@ -156,7 +156,7 @@ class _FotoColetaWidgethtmlWidgetState
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(8.0),
                               child: Image.network(
-                                'https://dev.conceittosistemas.com.br/scriptcase/file/doc/1/1/PF_20311.png',
+                                widget.html!,
                                 width: 300.0,
                                 height: 200.0,
                                 fit: BoxFit.cover,
