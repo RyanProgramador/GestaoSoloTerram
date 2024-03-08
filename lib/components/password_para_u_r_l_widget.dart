@@ -1,3 +1,4 @@
+import '/components/troca_url_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -160,11 +161,37 @@ class _PasswordParaURLWidgetState extends State<PasswordParaURLWidget> {
                     alignment: const AlignmentDirectional(1.0, 1.0),
                     child: FFButtonWidget(
                       onPressed: () async {
-                        if (_model.textController.text == 'Terr@am') {
+                        if (_model.textController.text == 'Terr@m') {
                           Navigator.pop(context);
+                          await showModalBottomSheet(
+                            isScrollControlled: true,
+                            backgroundColor: Colors.transparent,
+                            enableDrag: false,
+                            context: context,
+                            builder: (context) {
+                              return Padding(
+                                padding: MediaQuery.viewInsetsOf(context),
+                                child: const TrocaUrlWidget(),
+                              );
+                            },
+                          ).then((value) => safeSetState(() {}));
                         } else {
-                          context.pushNamed('Login');
-
+                          await showDialog(
+                            context: context,
+                            builder: (alertDialogContext) {
+                              return AlertDialog(
+                                title: const Text('Ops!'),
+                                content: const Text('Senha incorreta!'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () =>
+                                        Navigator.pop(alertDialogContext),
+                                    child: const Text('Entendi'),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
                           return;
                         }
                       },
