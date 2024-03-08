@@ -64,7 +64,7 @@ class _LoadingSincWidgetState extends State<LoadingSincWidget> {
                 FFAppState().trSincroniza.toList())!,
             (_) => getJsonField(
               (_model.trPontos?.jsonBody ?? ''),
-              r'''$''',
+              r'''$[:]''',
             ),
           );
         });
