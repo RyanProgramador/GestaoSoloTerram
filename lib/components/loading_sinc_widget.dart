@@ -59,14 +59,13 @@ class _LoadingSincWidgetState extends State<LoadingSincWidget> {
           fazId: widget.fazID,
         );
         setState(() {
-          FFAppState().updateTrSincronizaAtIndex(
-            functions.buscaRegistroIndex(widget.fazID!, widget.servico!,
-                FFAppState().trSincroniza.toList())!,
-            (_) => getJsonField(
-              (_model.trPontos?.jsonBody ?? ''),
-              r'''$[:]''',
-            ),
-          );
+          FFAppState().insertAtIndexInTrSincroniza(
+              functions.buscaRegistroIndex(widget.fazID!, widget.servico!,
+                  FFAppState().trSincroniza.toList())!,
+              getJsonField(
+                (_model.trPontos?.jsonBody ?? ''),
+                r'''$''',
+              ));
         });
         await showDialog(
           context: context,
