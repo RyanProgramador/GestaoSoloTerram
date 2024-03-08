@@ -119,7 +119,7 @@ class _FotoColetaWidgethtmlWidgetState
                                 width: double.infinity,
                                 decoration: const BoxDecoration(),
                                 child: Text(
-                                  'Profundidade ${widget.profundidade} do ponto html${widget.marcadorNomeIdPontoNumero}',
+                                  'Profundidade ${widget.profundidade} do ponto ${widget.marcadorNomeIdPontoNumero}',
                                   style: FlutterFlowTheme.of(context)
                                       .bodyLarge
                                       .override(
@@ -174,13 +174,15 @@ class _FotoColetaWidgethtmlWidgetState
                                     ),
                                   if (functions.indentificahtml(widget.html) ==
                                       false)
-                                    SizedBox(
-                                      width: double.infinity,
-                                      height: 200.0,
-                                      child: custom_widgets.FotoBase64(
+                                    Expanded(
+                                      child: SizedBox(
                                         width: double.infinity,
                                         height: 200.0,
-                                        base64Foto: widget.html,
+                                        child: custom_widgets.FotoBase64(
+                                          width: double.infinity,
+                                          height: 200.0,
+                                          base64Foto: widget.html,
+                                        ),
                                       ),
                                     ),
                                 ],

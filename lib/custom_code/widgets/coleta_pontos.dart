@@ -1957,13 +1957,13 @@ class _ColetaPontosState extends State<ColetaPontos> {
           mapToolbarEnabled: false,
           zoomControlsEnabled: false,
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () => _exibirDados(),
-          child: Text(
-            '${quantidadeDeProfundidadesASeremColetadas ?? "teste"}',
-            style: TextStyle(color: Colors.white, fontSize: 18),
-          ),
-        ),
+        //floatingActionButton: FloatingActionButton(
+        //  onPressed: () => _exibirDados(),
+        //  child: Text(
+        //    '${quantidadeDeProfundidadesASeremColetadas ?? "teste"}',
+        //    style: TextStyle(color: Colors.white, fontSize: 18),
+        //  ),
+        //),
       ),
     );
   }
