@@ -776,11 +776,33 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                                 hoverColor: Colors.transparent,
                                                                                 highlightColor: Colors.transparent,
                                                                                 onTap: () async {
+                                                                                  var shouldSetState = false;
                                                                                   if (getJsonField(
                                                                                         listaFotosItem,
                                                                                         r'''$.pprof_id''',
                                                                                       ) !=
                                                                                       null) {
+                                                                                    _model.temnetouno = await actions.checkinternet();
+                                                                                    shouldSetState = true;
+                                                                                    if (_model.temnetouno != true) {
+                                                                                      await showDialog(
+                                                                                        context: context,
+                                                                                        builder: (alertDialogContext) {
+                                                                                          return AlertDialog(
+                                                                                            title: const Text('Ops!'),
+                                                                                            content: const Text('Ative a internet para ver a foto.'),
+                                                                                            actions: [
+                                                                                              TextButton(
+                                                                                                onPressed: () => Navigator.pop(alertDialogContext),
+                                                                                                child: const Text('Entendi'),
+                                                                                              ),
+                                                                                            ],
+                                                                                          );
+                                                                                        },
+                                                                                      );
+                                                                                      if (shouldSetState) setState(() {});
+                                                                                      return;
+                                                                                    }
                                                                                     if (functions.pesquisaFotoBas64(
                                                                                             getJsonField(
                                                                                               listaFotosItem,
@@ -820,6 +842,7 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                                             );
                                                                                           },
                                                                                         );
+                                                                                        if (shouldSetState) setState(() {});
                                                                                         return;
                                                                                       }
                                                                                     } else {
@@ -895,6 +918,7 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                                             },
                                                                                           ).then((value) => safeSetState(() {}));
 
+                                                                                          if (shouldSetState) setState(() {});
                                                                                           return;
                                                                                         }
                                                                                       }
@@ -913,6 +937,7 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                                           );
                                                                                         },
                                                                                       );
+                                                                                      if (shouldSetState) setState(() {});
                                                                                       return;
                                                                                     }
 
@@ -950,6 +975,7 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                                       },
                                                                                     ).then((value) => safeSetState(() {}));
 
+                                                                                    if (shouldSetState) setState(() {});
                                                                                     return;
                                                                                   } else {
                                                                                     await showDialog(
@@ -967,8 +993,11 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                                         );
                                                                                       },
                                                                                     );
+                                                                                    if (shouldSetState) setState(() {});
                                                                                     return;
                                                                                   }
+
+                                                                                  if (shouldSetState) setState(() {});
                                                                                 },
                                                                                 child: FaIcon(
                                                                                   FontAwesomeIcons.images,

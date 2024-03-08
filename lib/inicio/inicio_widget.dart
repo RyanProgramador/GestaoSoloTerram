@@ -492,6 +492,8 @@ class _InicioWidgetState extends State<InicioWidget> {
                                                                         .transparent,
                                                                 onTap:
                                                                     () async {
+                                                                  var shouldSetState =
+                                                                      false;
                                                                   if (functions.pesquisaOservEFazIdNoTrSinc(
                                                                       getJsonField(
                                                                         trOsServicosItem,
@@ -502,6 +504,39 @@ class _InicioWidgetState extends State<InicioWidget> {
                                                                         r'''$.os_id_faz''',
                                                                       ).toString(),
                                                                       FFAppState().trSincroniza.toList())!) {
+                                                                    _model.netcheck =
+                                                                        await actions
+                                                                            .checkinternet();
+                                                                    shouldSetState =
+                                                                        true;
+                                                                    if (_model
+                                                                            .netcheck !=
+                                                                        true) {
+                                                                      await showDialog(
+                                                                        context:
+                                                                            context,
+                                                                        builder:
+                                                                            (alertDialogContext) {
+                                                                          return AlertDialog(
+                                                                            title:
+                                                                                const Text('Ops!'),
+                                                                            content:
+                                                                                const Text('Ative a internet para sincronizar.'),
+                                                                            actions: [
+                                                                              TextButton(
+                                                                                onPressed: () => Navigator.pop(alertDialogContext),
+                                                                                child: const Text('Entendi'),
+                                                                              ),
+                                                                            ],
+                                                                          );
+                                                                        },
+                                                                      );
+                                                                      if (shouldSetState) {
+                                                                        setState(
+                                                                            () {});
+                                                                      }
+                                                                      return;
+                                                                    }
                                                                     await showModalBottomSheet(
                                                                       isScrollControlled:
                                                                           true,
@@ -559,6 +594,11 @@ class _InicioWidgetState extends State<InicioWidget> {
                                                                         );
                                                                       },
                                                                     );
+                                                                  }
+
+                                                                  if (shouldSetState) {
+                                                                    setState(
+                                                                        () {});
                                                                   }
                                                                 },
                                                                 child: Icon(
@@ -871,6 +911,8 @@ class _InicioWidgetState extends State<InicioWidget> {
                                                           highlightColor: Colors
                                                               .transparent,
                                                           onTap: () async {
+                                                            var shouldSetState =
+                                                                false;
                                                             if (functions
                                                                 .pesquisaOservEFazIdNoTrSinc(
                                                                     getJsonField(
@@ -886,6 +928,41 @@ class _InicioWidgetState extends State<InicioWidget> {
                                                                     FFAppState()
                                                                         .trSincroniza
                                                                         .toList())!) {
+                                                              _model.netcheck2 =
+                                                                  await actions
+                                                                      .checkinternet();
+                                                              shouldSetState =
+                                                                  true;
+                                                              if (_model
+                                                                      .netcheck2 !=
+                                                                  true) {
+                                                                await showDialog(
+                                                                  context:
+                                                                      context,
+                                                                  builder:
+                                                                      (alertDialogContext) {
+                                                                    return AlertDialog(
+                                                                      title: const Text(
+                                                                          'Ops!'),
+                                                                      content: const Text(
+                                                                          'Ative a internet para sincronizar.'),
+                                                                      actions: [
+                                                                        TextButton(
+                                                                          onPressed: () =>
+                                                                              Navigator.pop(alertDialogContext),
+                                                                          child:
+                                                                              const Text('Entendi'),
+                                                                        ),
+                                                                      ],
+                                                                    );
+                                                                  },
+                                                                );
+                                                                if (shouldSetState) {
+                                                                  setState(
+                                                                      () {});
+                                                                }
+                                                                return;
+                                                              }
                                                               await showModalBottomSheet(
                                                                 isScrollControlled:
                                                                     true,
@@ -953,6 +1030,10 @@ class _InicioWidgetState extends State<InicioWidget> {
                                                                   );
                                                                 },
                                                               );
+                                                            }
+
+                                                            if (shouldSetState) {
+                                                              setState(() {});
                                                             }
                                                           },
                                                           child: Icon(
