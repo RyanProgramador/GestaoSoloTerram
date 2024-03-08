@@ -1,5 +1,6 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/custom_code/widgets/index.dart' as custom_widgets;
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
 import 'foto_coleta_widgethtml_model.dart';
@@ -154,13 +155,35 @@ class _FotoColetaWidgethtmlWidgetState
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(14.0),
                             ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(8.0),
-                              child: Image.network(
-                                functions.indentificahtml(widget.html)!,
-                                width: 300.0,
-                                height: 200.0,
-                                fit: BoxFit.cover,
+                            child: Container(
+                              decoration: const BoxDecoration(),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  if (functions.indentificahtml(widget.html) ==
+                                      true)
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      child: Image.network(
+                                        functions.convertStringToImagemPAth(
+                                            widget.html)!,
+                                        width: 300.0,
+                                        height: 200.0,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  if (functions.indentificahtml(widget.html) ==
+                                      false)
+                                    SizedBox(
+                                      width: double.infinity,
+                                      height: 200.0,
+                                      child: custom_widgets.FotoBase64(
+                                        width: double.infinity,
+                                        height: 200.0,
+                                        base64Foto: widget.html,
+                                      ),
+                                    ),
+                                ],
                               ),
                             ),
                           ),
