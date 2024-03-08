@@ -148,9 +148,6 @@ String? pesquisaParaVerSeOPontoFoiColetado(
     for (var profundidade in item['profundidades']) {
       // Verifica se o pprof_id está presente na profundidade
       if (profundidade['pprof_id'] == pprofIDdoPonto) {
-        print(profundidade['pprof_id']);
-        print(profundidade['pprof_status']);
-        print(profundidade['pprof_foto']);
         // Retorna o status da profundidade
         if (profundidade['pprof_status'] == 1) {
           return "Coletado";
@@ -355,4 +352,24 @@ int? buscaRegistroIndex(
 
   /// Se o índice não for encontrado, retorna -1
   return indiceEncontrado == -1 ? null : indiceEncontrado;
+}
+
+String? pontosASemreColetadosTrSinc(
+  String? oservid,
+  String? fazid,
+  List<dynamic> trSinc,
+) {
+  List<dynamic> lista = trSinc
+      .where((element) =>
+          element['fazenda_id'] == int.parse(fazid!) &&
+          element['servico_id'] == int.parse(oservid!))
+      .map((e) => e["pontos"])
+      .toList()
+      .first;
+  var listaSemiFiltrada = lista;
+
+  return lista
+      .where((element) => element['pont_status'] != 0)
+      .length
+      .toString();
 }

@@ -345,8 +345,22 @@ class _ColetaPontosState extends State<ColetaPontos> {
           )['ico_svg'];
       google_maps.BitmapDescriptor icon;
       // Verifica se o ponto atual está na lista de pontos inacessíveis
-      bool isPontoInacessivel = FFAppState().PontosInacessiveis.any((element) =>
-          element["marcador_nome"] == pontos['pont_numero'].toString());
+
+      List<dynamic> lista = FFAppState()
+          .trSincroniza
+          .where((element) =>
+              element['fazenda_id'] == int.parse(widget.fazId!) &&
+              element['servico_id'] == int.parse(widget.oservid!))
+          .map((e) => e["pontos"])
+          .toList()
+          .first;
+      var listaSemiFiltrada = lista
+          .where((element) =>
+              element["pont_numero"] ==
+              pontos["pont_numero"]! /*Aqui pe o pont_id, id_ponto*/)
+          .first;
+      bool isPontoInacessivel = listaSemiFiltrada["profundidades"]
+          .every((element) => element["pprof_status"] == 2);
 
       if (isPontoInacessivel) {
         // Se o ponto estiver inacessível, usa um ícone específico para isso
@@ -478,125 +492,125 @@ class _ColetaPontosState extends State<ColetaPontos> {
   }
 
   void _finalizouColeta() async {
-    var lista = FFAppState().PontosColetados.where((element) =>
-        element['oserv_id'] == widget.oservid &&
-        element['faz_id'] == widget.fazId);
-    String formatDateTime(String dateTimeStr) {
-      DateTime dateTime = DateTime.parse(dateTimeStr);
-      DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm');
-      return formatter.format(dateTime);
-    }
-
-    Map<int, List<Map<String, dynamic>>> groupedByPontoId = {};
-
-    for (var item in lista) {
-      int idPonto = int.parse(item["id_ponto"]);
-      int marcador_nome = int.parse(item["marcador_nome"]);
-
-      if (!groupedByPontoId.containsKey(idPonto)) {
-        groupedByPontoId[idPonto] = [];
-      }
-      groupedByPontoId[idPonto]!.add(item);
-    }
-
-    List<Map<String, dynamic>> transformedList = [];
-
-    groupedByPontoId.forEach((idPonto, items) {
-      var profundidades = items
-          .map((item) => {
-                "pprof_id": int.parse(item["profundidade"]),
-                "pprof_status": 1,
-                "pprof_icone": item['profundidade'],
-                "pprof_observacao": item["obs"].toString() ?? "Sem observação!",
-                "pprof_foto": item["foto"].toString() ?? "",
-                "pprof_datahora": formatDateTime(item["data_hora"].toString()),
-              })
-          .toList();
-
-      transformedList.add({
-        "pont_id": idPonto,
-        "pont_numero": items.first["marcador_nome"],
-        "pont_latitude": "",
-        "pont_longitude": "",
-        "pont_simbolo": "Pin, Green",
-        "pont_status": 1,
-        "pont_observacao": "",
-        "pont_foto": "",
-        "profundidades": profundidades,
-      });
-    });
-
-    var listaIna = FFAppState().PontosInacessiveis.where((element) =>
-        element['oserv_id'] == widget.oservid &&
-        element['faz_id'] == widget.fazId);
-
-    Map<int, List<Map<String, dynamic>>> groupedByPontoIdInacessivel = {};
-
-    for (var item in listaIna) {
-      int idPonto = int.parse(item["id_ponto"]);
-
-      if (!groupedByPontoIdInacessivel.containsKey(idPonto)) {
-        groupedByPontoIdInacessivel[idPonto] = [];
-      }
-      groupedByPontoIdInacessivel[idPonto]!.add(item);
-    }
-
-    List<Map<String, dynamic>> transformedListInacessiveis = [];
-
-    groupedByPontoIdInacessivel.forEach((idPonto, items) {
-      for (var item in items) {
-        var profundidades = items
-            .map((item) => {
-                  "pprof_id": item["profundidade"],
-                  "pprof_status": 2,
-                  "pprof_icone": item['profundidade'],
-                  "pprof_observacao": "",
-                  "pprof_foto": "",
-                  "pprof_datahora":
-                      formatDateTime(item["data_hora"].toString()),
-                })
-            .toList();
-
-        transformedListInacessiveis.add({
-          "pont_id": idPonto,
-          "pont_numero": items.first["marcador_nome"],
-          "pont_latitude": "",
-          "pont_longitude": "",
-          "pont_simbolo": "",
-          "pont_status": 2,
-          "pont_observacao": items.first["obs"].toString(),
-          "pont_foto": items.first["foto"].toString(),
-          "profundidades": profundidades,
-        });
-      }
-    });
-    var jaExisteTrSincroniza = FFAppState()
-        .trSincroniza
-        .where((element) =>
-            element['fazenda_id'] == widget.fazId.toString() &&
-            element['servico_id'] == widget.oservid.toString())
-        .toList();
-
-// Checa se algum elemento foi encontrado
-    if (jaExisteTrSincroniza.isNotEmpty) {
-      // Atualiza o primeiro elemento encontrado
-      // Esta é uma abordagem simplificada; ajuste conforme a necessidade de sua aplicação
-      int index = FFAppState().trSincroniza.indexOf(jaExisteTrSincroniza.first);
-      if (index != -1) {
-        // Verifica se encontrou o índice corretamente
-        var listaCompleta = transformedList + transformedListInacessiveis;
-
-        FFAppState().trSincroniza[index] = await atualizaListas(
-            FFAppState().trSincroniza[index], listaCompleta);
-      }
-    } else {
-      // Adiciona um novo elemento, pois não foi encontrado nenhum correspondente
-      FFAppState().trSincroniza.add({
-        "fazenda_id": widget.fazId.toString(),
-        "servico_id": widget.oservid.toString(),
-        "pontos": transformedList + transformedListInacessiveis,
-      });
-    }
+//     var lista = FFAppState().PontosColetados.where((element) =>
+//         element['oserv_id'] == widget.oservid &&
+//         element['faz_id'] == widget.fazId);
+//     String formatDateTime(String dateTimeStr) {
+//       DateTime dateTime = DateTime.parse(dateTimeStr);
+//       DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm');
+//       return formatter.format(dateTime);
+//     }
+//
+//     Map<int, List<Map<String, dynamic>>> groupedByPontoId = {};
+//
+//     for (var item in lista) {
+//       int idPonto = int.parse(item["id_ponto"]);
+//       int marcador_nome = int.parse(item["marcador_nome"]);
+//
+//       if (!groupedByPontoId.containsKey(idPonto)) {
+//         groupedByPontoId[idPonto] = [];
+//       }
+//       groupedByPontoId[idPonto]!.add(item);
+//     }
+//
+//     List<Map<String, dynamic>> transformedList = [];
+//
+//     groupedByPontoId.forEach((idPonto, items) {
+//       var profundidades = items
+//           .map((item) => {
+//                 "pprof_id": int.parse(item["profundidade"]),
+//                 "pprof_status": 1,
+//                 "pprof_icone": item['profundidade'],
+//                 "pprof_observacao": item["obs"].toString() ?? "Sem observação!",
+//                 "pprof_foto": item["foto"].toString() ?? "",
+//                 "pprof_datahora": formatDateTime(item["data_hora"].toString()),
+//               })
+//           .toList();
+//
+//       transformedList.add({
+//         "pont_id": idPonto,
+//         "pont_numero": items.first["marcador_nome"],
+//         "pont_latitude": "",
+//         "pont_longitude": "",
+//         "pont_simbolo": "Pin, Green",
+//         "pont_status": 1,
+//         "pont_observacao": "",
+//         "pont_foto": "",
+//         "profundidades": profundidades,
+//       });
+//     });
+//
+//     var listaIna = FFAppState().PontosInacessiveis.where((element) =>
+//         element['oserv_id'] == widget.oservid &&
+//         element['faz_id'] == widget.fazId);
+//
+//     Map<int, List<Map<String, dynamic>>> groupedByPontoIdInacessivel = {};
+//
+//     for (var item in listaIna) {
+//       int idPonto = int.parse(item["id_ponto"]);
+//
+//       if (!groupedByPontoIdInacessivel.containsKey(idPonto)) {
+//         groupedByPontoIdInacessivel[idPonto] = [];
+//       }
+//       groupedByPontoIdInacessivel[idPonto]!.add(item);
+//     }
+//
+//     List<Map<String, dynamic>> transformedListInacessiveis = [];
+//
+//     groupedByPontoIdInacessivel.forEach((idPonto, items) {
+//       for (var item in items) {
+//         var profundidades = items
+//             .map((item) => {
+//                   "pprof_id": item["profundidade"],
+//                   "pprof_status": 2,
+//                   "pprof_icone": item['profundidade'],
+//                   "pprof_observacao": "",
+//                   "pprof_foto": "",
+//                   "pprof_datahora":
+//                       formatDateTime(item["data_hora"].toString()),
+//                 })
+//             .toList();
+//
+//         transformedListInacessiveis.add({
+//           "pont_id": idPonto,
+//           "pont_numero": items.first["marcador_nome"],
+//           "pont_latitude": "",
+//           "pont_longitude": "",
+//           "pont_simbolo": "",
+//           "pont_status": 2,
+//           "pont_observacao": items.first["obs"].toString(),
+//           "pont_foto": items.first["foto"].toString(),
+//           "profundidades": profundidades,
+//         });
+//       }
+//     });
+//     var jaExisteTrSincroniza = FFAppState()
+//         .trSincroniza
+//         .where((element) =>
+//             element['fazenda_id'] == widget.fazId.toString() &&
+//             element['servico_id'] == widget.oservid.toString())
+//         .toList();
+//
+// // Checa se algum elemento foi encontrado
+//     if (jaExisteTrSincroniza.isNotEmpty) {
+//       // Atualiza o primeiro elemento encontrado
+//       // Esta é uma abordagem simplificada; ajuste conforme a necessidade de sua aplicação
+//       int index = FFAppState().trSincroniza.indexOf(jaExisteTrSincroniza.first);
+//       if (index != -1) {
+//         // Verifica se encontrou o índice corretamente
+//         var listaCompleta = transformedList + transformedListInacessiveis;
+//
+//         FFAppState().trSincroniza[index] = await atualizaListas(
+//             FFAppState().trSincroniza[index], listaCompleta);
+//       }
+//     } else {
+//       // Adiciona um novo elemento, pois não foi encontrado nenhum correspondente
+//       FFAppState().trSincroniza.add({
+//         "fazenda_id": widget.fazId.toString(),
+//         "servico_id": widget.oservid.toString(),
+//         "pontos": transformedList + transformedListInacessiveis,
+//       });
+//     }
   }
 
   String formatDateTime(String dateTimeStr) {
@@ -622,6 +636,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
     print(_validaSeTodasAsProfundidadesForamColetadasNoPontoX(marcadorNome));
     print(_validaSeAlgumasProfundidadesForamColetadasNoPontoX(marcadorNome));
     var idPonto = marcador['pont_id'].toString();
+    var profundiade = marcador['profundiade'].toString();
     ;
     var coletouAlguma =
         _validaSeAlgumasProfundidadesForamColetadasNoPontoX(marcadorNome);
@@ -727,6 +742,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
               child: ListBody(
                 children: profundidades.map<Widget>((profundidade) {
                   String prof_nome = profundidade['pprof_icone'];
+                  var prof_id = profundidade['pprof_id'];
                   var svg = FFAppState()
                       .trIcones
                       .where((element) => element['ico_valor'] == "$prof_nome")
@@ -740,13 +756,40 @@ class _ColetaPontosState extends State<ColetaPontos> {
 
                   var referencialProfundidadePontoId = '1';
 
-                  bool jaColetada = //false;
-                      FFAppState().PontosColetados.any((pontoColetado) {
-                    return pontoColetado['marcador_nome'].toString() ==
-                            marcadorNome.toString() &&
-                        pontoColetado['profundidade'].toString() ==
-                            profundidade['pprof_id'].toString();
-                  });
+                  List<dynamic> lista = FFAppState()
+                      .trSincroniza
+                      .where((element) =>
+                          element['fazenda_id'] == int.parse(widget.fazId!) &&
+                          element['servico_id'] == int.parse(widget.oservid!))
+                      .map((e) => e["pontos"])
+                      .toList()
+                      .first;
+
+                  var listaFiltrada = lista
+                      .where((element) =>
+                          element["pont_id"] ==
+                          int.parse(idPonto) /*Aqui pe o pont_id, id_ponto*/)
+                      .map((e) => e['profundidades'])
+                      .first
+                      .where((element) => element["pprof_id"] == prof_id)
+                      .toList()
+                      .first; /* == 20321*/ /*aqui é o pprof_id ou profundiadde*/ /*);*/
+                  // var listaSemiFiltrada/*lista antes das profundiades*/ = lista.where((element) => element["pont_id"] == int.parse(idPonto)/*Aqui pe o pont_id, id_ponto*/).first;/*.map((e) => e['profundidades']).first.where((element) => element["pprof_id"] == 20321).toList().first;*//* == 20321*//**//*aqui é o pprof_id ou profundiadde*//**//*);*/
+
+                  bool jaColetada;
+                  if (listaFiltrada["pprof_status"].toString() != '0') {
+                    jaColetada = true;
+                  } else {
+                    jaColetada = false;
+                  }
+
+                  // bool jaColetada = //false;
+                  //     FFAppState().PontosColetados.any((pontoColetado) {
+                  //   return pontoColetado['marcador_nome'].toString() ==
+                  //           marcadorNome.toString() &&
+                  //       pontoColetado['profundidade'].toString() ==
+                  //           profundidade['pprof_id'].toString();
+                  // });
 
                   return Row(
                     mainAxisSize: MainAxisSize.max,
@@ -875,23 +918,59 @@ class _ColetaPontosState extends State<ColetaPontos> {
           element['pont_numero'] ==
           int.parse(marcadorNome))['profundidades'] as List;
 
+      List<dynamic> lista = FFAppState()
+          .trSincroniza
+          .where((element) =>
+              element['fazenda_id'] == int.parse(widget.fazId!) &&
+              element['servico_id'] == int.parse(widget.oservid!))
+          .map((e) => e["pontos"])
+          .toList()
+          .first;
+
       // Iterate over each profundidade in the list
       for (var profundidade in profundidadesList) {
         setState(() {
           quantidadeDeVezesParaAutoAuditarComFoto--;
-          FFAppState().PontosInacessiveis.add({
-            "oserv_id": "${widget.oservid}",
-            "faz_id": "${widget.fazId}",
-            "id_ponto": idPonto,
-            "marcador_nome": marcadorNome,
-            "profundidade": profundidade['pprof_id']
-                .toString(), // Use the pprof_id from each profundidade
-            "foto": '$base64imagem',
-            "latlng": latlngMarcador,
-            "id_ref": '1',
-            "obs": observacao,
-            "data_hora": DateTime.now().toString()
-          });
+          // FFAppState().PontosInacessiveis.add({
+          //   "oserv_id": "${widget.oservid}",
+          //   "faz_id": "${widget.fazId}",
+          //   "id_ponto": idPonto,
+          //   "marcador_nome": marcadorNome,
+          //   "profundidade": profundidade['pprof_id']
+          //       .toString(), // Use the pprof_id from each profundidade
+          //   "foto": '$base64imagem',
+          //   "latlng": latlngMarcador,
+          //   "id_ref": '1',
+          //   "obs": observacao,
+          //   "data_hora": DateTime.now().toString()
+          // });
+          //
+          // var profundidade2 = profundidade['pprof_id'] as String;
+//           print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+// print(profundidade['pprof_id'].toString());
+// print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+          var listaFiltrada = lista
+              .where((element) =>
+                  element["pont_id"] ==
+                  int.parse(idPonto) /*Aqui pe o pont_id, id_ponto*/)
+              .map((e) => e['profundidades'])
+              .first
+              .where(
+                  (element) => element["pprof_id"] == profundidade['pprof_id'])
+              .toList()
+              .first; /* == 20321*/ /*aqui é o pprof_id ou profundiadde*/ /*);*/
+          var listaSemiFiltrada /*lista antes das profundiades*/ = lista
+              .where((element) =>
+                  element["pont_id"] ==
+                  int.parse(idPonto) /*Aqui pe o pont_id, id_ponto*/)
+              .first; /*.map((e) => e['profundidades']).first.where((element) => element["pprof_id"] == 20321).toList().first;*/ /* == 20321*/ /**/ /*aqui é o pprof_id ou profundiadde*/ /**/ /*);*/
+
+          listaFiltrada["pprof_status"] = 2;
+          listaFiltrada["pprof_observacao"] = observacao;
+          listaFiltrada["pprof_foto"] = '$base64imagem';
+          listaFiltrada["pprof_datahora"] = DateTime.now().toString();
+
+          listaSemiFiltrada["pont_status"] = 2;
         });
       }
     }
@@ -1196,18 +1275,51 @@ class _ColetaPontosState extends State<ColetaPontos> {
             if (isInacessivelOuNao) {
               quantidadeDeVezesParaAutoAuditarComFoto--;
 
-              FFAppState().PontosInacessiveis.add({
-                "oserv_id": "${widget.oservid}",
-                "faz_id": "${widget.fazId}",
-                "id_ponto": idPonto,
-                "marcador_nome": nomeMarcadorAtual,
-                "profundidade": 'inacessivel',
-                // "foto": 'base64ImageInacessivel',
-                "foto": base64Image,
-                "latlng": '$latlng',
-                "obs": "",
-                "data_hora": DateTime.now().toString()
-              });
+              // FFAppState().PontosInacessiveis.add({
+              //   "oserv_id": "${widget.oservid}",
+              //   "faz_id": "${widget.fazId}",
+              //   "id_ponto": idPonto,
+              //   "marcador_nome": nomeMarcadorAtual,
+              //   "profundidade": 'inacessivel',
+              //   // "foto": 'base64ImageInacessivel',
+              //   "foto": base64Image,
+              //   "latlng": '$latlng',
+              //   "obs": "",
+              //   "data_hora": DateTime.now().toString()
+              // });
+
+              List<dynamic> lista = FFAppState()
+                  .trSincroniza
+                  .where((element) =>
+                      element['fazenda_id'] == int.parse(widget.fazId!) &&
+                      element['servico_id'] == int.parse(widget.oservid!))
+                  .map((e) => e["pontos"])
+                  .toList()
+                  .first;
+
+              var listaFiltrada = lista
+                  .where((element) =>
+                      element["pont_id"] ==
+                      int.parse(idPonto) /*Aqui pe o pont_id, id_ponto*/)
+                  .map((e) => e['profundidades'])
+                  .first
+                  .where((element) =>
+                      element["pprof_id"] == int.parse(profundidade))
+                  .toList()
+                  .first; /* == 20321*/ /*aqui é o pprof_id ou profundiadde*/ /*);*/
+              var listaSemiFiltrada /*lista antes das profundiades*/ = lista
+                  .where((element) =>
+                      element["pont_id"] ==
+                      int.parse(idPonto) /*Aqui pe o pont_id, id_ponto*/)
+                  .first; /*.map((e) => e['profundidades']).first.where((element) => element["pprof_id"] == 20321).toList().first;*/ /* == 20321*/ /**/ /*aqui é o pprof_id ou profundiadde*/ /**/ /*);*/
+
+              listaFiltrada["pprof_status"] = 2;
+              listaFiltrada["pprof_observacao"] = "";
+              listaFiltrada["pprof_foto"] = '';
+              listaFiltrada["pprof_datahora"] = DateTime.now().toString();
+
+              listaSemiFiltrada["pont_status"] = 2;
+
               _observacaoController.clear();
             } else {
               // FFAppState().PontosColetados.add({
@@ -1336,17 +1448,57 @@ class _ColetaPontosState extends State<ColetaPontos> {
                       ),
                       ElevatedButton.icon(
                         onPressed: () {
-                          FFAppState().PontosColetados.add({
-                            "oserv_id": "${widget.oservid}",
-                            "faz_id": "${widget.fazId}",
-                            "id_ponto": idPonto,
-                            "marcador_nome": nomeMarcador,
-                            "profundidade": profundidade,
-                            "obs": observaFotoController.text,
-                            "foto": base64Image,
-                            "latlng": '$latlng',
-                            "data_hora": DateTime.now().toString()
-                          });
+                          // FFAppState().PontosColetados.add({
+                          //   "oserv_id": "${widget.oservid}",
+                          //   "faz_id": "${widget.fazId}",
+                          //   "id_ponto": idPonto,
+                          //   "marcador_nome": nomeMarcador,
+                          //   "profundidade": profundidade,
+                          //   "obs": observaFotoController.text,
+                          //   "foto": base64Image,
+                          //   "latlng": '$latlng',
+                          //   "data_hora": DateTime.now().toString()
+                          // });
+
+                          List<dynamic> lista = FFAppState()
+                              .trSincroniza
+                              .where((element) =>
+                                  element['fazenda_id'] ==
+                                      int.parse(widget.fazId!) &&
+                                  element['servico_id'] ==
+                                      int.parse(widget.oservid!))
+                              .map((e) => e["pontos"])
+                              .toList()
+                              .first;
+
+                          var listaFiltrada = lista
+                              .where((element) =>
+                                  element["pont_id"] ==
+                                  int.parse(
+                                      idPonto) /*Aqui pe o pont_id, id_ponto*/)
+                              .map((e) => e['profundidades'])
+                              .first
+                              .where((element) =>
+                                  element["pprof_id"] ==
+                                  int.parse(profundidade))
+                              .toList()
+                              .first; /* == 20321*/ /*aqui é o pprof_id ou profundiadde*/ /*);*/
+                          var listaSemiFiltrada /*lista antes das profundiades*/ = lista
+                              .where((element) =>
+                                  element["pont_id"] ==
+                                  int.parse(
+                                      idPonto) /*Aqui pe o pont_id, id_ponto*/)
+                              .first; /*.map((e) => e['profundidades']).first.where((element) => element["pprof_id"] == 20321).toList().first;*/ /* == 20321*/ /**/ /*aqui é o pprof_id ou profundiadde*/ /**/ /*);*/
+
+                          listaFiltrada["pprof_status"] = 1;
+                          listaFiltrada["pprof_observacao"] =
+                              observaFotoController.text;
+                          listaFiltrada["pprof_foto"] = '$base64Image';
+                          listaFiltrada["pprof_datahora"] =
+                              DateTime.now().toString();
+
+                          listaSemiFiltrada["pont_status"] = 1;
+
                           quantidadeDeVezesParaAutoAuditarComFoto--;
 
                           observaFotoController.clear();
@@ -1464,44 +1616,76 @@ class _ColetaPontosState extends State<ColetaPontos> {
 
   bool _validaSeTodasAsProfundidadesForamColetadasNoPontoX(
       String marcadorNome) {
-    var PontosNaoMarcados = pontosMedicao
-        .where((element) => element['pont_numero'] == int.parse(marcadorNome))
-        .map((e) => e['profundidades'].toList().length)
-        .toString();
-    var PontosNaoMarcados2 =
-        PontosNaoMarcados.replaceAll(")", "").replaceAll("(", "");
+    // var PontosNaoMarcados = pontosMedicao
+    //     .where((element) => element['pont_numero'] == int.parse(marcadorNome))
+    //     .map((e) => e['profundidades'].toList().length)
+    //     .toString();
+    // var PontosNaoMarcados2 =
+    //     PontosNaoMarcados.replaceAll(")", "").replaceAll("(", "");
+    //
+    // var PontosColetadosComProf = FFAppState()
+    //     .PontosColetados
+    //     .where((m) => m["marcador_nome"] == marcadorNome)
+    //     .map((e) => e['profundidade'])
+    //     .toList()
+    //     .length
+    //     .toString();
+    //
+    // bool coletouTodas = PontosColetadosComProf == PontosNaoMarcados2;
 
-    var PontosColetadosComProf = FFAppState()
-        .PontosColetados
-        .where((m) => m["marcador_nome"] == marcadorNome)
-        .map((e) => e['profundidade'])
+    List<dynamic> lista = FFAppState()
+        .trSincroniza
+        .where((element) =>
+            element['fazenda_id'] == int.parse(widget.fazId!) &&
+            element['servico_id'] == int.parse(widget.oservid!))
+        .map((e) => e["pontos"])
         .toList()
-        .length
-        .toString();
-
-    bool coletouTodas = PontosColetadosComProf == PontosNaoMarcados2;
+        .first;
+    var listaSemiFiltrada = lista
+        .where((element) =>
+            element["pont_numero"] ==
+            int.parse(marcadorNome) /*Aqui pe o pont_id, id_ponto*/)
+        .first;
+    bool coletouTodas = listaSemiFiltrada["profundidades"]
+        .every((element) => element["pprof_status"] == 1);
 
     return coletouTodas;
   }
 
   bool _validaSeAlgumasProfundidadesForamColetadasNoPontoX(
       String marcadorNome) {
-    var PontosNaoMarcados = pontosMedicao
-        .where((element) => element['pont_numero'] == int.parse(marcadorNome))
-        .map((e) => e['profundidades'].toList().length)
-        .toString();
-    var PontosNaoMarcados2 =
-        PontosNaoMarcados.replaceAll(")", "").replaceAll("(", "");
+    // var PontosNaoMarcados = pontosMedicao
+    //     .where((element) => element['pont_numero'] == int.parse(marcadorNome))
+    //     .map((e) => e['profundidades'].toList().length)
+    //     .toString();
+    // var PontosNaoMarcados2 =
+    //     PontosNaoMarcados.replaceAll(")", "").replaceAll("(", "");
+    //
+    // var PontosColetadosComProf = FFAppState()
+    //     .PontosColetados
+    //     .where((m) => m["marcador_nome"] == marcadorNome)
+    //     .map((e) => e['profundidade'])
+    //     .toList()
+    //     .length
+    //     .toString();
+    //
+    // bool coletou = int.parse(PontosColetadosComProf) > 0;
 
-    var PontosColetadosComProf = FFAppState()
-        .PontosColetados
-        .where((m) => m["marcador_nome"] == marcadorNome)
-        .map((e) => e['profundidade'])
+    List<dynamic> lista = FFAppState()
+        .trSincroniza
+        .where((element) =>
+            element['fazenda_id'] == int.parse(widget.fazId!) &&
+            element['servico_id'] == int.parse(widget.oservid!))
+        .map((e) => e["pontos"])
         .toList()
-        .length
-        .toString();
-
-    bool coletou = int.parse(PontosColetadosComProf) > 0;
+        .first;
+    var listaSemiFiltrada = lista
+        .where((element) =>
+            element["pont_numero"] ==
+            int.parse(marcadorNome) /*Aqui pe o pont_id, id_ponto*/)
+        .first;
+    bool coletou = listaSemiFiltrada["profundidades"]
+        .any((element) => element["pprof_status"] == 1);
 
     return coletou;
   }
@@ -1585,19 +1769,58 @@ class _ColetaPontosState extends State<ColetaPontos> {
                         // Implemente a ação para este botão
                         print(_observacaoController.text);
 
-                        FFAppState().PontosColetados.add({
-                          "oserv_id": "${widget.oservid}",
-                          "faz_id": "${widget.fazId}",
-                          "id_ponto": idPonto,
-                          "marcador_nome": marcadorNome,
-                          "profundidade": profundidade,
-                          "obs": _observacaoController.text.toString(),
-                          "foto": "",
-                          // "profundidade": profundidadeNome,
-                          // "foto": 'base6''4Fixada',
-                          "latlng": latlngMarcador,
-                          "data_hora": DateTime.now().toString()
-                        });
+                        // FFAppState().PontosColetados.add({
+                        //   "oserv_id": "${widget.oservid}",
+                        //   "faz_id": "${widget.fazId}",
+                        //   "id_ponto": idPonto,
+                        //   "marcador_nome": marcadorNome,
+                        //   "profundidade": profundidade,
+                        //   "obs": _observacaoController.text.toString(),
+                        //   "foto": "",
+                        //   // "profundidade": profundidadeNome,
+                        //   // "foto": 'base6''4Fixada',
+                        //   "latlng": latlngMarcador,
+                        //   "data_hora": DateTime.now().toString()
+                        // });
+                        List<dynamic> lista = FFAppState()
+                            .trSincroniza
+                            .where((element) =>
+                                element['fazenda_id'] ==
+                                    int.parse(widget.fazId!) &&
+                                element['servico_id'] ==
+                                    int.parse(widget.oservid!))
+                            .map((e) => e["pontos"])
+                            .toList()
+                            .first;
+
+                        var listaFiltrada = lista
+                            .where((element) =>
+                                element["pont_id"] ==
+                                int.parse(
+                                    idPonto) /*Aqui pe o pont_id, id_ponto*/)
+                            .map((e) => e['profundidades'])
+                            .first
+                            .where((element) =>
+                                element["pprof_id"] == int.parse(profundidade))
+                            .toList()
+                            .first; /* == 20321*/ /*aqui é o pprof_id ou profundiadde*/ /*);*/
+                        var listaSemiFiltrada /*lista antes das profundiades*/ =
+                            lista
+                                .where((element) =>
+                                    element["pont_id"] ==
+                                    int.parse(
+                                        idPonto) /*Aqui pe o pont_id, id_ponto*/)
+                                .first; /*.map((e) => e['profundidades']).first.where((element) => element["pprof_id"] == 20321).toList().first;*/ /* == 20321*/ /**/ /*aqui é o pprof_id ou profundiadde*/ /**/ /*);*/
+
+                        listaFiltrada["pprof_status"] = 1;
+                        listaFiltrada["pprof_observacao"] =
+                            observaFotoController.text;
+                        listaFiltrada["pprof_foto"] = "";
+                        listaFiltrada["pprof_datahora"] =
+                            DateTime.now().toString();
+
+                        listaSemiFiltrada["pont_status"] = 1;
+
                         Navigator.of(context).pop();
                         _observacaoController.clear();
                         Navigator.of(context).pop();
@@ -1734,13 +1957,13 @@ class _ColetaPontosState extends State<ColetaPontos> {
           mapToolbarEnabled: false,
           zoomControlsEnabled: false,
         ),
-        // floatingActionButton: FloatingActionButton(
-        //   onPressed: () => _exibirDados(),
-        //   child: Text(
-        //     '${quantidadeDeProfundidadesASeremColetadas ?? "teste"}',
-        //     style: TextStyle(color: Colors.white, fontSize: 18),
-        //   ),
-        // ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => _exibirDados(),
+          child: Text(
+            '${quantidadeDeProfundidadesASeremColetadas ?? "teste"}',
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
+        ),
       ),
     );
   }
@@ -1950,12 +2173,70 @@ class _ColetaPontosState extends State<ColetaPontos> {
         registro['fazenda_id'].toString() == widget.fazId! &&
         registro['servico_id'].toString() == widget.oservid!);
 
+    var jaExisteTrSincroniza = FFAppState()
+        .trSincroniza
+        .where((element) =>
+            element['fazenda_id'] == 1 && element['servico_id'] == 1)
+        .toList();
+    // var listaIna = FFAppState().PontosInacessiveis.where((element) =>
+    // element['oserv_id'].toString() == '1' &&
+    //     element['faz_id'].toString() == '1');
+
+    List<dynamic> lista = FFAppState()
+        .trSincroniza
+        .where((element) =>
+            element['fazenda_id'] == 1 && element['servico_id'] == 1)
+        .map((e) => e["pontos"])
+        .toList()
+        .first;
+
+    // var listaFiltrada = lista.where((element) => element["point_id"] != 17429).toList();
+
+    // var listaSemiFiltrada = lista.where((element) => element["pont_id"] == 17430/*Aqui pe o pont_id, id_ponto*/).first;/*.map((e) => e['profundidades']).first.where((element) => element["pprof_id"] == 20321).toList().first;*//* == 20321*//**//*aqui é o pprof_id ou profundiadde*//**//*);*/
+    // var listaSemiFiltrada = lista.where((element) => element["pont_numero"] == 404/*Aqui pe o pont_id, id_ponto*/).first;/*.map((e) => e['profundidades']).first.where((element) => element["pprof_id"] == 20321).toList().first;*//* == 20321*//**//*aqui é o pprof_id ou profundiadde*//**//*);*/
+    var listaSemiFiltrada =
+        lista; /*.map((e) => e['profundidades']).first.where((element) => element["pprof_id"] == 20321).toList().first;*/ /* == 20321*/ /**/ /*aqui é o pprof_id ou profundiadde*/ /**/ /*);*/
+    var listaFiltrada = lista
+        .where((element) =>
+            element["pont_id"] == 17430 /*Aqui pe o pont_id, id_ponto*/)
+        .map((e) => e['profundidades'])
+        .first
+        .where((element) => element["pprof_id"] == 20322)
+        .toList()
+        .first; /* == 20321*/ /*aqui é o pprof_id ou profundiadde*/ /*);*/
+
+    // bool allCollected = listaSemiFiltrada["profundidades"].every((element) => element["pprof_status"] == 1);
+    // print(listaSemiFiltrada["profundidades"].length); // Print the length of profundidades
+    // print(allCollected); // Print the length of profundidades
+    //
+    // // });
+    // var jaColetada = listaFiltrada["pprof_status"].toString();
+    //
+    // var marcador = pontosMedicao.firstWhere(
+    //       (m) => m["pont_numero"] == 399,
+    //   orElse: () =>
+    //   <String, Object>{}, // Correção aqui para alinhar com o tipo esperado
+    // );
+    // var profundiade = marcador['profundidades'].toString();
+    var teste = lista;
+    int index = FFAppState().trSincroniza.indexOf(FFAppState()
+        .trSincroniza
+        .firstWhere((registro) =>
+            registro['fazenda_id'].toString() == widget.fazId! &&
+            registro['servico_id'].toString() == widget.oservid!));
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Aproxime-se do ponto!'),
-          content: Text('$talh2'),
+          content: SingleChildScrollView(
+            child: SelectableText(listaSemiFiltrada.toString() +
+                "      " +
+                lista
+                    .where((element) => element['pont_status'] != 0)
+                    .length
+                    .toString()),
+          ),
           actions: <Widget>[
             TextButton(
               child: Text('OK'),
