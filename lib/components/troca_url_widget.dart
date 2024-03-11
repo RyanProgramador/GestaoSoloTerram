@@ -2,7 +2,6 @@ import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import 'dart:async';
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -222,14 +221,10 @@ class _TrocaUrlWidgetState extends State<TrocaUrlWidget> {
                             ) ??
                             false;
                         if (confirmDialogResponse) {
-                          unawaited(
-                            () async {
-                              _model.validaApi =
-                                  await TrOsServicosGroup.ffValidaApiCall.call(
-                                urlApi: functions.protocoloComSeguranca(
-                                    _model.textController.text),
-                              );
-                            }(),
+                          _model.validaApi =
+                              await TrOsServicosGroup.ffValidaApiCall.call(
+                            urlApi: functions.protocoloComSeguranca(
+                                _model.textController.text),
                           );
                           shouldSetState = true;
                           if (!(((_model.validaApi?.bodyText ?? '') != '') ||
@@ -258,6 +253,25 @@ class _TrocaUrlWidgetState extends State<TrocaUrlWidget> {
                                 (_model.validaApi?.jsonBody ?? ''),
                               )! &&
                               (_model.validaApi?.succeeded ?? true)) {
+                          } else if (!(_model.validaApi?.succeeded ?? true)) {
+                            await showDialog(
+                              context: context,
+                              builder: (alertDialogContext) {
+                                return AlertDialog(
+                                  title: const Text('Ops!'),
+                                  content: const Text('URL invalida.'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () =>
+                                          Navigator.pop(alertDialogContext),
+                                      child: const Text('Entendi'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                            if (shouldSetState) setState(() {});
+                            return;
                           } else if ((_model.validaApi?.jsonBody ?? '') ==
                               null) {
                             await showDialog(
