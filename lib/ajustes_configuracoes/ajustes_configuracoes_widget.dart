@@ -108,6 +108,9 @@ class _AjustesConfiguracoesWidgetState
                           FFAppState().trOsServicos = [];
                           FFAppState().naoLista = jsonDecode(
                               '{\"fazenda_id\":2,\"servico_id\":10,\"pontos\":[{\"id\":381,\"status\":1,\"obs\":\"quando ponto inacessível precisa de obs\",\"foto\":\"quando ponto inacessível precisa de foto\",\"profundidades\":[{\"id\":1,\"status\":1,\"obs\":\"opcional\",\"foto\":\"conforme auditoria\",\"data\":\"2024-02-24 08:00\"}]},{\"id\":382,\"status\":1,\"obs\":\"\",\"foto\":\"base64\",\"profundidades\":[{\"id\":1,\"status\":1,\"obs\":\"\",\"foto\":\"\",\"data\":\"2024-02-24 08:00\"}]},{\"id\":383,\"status\":1,\"obs\":\"\",\"foto\":\"base64\",\"profundidades\":[{\"id\":1,\"status\":1,\"obs\":\"\",\"foto\":\"\",\"data\":\"2024-02-24 08:00\"}]}]}');
+                          FFAppState().login = '';
+                          FFAppState().senha = '';
+                          FFAppState().diadoUltimoAcesso = null;
                         });
 
                         context.goNamed(
