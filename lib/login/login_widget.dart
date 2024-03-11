@@ -5,6 +5,7 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/custom_code/actions/index.dart' as actions;
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'login_model.dart';
@@ -26,6 +27,106 @@ class _LoginWidgetState extends State<LoginWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => LoginModel());
+
+    // On page load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      _model.simna = await actions.lembrarSenha(
+        getCurrentTimestamp,
+        FFAppState().diadoUltimoAcesso,
+      );
+      if (_model.simna!) {
+        _model.md5Passs2 = await actions.md5encode(
+          _model.passwordLoginController.text,
+        );
+        _model.trLogin2 = await TrOsServicosGroup.trLoginCall.call(
+          urlApi: FFAppState().UrlApi,
+          usuario: FFAppState().login,
+          senha: FFAppState().senha,
+        );
+        if (getJsonField(
+          (_model.trLogin2?.jsonBody ?? ''),
+          r'''$.status''',
+        )) {
+          setState(() {
+            FFAppState().tecnicoid = getJsonField(
+              (_model.trLogin?.jsonBody ?? ''),
+              r'''$.tecnico_id''',
+            );
+          });
+        } else {
+          await showDialog(
+            context: context,
+            builder: (alertDialogContext) {
+              return AlertDialog(
+                title: const Text('Ops!'),
+                content: Text(getJsonField(
+                  (_model.trLogin?.jsonBody ?? ''),
+                  r'''$.message''',
+                ).toString().toString()),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(alertDialogContext),
+                    child: const Text('Ok'),
+                  ),
+                ],
+              );
+            },
+          );
+          return;
+        }
+
+        _model.trIcones2 = await TrOsServicosGroup.triconesCall.call(
+          urlApi: FFAppState().UrlApi,
+        );
+        if (getJsonField(
+          (_model.trIcones?.jsonBody ?? ''),
+          r'''$.status''',
+        )) {
+          setState(() {
+            FFAppState().trIcones = getJsonField(
+              (_model.trIcones2?.jsonBody ?? ''),
+              r'''$.dados''',
+              true,
+            )!
+                .toList()
+                .cast<dynamic>();
+          });
+        } else {
+          await showDialog(
+            context: context,
+            builder: (alertDialogContext) {
+              return AlertDialog(
+                title: const Text('Ops!'),
+                content: Text(getJsonField(
+                  (_model.trIcones?.jsonBody ?? ''),
+                  r'''$.message''',
+                ).toString().toString()),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(alertDialogContext),
+                    child: const Text('Ok'),
+                  ),
+                ],
+              );
+            },
+          );
+          return;
+        }
+
+        context.pushNamed(
+          'Inicio',
+          extra: <String, dynamic>{
+            kTransitionInfoKey: const TransitionInfo(
+              hasTransition: true,
+              transitionType: PageTransitionType.fade,
+              duration: Duration(milliseconds: 600),
+            ),
+          },
+        );
+      } else {
+        return;
+      }
+    });
 
     _model.emailAddressLoginController ??= TextEditingController();
     _model.emailAddressLoginFocusNode ??= FocusNode();
@@ -592,6 +693,18 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                                     ''),
                                                                 r'''$.tecnico_id''',
                                                               );
+                                                              FFAppState()
+                                                                      .login =
+                                                                  _model
+                                                                      .emailAddressLoginController
+                                                                      .text;
+                                                              FFAppState()
+                                                                      .senha =
+                                                                  _model
+                                                                      .md5Passs!;
+                                                              FFAppState()
+                                                                      .diadoUltimoAcesso =
+                                                                  getCurrentTimestamp;
                                                             });
                                                           } else {
                                                             await showDialog(

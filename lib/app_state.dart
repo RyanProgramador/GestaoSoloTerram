@@ -19,6 +19,12 @@ class FFAppState extends ChangeNotifier {
   Future initializePersistedState() async {
     prefs = await SharedPreferences.getInstance();
     _safeInit(() {
+      _login = prefs.getString('ff_login') ?? _login;
+    });
+    _safeInit(() {
+      _senha = prefs.getString('ff_senha') ?? _senha;
+    });
+    _safeInit(() {
       _UrlApi = prefs.getString('ff_UrlApi') ?? _UrlApi;
     });
     _safeInit(() {
@@ -148,6 +154,12 @@ class FFAppState extends ChangeNotifier {
               }).toList() ??
               _trTalhoesEmCadaServico;
     });
+    _safeInit(() {
+      _diadoUltimoAcesso = prefs.containsKey('ff_diadoUltimoAcesso')
+          ? DateTime.fromMillisecondsSinceEpoch(
+              prefs.getInt('ff_diadoUltimoAcesso')!)
+          : _diadoUltimoAcesso;
+    });
   }
 
   void update(VoidCallback callback) {
@@ -156,6 +168,20 @@ class FFAppState extends ChangeNotifier {
   }
 
   late SharedPreferences prefs;
+
+  String _login = '';
+  String get login => _login;
+  set login(String value) {
+    _login = value;
+    prefs.setString('ff_login', value);
+  }
+
+  String _senha = '';
+  String get senha => _senha;
+  set senha(String value) {
+    _senha = value;
+    prefs.setString('ff_senha', value);
+  }
 
   String _UrlApi = '://170.238.54.36:8090/terram/api/index.php';
   String get UrlApi => _UrlApi;
@@ -589,6 +615,15 @@ class FFAppState extends ChangeNotifier {
     _trTalhoesEmCadaServico.insert(index, value);
     prefs.setStringList('ff_trTalhoesEmCadaServico',
         _trTalhoesEmCadaServico.map((x) => jsonEncode(x)).toList());
+  }
+
+  DateTime? _diadoUltimoAcesso;
+  DateTime? get diadoUltimoAcesso => _diadoUltimoAcesso;
+  set diadoUltimoAcesso(DateTime? value) {
+    _diadoUltimoAcesso = value;
+    value != null
+        ? prefs.setInt('ff_diadoUltimoAcesso', value.millisecondsSinceEpoch)
+        : prefs.remove('ff_diadoUltimoAcesso');
   }
 }
 

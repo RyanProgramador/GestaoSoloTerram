@@ -8,6 +8,14 @@ class LoginModel extends FlutterFlowModel<LoginWidget> {
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();
+  // Stores action output result for [Custom Action - lembrarSenha] action in Login widget.
+  bool? simna;
+  // Stores action output result for [Custom Action - md5encode] action in Login widget.
+  String? md5Passs2;
+  // Stores action output result for [Backend Call - API (trLogin)] action in Login widget.
+  ApiCallResponse? trLogin2;
+  // Stores action output result for [Backend Call - API (tricones)] action in Login widget.
+  ApiCallResponse? trIcones2;
   // State field(s) for emailAddress_Login widget.
   FocusNode? emailAddressLoginFocusNode;
   TextEditingController? emailAddressLoginController;
