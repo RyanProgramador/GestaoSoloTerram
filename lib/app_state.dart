@@ -157,8 +157,7 @@ class FFAppState extends ChangeNotifier {
 
   late SharedPreferences prefs;
 
-  String _UrlApi =
-      's://dev.conceittosistemas.com.br/scriptcase/app/GestaoColetas/api/index.php';
+  String _UrlApi = '://170.238.54.36:8090/terram/api/index.php';
   String get UrlApi => _UrlApi;
   set UrlApi(String value) {
     _UrlApi = value;
