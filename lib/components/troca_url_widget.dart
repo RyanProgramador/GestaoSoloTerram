@@ -129,68 +129,69 @@ class _TrocaUrlWidgetState extends State<TrocaUrlWidget> {
               ),
               Row(
                 mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Align(
-                    alignment: const AlignmentDirectional(1.0, 1.0),
-                    child: FFButtonWidget(
-                      onPressed: () async {
-                        var confirmDialogResponse = await showDialog<bool>(
-                              context: context,
-                              builder: (alertDialogContext) {
-                                return AlertDialog(
-                                  title: const Text('Atenção'),
-                                  content:
-                                      const Text('Deseja realmente limpar a URL?'),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () => Navigator.pop(
-                                          alertDialogContext, false),
-                                      child: const Text('Não'),
-                                    ),
-                                    TextButton(
-                                      onPressed: () => Navigator.pop(
-                                          alertDialogContext, true),
-                                      child: const Text('Sim'),
-                                    ),
-                                  ],
-                                );
-                              },
-                            ) ??
-                            false;
-                        if (confirmDialogResponse) {
-                          FFAppState().update(() {
-                            FFAppState().UrlApi =
-                                '://170.238.54.36:8090/terram/api/index.php';
-                          });
-                        } else {
-                          return;
-                        }
-                      },
-                      text: 'Limpar',
-                      options: FFButtonOptions(
-                        width: 100.0,
-                        height: 40.0,
-                        padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                        iconPadding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                        color: const Color(0xFF9D291C),
-                        textStyle:
-                            FlutterFlowTheme.of(context).bodyLarge.override(
-                                  fontFamily: 'Readex Pro',
-                                  color: FlutterFlowTheme.of(context)
-                                      .primaryBackground,
-                                ),
-                        elevation: 2.0,
-                        borderSide: const BorderSide(
-                          color: Colors.transparent,
-                          width: 1.0,
+                  if (true == false)
+                    Align(
+                      alignment: const AlignmentDirectional(1.0, 1.0),
+                      child: FFButtonWidget(
+                        onPressed: () async {
+                          var confirmDialogResponse = await showDialog<bool>(
+                                context: context,
+                                builder: (alertDialogContext) {
+                                  return AlertDialog(
+                                    title: const Text('Atenção'),
+                                    content:
+                                        const Text('Deseja realmente limpar a URL?'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(
+                                            alertDialogContext, false),
+                                        child: const Text('Não'),
+                                      ),
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(
+                                            alertDialogContext, true),
+                                        child: const Text('Sim'),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ) ??
+                              false;
+                          if (confirmDialogResponse) {
+                            FFAppState().update(() {
+                              FFAppState().UrlApi =
+                                  '://170.238.54.36:8090/terram/api/index.php';
+                            });
+                          } else {
+                            return;
+                          }
+                        },
+                        text: 'Limpar',
+                        options: FFButtonOptions(
+                          width: 100.0,
+                          height: 40.0,
+                          padding: const EdgeInsetsDirectional.fromSTEB(
+                              0.0, 0.0, 0.0, 0.0),
+                          iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                              0.0, 0.0, 0.0, 0.0),
+                          color: const Color(0xFF9D291C),
+                          textStyle:
+                              FlutterFlowTheme.of(context).bodyLarge.override(
+                                    fontFamily: 'Readex Pro',
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryBackground,
+                                  ),
+                          elevation: 2.0,
+                          borderSide: const BorderSide(
+                            color: Colors.transparent,
+                            width: 1.0,
+                          ),
+                          borderRadius: BorderRadius.circular(24.0),
                         ),
-                        borderRadius: BorderRadius.circular(24.0),
                       ),
                     ),
-                  ),
                   Align(
                     alignment: const AlignmentDirectional(1.0, 1.0),
                     child: FFButtonWidget(
@@ -226,22 +227,26 @@ class _TrocaUrlWidgetState extends State<TrocaUrlWidget> {
                                 _model.textController.text),
                           );
                           shouldSetState = true;
-                          await showDialog(
-                            context: context,
-                            builder: (alertDialogContext) {
-                              return AlertDialog(
-                                title: Text((_model.validaApi?.jsonBody ?? '')
-                                    .toString()),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () =>
-                                        Navigator.pop(alertDialogContext),
-                                    child: const Text('Ok'),
-                                  ),
-                                ],
-                              );
-                            },
-                          );
+                          if (!((_model.validaApi?.bodyText ?? '') != '')) {
+                            await showDialog(
+                              context: context,
+                              builder: (alertDialogContext) {
+                                return AlertDialog(
+                                  title: const Text('Ops!'),
+                                  content: const Text('URL invalida.'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () =>
+                                          Navigator.pop(alertDialogContext),
+                                      child: const Text('Entendi'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                            if (shouldSetState) setState(() {});
+                            return;
+                          }
                           if (TrOsServicosGroup.ffValidaApiCall.status(
                                 (_model.validaApi?.jsonBody ?? ''),
                               )! &&
