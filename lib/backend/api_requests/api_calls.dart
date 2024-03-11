@@ -292,6 +292,11 @@ class FfValidaApiCall {
       alwaysAllowBody: false,
     );
   }
+
+  bool? status(dynamic response) => castToType<bool>(getJsonField(
+        response,
+        r'''$.status''',
+      ));
 }
 
 /// End trOsServicos Group Code

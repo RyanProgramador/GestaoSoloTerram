@@ -227,10 +227,9 @@ class _TrocaUrlWidgetState extends State<TrocaUrlWidget> {
                             usuario: 'asdasd',
                           );
                           shouldSetState = true;
-                          if (!getJsonField(
+                          if (!TrOsServicosGroup.ffValidaApiCall.status(
                             (_model.validaApi?.jsonBody ?? ''),
-                            r'''$.status''',
-                          )) {
+                          )!) {
                             await showDialog(
                               context: context,
                               builder: (alertDialogContext) {
