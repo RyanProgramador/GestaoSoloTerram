@@ -227,7 +227,9 @@ class _TrocaUrlWidgetState extends State<TrocaUrlWidget> {
                                 _model.textController.text),
                           );
                           shouldSetState = true;
-                          if ((_model.validaApi?.statusCode ?? 200) == 404) {
+                          if (!(((_model.validaApi?.statusCode ?? 200) !=
+                                  404) ||
+                              ((_model.validaApi?.jsonBody ?? '') != null))) {
                             await showDialog(
                               context: context,
                               builder: (alertDialogContext) {
