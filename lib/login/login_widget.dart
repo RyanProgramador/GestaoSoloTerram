@@ -27,27 +27,22 @@ class _LoginWidgetState extends State<LoginWidget>
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   final animationsMap = {
-    'columnOnPageLoadAnimation': AnimationInfo(
-      trigger: AnimationTrigger.onPageLoad,
-      effects: [
-        FadeEffect(
-          curve: Curves.easeInOut,
-          delay: 620.ms,
-          duration: 350.ms,
-          begin: 0.0,
-          end: 1.0,
-        ),
-      ],
-    ),
     'imageOnPageLoadAnimation': AnimationInfo(
       trigger: AnimationTrigger.onPageLoad,
       effects: [
         MoveEffect(
           curve: Curves.easeInOut,
-          delay: 530.ms,
+          delay: 1260.ms,
           duration: 600.ms,
-          begin: const Offset(0.0, 400.0),
+          begin: const Offset(0.0, 300.0),
           end: const Offset(0.0, 0.0),
+        ),
+        FadeEffect(
+          curve: Curves.easeInOut,
+          delay: 270.ms,
+          duration: 600.ms,
+          begin: 0.0,
+          end: 1.0,
         ),
       ],
     ),
@@ -56,7 +51,7 @@ class _LoginWidgetState extends State<LoginWidget>
       effects: [
         FadeEffect(
           curve: Curves.easeInOut,
-          delay: 1030.ms,
+          delay: 1430.ms,
           duration: 600.ms,
           begin: 0.0,
           end: 1.0,
@@ -68,7 +63,7 @@ class _LoginWidgetState extends State<LoginWidget>
       effects: [
         FadeEffect(
           curve: Curves.easeInOut,
-          delay: 1060.ms,
+          delay: 1860.ms,
           duration: 600.ms,
           begin: 0.0,
           end: 1.0,
@@ -80,7 +75,7 @@ class _LoginWidgetState extends State<LoginWidget>
       effects: [
         FadeEffect(
           curve: Curves.easeInOut,
-          delay: 1240.ms,
+          delay: 2040.ms,
           duration: 600.ms,
           begin: 0.0,
           end: 1.0,
@@ -92,7 +87,7 @@ class _LoginWidgetState extends State<LoginWidget>
       effects: [
         FadeEffect(
           curve: Curves.easeInOut,
-          delay: 1650.ms,
+          delay: 2250.ms,
           duration: 600.ms,
           begin: 0.0,
           end: 1.0,
@@ -104,7 +99,7 @@ class _LoginWidgetState extends State<LoginWidget>
       effects: [
         FadeEffect(
           curve: Curves.easeInOut,
-          delay: 1940.ms,
+          delay: 2340.ms,
           duration: 600.ms,
           begin: 0.0,
           end: 1.0,
@@ -116,7 +111,7 @@ class _LoginWidgetState extends State<LoginWidget>
       effects: [
         FadeEffect(
           curve: Curves.easeInOut,
-          delay: 1940.ms,
+          delay: 2340.ms,
           duration: 600.ms,
           begin: 0.0,
           end: 1.0,
@@ -946,8 +941,7 @@ class _LoginWidgetState extends State<LoginWidget>
                           ),
                         ),
                       ],
-                    ).animateOnPageLoad(
-                        animationsMap['columnOnPageLoadAnimation']!),
+                    ),
                   ),
                 ),
               ),
