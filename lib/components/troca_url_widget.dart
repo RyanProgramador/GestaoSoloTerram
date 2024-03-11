@@ -158,7 +158,7 @@ class _TrocaUrlWidgetState extends State<TrocaUrlWidget> {
                     if (confirmDialogResponse) {
                       _model.validaApi =
                           await TrOsServicosGroup.ffValidaApiCall.call(
-                        urlApi: FFAppState().UrlApi,
+                        urlApi: _model.textController.text,
                       );
                       shouldSetState = true;
                       if (!getJsonField(
