@@ -229,7 +229,8 @@ class _TrocaUrlWidgetState extends State<TrocaUrlWidget> {
                           shouldSetState = true;
                           if (!(((_model.validaApi?.bodyText ?? '') != '') ||
                               ((_model.validaApi?.bodyText ?? '') == '') ||
-                              ((_model.validaApi?.bodyText ?? '') == ''))) {
+                              ((_model.validaApi?.bodyText ?? '') == '') ||
+                              ((_model.validaApi?.statusCode ?? 200) == 404))) {
                             await showDialog(
                               context: context,
                               builder: (alertDialogContext) {
