@@ -157,7 +157,9 @@ class _TrocaUrlWidgetState extends State<TrocaUrlWidget> {
                         false;
                     if (confirmDialogResponse) {
                       _model.validaApi =
-                          await TrOsServicosGroup.ffValidaApiCall.call();
+                          await TrOsServicosGroup.ffValidaApiCall.call(
+                        urlApi: FFAppState().UrlApi,
+                      );
                       shouldSetState = true;
                       if (!getJsonField(
                         (_model.validaApi?.jsonBody ?? ''),
@@ -168,7 +170,7 @@ class _TrocaUrlWidgetState extends State<TrocaUrlWidget> {
                           builder: (alertDialogContext) {
                             return AlertDialog(
                               title: const Text('Ops!'),
-                              content: const Text('API invalida.'),
+                              content: const Text('URL invalida.'),
                               actions: [
                                 TextButton(
                                   onPressed: () =>
