@@ -222,7 +222,8 @@ class _TrocaUrlWidgetState extends State<TrocaUrlWidget> {
                         if (confirmDialogResponse) {
                           _model.validaApi =
                               await TrOsServicosGroup.ffValidaApiCall.call(
-                            urlApi: _model.textController.text,
+                            urlApi:
+                                'https://dev.conceittosistemas.com.br/scriptcase/app/GestaoColetas/api/index.php',
                           );
                           shouldSetState = true;
                           await showDialog(
