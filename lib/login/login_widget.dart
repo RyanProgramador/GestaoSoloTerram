@@ -124,21 +124,6 @@ class _LoginWidgetState extends State<LoginWidget>
         getCurrentTimestamp,
         FFAppState().diadoUltimoAcesso,
       );
-      await showDialog(
-        context: context,
-        builder: (alertDialogContext) {
-          return AlertDialog(
-            title: Text(
-                '${FFAppState().login}  ${FFAppState().senha}  ${FFAppState().diadoUltimoAcesso?.toString()}'),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(alertDialogContext),
-                child: const Text('Ok'),
-              ),
-            ],
-          );
-        },
-      );
       if (_model.simna!) {
         _model.md5Passs2 = await actions.md5encode(
           _model.passwordLoginController.text,
