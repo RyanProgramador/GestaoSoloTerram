@@ -39,6 +39,18 @@ class _LoginWidgetState extends State<LoginWidget>
         ),
       ],
     ),
+    'imageOnPageLoadAnimation': AnimationInfo(
+      trigger: AnimationTrigger.onPageLoad,
+      effects: [
+        MoveEffect(
+          curve: Curves.easeInOut,
+          delay: 530.ms,
+          duration: 600.ms,
+          begin: const Offset(0.0, 400.0),
+          end: const Offset(0.0, 0.0),
+        ),
+      ],
+    ),
     'textOnPageLoadAnimation': AnimationInfo(
       trigger: AnimationTrigger.onPageLoad,
       effects: [
@@ -290,7 +302,8 @@ class _LoginWidgetState extends State<LoginWidget>
                                     height: 82.0,
                                     fit: BoxFit.cover,
                                   ),
-                                ),
+                                ).animateOnPageLoad(
+                                    animationsMap['imageOnPageLoadAnimation']!),
                               ),
                             ],
                           ),
