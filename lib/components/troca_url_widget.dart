@@ -162,7 +162,7 @@ class _TrocaUrlWidgetState extends State<TrocaUrlWidget> {
                           if (confirmDialogResponse) {
                             FFAppState().update(() {
                               FFAppState().UrlApi =
-                                  '://170.238.54.36:8090/terram/api/index.php';
+                                  's://dev.conceittosistemas.com.br/scriptcase/app/GestaoColetas/api/index.php';
                             });
                           } else {
                             return;
