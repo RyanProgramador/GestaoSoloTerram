@@ -271,8 +271,6 @@ class TrEsqueciCall {
 class FfValidaApiCall {
   Future<ApiCallResponse> call({
     String? urlApi = '',
-    String? senha = '',
-    String? usuario = '',
   }) async {
     const ffApiRequestBody = '''
 {"tipo": "ff_valida_url"
