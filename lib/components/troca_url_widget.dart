@@ -226,10 +226,50 @@ class _TrocaUrlWidgetState extends State<TrocaUrlWidget> {
                                 _model.textController.text),
                           );
                           shouldSetState = true;
-                          if (!(TrOsServicosGroup.ffValidaApiCall.status(
+                          if (TrOsServicosGroup.ffValidaApiCall.status(
                                 (_model.validaApi?.jsonBody ?? ''),
                               )! &&
-                              (_model.validaApi?.succeeded ?? true))) {
+                              (_model.validaApi?.succeeded ?? true)) {
+                          } else if (!(_model.validaApi?.succeeded ?? true)) {
+                            await showDialog(
+                              context: context,
+                              builder: (alertDialogContext) {
+                                return AlertDialog(
+                                  title: const Text('Ops!'),
+                                  content: const Text('URL invalida.'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () =>
+                                          Navigator.pop(alertDialogContext),
+                                      child: const Text('Entendi'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                            if (shouldSetState) setState(() {});
+                            return;
+                          } else if ((_model.validaApi?.jsonBody ?? '') ==
+                              null) {
+                            await showDialog(
+                              context: context,
+                              builder: (alertDialogContext) {
+                                return AlertDialog(
+                                  title: const Text('Ops!'),
+                                  content: const Text('URL invalida.'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () =>
+                                          Navigator.pop(alertDialogContext),
+                                      child: const Text('Entendi'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                            if (shouldSetState) setState(() {});
+                            return;
+                          } else {
                             await showDialog(
                               context: context,
                               builder: (alertDialogContext) {
@@ -249,6 +289,7 @@ class _TrocaUrlWidgetState extends State<TrocaUrlWidget> {
                             if (shouldSetState) setState(() {});
                             return;
                           }
+
                           setState(() {
                             FFAppState().UrlApi =
                                 functions.protocoloComSeguranca(
