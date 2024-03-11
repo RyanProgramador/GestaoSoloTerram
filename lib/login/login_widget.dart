@@ -1,11 +1,13 @@
 import '/backend/api_requests/api_calls.dart';
 import '/components/password_para_u_r_l_widget.dart';
+import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/custom_code/actions/index.dart' as actions;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'login_model.dart';
@@ -18,10 +20,98 @@ class LoginWidget extends StatefulWidget {
   State<LoginWidget> createState() => _LoginWidgetState();
 }
 
-class _LoginWidgetState extends State<LoginWidget> {
+class _LoginWidgetState extends State<LoginWidget>
+    with TickerProviderStateMixin {
   late LoginModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  final animationsMap = {
+    'columnOnPageLoadAnimation': AnimationInfo(
+      trigger: AnimationTrigger.onPageLoad,
+      effects: [
+        FadeEffect(
+          curve: Curves.easeInOut,
+          delay: 620.ms,
+          duration: 350.ms,
+          begin: 0.0,
+          end: 1.0,
+        ),
+      ],
+    ),
+    'textOnPageLoadAnimation': AnimationInfo(
+      trigger: AnimationTrigger.onPageLoad,
+      effects: [
+        FadeEffect(
+          curve: Curves.easeInOut,
+          delay: 1030.ms,
+          duration: 600.ms,
+          begin: 0.0,
+          end: 1.0,
+        ),
+      ],
+    ),
+    'textFieldOnPageLoadAnimation1': AnimationInfo(
+      trigger: AnimationTrigger.onPageLoad,
+      effects: [
+        FadeEffect(
+          curve: Curves.easeInOut,
+          delay: 1060.ms,
+          duration: 600.ms,
+          begin: 0.0,
+          end: 1.0,
+        ),
+      ],
+    ),
+    'textFieldOnPageLoadAnimation2': AnimationInfo(
+      trigger: AnimationTrigger.onPageLoad,
+      effects: [
+        FadeEffect(
+          curve: Curves.easeInOut,
+          delay: 1240.ms,
+          duration: 600.ms,
+          begin: 0.0,
+          end: 1.0,
+        ),
+      ],
+    ),
+    'buttonOnPageLoadAnimation': AnimationInfo(
+      trigger: AnimationTrigger.onPageLoad,
+      effects: [
+        FadeEffect(
+          curve: Curves.easeInOut,
+          delay: 1650.ms,
+          duration: 600.ms,
+          begin: 0.0,
+          end: 1.0,
+        ),
+      ],
+    ),
+    'rowOnPageLoadAnimation': AnimationInfo(
+      trigger: AnimationTrigger.onPageLoad,
+      effects: [
+        FadeEffect(
+          curve: Curves.easeInOut,
+          delay: 1940.ms,
+          duration: 600.ms,
+          begin: 0.0,
+          end: 1.0,
+        ),
+      ],
+    ),
+    'containerOnPageLoadAnimation': AnimationInfo(
+      trigger: AnimationTrigger.onPageLoad,
+      effects: [
+        FadeEffect(
+          curve: Curves.easeInOut,
+          delay: 1940.ms,
+          duration: 600.ms,
+          begin: 0.0,
+          end: 1.0,
+        ),
+      ],
+    ),
+  };
 
   @override
   void initState() {
@@ -69,24 +159,6 @@ class _LoginWidgetState extends State<LoginWidget> {
             );
           });
         } else {
-          await showDialog(
-            context: context,
-            builder: (alertDialogContext) {
-              return AlertDialog(
-                title: const Text('Ops!'),
-                content: Text(getJsonField(
-                  (_model.trLogin2?.jsonBody ?? ''),
-                  r'''$.message''',
-                ).toString().toString()),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.pop(alertDialogContext),
-                    child: const Text('Ok'),
-                  ),
-                ],
-              );
-            },
-          );
           return;
         }
 
@@ -107,24 +179,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                 .cast<dynamic>();
           });
         } else {
-          await showDialog(
-            context: context,
-            builder: (alertDialogContext) {
-              return AlertDialog(
-                title: const Text('Ops!'),
-                content: Text(getJsonField(
-                  (_model.trIcones2?.jsonBody ?? ''),
-                  r'''$.message''',
-                ).toString().toString()),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.pop(alertDialogContext),
-                    child: const Text('Ok'),
-                  ),
-                ],
-              );
-            },
-          );
           return;
         }
 
@@ -295,7 +349,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                   fontSize: 18.0,
                                                   fontWeight: FontWeight.bold,
                                                 ),
-                                          ),
+                                          ).animateOnPageLoad(animationsMap[
+                                              'textOnPageLoadAnimation']!),
                                           Padding(
                                             padding:
                                                 const EdgeInsetsDirectional.fromSTEB(
@@ -397,7 +452,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                                               inputFormatters: [
                                                 _model.emailAddressLoginMask
                                               ],
-                                            ),
+                                            ).animateOnPageLoad(animationsMap[
+                                                'textFieldOnPageLoadAnimation1']!),
                                           ),
                                           Padding(
                                             padding:
@@ -517,7 +573,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                                               validator: _model
                                                   .passwordLoginControllerValidator
                                                   .asValidator(context),
-                                            ),
+                                            ).animateOnPageLoad(animationsMap[
+                                                'textFieldOnPageLoadAnimation2']!),
                                           ),
                                           Padding(
                                             padding:
@@ -567,7 +624,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                   width: 1.0,
                                                 ),
                                               ),
-                                            ),
+                                            ).animateOnPageLoad(animationsMap[
+                                                'buttonOnPageLoadAnimation']!),
                                           ),
                                           Flexible(
                                             child: Align(
@@ -654,7 +712,9 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                                       ),
                                                                 ),
                                                               ],
-                                                            ),
+                                                            ).animateOnPageLoad(
+                                                                animationsMap[
+                                                                    'rowOnPageLoadAnimation']!),
                                                           ),
                                                         ),
                                                       ),
@@ -869,7 +929,9 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                             ),
                                                           ),
                                                         ),
-                                                      ),
+                                                      ).animateOnPageLoad(
+                                                          animationsMap[
+                                                              'containerOnPageLoadAnimation']!),
                                                     ],
                                                   ),
                                                 ),
@@ -886,7 +948,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                           ),
                         ),
                       ],
-                    ),
+                    ).animateOnPageLoad(
+                        animationsMap['columnOnPageLoadAnimation']!),
                   ),
                 ),
               ),
