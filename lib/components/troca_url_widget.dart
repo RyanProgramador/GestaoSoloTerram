@@ -226,23 +226,9 @@ class _TrocaUrlWidgetState extends State<TrocaUrlWidget> {
                                 _model.textController.text),
                           );
                           shouldSetState = true;
-                          await showDialog(
-                            context: context,
-                            builder: (alertDialogContext) {
-                              return AlertDialog(
-                                title: Text(_model.textController.text),
-                                content: Text(FFAppState().UrlApi),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () =>
-                                        Navigator.pop(alertDialogContext),
-                                    child: const Text('Ok'),
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                          if (!(_model.validaApi?.succeeded ?? true)) {
+                          if (!TrOsServicosGroup.ffValidaApiCall.status(
+                            (_model.validaApi?.jsonBody ?? ''),
+                          )!) {
                             await showDialog(
                               context: context,
                               builder: (alertDialogContext) {
