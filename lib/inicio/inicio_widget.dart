@@ -34,6 +34,11 @@ class _InicioWidgetState extends State<InicioWidget> {
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
+      setState(() {
+        FFAppState().login = FFAppState().login;
+        FFAppState().senha = FFAppState().senha;
+        FFAppState().diadoUltimoAcesso = FFAppState().diadoUltimoAcesso;
+      });
       _model.temInternet = await actions.checkinternet();
       setState(() {
         _model.net = _model.temInternet!;
