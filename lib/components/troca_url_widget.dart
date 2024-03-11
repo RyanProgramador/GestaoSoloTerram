@@ -1,3 +1,4 @@
+import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -130,6 +131,7 @@ class _TrocaUrlWidgetState extends State<TrocaUrlWidget> {
                 alignment: const AlignmentDirectional(1.0, 1.0),
                 child: FFButtonWidget(
                   onPressed: () async {
+                    var shouldSetState = false;
                     var confirmDialogResponse = await showDialog<bool>(
                           context: context,
                           builder: (alertDialogContext) {
@@ -154,6 +156,32 @@ class _TrocaUrlWidgetState extends State<TrocaUrlWidget> {
                         ) ??
                         false;
                     if (confirmDialogResponse) {
+                      _model.validaApi =
+                          await TrOsServicosGroup.ffValidaApiCall.call();
+                      shouldSetState = true;
+                      if (!getJsonField(
+                        (_model.validaApi?.jsonBody ?? ''),
+                        r'''$.status''',
+                      )) {
+                        await showDialog(
+                          context: context,
+                          builder: (alertDialogContext) {
+                            return AlertDialog(
+                              title: const Text('Ops!'),
+                              content: const Text('API invalida.'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () =>
+                                      Navigator.pop(alertDialogContext),
+                                  child: const Text('Entendi'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                        if (shouldSetState) setState(() {});
+                        return;
+                      }
                       setState(() {
                         FFAppState().UrlApi = functions
                             .protocoloComSeguranca(_model.textController.text)!;
@@ -176,8 +204,11 @@ class _TrocaUrlWidgetState extends State<TrocaUrlWidget> {
                       );
                       Navigator.pop(context);
                     } else {
+                      if (shouldSetState) setState(() {});
                       return;
                     }
+
+                    if (shouldSetState) setState(() {});
                   },
                   text: 'Salvar',
                   options: FFButtonOptions(

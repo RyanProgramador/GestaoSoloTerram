@@ -20,6 +20,7 @@ class TrOsServicosGroup {
       TrSincronizaPontosColetadosCall();
   static TrLoginCall trLoginCall = TrLoginCall();
   static TrEsqueciCall trEsqueciCall = TrEsqueciCall();
+  static FfValidaApiCall ffValidaApiCall = FfValidaApiCall();
 }
 
 class TrOsServicosCall {
@@ -252,6 +253,32 @@ class TrEsqueciCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'trEsqueci',
+      apiUrl: '${TrOsServicosGroup.baseUrl}$urlApi',
+      callType: ApiCallType.POST,
+      headers: {},
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
+class FfValidaApiCall {
+  Future<ApiCallResponse> call({
+    String? urlApi = '',
+    String? senha = '',
+    String? usuario = '',
+  }) async {
+    const ffApiRequestBody = '''
+{"tipo": "ff_valida_url"
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'ffValidaApi',
       apiUrl: '${TrOsServicosGroup.baseUrl}$urlApi',
       callType: ApiCallType.POST,
       headers: {},
