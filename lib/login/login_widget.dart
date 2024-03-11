@@ -64,7 +64,7 @@ class _LoginWidgetState extends State<LoginWidget> {
         )) {
           setState(() {
             FFAppState().tecnicoid = getJsonField(
-              (_model.trLogin?.jsonBody ?? ''),
+              (_model.trLogin2?.jsonBody ?? ''),
               r'''$.tecnico_id''',
             );
           });
@@ -75,7 +75,7 @@ class _LoginWidgetState extends State<LoginWidget> {
               return AlertDialog(
                 title: const Text('Ops!'),
                 content: Text(getJsonField(
-                  (_model.trLogin?.jsonBody ?? ''),
+                  (_model.trLogin2?.jsonBody ?? ''),
                   r'''$.message''',
                 ).toString().toString()),
                 actions: [
@@ -94,7 +94,7 @@ class _LoginWidgetState extends State<LoginWidget> {
           urlApi: FFAppState().UrlApi,
         );
         if (getJsonField(
-          (_model.trIcones?.jsonBody ?? ''),
+          (_model.trIcones2?.jsonBody ?? ''),
           r'''$.status''',
         )) {
           setState(() {
@@ -113,7 +113,7 @@ class _LoginWidgetState extends State<LoginWidget> {
               return AlertDialog(
                 title: const Text('Ops!'),
                 content: Text(getJsonField(
-                  (_model.trIcones?.jsonBody ?? ''),
+                  (_model.trIcones2?.jsonBody ?? ''),
                   r'''$.message''',
                 ).toString().toString()),
                 actions: [
