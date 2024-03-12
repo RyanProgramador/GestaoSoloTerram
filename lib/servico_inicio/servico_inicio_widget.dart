@@ -241,7 +241,7 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                                     title: const Text('Sucesso!'),
                                     content:
                                         Text('Etapa ${valueOrDefault<String>(
-                                      functions.buscaSeAEtapaEstaIniciada(
+                                      !functions.buscaSeAEtapaEstaIniciada(
                                               functions.buscaRegistro(
                                                   widget.fazId!,
                                                   widget.servico!,
