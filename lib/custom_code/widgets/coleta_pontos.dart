@@ -1270,7 +1270,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
         if (webPBytes != null) {
           // Converte os bytes da imagem WebP para uma string base64
           String base64Image = base64Encode(webPBytes);
-
+          var etiqueta = _codigoQr.text;
           setState(() {
             if (isInacessivelOuNao) {
               quantidadeDeVezesParaAutoAuditarComFoto--;
@@ -1317,9 +1317,10 @@ class _ColetaPontosState extends State<ColetaPontos> {
               listaFiltrada["pprof_observacao"] = "";
               listaFiltrada["pprof_foto"] = '';
               listaFiltrada["pprof_datahora"] = DateTime.now().toString();
+              listaFiltrada["pprof_etiqueta_id"] = '$etiqueta';
 
               listaSemiFiltrada["pont_status"] = 2;
-
+              _codigoQr.clear();
               _observacaoController.clear();
             } else {
               // FFAppState().PontosColetados.add({
@@ -1384,7 +1385,10 @@ class _ColetaPontosState extends State<ColetaPontos> {
                       child: Material(
                         color: Colors.transparent,
                         child: InkWell(
-                          onTap: () => Navigator.of(context).pop(),
+                          onTap: () {
+                            Navigator.of(context).pop();
+                            _codigoQr.clear();
+                          },
                           child: Icon(
                             Icons.close,
                             color: FlutterFlowTheme.of(context).secondaryText,
@@ -1395,17 +1399,63 @@ class _ColetaPontosState extends State<ColetaPontos> {
                     ),
                   ],
                 ),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: Image.memory(
-                    imageBytes,
-                    width: 280,
-                    height: 200,
-                    fit: BoxFit.contain,
+                Expanded(
+                  child: Text(
+                    'Foto da amostra capturada!',
+                    style: FlutterFlowTheme.of(context).bodyMedium.override(
+                          fontFamily: 'Outfit',
+                          fontSize: 18,
+                          color: Colors.teal,
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
+                ),
+                // ClipRRect(
+                //   borderRadius: BorderRadius.circular(8),
+                //   child: Image.memory(
+                //     imageBytes,
+                //     width: 280,
+                //     height: 200,
+                //     fit: BoxFit.contain,
+                //   ),
+                // ),
+
+                Padding(
+                  padding: EdgeInsets.fromLTRB(
+                      0, 0, 0, 0), // Ajuste este valor conforme necessário
+                  child: SizedBox(
+                    // Envolve o QRView com um SizedBox para dar um tamanho fixo
+                    height: 140, // Defina a altura desejada
+                    width: double.infinity, // Ocupa toda a largura disponível
+                    child: QRView(
+                      key: qrKey,
+                      onQRViewCreated: _onQRViewCreated,
+                      overlay: QrScannerOverlayShape(
+                        borderColor: Color(0xFF00736D),
+                        borderRadius: 10,
+                        borderLength: 120,
+                        borderWidth: 5,
+                        overlayColor: Color(0xFFFFFFFF),
+                      ),
+                    ),
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(16),
+                  padding: EdgeInsets.fromLTRB(16, 4, 16, 4),
+                  child: TextFormField(
+                    controller: _codigoQr,
+                    autofocus: false,
+                    maxLines: 1,
+                    decoration: InputDecoration(
+                      labelText: 'Código:',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(16, 4, 16, 4),
                   child: TextFormField(
                     controller: observaFotoController,
                     autofocus: true,
@@ -1428,6 +1478,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
                     children: [
                       ElevatedButton.icon(
                         onPressed: () {
+                          _codigoQr.clear();
                           _tiraFoto(nomeMarcador, latlng, false, profundidade,
                               idPonto);
                         },
@@ -1459,51 +1510,74 @@ class _ColetaPontosState extends State<ColetaPontos> {
                           //   "latlng": '$latlng',
                           //   "data_hora": DateTime.now().toString()
                           // });
+                          var etiqueta = _codigoQr.text;
+                          setState(() {
+                            if (_codigoQr.text.isEmpty) {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('Ops!'),
+                                    content: Text(
+                                        'É necessário scanear ou informar o código QR.'),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: Text('Fechar'),
+                                        onPressed: () =>
+                                            Navigator.of(context).pop(),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            } else {
+                              List<dynamic> lista = FFAppState()
+                                  .trSincroniza
+                                  .where((element) =>
+                                      element['fazenda_id'] ==
+                                          int.parse(widget.fazId!) &&
+                                      element['servico_id'] ==
+                                          int.parse(widget.oservid!))
+                                  .map((e) => e["pontos"])
+                                  .toList()
+                                  .first;
 
-                          List<dynamic> lista = FFAppState()
-                              .trSincroniza
-                              .where((element) =>
-                                  element['fazenda_id'] ==
-                                      int.parse(widget.fazId!) &&
-                                  element['servico_id'] ==
-                                      int.parse(widget.oservid!))
-                              .map((e) => e["pontos"])
-                              .toList()
-                              .first;
+                              var listaFiltrada = lista
+                                  .where((element) =>
+                                      element["pont_id"] ==
+                                      int.parse(
+                                          idPonto) /*Aqui pe o pont_id, id_ponto*/)
+                                  .map((e) => e['profundidades'])
+                                  .first
+                                  .where((element) =>
+                                      element["pprof_id"] ==
+                                      int.parse(profundidade))
+                                  .toList()
+                                  .first; /* == 20321*/ /*aqui é o pprof_id ou profundiadde*/ /*);*/
+                              var listaSemiFiltrada /*lista antes das profundiades*/ = lista
+                                  .where((element) =>
+                                      element["pont_id"] ==
+                                      int.parse(
+                                          idPonto) /*Aqui pe o pont_id, id_ponto*/)
+                                  .first; /*.map((e) => e['profundidades']).first.where((element) => element["pprof_id"] == 20321).toList().first;*/ /* == 20321*/ /**/ /*aqui é o pprof_id ou profundiadde*/ /**/ /*);*/
 
-                          var listaFiltrada = lista
-                              .where((element) =>
-                                  element["pont_id"] ==
-                                  int.parse(
-                                      idPonto) /*Aqui pe o pont_id, id_ponto*/)
-                              .map((e) => e['profundidades'])
-                              .first
-                              .where((element) =>
-                                  element["pprof_id"] ==
-                                  int.parse(profundidade))
-                              .toList()
-                              .first; /* == 20321*/ /*aqui é o pprof_id ou profundiadde*/ /*);*/
-                          var listaSemiFiltrada /*lista antes das profundiades*/ = lista
-                              .where((element) =>
-                                  element["pont_id"] ==
-                                  int.parse(
-                                      idPonto) /*Aqui pe o pont_id, id_ponto*/)
-                              .first; /*.map((e) => e['profundidades']).first.where((element) => element["pprof_id"] == 20321).toList().first;*/ /* == 20321*/ /**/ /*aqui é o pprof_id ou profundiadde*/ /**/ /*);*/
+                              listaFiltrada["pprof_status"] = 1;
+                              listaFiltrada["pprof_observacao"] =
+                                  observaFotoController.text;
+                              listaFiltrada["pprof_foto"] = '$base64Image';
+                              listaFiltrada["pprof_datahora"] =
+                                  DateTime.now().toString();
+                              listaFiltrada["pprof_etiqueta_id"] = '$etiqueta';
 
-                          listaFiltrada["pprof_status"] = 1;
-                          listaFiltrada["pprof_observacao"] =
-                              observaFotoController.text;
-                          listaFiltrada["pprof_foto"] = '$base64Image';
-                          listaFiltrada["pprof_datahora"] =
-                              DateTime.now().toString();
+                              listaSemiFiltrada["pont_status"] = 1;
 
-                          listaSemiFiltrada["pont_status"] = 1;
-
-                          quantidadeDeVezesParaAutoAuditarComFoto--;
-
-                          observaFotoController.clear();
-                          Navigator.of(context).pop();
-                          _mostrarModalSucesso(context, nomeMarcador);
+                              quantidadeDeVezesParaAutoAuditarComFoto--;
+                              _codigoQr.clear();
+                              observaFotoController.clear();
+                              Navigator.of(context).pop();
+                              _mostrarModalSucesso(context, nomeMarcador);
+                            }
+                          });
                         },
                         icon: Icon(Icons.arrow_forward, color: Colors.white),
                         label: Text(
@@ -1724,7 +1798,10 @@ class _ColetaPontosState extends State<ColetaPontos> {
                   ),
                 ),
                 InkWell(
-                  onTap: () => Navigator.of(context).pop(),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    _codigoQr.clear();
+                  },
                   child: Icon(
                     Icons.close,
                     color: FlutterFlowTheme.of(context).secondaryText,
@@ -1734,6 +1811,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
               ],
             ),
           ),
+
           content: Padding(
             // padding: EdgeInsets.all(20),
 
@@ -1741,6 +1819,40 @@ class _ColetaPontosState extends State<ColetaPontos> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
+                Padding(
+                  padding: EdgeInsets.fromLTRB(
+                      0, 0, 0, 0), // Ajuste este valor conforme necessário
+                  child: SizedBox(
+                    // Envolve o QRView com um SizedBox para dar um tamanho fixo
+                    height: 140, // Defina a altura desejada
+                    width: double.infinity, // Ocupa toda a largura disponível
+                    child: QRView(
+                      key: qrKey,
+                      onQRViewCreated: _onQRViewCreated,
+                      overlay: QrScannerOverlayShape(
+                        borderColor: Color(0xFF00736D),
+                        borderRadius: 10,
+                        borderLength: 120,
+                        borderWidth: 5,
+                        overlayColor: Color(0xFFFFFFFF),
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(0, 4, 0, 4),
+                  child: TextFormField(
+                    controller: _codigoQr,
+                    autofocus: false,
+                    maxLines: 1,
+                    decoration: InputDecoration(
+                      labelText: 'Código:',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                  ),
+                ),
                 TextField(
                   controller: _observacaoController,
                   focusNode: _observacaoFocusNode,
@@ -1782,49 +1894,74 @@ class _ColetaPontosState extends State<ColetaPontos> {
                         //   "latlng": latlngMarcador,
                         //   "data_hora": DateTime.now().toString()
                         // });
-                        List<dynamic> lista = FFAppState()
-                            .trSincroniza
-                            .where((element) =>
-                                element['fazenda_id'] ==
-                                    int.parse(widget.fazId!) &&
-                                element['servico_id'] ==
-                                    int.parse(widget.oservid!))
-                            .map((e) => e["pontos"])
-                            .toList()
-                            .first;
+                        var etiqueta = _codigoQr.text;
+                        setState(() {
+                          if (_codigoQr.text.isEmpty) {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text('Ops!'),
+                                  content: Text(
+                                      'É necessário scanear ou informar o código QR.'),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      child: Text('Fechar'),
+                                      onPressed: () =>
+                                          Navigator.of(context).pop(),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          } else {
+                            List<dynamic> lista = FFAppState()
+                                .trSincroniza
+                                .where((element) =>
+                                    element['fazenda_id'] ==
+                                        int.parse(widget.fazId!) &&
+                                    element['servico_id'] ==
+                                        int.parse(widget.oservid!))
+                                .map((e) => e["pontos"])
+                                .toList()
+                                .first;
 
-                        var listaFiltrada = lista
-                            .where((element) =>
-                                element["pont_id"] ==
-                                int.parse(
-                                    idPonto) /*Aqui pe o pont_id, id_ponto*/)
-                            .map((e) => e['profundidades'])
-                            .first
-                            .where((element) =>
-                                element["pprof_id"] == int.parse(profundidade))
-                            .toList()
-                            .first; /* == 20321*/ /*aqui é o pprof_id ou profundiadde*/ /*);*/
-                        var listaSemiFiltrada /*lista antes das profundiades*/ =
-                            lista
+                            var listaFiltrada = lista
+                                .where((element) =>
+                                    element["pont_id"] ==
+                                    int.parse(
+                                        idPonto) /*Aqui pe o pont_id, id_ponto*/)
+                                .map((e) => e['profundidades'])
+                                .first
+                                .where((element) =>
+                                    element["pprof_id"] ==
+                                    int.parse(profundidade))
+                                .toList()
+                                .first; /* == 20321*/ /*aqui é o pprof_id ou profundiadde*/ /*);*/
+                            var listaSemiFiltrada /*lista antes das profundiades*/ = lista
                                 .where((element) =>
                                     element["pont_id"] ==
                                     int.parse(
                                         idPonto) /*Aqui pe o pont_id, id_ponto*/)
                                 .first; /*.map((e) => e['profundidades']).first.where((element) => element["pprof_id"] == 20321).toList().first;*/ /* == 20321*/ /**/ /*aqui é o pprof_id ou profundiadde*/ /**/ /*);*/
 
-                        listaFiltrada["pprof_status"] = 1;
-                        listaFiltrada["pprof_observacao"] =
-                            observaFotoController.text;
-                        listaFiltrada["pprof_foto"] = "";
-                        listaFiltrada["pprof_datahora"] =
-                            DateTime.now().toString();
+                            listaFiltrada["pprof_status"] = 1;
+                            listaFiltrada["pprof_observacao"] =
+                                observaFotoController.text;
+                            listaFiltrada["pprof_foto"] = "";
+                            listaFiltrada["pprof_datahora"] =
+                                DateTime.now().toString();
+                            listaFiltrada["pprof_etiqueta_id"] = '$etiqueta';
 
-                        listaSemiFiltrada["pont_status"] = 1;
+                            listaSemiFiltrada["pont_status"] = 1;
 
-                        Navigator.of(context).pop();
-                        _observacaoController.clear();
-                        Navigator.of(context).pop();
-                        _mostrarModalSucesso(context, marcadorNome);
+                            Navigator.of(context).pop();
+                            _codigoQr.clear();
+                            _observacaoController.clear();
+                            Navigator.of(context).pop();
+                            _mostrarModalSucesso(context, marcadorNome);
+                          }
+                        });
                       },
                       style: ElevatedButton.styleFrom(
                         padding:
@@ -1957,13 +2094,13 @@ class _ColetaPontosState extends State<ColetaPontos> {
           mapToolbarEnabled: false,
           zoomControlsEnabled: false,
         ),
-        //floatingActionButton: FloatingActionButton(
+        // floatingActionButton: FloatingActionButton(
         //  onPressed: () => _exibirDados(),
         //  child: Text(
         //    '${quantidadeDeProfundidadesASeremColetadas ?? "teste"}',
         //    style: TextStyle(color: Colors.white, fontSize: 18),
         //  ),
-        //),
+        // ),
       ),
     );
   }
@@ -1980,42 +2117,42 @@ class _ColetaPontosState extends State<ColetaPontos> {
   }
 
   void _exibirDados() {
-    //   int registros = FFAppState()
-    //           .PontosColetados
-    //           .where((element) =>
-    //               element['oserv_id'] == widget.oservid &&
-    //               element['faz_id'] == widget.fazId)
-    //           .length +
-    //       FFAppState()
-    //           .PontosInacessiveis
-    //           .where((element) =>
-    //               element['oserv_id'] == widget.oservid &&
-    //               element['faz_id'] == widget.fazId)
-    //           .length;
-    //   var aColetar = pontosMedicao
-    //       .expand((e) => e['profundidades'] as List<dynamic>)
-    //       .map((profundidade) => profundidade['pprof_id'])
-    //       .toList();
-    //   if (registros == aColetar.length) {
-    //     _finalizouColeta();
-    //   }
-    //   var colteasTotalmente = FFAppState().PontosTotalmenteColetados;
-    //   var coletados = FFAppState().trSincroniza.map((e) {
-    //     // Cria um novo mapa a partir do mapa original, excluindo a chave 'foto'
-    //     var novoMapa = Map.of(e); // Cria uma cópia do mapa
-    //     novoMapa.remove('foto'); // Remove a chave 'foto'
-    //     return novoMapa; // Retorna o novo mapa sem a chave 'foto'
-    //   }).toList();
-    //   var coletados2 = FFAppState().PontosColetados.map((e) {
-    //     // Cria um novo mapa a partir do mapa original, excluindo a chave 'foto'
-    //     var novoMapa = Map.of(e); // Cria uma cópia do mapa
-    //     novoMapa.remove('foto'); // Remove a chave 'foto'
-    //     return novoMapa; // Retorna o novo mapa sem a chave 'foto'
-    //   }).toList();
-    //   var inacessiveis = FFAppState().PontosInacessiveis.length;
+    // int registros = FFAppState()
+    //         .PontosColetados
+    //         .where((element) =>
+    //             element['oserv_id'] == widget.oservid &&
+    //             element['faz_id'] == widget.fazId)
+    //         .length +
+    //     FFAppState()
+    //         .PontosInacessiveis
+    //         .where((element) =>
+    //             element['oserv_id'] == widget.oservid &&
+    //             element['faz_id'] == widget.fazId)
+    //         .length;
+    // var aColetar = pontosMedicao
+    //     .expand((e) => e['profundidades'] as List<dynamic>)
+    //     .map((profundidade) => profundidade['pprof_id'])
+    //     .toList();
+    // if (registros == aColetar.length) {
+    //   _finalizouColeta();
+    // }
+    // var colteasTotalmente = FFAppState().PontosTotalmenteColetados;
+    // var coletados = FFAppState().trSincroniza.map((e) {
+    //   // Cria um novo mapa a partir do mapa original, excluindo a chave 'foto'
+    //   var novoMapa = Map.of(e); // Cria uma cópia do mapa
+    //   novoMapa.remove('foto'); // Remove a chave 'foto'
+    //   return novoMapa; // Retorna o novo mapa sem a chave 'foto'
+    // }).toList();
+    // var coletados2 = FFAppState().PontosColetados.map((e) {
+    //   // Cria um novo mapa a partir do mapa original, excluindo a chave 'foto'
+    //   var novoMapa = Map.of(e); // Cria uma cópia do mapa
+    //   novoMapa.remove('foto'); // Remove a chave 'foto'
+    //   return novoMapa; // Retorna o novo mapa sem a chave 'foto'
+    // }).toList();
+    // var inacessiveis = FFAppState().PontosInacessiveis.length;
     //
-    //   var aud = widget.autoAuditoria;
-    //   var vez = vezAtualDeFoto;
+    // var aud = widget.autoAuditoria;
+    // var vez = vezAtualDeFoto;
     //   showDialog(
     //     context: context,
     //     builder: (BuildContext context) {
@@ -2164,46 +2301,46 @@ class _ColetaPontosState extends State<ColetaPontos> {
     //       );
     //     },
     //   );
-    // }
-    var talhoes = FFAppState().trTalhoesEmCadaServico.firstWhere((registro) =>
-        registro['fazenda_id'].toString() == widget.fazId! &&
-        registro['servico_id'].toString() == widget.oservid!)['dados'];
-
-    var talh2 = FFAppState().trSincroniza.firstWhere((registro) =>
-        registro['fazenda_id'].toString() == widget.fazId! &&
-        registro['servico_id'].toString() == widget.oservid!);
-
-    var jaExisteTrSincroniza = FFAppState()
-        .trSincroniza
-        .where((element) =>
-            element['fazenda_id'] == 1 && element['servico_id'] == 1)
-        .toList();
-    // var listaIna = FFAppState().PontosInacessiveis.where((element) =>
-    // element['oserv_id'].toString() == '1' &&
-    //     element['faz_id'].toString() == '1');
-
-    List<dynamic> lista = FFAppState()
-        .trSincroniza
-        .where((element) =>
-            element['fazenda_id'] == 1 && element['servico_id'] == 1)
-        .map((e) => e["pontos"])
-        .toList()
-        .first;
-
-    // var listaFiltrada = lista.where((element) => element["point_id"] != 17429).toList();
-
-    // var listaSemiFiltrada = lista.where((element) => element["pont_id"] == 17430/*Aqui pe o pont_id, id_ponto*/).first;/*.map((e) => e['profundidades']).first.where((element) => element["pprof_id"] == 20321).toList().first;*//* == 20321*//**//*aqui é o pprof_id ou profundiadde*//**//*);*/
-    // var listaSemiFiltrada = lista.where((element) => element["pont_numero"] == 404/*Aqui pe o pont_id, id_ponto*/).first;/*.map((e) => e['profundidades']).first.where((element) => element["pprof_id"] == 20321).toList().first;*//* == 20321*//**//*aqui é o pprof_id ou profundiadde*//**//*);*/
-    var listaSemiFiltrada =
-        lista; /*.map((e) => e['profundidades']).first.where((element) => element["pprof_id"] == 20321).toList().first;*/ /* == 20321*/ /**/ /*aqui é o pprof_id ou profundiadde*/ /**/ /*);*/
-    var listaFiltrada = lista
-        .where((element) =>
-            element["pont_id"] == 17430 /*Aqui pe o pont_id, id_ponto*/)
-        .map((e) => e['profundidades'])
-        .first
-        .where((element) => element["pprof_id"] == 20322)
-        .toList()
-        .first; /* == 20321*/ /*aqui é o pprof_id ou profundiadde*/ /*);*/
+    // // }
+    // var talhoes = FFAppState().trTalhoesEmCadaServico.firstWhere((registro) =>
+    //     registro['fazenda_id'].toString() == widget.fazId! &&
+    //     registro['servico_id'].toString() == widget.oservid!)['dados'];
+    //
+    // var talh2 = FFAppState().trSincroniza.firstWhere((registro) =>
+    //     registro['fazenda_id'].toString() == widget.fazId! &&
+    //     registro['servico_id'].toString() == widget.oservid!);
+    //
+    // var jaExisteTrSincroniza = FFAppState()
+    //     .trSincroniza
+    //     .where((element) =>
+    //         element['fazenda_id'] == 1 && element['servico_id'] == 1)
+    //     .toList();
+    // // var listaIna = FFAppState().PontosInacessiveis.where((element) =>
+    // // element['oserv_id'].toString() == '1' &&
+    // //     element['faz_id'].toString() == '1');
+    //
+    // List<dynamic> lista = FFAppState()
+    //     .trSincroniza
+    //     .where((element) =>
+    //         element['fazenda_id'] == int.parse(widget.fazId!) && element['servico_id'] == int.parse(widget.oservid!))
+    //     .map((e) => e["pontos"])
+    //     .toList()
+    //     .first;
+    //
+    // // var listaFiltrada = lista.where((element) => element["point_id"] != 17429).toList();
+    //
+    // // var listaSemiFiltrada = lista.where((element) => element["pont_id"] == 17430/*Aqui pe o pont_id, id_ponto*/).first;/*.map((e) => e['profundidades']).first.where((element) => element["pprof_id"] == 20321).toList().first;*//* == 20321*//**//*aqui é o pprof_id ou profundiadde*//**//*);*/
+    // // var listaSemiFiltrada = lista.where((element) => element["pont_numero"] == 404/*Aqui pe o pont_id, id_ponto*/).first;/*.map((e) => e['profundidades']).first.where((element) => element["pprof_id"] == 20321).toList().first;*//* == 20321*//**//*aqui é o pprof_id ou profundiadde*//**//*);*/
+    // var listaSemiFiltrada =
+    //     lista; /*.map((e) => e['profundidades']).first.where((element) => element["pprof_id"] == 20321).toList().first;*/ /* == 20321*/ /**/ /*aqui é o pprof_id ou profundiadde*/ /**/ /*);*/
+    // var listaFiltrada = lista
+    //     .where((element) =>
+    //         element["pont_id"] == 17430 /*Aqui pe o pont_id, id_ponto*/)
+    //     .map((e) => e['profundidades'])
+    //     .first
+    //     .where((element) => element["pprof_id"] == 20322)
+    //     .toList()
+    //     .first; /* == 20321*/ /*aqui é o pprof_id ou profundiadde*/ /*);*/
 
     // bool allCollected = listaSemiFiltrada["profundidades"].every((element) => element["pprof_status"] == 1);
     // print(listaSemiFiltrada["profundidades"].length); // Print the length of profundidades
@@ -2218,24 +2355,21 @@ class _ColetaPontosState extends State<ColetaPontos> {
     //   <String, Object>{}, // Correção aqui para alinhar com o tipo esperado
     // );
     // var profundiade = marcador['profundidades'].toString();
-    var teste = lista;
-    int index = FFAppState().trSincroniza.indexOf(FFAppState()
+    // var qts = widget.quantidadeAutoAuditoria.toString();
+    var teste = widget.quantidadeAutoAuditoria;
+    var index = FFAppState()
+        .trSincroniza; /*.indexOf(FFAppState()
         .trSincroniza
         .firstWhere((registro) =>
             registro['fazenda_id'].toString() == widget.fazId! &&
-            registro['servico_id'].toString() == widget.oservid!));
+            registro['servico_id'].toString() == widget.oservid!));*/
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Aproxime-se do ponto!'),
           content: SingleChildScrollView(
-            child: SelectableText(listaSemiFiltrada.toString() +
-                "      " +
-                lista
-                    .where((element) => element['pont_status'] != 0)
-                    .length
-                    .toString()),
+            child: SelectableText("$index"),
           ),
           actions: <Widget>[
             TextButton(
