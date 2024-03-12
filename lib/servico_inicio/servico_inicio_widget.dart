@@ -197,7 +197,16 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                                 );
                               });
                             },
-                            text: 'Iniciar Etapa',
+                            text: valueOrDefault<String>(
+                              functions.buscaSeAEtapaEstaIniciada(
+                                      functions.buscaRegistro(
+                                          widget.fazId!,
+                                          widget.servico!,
+                                          FFAppState().trSincroniza.toList()))!
+                                  ? 'Finalizar Etapa'
+                                  : 'Iniciar Etapa',
+                              'AAAAAAAAAAAAAAAAA',
+                            ),
                             options: FFButtonOptions(
                               width: MediaQuery.sizeOf(context).width * 0.5,
                               height: 45.0,
