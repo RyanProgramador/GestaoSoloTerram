@@ -183,6 +183,44 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                         children: [
                           FFButtonWidget(
                             onPressed: () async {
+                              var confirmDialogResponse =
+                                  await showDialog<bool>(
+                                        context: context,
+                                        builder: (alertDialogContext) {
+                                          return AlertDialog(
+                                            title: const Text('Atenção!'),
+                                            content: Text(
+                                                'Você tem certeza que deseja ${valueOrDefault<String>(
+                                              functions.buscaSeAEtapaEstaIniciada(
+                                                      functions.buscaRegistro(
+                                                          widget.fazId!,
+                                                          widget.servico!,
+                                                          FFAppState()
+                                                              .trSincroniza
+                                                              .toList()))!
+                                                  ? 'finalizar '
+                                                  : 'iniciar ',
+                                              'AAAAAAAAAA',
+                                            )}esta etapa?'),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () => Navigator.pop(
+                                                    alertDialogContext, false),
+                                                child: const Text('Não'),
+                                              ),
+                                              TextButton(
+                                                onPressed: () => Navigator.pop(
+                                                    alertDialogContext, true),
+                                                child: const Text('Sim'),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      ) ??
+                                      false;
+                              if (!confirmDialogResponse) {
+                                return;
+                              }
                               setState(() {
                                 FFAppState().updateTrSincronizaAtIndex(
                                   functions.buscaRegistroIndex(
@@ -294,7 +332,33 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                               var shouldSetState = false;
                               _model.temNet = await actions.checkinternet();
                               shouldSetState = true;
-                              if (!_model.temNet!) {
+                              if (_model.temNet!) {
+                                if (functions.buscaSeAEtapaEstaIniciada(
+                                    functions.buscaRegistro(
+                                        widget.fazId!,
+                                        widget.servico!,
+                                        FFAppState().trSincroniza.toList()))!) {
+                                  await showDialog(
+                                    context: context,
+                                    builder: (alertDialogContext) {
+                                      return AlertDialog(
+                                        title: const Text('Ops!'),
+                                        content:
+                                            const Text('Por Favor, Inicie a Etapa!'),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () => Navigator.pop(
+                                                alertDialogContext),
+                                            child: const Text('Ok'),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                  if (shouldSetState) setState(() {});
+                                  return;
+                                }
+                              } else {
                                 context.pushNamed(
                                   'listaPontos',
                                   queryParameters: {
