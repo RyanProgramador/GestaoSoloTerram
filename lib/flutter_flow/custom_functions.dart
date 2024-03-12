@@ -404,32 +404,42 @@ String? convertStringToImagemPAth(String? string) {
 }
 
 dynamic adcionaEtapaAoJson(dynamic trSinc) {
-  var etapId = 1;
+  trSinc['etapas'] ??= [];
 
-  if (trSinc['etapas'] != null) {
-    if (trSinc['etapas'].length > 0) {
-      etapId = trSinc['etapas'].last['etap_id'] + 1;
-    }
+  int etapId =
+      trSinc['etapas'].isEmpty ? 1 : trSinc['etapas'].last['etap_id'] + 1;
+
+  // Verifica se a última etapa foi concluída
+  if (trSinc['etapas'].isNotEmpty &&
+      (trSinc['etapas'].last['etap_fim'] == null ||
+          trSinc['etapas'].last['etap_fim'].isEmpty)) {
+    print("Parece que a última etapa ainda não foi finalizada!");
+    // Atualiza a última etapa para finalizá-la
+    trSinc['etapas'].last['etap_fim'] = DateTime.now().toIso8601String();
   } else {
-    trSinc['etapas'] = [];
-  }
-
-  var ultimaEtapa = trSinc['etapas'].last;
-
-  if (ultimaEtapa != null &&
-      ultimaEtapa['etap_fim'] != null &&
-      ultimaEtapa['etap_fim'].isNotEmpty) {
-    trSinc['etapas'].add({
+    // Adiciona uma nova etapa
+    Map<String, dynamic> novaEtapa = {
       "etap_id": etapId,
       "etap_status": 1,
       "etap_inicio": DateTime.now().toIso8601String(),
-      "etap_fim": "",
+      "etap_fim": "", // Deixe vazio inicialmente
       "pontos": [],
       "volumes": [],
-    });
-  } else {
-    print("Parece que a última etapa ainda não foi finalizada!");
+    };
+    trSinc['etapas'].add(novaEtapa);
   }
 
   return trSinc;
+}
+
+bool? buscaSeAEtapaEstaIniciada(dynamic trSinc) {
+  if (trSinc['etapas'] != null && trSinc['etapas'].isNotEmpty) {
+    // Procura por uma etapa que esteja iniciada, mas não finalizada
+    for (var etapa in trSinc['etapas']) {
+      if (etapa['etap_fim'] == null || etapa['etap_fim'].isEmpty) {
+        return true; // Retorna true se encontrar uma etapa não finalizada
+      }
+    }
+  }
+  return false;
 }
