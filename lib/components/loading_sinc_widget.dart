@@ -126,7 +126,7 @@ class _LoadingSincWidgetState extends State<LoadingSincWidget> {
       width: double.infinity,
       height: double.infinity,
       decoration: const BoxDecoration(
-        color: Color(0x23000000),
+        color: Color(0x40000000),
       ),
       child: Align(
         alignment: const AlignmentDirectional(0.0, 0.0),

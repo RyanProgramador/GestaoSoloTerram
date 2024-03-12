@@ -706,7 +706,7 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                                       fontWeight: FontWeight.w200,
                                                                                     ),
                                                                               );
-                                                                            }).divide(const SizedBox(height: 4.0)),
+                                                                            }).divide(const SizedBox(height: 6.0)),
                                                                           );
                                                                         },
                                                                       ),
