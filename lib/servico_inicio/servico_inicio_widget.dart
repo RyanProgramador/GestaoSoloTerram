@@ -234,6 +234,34 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                                           FFAppState().trSincroniza.toList()))!,
                                 );
                               });
+                              await showDialog(
+                                context: context,
+                                builder: (alertDialogContext) {
+                                  return AlertDialog(
+                                    title: const Text('Sucesso!'),
+                                    content:
+                                        Text('Etapa ${valueOrDefault<String>(
+                                      functions.buscaSeAEtapaEstaIniciada(
+                                              functions.buscaRegistro(
+                                                  widget.fazId!,
+                                                  widget.servico!,
+                                                  FFAppState()
+                                                      .trSincroniza
+                                                      .toList()))!
+                                          ? 'finalizada '
+                                          : 'iniciada ',
+                                      'AAAAAAAAAA',
+                                    )}com sucesso!'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () =>
+                                            Navigator.pop(alertDialogContext),
+                                        child: const Text('Ok'),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
                             },
                             text: valueOrDefault<String>(
                               functions.buscaSeAEtapaEstaIniciada(
