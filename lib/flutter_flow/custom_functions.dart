@@ -402,3 +402,34 @@ bool? indentificahtml(String? string) {
 String? convertStringToImagemPAth(String? string) {
   return string;
 }
+
+dynamic adcionaEtapaAoJson(dynamic trSinc) {
+  var etapId = 1;
+
+  if (trSinc['etapas'] != null) {
+    if (trSinc['etapas'].length > 0) {
+      etapId = trSinc['etapas'].last['etap_id'] + 1;
+    }
+  } else {
+    trSinc['etapas'] = [];
+  }
+
+  var ultimaEtapa = trSinc['etapas'].last;
+
+  if (ultimaEtapa != null &&
+      ultimaEtapa['etap_fim'] != null &&
+      ultimaEtapa['etap_fim'].isNotEmpty) {
+    trSinc['etapas'].add({
+      "etap_id": etapId,
+      "etap_status": 1,
+      "etap_inicio": DateTime.now().toIso8601String(),
+      "etap_fim": "",
+      "pontos": [],
+      "volumes": [],
+    });
+  } else {
+    print("Parece que a última etapa ainda não foi finalizada!");
+  }
+
+  return trSinc;
+}

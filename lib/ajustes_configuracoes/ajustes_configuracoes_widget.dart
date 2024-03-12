@@ -2,6 +2,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'ajustes_configuracoes_model.dart';
 export 'ajustes_configuracoes_model.dart';
 
@@ -34,6 +35,8 @@ class _AjustesConfiguracoesWidgetState
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return GestureDetector(
       onTap: () => _model.unfocusNode.canRequestFocus
           ? FocusScope.of(context).requestFocus(_model.unfocusNode)
@@ -79,6 +82,24 @@ class _AjustesConfiguracoesWidgetState
                               Text(
                                 'Em desenvolvimento',
                                 style: FlutterFlowTheme.of(context).bodyMedium,
+                              ),
+                              Builder(
+                                builder: (context) {
+                                  final sINC =
+                                      FFAppState().trSincroniza.toList();
+                                  return Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children:
+                                        List.generate(sINC.length, (sINCIndex) {
+                                      final sINCItem = sINC[sINCIndex];
+                                      return Text(
+                                        sINCItem.toString(),
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyMedium,
+                                      );
+                                    }),
+                                  );
+                                },
                               ),
                             ],
                           ),
