@@ -361,7 +361,7 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                               _model.temNet = await actions.checkinternet();
                               shouldSetState = true;
                               if (_model.temNet!) {
-                                if (functions.buscaSeAEtapaEstaIniciada(
+                                if (!functions.buscaSeAEtapaEstaIniciada(
                                     functions.buscaRegistro(
                                         widget.fazId!,
                                         widget.servico!,
