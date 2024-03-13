@@ -429,13 +429,13 @@ dynamic adcionaEtapaAoJson(dynamic trSinc) {
           trSinc['etapas'].last['etap_fim'].isEmpty)) {
     print("Parece que a última etapa ainda não foi finalizada!");
     // Atualiza a última etapa para finalizá-la
-    trSinc['etapas'].last['etap_fim'] = DateTime.now().toIso8601String();
+    trSinc['etapas'].last['etap_fim'] = DateTime.now().toString();
   } else {
     // Adiciona uma nova etapa
     Map<String, dynamic> novaEtapa = {
       "etap_id": etapId,
       "etap_status": 1,
-      "etap_inicio": DateTime.now().toIso8601String(),
+      "etap_inicio": DateTime.now().toString(),
       "etap_fim": "", // Deixe vazio inicialmente
       "pontos": [],
       "volumes": [],
