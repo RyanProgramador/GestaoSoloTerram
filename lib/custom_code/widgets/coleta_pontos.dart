@@ -1571,6 +1571,30 @@ class _ColetaPontosState extends State<ColetaPontos> {
 
                               listaSemiFiltrada["pont_status"] = 1;
 
+//atualiza etapas
+                              List<dynamic> etapas = FFAppState()
+                                  .trSincroniza
+                                  .where((element) =>
+                                      element['fazenda_id'] ==
+                                          int.parse(widget.fazId!) &&
+                                      element['servico_id'] ==
+                                          int.parse(widget.oservid!))
+                                  .map((e) => e["etapas"])
+                                  .toList()
+                                  .first;
+                              var etapaPontos = etapas
+                                  .where((element) =>
+                                      element["etap_fim"] == "" ||
+                                      element["etap_fim"] == null)
+                                  .toList()
+                                  .first;
+                              if (etapaPontos['pontos'] == null) {
+                                etapaPontos['pontos'] =
+                                    []; // Garante que 'pontos' seja uma lista
+                              }
+                              etapaPontos['pontos']
+                                  .add({listaFiltrada["pprof_id"].toString()});
+
                               quantidadeDeVezesParaAutoAuditarComFoto--;
                               _codigoQr.clear();
                               observaFotoController.clear();
@@ -1881,19 +1905,6 @@ class _ColetaPontosState extends State<ColetaPontos> {
                         // Implemente a ação para este botão
                         print(_observacaoController.text);
 
-                        // FFAppState().PontosColetados.add({
-                        //   "oserv_id": "${widget.oservid}",
-                        //   "faz_id": "${widget.fazId}",
-                        //   "id_ponto": idPonto,
-                        //   "marcador_nome": marcadorNome,
-                        //   "profundidade": profundidade,
-                        //   "obs": _observacaoController.text.toString(),
-                        //   "foto": "",
-                        //   // "profundidade": profundidadeNome,
-                        //   // "foto": 'base6''4Fixada',
-                        //   "latlng": latlngMarcador,
-                        //   "data_hora": DateTime.now().toString()
-                        // });
                         var etiqueta = _codigoQr.text;
                         setState(() {
                           if (_codigoQr.text.isEmpty) {
@@ -1954,6 +1965,30 @@ class _ColetaPontosState extends State<ColetaPontos> {
                             listaFiltrada["pprof_etiqueta_id"] = '$etiqueta';
 
                             listaSemiFiltrada["pont_status"] = 1;
+
+//atualiza etapas
+                            List<dynamic> etapas = FFAppState()
+                                .trSincroniza
+                                .where((element) =>
+                                    element['fazenda_id'] ==
+                                        int.parse(widget.fazId!) &&
+                                    element['servico_id'] ==
+                                        int.parse(widget.oservid!))
+                                .map((e) => e["etapas"])
+                                .toList()
+                                .first;
+                            var etapaPontos = etapas
+                                .where((element) =>
+                                    element["etap_fim"] == "" ||
+                                    element["etap_fim"] == null)
+                                .toList()
+                                .first;
+                            if (etapaPontos['pontos'] == null) {
+                              etapaPontos['pontos'] =
+                                  []; // Garante que 'pontos' seja uma lista
+                            }
+                            etapaPontos['pontos']
+                                .add({listaFiltrada["pprof_id"].toString()});
 
                             Navigator.of(context).pop();
                             _codigoQr.clear();
@@ -2356,20 +2391,40 @@ class _ColetaPontosState extends State<ColetaPontos> {
     // );
     // var profundiade = marcador['profundidades'].toString();
     // var qts = widget.quantidadeAutoAuditoria.toString();
-    var teste = widget.quantidadeAutoAuditoria;
-    var index = FFAppState()
-        .trSincroniza; /*.indexOf(FFAppState()
+
+    List<dynamic> etapas = FFAppState()
+        .trSincroniza
+        .where((element) =>
+            element['fazenda_id'] == int.parse(widget.fazId!) &&
+            element['servico_id'] == int.parse(widget.oservid!))
+        .map((e) => e["etapas"])
+        .toList()
+        .first;
+
+    var etapaPontos = etapas
+        .where((element) =>
+            element["etap_fim"] == "" || element["etap_fim"] == null)
+        .toList()
+        .first;
+
+    if (etapaPontos['pontos'] == null) {
+      etapaPontos['pontos'] = []; // Garante que 'pontos' seja uma lista
+    }
+// etapaPontos['pontos'].add({"NUMERO DO PONTO"});
+
+    var index = FFAppState().trSincroniza.indexOf(FFAppState()
         .trSincroniza
         .firstWhere((registro) =>
             registro['fazenda_id'].toString() == widget.fazId! &&
-            registro['servico_id'].toString() == widget.oservid!));*/
+            registro['servico_id'].toString() == widget.oservid!));
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Aproxime-se do ponto!'),
           content: SingleChildScrollView(
-            child: SelectableText("$index"),
+            child: SelectableText(etapaPontos['pontos'].toString()),
           ),
           actions: <Widget>[
             TextButton(

@@ -372,7 +372,7 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                                       return AlertDialog(
                                         title: const Text('Ops!'),
                                         content:
-                                            const Text('Por Favor, Inicie a Etapa!'),
+                                            const Text('Por favor inicie a etapa!'),
                                         actions: [
                                           TextButton(
                                             onPressed: () => Navigator.pop(

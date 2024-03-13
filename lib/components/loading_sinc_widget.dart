@@ -39,6 +39,28 @@ class _LoadingSincWidgetState extends State<LoadingSincWidget> {
 
     // On component load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
+      if (!functions.buscaSeAEtapaEstaIniciada(functions.buscaRegistro(
+          widget.fazID!,
+          widget.servico!,
+          FFAppState().trSincroniza.toList()))!) {
+        await showDialog(
+          context: context,
+          builder: (alertDialogContext) {
+            return AlertDialog(
+              title: const Text('Ops!'),
+              content:
+                  const Text('Inicie e finalize a etapa para poder sincronizar!'),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(alertDialogContext),
+                  child: const Text('Entendi'),
+                ),
+              ],
+            );
+          },
+        );
+        return;
+      }
       _model.trSinc =
           await TrOsServicosGroup.trSincronizaPontosColetadosCall.call(
         urlApi: FFAppState().UrlApi,
