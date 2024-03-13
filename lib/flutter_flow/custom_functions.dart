@@ -419,6 +419,14 @@ String? convertStringToImagemPAth(String? string) {
 
 dynamic adcionaEtapaAoJson(dynamic trSinc) {
   trSinc['etapas'] ??= [];
+  String formatDateTime(String dateTimeStr) {
+    // Cria um objeto DateTime a partir da string
+    DateTime dateTime = DateTime.parse(dateTimeStr);
+    // Cria um formatador com o padrão desejado
+    DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm');
+    // Retorna a string formatada
+    return formatter.format(dateTime);
+  }
 
   int etapId =
       trSinc['etapas'].isEmpty ? 1 : trSinc['etapas'].last['etap_id'] + 1;
@@ -429,13 +437,14 @@ dynamic adcionaEtapaAoJson(dynamic trSinc) {
           trSinc['etapas'].last['etap_fim'].isEmpty)) {
     print("Parece que a última etapa ainda não foi finalizada!");
     // Atualiza a última etapa para finalizá-la
-    trSinc['etapas'].last['etap_fim'] = DateTime.now().toString();
+    trSinc['etapas'].last['etap_fim'] =
+        formatDateTime(DateTime.now().toString());
   } else {
     // Adiciona uma nova etapa
     Map<String, dynamic> novaEtapa = {
       "etap_id": etapId,
       "etap_status": 1,
-      "etap_inicio": DateTime.now().toString(),
+      "etap_inicio": formatDateTime(DateTime.now().toString()),
       "etap_fim": "", // Deixe vazio inicialmente
       "pontos": [],
       "volumes": [],

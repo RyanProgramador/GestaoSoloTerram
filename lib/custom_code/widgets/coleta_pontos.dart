@@ -120,10 +120,40 @@ class _ColetaPontosState extends State<ColetaPontos> {
   //pontos de medição
   List<Map<String, dynamic>> pontosMedicao = [];
 
+  // List<dynamic> trSincro = FFAppState()
+  //     .trSincroniza
+  //     .where((element) =>
+  // element['fazenda_id'] == int.parse(widget.fazId!) &&
+  //     element['servico_id'] == int.parse(widget.oservid!))
+  //     .toList()
+  //     .first;
+  //
+  // if (trSincro != null && trSincro['etiquetas'] == null) {
+  // trSincro['etiquetas'] = [];
+  //
+  //  }
+
+  void updateTrSincro() {
+    var trSincroList = FFAppState()
+        .trSincroniza
+        .where((element) =>
+            element['fazenda_id'] == int.parse(widget.fazId!) &&
+            element['servico_id'] == int.parse(widget.oservid!))
+        .toList();
+
+    // Verifica se a lista não está vazia antes de proceder
+    if (trSincroList.isNotEmpty) {
+      var trSincro = trSincroList.first;
+      // Adiciona 'etiquetas' se não existir
+      trSincro['etiquetas'] ??= [];
+    }
+  }
+
   @override
   void initState() {
     Wakelock.enable();
     super.initState();
+    updateTrSincro();
     String fazendaId = widget.fazId ??
         ""; // Usando ?? para fornecer um valor padrão se for nulo
     String servicoId = widget.oservid ?? "";
@@ -1323,16 +1353,6 @@ class _ColetaPontosState extends State<ColetaPontos> {
               _codigoQr.clear();
               _observacaoController.clear();
             } else {
-              // FFAppState().PontosColetados.add({
-              //   "id_ponto": idPonto,
-              //   "marcador_nome": nomeMarcadorAtual,
-              //   "profundidade": profundidade,
-              //   "obs": "",
-              //   "foto": 'base64Image',
-              //   "profundidade": profundidade,
-              //   "latlng": '$latlng',
-              //   "data_hora": DateTime.now().toString()
-              // });
               Navigator.of(context).pop(); // Fecha o modal atual
               _showModalObservaFoto(idPonto, nomeMarcadorAtual, profundidade,
                   latlng, base64Image);
@@ -1593,7 +1613,24 @@ class _ColetaPontosState extends State<ColetaPontos> {
                                     []; // Garante que 'pontos' seja uma lista
                               }
                               etapaPontos['pontos']
-                                  .add({listaFiltrada["pprof_id"].toString()});
+                                  .add(listaFiltrada["pprof_id"].toString());
+                              //adiciona id da etapa no ponto
+
+                              listaFiltrada["pprof_etapa_id"] =
+                                  etapaPontos['etap_id'];
+                              listaFiltrada["sincronizado"] = "S";
+
+                              List<dynamic> trSincEtiquetas = FFAppState()
+                                  .trSincroniza
+                                  .where((element) =>
+                                      element['fazenda_id'] ==
+                                          int.parse(widget.fazId!) &&
+                                      element['servico_id'] ==
+                                          int.parse(widget.oservid!))
+                                  .map((e) => e["etiquetas"])
+                                  .toList()
+                                  .first;
+                              trSincEtiquetas.add('$etiqueta');
 
                               quantidadeDeVezesParaAutoAuditarComFoto--;
                               _codigoQr.clear();
@@ -1988,7 +2025,25 @@ class _ColetaPontosState extends State<ColetaPontos> {
                                   []; // Garante que 'pontos' seja uma lista
                             }
                             etapaPontos['pontos']
-                                .add({listaFiltrada["pprof_id"].toString()});
+                                .add(listaFiltrada["pprof_id"].toString());
+
+                            //adiciona id da etapa no ponto
+
+                            listaFiltrada["pprof_etapa_id"] =
+                                etapaPontos['etap_id'];
+                            listaFiltrada["sincronizado"] = "S";
+
+                            List<dynamic> trSincEtiquetas = FFAppState()
+                                .trSincroniza
+                                .where((element) =>
+                                    element['fazenda_id'] ==
+                                        int.parse(widget.fazId!) &&
+                                    element['servico_id'] ==
+                                        int.parse(widget.oservid!))
+                                .map((e) => e["etiquetas"])
+                                .toList()
+                                .first;
+                            trSincEtiquetas.add('$etiqueta');
 
                             Navigator.of(context).pop();
                             _codigoQr.clear();
