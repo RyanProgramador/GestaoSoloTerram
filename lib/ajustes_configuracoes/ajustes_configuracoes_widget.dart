@@ -148,7 +148,7 @@ class _AjustesConfiguracoesWidgetState
                       text: 'Sair',
                       options: FFButtonOptions(
                         width: 90.0,
-                        height: 50.0,
+                        height: 45.0,
                         padding: const EdgeInsetsDirectional.fromSTEB(
                             24.0, 0.0, 24.0, 0.0),
                         iconPadding:
