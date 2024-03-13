@@ -92,11 +92,12 @@ class _AjustesConfiguracoesWidgetState
                                     children:
                                         List.generate(sINC.length, (sINCIndex) {
                                       final sINCItem = sINC[sINCIndex];
-                                      return Text(
+                                      return SelectionArea(
+                                          child: Text(
                                         sINCItem.toString(),
                                         style: FlutterFlowTheme.of(context)
                                             .bodyMedium,
-                                      );
+                                      ));
                                     }),
                                   );
                                 },
@@ -148,7 +149,7 @@ class _AjustesConfiguracoesWidgetState
                       text: 'Sair',
                       options: FFButtonOptions(
                         width: 90.0,
-                        height: 45.0,
+                        height: 42.0,
                         padding: const EdgeInsetsDirectional.fromSTEB(
                             24.0, 0.0, 24.0, 0.0),
                         iconPadding:

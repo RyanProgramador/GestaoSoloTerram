@@ -158,7 +158,7 @@ class _FotoobservaWidgetState extends State<FotoobservaWidget> {
                       onPressed: () {
                         print('Button pressed ...');
                       },
-                      text: 'Nova foto',
+                      text: 'Capturar',
                       icon: const FaIcon(
                         FontAwesomeIcons.camera,
                       ),
