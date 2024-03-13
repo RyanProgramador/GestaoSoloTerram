@@ -83,24 +83,25 @@ class _AjustesConfiguracoesWidgetState
                                 'Em desenvolvimento',
                                 style: FlutterFlowTheme.of(context).bodyMedium,
                               ),
-                              Builder(
-                                builder: (context) {
-                                  final sINC =
-                                      FFAppState().trSincroniza.toList();
-                                  return Column(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children:
-                                        List.generate(sINC.length, (sINCIndex) {
-                                      final sINCItem = sINC[sINCIndex];
-                                      return Text(
-                                        sINCItem.toString(),
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyMedium,
-                                      );
-                                    }),
-                                  );
-                                },
-                              ),
+                              if (true == false)
+                                Builder(
+                                  builder: (context) {
+                                    final sINC =
+                                        FFAppState().trSincroniza.toList();
+                                    return Column(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: List.generate(sINC.length,
+                                          (sINCIndex) {
+                                        final sINCItem = sINC[sINCIndex];
+                                        return Text(
+                                          sINCItem.toString(),
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyMedium,
+                                        );
+                                      }),
+                                    );
+                                  },
+                                ),
                             ],
                           ),
                         ),
