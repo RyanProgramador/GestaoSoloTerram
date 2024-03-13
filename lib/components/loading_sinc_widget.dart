@@ -39,10 +39,10 @@ class _LoadingSincWidgetState extends State<LoadingSincWidget> {
 
     // On component load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      if (!functions.buscaSeAEtapaEstaIniciada(functions.buscaRegistro(
-          widget.fazID!,
-          widget.servico!,
-          FFAppState().trSincroniza.toList()))!) {
+      if (!functions.buscaSeAEtapaEstaIniciadaENaoFinalizada(
+          functions.buscaRegistro(widget.fazID!, widget.servico!,
+              FFAppState().trSincroniza.toList()))!) {
+        Navigator.pop(context);
         await showDialog(
           context: context,
           builder: (alertDialogContext) {

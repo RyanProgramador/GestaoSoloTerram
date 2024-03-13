@@ -54,6 +54,20 @@ String? latlngToString(LatLng? latlng) {
   return "${latlng.latitude}, ${latlng.longitude}";
 }
 
+bool? buscaSeAEtapaEstaIniciadaENaoFinalizada(dynamic trSinc) {
+  if (trSinc['etapas'] != null && trSinc['etapas'].isNotEmpty) {
+    bool todasEtapasFinalizadas = true;
+    for (var etapa in trSinc['etapas']) {
+      if (etapa['etap_fim'] == null || etapa['etap_fim'].isEmpty) {
+        todasEtapasFinalizadas = false;
+        break; // Encerra o loop se encontrar alguma etapa não finalizada
+      }
+    }
+    return todasEtapasFinalizadas;
+  }
+  return false;
+}
+
 String? pesquisaParaVerSeOPontoFoiColetado(
   int? pprofIDdoPonto,
   List<dynamic> pontosColetados,
