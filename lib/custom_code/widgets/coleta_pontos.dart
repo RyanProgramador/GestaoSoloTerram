@@ -150,6 +150,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
   void initState() {
     Wakelock.enable();
     super.initState();
+
     updateTrSincro();
 
     podeColetarOuNaoPodeColetar = widget.podeColetarOuNaoPodeColetar2 ?? false;
