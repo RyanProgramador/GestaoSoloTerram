@@ -83,7 +83,7 @@ class _AjustesConfiguracoesWidgetState
                                 'Em desenvolvimento',
                                 style: FlutterFlowTheme.of(context).bodyMedium,
                               ),
-                              if (true == false)
+                              if (true == true)
                                 Builder(
                                   builder: (context) {
                                     final sINC =

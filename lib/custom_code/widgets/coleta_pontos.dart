@@ -924,8 +924,12 @@ class _ColetaPontosState extends State<ColetaPontos> {
                     child: Text('Ponto Inacessível'),
                     onPressed: () {
                       // Adicione aqui a ação desejada para quando o botão for pressionado
-                      Navigator.of(context).pop();
-                      _ontapInacessivel(marcadorNome, latlng, idPonto);
+                      if (podeColetarOuNaoPodeColetar != false) {
+                        Navigator.of(context).pop();
+                        _ontapInacessivel(marcadorNome, latlng, idPonto);
+                      } else {
+                        _naoPodeColetarSemIniciarEtapa();
+                      }
                     },
                   ),
                 ),
@@ -1062,6 +1066,29 @@ class _ColetaPontosState extends State<ColetaPontos> {
           listaFiltrada["pprof_datahora"] = DateTime.now().toString();
 
           listaSemiFiltrada["pont_status"] = 2;
+
+          List<dynamic> etapas = FFAppState()
+              .trSincroniza
+              .where((element) =>
+                  element['fazenda_id'] == int.parse(widget.fazId!) &&
+                  element['servico_id'] == int.parse(widget.oservid!))
+              .map((e) => e["etapas"])
+              .toList()
+              .first;
+          var etapaPontos = etapas
+              .where((element) =>
+                  element["etap_fim"] == "" || element["etap_fim"] == null)
+              .toList()
+              .first;
+          if (etapaPontos['pontos'] == null) {
+            etapaPontos['pontos'] = []; // Garante que 'pontos' seja uma lista
+          }
+          etapaPontos['pontos'].add(listaFiltrada["pprof_id"].toString());
+
+          //adiciona id da etapa no ponto
+
+          listaFiltrada["pprof_etapa_id"] = etapaPontos['etap_id'];
+          listaFiltrada["sincronizado"] = "S";
         });
       }
     }
