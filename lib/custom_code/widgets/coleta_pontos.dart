@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 
 import 'index.dart'; // Imports other custom widgets
 import 'package:flutter_image_compress/flutter_image_compress.dart';
+
 // import 'package:camera/camera.dart';
 import 'dart:async';
 import 'package:flutter/gestures.dart';
@@ -87,6 +88,10 @@ class _ColetaPontosState extends State<ColetaPontos> {
 
   Map<String, dynamic> jsonSincronizaPosterior = {};
 
+  bool _isLastCollect = false;
+  UniqueKey _key = UniqueKey();
+  Key _checkboxKey = UniqueKey();
+
   var qrText = "";
   late QRViewController controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
@@ -94,6 +99,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
   TextEditingController _codigoQr = TextEditingController();
 
   int quantidadeDeProfundidadesASeremColetadas = 0;
+
   // int totalProfundidades = 0;
 
   bool? autoAuditoriaPontos; // = true;
@@ -682,6 +688,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
       var newIcon = await getSvgIcon(svgError!);
 
       setState(() {
+        _isLastCollect = false;
         markers = markers.map((m) {
           if (m.markerId.value == marcadorNome) {
             return m.copyWith(iconParam: newIcon);
@@ -876,24 +883,53 @@ class _ColetaPontosState extends State<ColetaPontos> {
             actions: <Widget>[
               if (!coletouAlguma)
                 Center(
-                  child: TextButton(
-                    style: TextButton.styleFrom(
-                      backgroundColor:
-                          Color(0xFFEDA300), // Cor laranja para o botão
-                      primary: Colors.white, // Cor do texto
+                  key: _key,
+                  child: IntrinsicWidth(
+                    child: ListTile(
+                      title: Text('É a última coleta da etapa?',
+                          style: TextStyle(color: Colors.black)),
+                      leading: Checkbox(
+                        key: _checkboxKey,
+                        value: _isLastCollect,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            _isLastCollect = value ?? false;
+                            Navigator.of(context).pop();
+                            _showProfundidadesParaColeta(
+                                marcadorNome); // Renova a chave para forçar a atualização do widget
+                          });
+                          print(_isLastCollect);
+                        },
+                        activeColor:
+                            Color(0xFF087071), // Cor quando selecionado
+                      ),
+                      tileColor: Colors.transparent, // Cor de fundo do ListTile
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
-                            100), // Borda arredondada para o botão
+                            100), // Borda arredondada para o ListTile
                       ),
                     ),
-                    child: Text('Ponto Inacessível'),
-                    onPressed: () {
-                      // Adicione aqui a ação desejada para quando o botão for pressionado
-                      Navigator.of(context).pop();
-                      _ontapInacessivel(marcadorNome, latlng, idPonto);
-                    },
                   ),
                 ),
+              Center(
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor:
+                        Color(0xFFEDA300), // Cor laranja para o botão
+                    primary: Colors.white, // Cor do texto
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          100), // Borda arredondada para o botão
+                    ),
+                  ),
+                  child: Text('Ponto Inacessível'),
+                  onPressed: () {
+                    // Adicione aqui a ação desejada para quando o botão for pressionado
+                    Navigator.of(context).pop();
+                    _ontapInacessivel(marcadorNome, latlng, idPonto);
+                  },
+                ),
+              ),
             ],
             backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
             // elevation: 5,
@@ -1036,7 +1072,8 @@ class _ColetaPontosState extends State<ColetaPontos> {
                       fontWeight: FontWeight.bold,
                     ),
                     // Removido overflow: TextOverflow.ellipsis para permitir quebra de linha
-                    softWrap: true, // Habilita a quebra de linha no texto
+                    softWrap: true,
+                    // Habilita a quebra de linha no texto
                     maxLines: null, // Permite um número ilimitado de linhas
                   ),
                 ),
@@ -1301,73 +1338,94 @@ class _ColetaPontosState extends State<ColetaPontos> {
           // Converte os bytes da imagem WebP para uma string base64
           String base64Image = base64Encode(webPBytes);
           var etiqueta = _codigoQr.text;
-          setState(() {
-            if (isInacessivelOuNao) {
-              quantidadeDeVezesParaAutoAuditarComFoto--;
 
-              // FFAppState().PontosInacessiveis.add({
-              //   "oserv_id": "${widget.oservid}",
-              //   "faz_id": "${widget.fazId}",
-              //   "id_ponto": idPonto,
-              //   "marcador_nome": nomeMarcadorAtual,
-              //   "profundidade": 'inacessivel',
-              //   // "foto": 'base64ImageInacessivel',
-              //   "foto": base64Image,
-              //   "latlng": '$latlng',
-              //   "obs": "",
-              //   "data_hora": DateTime.now().toString()
-              // });
+          List<dynamic> etiquetas = FFAppState()
+              .trSincroniza
+              .where((element) =>
+                  element['fazenda_id'] == int.parse(widget.fazId!) &&
+                  element['servico_id'] == int.parse(widget.oservid!))
+              .map((e) => e["etiquetas"])
+              .toList()
+              .first;
 
-              List<dynamic> lista = FFAppState()
-                  .trSincroniza
-                  .where((element) =>
-                      element['fazenda_id'] == int.parse(widget.fazId!) &&
-                      element['servico_id'] == int.parse(widget.oservid!))
-                  .map((e) => e["pontos"])
-                  .toList()
-                  .first;
+          bool temOuNaoEtiqueta = false;
 
-              var listaFiltrada = lista
-                  .where((element) =>
-                      element["pont_id"] ==
-                      int.parse(idPonto) /*Aqui pe o pont_id, id_ponto*/)
-                  .map((e) => e['profundidades'])
-                  .first
-                  .where((element) =>
-                      element["pprof_id"] == int.parse(profundidade))
-                  .toList()
-                  .first; /* == 20321*/ /*aqui é o pprof_id ou profundiadde*/ /*);*/
-              var listaSemiFiltrada /*lista antes das profundiades*/ = lista
-                  .where((element) =>
-                      element["pont_id"] ==
-                      int.parse(idPonto) /*Aqui pe o pont_id, id_ponto*/)
-                  .first; /*.map((e) => e['profundidades']).first.where((element) => element["pprof_id"] == 20321).toList().first;*/ /* == 20321*/ /**/ /*aqui é o pprof_id ou profundiadde*/ /**/ /*);*/
+// Verifica se a etiqueta existe na lista de etiquetas
+          if (etiquetas != null && etiquetas.isNotEmpty) {
+            temOuNaoEtiqueta =
+                etiquetas.any((etiqueta2) => etiqueta2 == etiqueta);
+          }
+          if (temOuNaoEtiqueta == false) {
+            setState(() {
+              if (isInacessivelOuNao) {
+                quantidadeDeVezesParaAutoAuditarComFoto--;
 
-              listaFiltrada["pprof_status"] = 2;
-              listaFiltrada["pprof_observacao"] = "";
-              listaFiltrada["pprof_foto"] = '';
-              listaFiltrada["pprof_datahora"] = DateTime.now().toString();
-              listaFiltrada["pprof_etiqueta_id"] = '$etiqueta';
+                // FFAppState().PontosInacessiveis.add({
+                //   "oserv_id": "${widget.oservid}",
+                //   "faz_id": "${widget.fazId}",
+                //   "id_ponto": idPonto,
+                //   "marcador_nome": nomeMarcadorAtual,
+                //   "profundidade": 'inacessivel',
+                //   // "foto": 'base64ImageInacessivel',
+                //   "foto": base64Image,
+                //   "latlng": '$latlng',
+                //   "obs": "",
+                //   "data_hora": DateTime.now().toString()
+                // });
 
-              listaSemiFiltrada["pont_status"] = 2;
-              _codigoQr.clear();
-              _observacaoController.clear();
-            } else {
-              Navigator.of(context).pop(); // Fecha o modal atual
-              _showModalObservaFoto(idPonto, nomeMarcadorAtual, profundidade,
-                  latlng, base64Image);
-              // _mostrarModalSucesso(context, nomeMarcadorAtual);
-            }
-            // coletasPorMarcador.putIfAbsent(nomeMarcadorAtual, () => {});
-            // coletasPorMarcador[nomeMarcadorAtual]!.add(nomeProfundidade);
+                List<dynamic> lista = FFAppState()
+                    .trSincroniza
+                    .where((element) =>
+                        element['fazenda_id'] == int.parse(widget.fazId!) &&
+                        element['servico_id'] == int.parse(widget.oservid!))
+                    .map((e) => e["pontos"])
+                    .toList()
+                    .first;
 
-            // Verifica se todas as profundidades foram coletadas
-            var todasProfundidades = pontosMedicao
-                .firstWhere((m) => m["pont_numero"] == nomeMarcadorAtual)[
-                    "profundidades"]
-                .map((p) => p["pprof_id"])
-                .toSet();
-          });
+                var listaFiltrada = lista
+                    .where((element) =>
+                        element["pont_id"] ==
+                        int.parse(idPonto) /*Aqui pe o pont_id, id_ponto*/)
+                    .map((e) => e['profundidades'])
+                    .first
+                    .where((element) =>
+                        element["pprof_id"] == int.parse(profundidade))
+                    .toList()
+                    .first; /* == 20321*/ /*aqui é o pprof_id ou profundiadde*/ /*);*/
+                var listaSemiFiltrada /*lista antes das profundiades*/ = lista
+                    .where((element) =>
+                        element["pont_id"] ==
+                        int.parse(idPonto) /*Aqui pe o pont_id, id_ponto*/)
+                    .first; /*.map((e) => e['profundidades']).first.where((element) => element["pprof_id"] == 20321).toList().first;*/ /* == 20321*/ /**/ /*aqui é o pprof_id ou profundiadde*/ /**/ /*);*/
+
+                listaFiltrada["pprof_status"] = 2;
+                listaFiltrada["pprof_observacao"] = "";
+                listaFiltrada["pprof_foto"] = '';
+                listaFiltrada["pprof_datahora"] = DateTime.now().toString();
+                listaFiltrada["pprof_etiqueta_id"] = '$etiqueta';
+
+                listaSemiFiltrada["pont_status"] = 2;
+                _codigoQr.clear();
+                _observacaoController.clear();
+              } else {
+                Navigator.of(context).pop(); // Fecha o modal atual
+                _showModalObservaFoto(idPonto, nomeMarcadorAtual, profundidade,
+                    latlng, base64Image);
+                // _mostrarModalSucesso(context, nomeMarcadorAtual);
+              }
+              // coletasPorMarcador.putIfAbsent(nomeMarcadorAtual, () => {});
+              // coletasPorMarcador[nomeMarcadorAtual]!.add(nomeProfundidade);
+
+              // Verifica se todas as profundidades foram coletadas
+              var todasProfundidades = pontosMedicao
+                  .firstWhere((m) => m["pont_numero"] == nomeMarcadorAtual)[
+                      "profundidades"]
+                  .map((p) => p["pprof_id"])
+                  .toSet();
+            });
+          } else {
+            etiquetaJaUsada();
+          }
         }
       }
     }
@@ -1466,6 +1524,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
                     controller: _codigoQr,
                     autofocus: false,
                     maxLines: 1,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     decoration: InputDecoration(
                       labelText: 'Código:',
                       border: OutlineInputBorder(
@@ -1531,114 +1590,137 @@ class _ColetaPontosState extends State<ColetaPontos> {
                           //   "data_hora": DateTime.now().toString()
                           // });
                           var etiqueta = _codigoQr.text;
-                          setState(() {
-                            if (_codigoQr.text.isEmpty) {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title: Text('Ops!'),
-                                    content: Text(
-                                        'É necessário scanear ou informar o código QR.'),
-                                    actions: <Widget>[
-                                      TextButton(
-                                        child: Text('Fechar'),
-                                        onPressed: () =>
-                                            Navigator.of(context).pop(),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
-                            } else {
-                              List<dynamic> lista = FFAppState()
-                                  .trSincroniza
-                                  .where((element) =>
-                                      element['fazenda_id'] ==
-                                          int.parse(widget.fazId!) &&
-                                      element['servico_id'] ==
-                                          int.parse(widget.oservid!))
-                                  .map((e) => e["pontos"])
-                                  .toList()
-                                  .first;
+                          List<dynamic> etiquetas = FFAppState()
+                              .trSincroniza
+                              .where((element) =>
+                                  element['fazenda_id'] ==
+                                      int.parse(widget.fazId!) &&
+                                  element['servico_id'] ==
+                                      int.parse(widget.oservid!))
+                              .map((e) => e["etiquetas"])
+                              .toList()
+                              .first;
 
-                              var listaFiltrada = lista
-                                  .where((element) =>
-                                      element["pont_id"] ==
-                                      int.parse(
-                                          idPonto) /*Aqui pe o pont_id, id_ponto*/)
-                                  .map((e) => e['profundidades'])
-                                  .first
-                                  .where((element) =>
-                                      element["pprof_id"] ==
-                                      int.parse(profundidade))
-                                  .toList()
-                                  .first; /* == 20321*/ /*aqui é o pprof_id ou profundiadde*/ /*);*/
-                              var listaSemiFiltrada /*lista antes das profundiades*/ = lista
-                                  .where((element) =>
-                                      element["pont_id"] ==
-                                      int.parse(
-                                          idPonto) /*Aqui pe o pont_id, id_ponto*/)
-                                  .first; /*.map((e) => e['profundidades']).first.where((element) => element["pprof_id"] == 20321).toList().first;*/ /* == 20321*/ /**/ /*aqui é o pprof_id ou profundiadde*/ /**/ /*);*/
+                          bool temOuNaoEtiqueta = false;
 
-                              listaFiltrada["pprof_status"] = 1;
-                              listaFiltrada["pprof_observacao"] =
-                                  observaFotoController.text;
-                              listaFiltrada["pprof_foto"] = '$base64Image';
-                              listaFiltrada["pprof_datahora"] =
-                                  DateTime.now().toString();
-                              listaFiltrada["pprof_etiqueta_id"] = '$etiqueta';
+// Verifica se a etiqueta existe na lista de etiquetas
+                          if (etiquetas != null && etiquetas.isNotEmpty) {
+                            temOuNaoEtiqueta = etiquetas
+                                .any((etiqueta2) => etiqueta2 == etiqueta);
+                          }
+                          if (temOuNaoEtiqueta == false) {
+                            setState(() {
+                              if (_codigoQr.text.isEmpty) {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text('Ops!'),
+                                      content: Text(
+                                          'É necessário scanear ou informar o código QR.'),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          child: Text('Fechar'),
+                                          onPressed: () =>
+                                              Navigator.of(context).pop(),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              } else {
+                                List<dynamic> lista = FFAppState()
+                                    .trSincroniza
+                                    .where((element) =>
+                                        element['fazenda_id'] ==
+                                            int.parse(widget.fazId!) &&
+                                        element['servico_id'] ==
+                                            int.parse(widget.oservid!))
+                                    .map((e) => e["pontos"])
+                                    .toList()
+                                    .first;
 
-                              listaSemiFiltrada["pont_status"] = 1;
+                                var listaFiltrada = lista
+                                    .where((element) =>
+                                        element["pont_id"] ==
+                                        int.parse(
+                                            idPonto) /*Aqui pe o pont_id, id_ponto*/)
+                                    .map((e) => e['profundidades'])
+                                    .first
+                                    .where((element) =>
+                                        element["pprof_id"] ==
+                                        int.parse(profundidade))
+                                    .toList()
+                                    .first; /* == 20321*/ /*aqui é o pprof_id ou profundiadde*/ /*);*/
+                                var listaSemiFiltrada /*lista antes das profundiades*/ = lista
+                                    .where((element) =>
+                                        element["pont_id"] ==
+                                        int.parse(
+                                            idPonto) /*Aqui pe o pont_id, id_ponto*/)
+                                    .first; /*.map((e) => e['profundidades']).first.where((element) => element["pprof_id"] == 20321).toList().first;*/ /* == 20321*/ /**/ /*aqui é o pprof_id ou profundiadde*/ /**/ /*);*/
+
+                                listaFiltrada["pprof_status"] = 1;
+                                listaFiltrada["pprof_observacao"] =
+                                    observaFotoController.text;
+                                listaFiltrada["pprof_foto"] = '$base64Image';
+                                listaFiltrada["pprof_datahora"] =
+                                    DateTime.now().toString();
+                                listaFiltrada["pprof_etiqueta_id"] =
+                                    '$etiqueta';
+
+                                listaSemiFiltrada["pont_status"] = 1;
 
 //atualiza etapas
-                              List<dynamic> etapas = FFAppState()
-                                  .trSincroniza
-                                  .where((element) =>
-                                      element['fazenda_id'] ==
-                                          int.parse(widget.fazId!) &&
-                                      element['servico_id'] ==
-                                          int.parse(widget.oservid!))
-                                  .map((e) => e["etapas"])
-                                  .toList()
-                                  .first;
-                              var etapaPontos = etapas
-                                  .where((element) =>
-                                      element["etap_fim"] == "" ||
-                                      element["etap_fim"] == null)
-                                  .toList()
-                                  .first;
-                              if (etapaPontos['pontos'] == null) {
-                                etapaPontos['pontos'] =
-                                    []; // Garante que 'pontos' seja uma lista
+                                List<dynamic> etapas = FFAppState()
+                                    .trSincroniza
+                                    .where((element) =>
+                                        element['fazenda_id'] ==
+                                            int.parse(widget.fazId!) &&
+                                        element['servico_id'] ==
+                                            int.parse(widget.oservid!))
+                                    .map((e) => e["etapas"])
+                                    .toList()
+                                    .first;
+                                var etapaPontos = etapas
+                                    .where((element) =>
+                                        element["etap_fim"] == "" ||
+                                        element["etap_fim"] == null)
+                                    .toList()
+                                    .first;
+                                if (etapaPontos['pontos'] == null) {
+                                  etapaPontos['pontos'] =
+                                      []; // Garante que 'pontos' seja uma lista
+                                }
+                                etapaPontos['pontos']
+                                    .add(listaFiltrada["pprof_id"].toString());
+                                //adiciona id da etapa no ponto
+
+                                listaFiltrada["pprof_etapa_id"] =
+                                    etapaPontos['etap_id'];
+                                listaFiltrada["sincronizado"] = "S";
+
+                                List<dynamic> trSincEtiquetas = FFAppState()
+                                    .trSincroniza
+                                    .where((element) =>
+                                        element['fazenda_id'] ==
+                                            int.parse(widget.fazId!) &&
+                                        element['servico_id'] ==
+                                            int.parse(widget.oservid!))
+                                    .map((e) => e["etiquetas"])
+                                    .toList()
+                                    .first;
+                                trSincEtiquetas.add('$etiqueta');
+
+                                quantidadeDeVezesParaAutoAuditarComFoto--;
+                                _codigoQr.clear();
+                                observaFotoController.clear();
+                                Navigator.of(context).pop();
+                                _mostrarModalSucesso(context, nomeMarcador);
                               }
-                              etapaPontos['pontos']
-                                  .add(listaFiltrada["pprof_id"].toString());
-                              //adiciona id da etapa no ponto
-
-                              listaFiltrada["pprof_etapa_id"] =
-                                  etapaPontos['etap_id'];
-                              listaFiltrada["sincronizado"] = "S";
-
-                              List<dynamic> trSincEtiquetas = FFAppState()
-                                  .trSincroniza
-                                  .where((element) =>
-                                      element['fazenda_id'] ==
-                                          int.parse(widget.fazId!) &&
-                                      element['servico_id'] ==
-                                          int.parse(widget.oservid!))
-                                  .map((e) => e["etiquetas"])
-                                  .toList()
-                                  .first;
-                              trSincEtiquetas.add('$etiqueta');
-
-                              quantidadeDeVezesParaAutoAuditarComFoto--;
-                              _codigoQr.clear();
-                              observaFotoController.clear();
-                              Navigator.of(context).pop();
-                              _mostrarModalSucesso(context, nomeMarcador);
-                            }
-                          });
+                            });
+                          } else {
+                            etiquetaJaUsada();
+                          }
                         },
                         icon: Icon(Icons.arrow_forward, color: Colors.white),
                         label: Text(
@@ -1704,7 +1786,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
   void _coletarProfundidade(String marcadorNome, String profundidadeNome,
       String latlng, String referencialProfundidadePontoId, String idPonto) {
     setState(() {
-      if (isPrimeiraColeta == true) {
+      if (isPrimeiraColeta == true || _isLastCollect) {
         print("É A PRIMEIRA COLETA");
         print("É A PRIMEIRA COLETA");
         print("É A PRIMEIRA COLETA");
@@ -1906,6 +1988,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
                     controller: _codigoQr,
                     autofocus: false,
                     maxLines: 1,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     decoration: InputDecoration(
                       labelText: 'Código:',
                       border: OutlineInputBorder(
@@ -1943,115 +2026,141 @@ class _ColetaPontosState extends State<ColetaPontos> {
                         print(_observacaoController.text);
 
                         var etiqueta = _codigoQr.text;
-                        setState(() {
-                          if (_codigoQr.text.isEmpty) {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Text('Ops!'),
-                                  content: Text(
-                                      'É necessário scanear ou informar o código QR.'),
-                                  actions: <Widget>[
-                                    TextButton(
-                                      child: Text('Fechar'),
-                                      onPressed: () =>
-                                          Navigator.of(context).pop(),
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                          } else {
-                            List<dynamic> lista = FFAppState()
-                                .trSincroniza
-                                .where((element) =>
-                                    element['fazenda_id'] ==
-                                        int.parse(widget.fazId!) &&
-                                    element['servico_id'] ==
-                                        int.parse(widget.oservid!))
-                                .map((e) => e["pontos"])
-                                .toList()
-                                .first;
 
-                            var listaFiltrada = lista
-                                .where((element) =>
-                                    element["pont_id"] ==
-                                    int.parse(
-                                        idPonto) /*Aqui pe o pont_id, id_ponto*/)
-                                .map((e) => e['profundidades'])
-                                .first
-                                .where((element) =>
-                                    element["pprof_id"] ==
-                                    int.parse(profundidade))
-                                .toList()
-                                .first; /* == 20321*/ /*aqui é o pprof_id ou profundiadde*/ /*);*/
-                            var listaSemiFiltrada /*lista antes das profundiades*/ = lista
-                                .where((element) =>
-                                    element["pont_id"] ==
-                                    int.parse(
-                                        idPonto) /*Aqui pe o pont_id, id_ponto*/)
-                                .first; /*.map((e) => e['profundidades']).first.where((element) => element["pprof_id"] == 20321).toList().first;*/ /* == 20321*/ /**/ /*aqui é o pprof_id ou profundiadde*/ /**/ /*);*/
+                        List<dynamic> etiquetas = FFAppState()
+                            .trSincroniza
+                            .where((element) =>
+                                element['fazenda_id'] ==
+                                    int.parse(widget.fazId!) &&
+                                element['servico_id'] ==
+                                    int.parse(widget.oservid!))
+                            .map((e) => e["etiquetas"])
+                            .toList()
+                            .first;
 
-                            listaFiltrada["pprof_status"] = 1;
-                            listaFiltrada["pprof_observacao"] =
-                                observaFotoController.text;
-                            listaFiltrada["pprof_foto"] = "";
-                            listaFiltrada["pprof_datahora"] =
-                                DateTime.now().toString();
-                            listaFiltrada["pprof_etiqueta_id"] = '$etiqueta';
+                        // var etiquetaExistente = '1234567899';
 
-                            listaSemiFiltrada["pont_status"] = 1;
+                        bool temOuNaoEtiqueta = false;
+
+// Verifica se a etiqueta existe na lista de etiquetas
+                        if (etiquetas != null && etiquetas.isNotEmpty) {
+                          temOuNaoEtiqueta = etiquetas
+                              .any((etiqueta2) => etiqueta2 == etiqueta);
+                        }
+
+                        if (temOuNaoEtiqueta == false) {
+                          setState(() {
+                            if (_codigoQr.text.isEmpty) {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('Ops!'),
+                                    content: Text(
+                                        'É necessário scanear ou informar o código QR.'),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: Text('Fechar'),
+                                        onPressed: () =>
+                                            Navigator.of(context).pop(),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            } else {
+                              List<dynamic> lista = FFAppState()
+                                  .trSincroniza
+                                  .where((element) =>
+                                      element['fazenda_id'] ==
+                                          int.parse(widget.fazId!) &&
+                                      element['servico_id'] ==
+                                          int.parse(widget.oservid!))
+                                  .map((e) => e["pontos"])
+                                  .toList()
+                                  .first;
+
+                              var listaFiltrada = lista
+                                  .where((element) =>
+                                      element["pont_id"] ==
+                                      int.parse(
+                                          idPonto) /*Aqui pe o pont_id, id_ponto*/)
+                                  .map((e) => e['profundidades'])
+                                  .first
+                                  .where((element) =>
+                                      element["pprof_id"] ==
+                                      int.parse(profundidade))
+                                  .toList()
+                                  .first; /* == 20321*/ /*aqui é o pprof_id ou profundiadde*/ /*);*/
+                              var listaSemiFiltrada /*lista antes das profundiades*/ = lista
+                                  .where((element) =>
+                                      element["pont_id"] ==
+                                      int.parse(
+                                          idPonto) /*Aqui pe o pont_id, id_ponto*/)
+                                  .first; /*.map((e) => e['profundidades']).first.where((element) => element["pprof_id"] == 20321).toList().first;*/ /* == 20321*/ /**/ /*aqui é o pprof_id ou profundiadde*/ /**/ /*);*/
+
+                              listaFiltrada["pprof_status"] = 1;
+                              listaFiltrada["pprof_observacao"] =
+                                  observaFotoController.text;
+                              listaFiltrada["pprof_foto"] = "";
+                              listaFiltrada["pprof_datahora"] =
+                                  DateTime.now().toString();
+                              listaFiltrada["pprof_etiqueta_id"] = '$etiqueta';
+
+                              listaSemiFiltrada["pont_status"] = 1;
 
 //atualiza etapas
-                            List<dynamic> etapas = FFAppState()
-                                .trSincroniza
-                                .where((element) =>
-                                    element['fazenda_id'] ==
-                                        int.parse(widget.fazId!) &&
-                                    element['servico_id'] ==
-                                        int.parse(widget.oservid!))
-                                .map((e) => e["etapas"])
-                                .toList()
-                                .first;
-                            var etapaPontos = etapas
-                                .where((element) =>
-                                    element["etap_fim"] == "" ||
-                                    element["etap_fim"] == null)
-                                .toList()
-                                .first;
-                            if (etapaPontos['pontos'] == null) {
-                              etapaPontos['pontos'] =
-                                  []; // Garante que 'pontos' seja uma lista
+                              List<dynamic> etapas = FFAppState()
+                                  .trSincroniza
+                                  .where((element) =>
+                                      element['fazenda_id'] ==
+                                          int.parse(widget.fazId!) &&
+                                      element['servico_id'] ==
+                                          int.parse(widget.oservid!))
+                                  .map((e) => e["etapas"])
+                                  .toList()
+                                  .first;
+                              var etapaPontos = etapas
+                                  .where((element) =>
+                                      element["etap_fim"] == "" ||
+                                      element["etap_fim"] == null)
+                                  .toList()
+                                  .first;
+                              if (etapaPontos['pontos'] == null) {
+                                etapaPontos['pontos'] =
+                                    []; // Garante que 'pontos' seja uma lista
+                              }
+                              etapaPontos['pontos']
+                                  .add(listaFiltrada["pprof_id"].toString());
+
+                              //adiciona id da etapa no ponto
+
+                              listaFiltrada["pprof_etapa_id"] =
+                                  etapaPontos['etap_id'];
+                              listaFiltrada["sincronizado"] = "S";
+
+                              List<dynamic> trSincEtiquetas = FFAppState()
+                                  .trSincroniza
+                                  .where((element) =>
+                                      element['fazenda_id'] ==
+                                          int.parse(widget.fazId!) &&
+                                      element['servico_id'] ==
+                                          int.parse(widget.oservid!))
+                                  .map((e) => e["etiquetas"])
+                                  .toList()
+                                  .first;
+                              trSincEtiquetas.add('$etiqueta');
+
+                              Navigator.of(context).pop();
+                              _codigoQr.clear();
+                              _observacaoController.clear();
+                              Navigator.of(context).pop();
+                              _mostrarModalSucesso(context, marcadorNome);
                             }
-                            etapaPontos['pontos']
-                                .add(listaFiltrada["pprof_id"].toString());
-
-                            //adiciona id da etapa no ponto
-
-                            listaFiltrada["pprof_etapa_id"] =
-                                etapaPontos['etap_id'];
-                            listaFiltrada["sincronizado"] = "S";
-
-                            List<dynamic> trSincEtiquetas = FFAppState()
-                                .trSincroniza
-                                .where((element) =>
-                                    element['fazenda_id'] ==
-                                        int.parse(widget.fazId!) &&
-                                    element['servico_id'] ==
-                                        int.parse(widget.oservid!))
-                                .map((e) => e["etiquetas"])
-                                .toList()
-                                .first;
-                            trSincEtiquetas.add('$etiqueta');
-
-                            Navigator.of(context).pop();
-                            _codigoQr.clear();
-                            _observacaoController.clear();
-                            Navigator.of(context).pop();
-                            _mostrarModalSucesso(context, marcadorNome);
-                          }
-                        });
+                          });
+                        } else {
+                          etiquetaJaUsada();
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         padding:
@@ -2084,6 +2193,28 @@ class _ColetaPontosState extends State<ColetaPontos> {
           ),
           backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
           // elevation: 5,
+        );
+      },
+    );
+  }
+
+  void etiquetaJaUsada() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Ops!'),
+          content: SingleChildScrollView(
+            child: SelectableText("Essa etiqueta ja foi usada!"),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Entendi'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+            ),
+          ],
         );
       },
     );
@@ -2185,11 +2316,11 @@ class _ColetaPontosState extends State<ColetaPontos> {
           zoomControlsEnabled: false,
         ),
         // floatingActionButton: FloatingActionButton(
-        //  onPressed: () => _exibirDados(),
-        //  child: Text(
-        //    '${quantidadeDeProfundidadesASeremColetadas ?? "teste"}',
-        //    style: TextStyle(color: Colors.white, fontSize: 18),
-        //  ),
+        //   onPressed: () => _exibirDados(),
+        //   child: Text(
+        //     '${quantidadeDeProfundidadesASeremColetadas ?? "teste"}',
+        //     style: TextStyle(color: Colors.white, fontSize: 18),
+        //   ),
         // ),
       ),
     );
@@ -2462,9 +2593,26 @@ class _ColetaPontosState extends State<ColetaPontos> {
         .toList()
         .first;
 
-    if (etapaPontos['pontos'] == null) {
-      etapaPontos['pontos'] = []; // Garante que 'pontos' seja uma lista
+    List<dynamic> etiquetas = FFAppState()
+        .trSincroniza
+        .where((element) =>
+            element['fazenda_id'] == int.parse(widget.fazId!) &&
+            element['servico_id'] == int.parse(widget.oservid!))
+        .map((e) => e["etiquetas"])
+        .toList()
+        .first;
+
+    var etiquetaExistente = '1234567899';
+
+    bool temOuNaoEtiqueta = false;
+
+// Verifica se a etiqueta existe na lista de etiquetas
+    if (etiquetas != null && etiquetas.isNotEmpty) {
+      temOuNaoEtiqueta =
+          etiquetas.any((etiqueta) => etiqueta == etiquetaExistente);
     }
+
+    print(temOuNaoEtiqueta ? "Etiqueta existe" : "Etiqueta não existe");
 // etapaPontos['pontos'].add({"NUMERO DO PONTO"});
 
     var index = FFAppState().trSincroniza.indexOf(FFAppState()
@@ -2479,7 +2627,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
         return AlertDialog(
           title: Text('Aproxime-se do ponto!'),
           content: SingleChildScrollView(
-            child: SelectableText(etapaPontos['pontos'].toString()),
+            child: SelectableText(etiquetas.toString()),
           ),
           actions: <Widget>[
             TextButton(

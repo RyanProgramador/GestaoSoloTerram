@@ -214,6 +214,64 @@ class _FotoobservaWidgetState extends State<FotoobservaWidget> {
                   ],
                 ),
               ),
+              Padding(
+                padding: const EdgeInsetsDirectional.fromSTEB(20.0, 20.0, 20.0, 0.0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Theme(
+                      data: ThemeData(
+                        checkboxTheme: CheckboxThemeData(
+                          visualDensity: VisualDensity.compact,
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4.0),
+                          ),
+                        ),
+                        unselectedWidgetColor:
+                            FlutterFlowTheme.of(context).secondaryText,
+                      ),
+                      child: Checkbox(
+                        value: _model.checkboxValue ??= false,
+                        onChanged: (newValue) async {
+                          setState(() => _model.checkboxValue = newValue!);
+                        },
+                        activeColor: FlutterFlowTheme.of(context).primary,
+                        checkColor: FlutterFlowTheme.of(context).info,
+                      ),
+                    ),
+                    InkWell(
+                      splashColor: Colors.transparent,
+                      focusColor: Colors.transparent,
+                      hoverColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onTap: () async {
+                        setState(() {
+                          _model.checked = valueOrDefault<int>(
+                            _model.checked == 0 ? 1 : 0,
+                            0,
+                          );
+                        });
+                      },
+                      child: Container(
+                        width: 20.0,
+                        height: 20.0,
+                        decoration: BoxDecoration(
+                          color: _model.checked != 0
+                              ? FlutterFlowTheme.of(context).primary
+                              : Colors.transparent,
+                          borderRadius: BorderRadius.circular(4.0),
+                          border: Border.all(
+                            color: const Color(0xFF111111),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
