@@ -370,21 +370,19 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                                     context: context,
                                     builder: (alertDialogContext) {
                                       return AlertDialog(
-                                        title: const Text('Ops!'),
-                                        content:
-                                            const Text('Por favor inicie a etapa!'),
+                                        title: const Text('Atenção!'),
+                                        content: const Text(
+                                            'Você não poderá coletar pontos sem iniciar uma etapa, apenas visualiza-los.'),
                                         actions: [
                                           TextButton(
                                             onPressed: () => Navigator.pop(
                                                 alertDialogContext),
-                                            child: const Text('Ok'),
+                                            child: const Text('Entendi'),
                                           ),
                                         ],
                                       );
                                     },
                                   );
-                                  if (shouldSetState) setState(() {});
-                                  return;
                                 }
                               } else {
                                 context.pushNamed(

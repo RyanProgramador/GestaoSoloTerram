@@ -66,7 +66,8 @@ class ColetaPontos extends StatefulWidget {
       this.fazLatlng,
       this.autoAuditoria,
       this.quantidadeAutoAuditoria,
-      this.pontos});
+      this.pontos,
+      this.podeColetarOuNaoPodeColetar2});
 
   final double? width;
   final double? height;
@@ -77,6 +78,7 @@ class ColetaPontos extends StatefulWidget {
   final bool? autoAuditoria;
   final String? quantidadeAutoAuditoria;
   final List<dynamic>? pontos;
+  final bool? podeColetarOuNaoPodeColetar2;
 
   @override
   State<ColetaPontos> createState() => _ColetaPontosState();
@@ -85,6 +87,8 @@ class ColetaPontos extends StatefulWidget {
 class _ColetaPontosState extends State<ColetaPontos> {
   final FocusNode _observacaoFocusNode = FocusNode();
   final FocusNode observaFotoFocusNode = FocusNode();
+
+  bool podeColetarOuNaoPodeColetar = false;
 
   Map<String, dynamic> jsonSincronizaPosterior = {};
 
@@ -126,19 +130,6 @@ class _ColetaPontosState extends State<ColetaPontos> {
   //pontos de medição
   List<Map<String, dynamic>> pontosMedicao = [];
 
-  // List<dynamic> trSincro = FFAppState()
-  //     .trSincroniza
-  //     .where((element) =>
-  // element['fazenda_id'] == int.parse(widget.fazId!) &&
-  //     element['servico_id'] == int.parse(widget.oservid!))
-  //     .toList()
-  //     .first;
-  //
-  // if (trSincro != null && trSincro['etiquetas'] == null) {
-  // trSincro['etiquetas'] = [];
-  //
-  //  }
-
   void updateTrSincro() {
     var trSincroList = FFAppState()
         .trSincroniza
@@ -160,6 +151,9 @@ class _ColetaPontosState extends State<ColetaPontos> {
     Wakelock.enable();
     super.initState();
     updateTrSincro();
+
+    podeColetarOuNaoPodeColetar = widget.podeColetarOuNaoPodeColetar2 ?? false;
+
     String fazendaId = widget.fazId ??
         ""; // Usando ?? para fornecer um valor padrão se for nulo
     String servicoId = widget.oservid ?? "";
@@ -865,13 +859,17 @@ class _ColetaPontosState extends State<ColetaPontos> {
                             //     latlng,
                             //     referencialProfundidadePontoId);
                           } else {
-                            _confirmarColeta(
-                                context,
-                                marcadorNome,
-                                profundidade["pprof_id"].toString(),
-                                latlng,
-                                referencialProfundidadePontoId,
-                                idPonto);
+                            if (podeColetarOuNaoPodeColetar != false) {
+                              _confirmarColeta(
+                                  context,
+                                  marcadorNome,
+                                  profundidade["pprof_id"].toString(),
+                                  latlng,
+                                  referencialProfundidadePontoId,
+                                  idPonto);
+                            } else {
+                              _naoPodeColetarSemIniciarEtapa();
+                            }
                           }
                         },
                       ),
@@ -911,25 +909,26 @@ class _ColetaPontosState extends State<ColetaPontos> {
                     ),
                   ),
                 ),
-              Center(
-                child: TextButton(
-                  style: TextButton.styleFrom(
-                    backgroundColor:
-                        Color(0xFFEDA300), // Cor laranja para o botão
-                    primary: Colors.white, // Cor do texto
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(
-                          100), // Borda arredondada para o botão
+              if (!coletouAlguma)
+                Center(
+                  child: TextButton(
+                    style: TextButton.styleFrom(
+                      backgroundColor:
+                          Color(0xFFEDA300), // Cor laranja para o botão
+                      primary: Colors.white, // Cor do texto
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                            100), // Borda arredondada para o botão
+                      ),
                     ),
+                    child: Text('Ponto Inacessível'),
+                    onPressed: () {
+                      // Adicione aqui a ação desejada para quando o botão for pressionado
+                      Navigator.of(context).pop();
+                      _ontapInacessivel(marcadorNome, latlng, idPonto);
+                    },
                   ),
-                  child: Text('Ponto Inacessível'),
-                  onPressed: () {
-                    // Adicione aqui a ação desejada para quando o botão for pressionado
-                    Navigator.of(context).pop();
-                    _ontapInacessivel(marcadorNome, latlng, idPonto);
-                  },
                 ),
-              ),
             ],
             backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
             // elevation: 5,
@@ -937,6 +936,32 @@ class _ColetaPontosState extends State<ColetaPontos> {
         },
       );
     }
+  }
+
+  void _naoPodeColetarSemIniciarEtapa() {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          title: Text('Atenção!'),
+          content:
+              Text('Você precisa iniciar uma etapa para poder prosseguir!'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(''),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text('Entendi'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Future<void> _pegaFoto() async {

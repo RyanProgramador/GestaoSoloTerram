@@ -3,6 +3,7 @@ import '/flutter_flow/flutter_flow_timer.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/custom_code/actions/index.dart' as actions;
 import '/custom_code/widgets/index.dart' as custom_widgets;
+import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -105,6 +106,12 @@ class _ColetaPontosWidgetState extends State<ColetaPontosWidget> {
                           quantidadeAutoAuditoria:
                               widget.quantidadeAutoAuditoria?.toString(),
                           pontos: widget.trPontos,
+                          podeColetarOuNaoPodeColetar2:
+                              functions.buscaSeAEtapaEstaIniciada(
+                                  functions.buscaRegistro(
+                                      widget.fazid!,
+                                      widget.oservID!,
+                                      FFAppState().trSincroniza.toList())),
                         ),
                       ),
                     ),
