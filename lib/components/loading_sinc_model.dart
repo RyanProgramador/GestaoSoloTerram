@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 class LoadingSincModel extends FlutterFlowModel<LoadingSincWidget> {
   ///  State fields for stateful widgets in this component.
 
+  // Stores action output result for [Custom Action - tSincronizaApenasQueAindaNaoFOramSincronizadosAnteriormente] action in LoadingSinc widget.
+  dynamic trSincSoComS;
   // Stores action output result for [Backend Call - API (trSincronizaPontosColetados)] action in LoadingSinc widget.
   ApiCallResponse? trSinc;
   // Stores action output result for [Backend Call - API (trPontos)] action in LoadingSinc widget.

@@ -2368,13 +2368,13 @@ class _ColetaPontosState extends State<ColetaPontos> {
           mapToolbarEnabled: false,
           zoomControlsEnabled: false,
         ),
-        // floatingActionButton: FloatingActionButton(
-        //   onPressed: () => _exibirDados(),
-        //   child: Text(
-        //     '${quantidadeDeProfundidadesASeremColetadas ?? "teste"}',
-        //     style: TextStyle(color: Colors.white, fontSize: 18),
-        //   ),
-        // ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => _exibirDados(),
+          child: Text(
+            '${quantidadeDeProfundidadesASeremColetadas ?? "teste"}',
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
+        ),
       ),
     );
   }
@@ -2631,48 +2631,88 @@ class _ColetaPontosState extends State<ColetaPontos> {
     // var profundiade = marcador['profundidades'].toString();
     // var qts = widget.quantidadeAutoAuditoria.toString();
 
-    List<dynamic> etapas = FFAppState()
+    List<dynamic> trSincComS = FFAppState()
         .trSincroniza
         .where((element) =>
             element['fazenda_id'] == int.parse(widget.fazId!) &&
             element['servico_id'] == int.parse(widget.oservid!))
-        .map((e) => e["etapas"])
+        .map((e) => e["pontos"])
         .toList()
         .first;
 
-    var etapaPontos = etapas
-        .where((element) =>
-            element["etap_fim"] == "" || element["etap_fim"] == null)
-        .toList()
-        .first;
+// var trSincComS2 = trSincComS.where((element) => element['profundidades'] != "S").toList();
+// var trSincComS2 = trSincComS.map((element) => element['profundidades']).toList();
+//
+//     List<dynamic> trSincTudoJunto = [];
+//     for (var item in trSincComS) {
+//       // Supondo que cada 'item' em 'trSincComS' tenha uma chave 'profundidades' que é uma lista
+//       trSincTudoJunto.addAll(item.where((e)=> e['profundidades']['sincronizado'] != "N"));
+//     }
 
-    List<dynamic> etiquetas = FFAppState()
-        .trSincroniza
-        .where((element) =>
-            element['fazenda_id'] == int.parse(widget.fazId!) &&
-            element['servico_id'] == int.parse(widget.oservid!))
-        .map((e) => e["etiquetas"])
-        .toList()
-        .first;
+    List<dynamic> trSincTudoJunto = [];
+    for (var item in trSincComS) {
+      // Verifica se o item tem a chave 'profundidades' e se é uma lista
+      if (item.containsKey('profundidades') && item['profundidades'] is List) {
+        // Filtra as profundidades onde 'sincronizado' é diferente de "N"
+        var profundidadesFiltradas = item['profundidades']
+            .where((profundidade) => profundidade['sincronizado'] != "N")
+            .toList();
 
-    var etiquetaExistente = '1234567899';
-
-    bool temOuNaoEtiqueta = false;
-
-// Verifica se a etiqueta existe na lista de etiquetas
-    if (etiquetas != null && etiquetas.isNotEmpty) {
-      temOuNaoEtiqueta =
-          etiquetas.any((etiqueta) => etiqueta == etiquetaExistente);
+        // Se profundidadesFiltradas não está vazia, adicione o item a trSincTudoJunto
+        if (profundidadesFiltradas.isNotEmpty) {
+          // Aqui você pode decidir se quer adicionar o item inteiro ou apenas as profundidades filtradas
+          trSincTudoJunto.add(item); // Adiciona o item inteiro
+          // Se quiser adicionar apenas as profundidades filtradas, use a linha abaixo
+          // trSincTudoJunto.addAll(profundidadesFiltradas);
+        }
+      }
     }
 
-    print(temOuNaoEtiqueta ? "Etiqueta existe" : "Etiqueta não existe");
-// etapaPontos['pontos'].add({"NUMERO DO PONTO"});
+// var trSincComS3 = trSincComS2.map((e) => e['sincronizado']).toList();
 
-    var index = FFAppState().trSincroniza.indexOf(FFAppState()
-        .trSincroniza
-        .firstWhere((registro) =>
-            registro['fazenda_id'].toString() == widget.fazId! &&
-            registro['servico_id'].toString() == widget.oservid!));
+//
+//     List<dynamic> etapas = FFAppState()
+//         .trSincroniza
+//         .where((element) =>
+//             element['fazenda_id'] == int.parse(widget.fazId!) &&
+//             element['servico_id'] == int.parse(widget.oservid!))
+//         .map((e) => e["etapas"])
+//         .toList()
+//         .first;
+//
+//     var etapaPontos = etapas
+//         .where((element) =>
+//             element["etap_fim"] == "" || element["etap_fim"] == null)
+//         .toList()
+//         .first;
+//
+//     List<dynamic> etiquetas = FFAppState()
+//         .trSincroniza
+//         .where((element) =>
+//             element['fazenda_id'] == int.parse(widget.fazId!) &&
+//             element['servico_id'] == int.parse(widget.oservid!))
+//         .map((e) => e["etiquetas"])
+//         .toList()
+//         .first;
+//
+//     var etiquetaExistente = '1234567899';
+//
+//     bool temOuNaoEtiqueta = false;
+//
+// // Verifica se a etiqueta existe na lista de etiquetas
+//     if (etiquetas != null && etiquetas.isNotEmpty) {
+//       temOuNaoEtiqueta =
+//           etiquetas.any((etiqueta) => etiqueta == etiquetaExistente);
+//     }
+//
+//     print(temOuNaoEtiqueta ? "Etiqueta existe" : "Etiqueta não existe");
+// // etapaPontos['pontos'].add({"NUMERO DO PONTO"});
+//
+//     var index = FFAppState().trSincroniza.indexOf(FFAppState()
+//         .trSincroniza
+//         .firstWhere((registro) =>
+//             registro['fazenda_id'].toString() == widget.fazId! &&
+//             registro['servico_id'].toString() == widget.oservid!));
 
     showDialog(
       context: context,
@@ -2680,7 +2720,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
         return AlertDialog(
           title: Text('Aproxime-se do ponto!'),
           content: SingleChildScrollView(
-            child: SelectableText(etiquetas.toString()),
+            child: SelectableText(trSincsS.toString()),
           ),
           actions: <Widget>[
             TextButton(

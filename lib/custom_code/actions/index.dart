@@ -5,3 +5,5 @@ export 'atualiza_tr_sinc.dart' show atualizaTrSinc;
 export 'conta_quantas_coletas_faltam.dart' show contaQuantasColetasFaltam;
 export 'atualiza_listas.dart' show atualizaListas;
 export 'lembrar_senha.dart' show lembrarSenha;
+export 't_sincroniza_apenas_que_ainda_nao_f_oram_sincronizados_anteriormente.dart'
+    show tSincronizaApenasQueAindaNaoFOramSincronizadosAnteriormente;
