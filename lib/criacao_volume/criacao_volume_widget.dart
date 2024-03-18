@@ -44,7 +44,8 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
       });
     });
 
-    _model.textController ??= TextEditingController(text: _model.codigoAtual);
+    _model.textController ??=
+        TextEditingController(text: FFAppState().numeroVolumeQrCode);
     _model.textFieldFocusNode ??= FocusNode();
   }
 
@@ -67,10 +68,8 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
         floatingActionButton: FloatingActionButton.extended(
-          onPressed: () async {
-            setState(() {
-              _model.codigoAtual = '1234qwer';
-            });
+          onPressed: () {
+            print('FloatingActionButton pressed ...');
           },
           backgroundColor: FlutterFlowTheme.of(context).primary,
           icon: const Icon(
@@ -291,8 +290,16 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
                                     ),
                                     onPressed: () async {
                                       setState(() {
-                                        FFAppState().addToTeste(
-                                            _model.textController.text);
+                                        FFAppState()
+                                            .addToTeste(valueOrDefault<String>(
+                                          _model.textController.text,
+                                          'Error2',
+                                        ));
+                                      });
+                                      await Future.delayed(
+                                          const Duration(milliseconds: 400));
+                                      setState(() {
+                                        FFAppState().numeroVolumeQrCode = '';
                                       });
                                     },
                                   ),

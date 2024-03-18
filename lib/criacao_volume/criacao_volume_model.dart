@@ -3,10 +3,6 @@ import 'criacao_volume_widget.dart' show CriacaoVolumeWidget;
 import 'package:flutter/material.dart';
 
 class CriacaoVolumeModel extends FlutterFlowModel<CriacaoVolumeWidget> {
-  ///  Local state fields for this page.
-
-  String? codigoAtual;
-
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();

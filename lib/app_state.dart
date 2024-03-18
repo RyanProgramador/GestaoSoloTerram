@@ -675,6 +675,12 @@ class FFAppState extends ChangeNotifier {
     _teste.insert(index, value);
     prefs.setStringList('ff_teste', _teste);
   }
+
+  String _numeroVolumeQrCode = '';
+  String get numeroVolumeQrCode => _numeroVolumeQrCode;
+  set numeroVolumeQrCode(String value) {
+    _numeroVolumeQrCode = value;
+  }
 }
 
 void _safeInit(Function() initializeField) {
