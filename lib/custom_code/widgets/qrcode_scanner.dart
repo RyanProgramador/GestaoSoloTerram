@@ -85,7 +85,7 @@ class _QrcodeScannerState extends State<QrcodeScanner> {
         qrText = scanData.code!;
         FFAppState().teste.add(qrText);
         controller?.pauseCamera();
-        FFAppState().numeroVolumeQrCode.add("teste");
+        FFAppState().numeroVolumeQrCode = qrText;
         // Potentially perform an action based on the scanned QR code
         print('Scanned QR code: $qrText'); // Example action: log to console
       });

@@ -68,8 +68,10 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
         floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {
-            print('FloatingActionButton pressed ...');
+          onPressed: () async {
+            setState(() {
+              FFAppState().numeroVolumeQrCode = 'asdasdasd';
+            });
           },
           backgroundColor: FlutterFlowTheme.of(context).primary,
           icon: const Icon(
