@@ -179,18 +179,121 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  FFButtonWidget(
-                                    onPressed: () async {
-                                      var shouldSetState = false;
-                                      _model.temNet =
-                                          await actions.checkinternet();
-                                      shouldSetState = true;
-                                      if (!_model.temNet!) {
+                              Padding(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                    16.0, 0.0, 16.0, 0.0),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    FFButtonWidget(
+                                      onPressed: () {
+                                        print('Button pressed ...');
+                                      },
+                                      text: '',
+                                      icon: const Icon(
+                                        Icons.search_sharp,
+                                        color: Colors.white,
+                                        size: 32.0,
+                                      ),
+                                      options: FFButtonOptions(
+                                        width: 50.0,
+                                        height: 50.0,
+                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                            8.0, 0.0, 0.0, 0.0),
+                                        iconPadding:
+                                            const EdgeInsetsDirectional.fromSTEB(
+                                                0.0, 0.0, 0.0, 0.0),
+                                        color: FlutterFlowTheme.of(context)
+                                            .primary,
+                                        textStyle: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .override(
+                                              fontFamily: 'Readex Pro',
+                                              color: Colors.white,
+                                            ),
+                                        elevation: 3.0,
+                                        borderSide: const BorderSide(
+                                          color: Colors.transparent,
+                                          width: 1.0,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(100.0),
+                                      ),
+                                    ),
+                                    FFButtonWidget(
+                                      onPressed: () async {
+                                        var shouldSetState = false;
+                                        _model.temNet =
+                                            await actions.checkinternet();
+                                        shouldSetState = true;
+                                        if (!_model.temNet!) {
+                                          context.pushNamed(
+                                            'ColetaPontos',
+                                            queryParameters: {
+                                              'oservID': serializeParam(
+                                                widget.oservId,
+                                                ParamType.int,
+                                              ),
+                                              'fazid': serializeParam(
+                                                widget.fazId,
+                                                ParamType.int,
+                                              ),
+                                              'fazNome': serializeParam(
+                                                widget.fazNome,
+                                                ParamType.String,
+                                              ),
+                                              'fazLatlng': serializeParam(
+                                                widget.fazLatlng,
+                                                ParamType.LatLng,
+                                              ),
+                                              'autoAuditoria': serializeParam(
+                                                widget.autoAuditoria,
+                                                ParamType.bool,
+                                              ),
+                                              'quantidadeAutoAuditoria':
+                                                  serializeParam(
+                                                widget.quantidadeAutoAuditoria,
+                                                ParamType.int,
+                                              ),
+                                              'trPontos': serializeParam(
+                                                widget.listaJsonPontos,
+                                                ParamType.JSON,
+                                                true,
+                                              ),
+                                            }.withoutNulls,
+                                            extra: <String, dynamic>{
+                                              kTransitionInfoKey:
+                                                  const TransitionInfo(
+                                                hasTransition: true,
+                                                transitionType:
+                                                    PageTransitionType.fade,
+                                                duration:
+                                                    Duration(milliseconds: 0),
+                                              ),
+                                            },
+                                          );
+
+                                          if (shouldSetState) setState(() {});
+                                          return;
+                                        }
+                                        _model.trTalh = await TrOsServicosGroup
+                                            .trTalhaoCall
+                                            .call(
+                                          urlApi: FFAppState().UrlApi,
+                                          fazId: widget.fazId,
+                                        );
+                                        shouldSetState = true;
+                                        setState(() {
+                                          FFAppState().trTalhoes = getJsonField(
+                                            (_model.trTalh?.jsonBody ?? ''),
+                                            r'''$.dados''',
+                                            true,
+                                          )!
+                                              .toList()
+                                              .cast<dynamic>();
+                                        });
+
                                         context.pushNamed(
                                           'ColetaPontos',
                                           queryParameters: {
@@ -237,121 +340,18 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                         );
 
                                         if (shouldSetState) setState(() {});
-                                        return;
-                                      }
-                                      _model.trTalh = await TrOsServicosGroup
-                                          .trTalhaoCall
-                                          .call(
-                                        urlApi: FFAppState().UrlApi,
-                                        fazId: widget.fazId,
-                                      );
-                                      shouldSetState = true;
-                                      setState(() {
-                                        FFAppState().trTalhoes = getJsonField(
-                                          (_model.trTalh?.jsonBody ?? ''),
-                                          r'''$.dados''',
-                                          true,
-                                        )!
-                                            .toList()
-                                            .cast<dynamic>();
-                                      });
-
-                                      context.pushNamed(
-                                        'ColetaPontos',
-                                        queryParameters: {
-                                          'oservID': serializeParam(
-                                            widget.oservId,
-                                            ParamType.int,
-                                          ),
-                                          'fazid': serializeParam(
-                                            widget.fazId,
-                                            ParamType.int,
-                                          ),
-                                          'fazNome': serializeParam(
-                                            widget.fazNome,
-                                            ParamType.String,
-                                          ),
-                                          'fazLatlng': serializeParam(
-                                            widget.fazLatlng,
-                                            ParamType.LatLng,
-                                          ),
-                                          'autoAuditoria': serializeParam(
-                                            widget.autoAuditoria,
-                                            ParamType.bool,
-                                          ),
-                                          'quantidadeAutoAuditoria':
-                                              serializeParam(
-                                            widget.quantidadeAutoAuditoria,
-                                            ParamType.int,
-                                          ),
-                                          'trPontos': serializeParam(
-                                            widget.listaJsonPontos,
-                                            ParamType.JSON,
-                                            true,
-                                          ),
-                                        }.withoutNulls,
-                                        extra: <String, dynamic>{
-                                          kTransitionInfoKey: const TransitionInfo(
-                                            hasTransition: true,
-                                            transitionType:
-                                                PageTransitionType.fade,
-                                            duration: Duration(milliseconds: 0),
-                                          ),
-                                        },
-                                      );
-
-                                      if (shouldSetState) setState(() {});
-                                    },
-                                    text: 'Realizar coletas',
-                                    options: FFButtonOptions(
-                                      width: MediaQuery.sizeOf(context).width *
-                                          0.4,
-                                      height: 50.0,
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          24.0, 0.0, 24.0, 0.0),
-                                      iconPadding:
-                                          const EdgeInsetsDirectional.fromSTEB(
-                                              0.0, 0.0, 0.0, 0.0),
-                                      color:
-                                          FlutterFlowTheme.of(context).primary,
-                                      textStyle: FlutterFlowTheme.of(context)
-                                          .titleSmall
-                                          .override(
-                                            fontFamily: 'Readex Pro',
-                                            color: Colors.white,
-                                          ),
-                                      elevation: 3.0,
-                                      borderSide: const BorderSide(
-                                        color: Colors.transparent,
-                                        width: 1.0,
-                                      ),
-                                      borderRadius: BorderRadius.circular(24.0),
-                                    ),
-                                  ),
-                                  if (true == false)
-                                    FFButtonWidget(
-                                      onPressed: () async {
-                                        context.pushNamed(
-                                          'criacaoVolume',
-                                          extra: <String, dynamic>{
-                                            kTransitionInfoKey: const TransitionInfo(
-                                              hasTransition: true,
-                                              transitionType:
-                                                  PageTransitionType.fade,
-                                              duration:
-                                                  Duration(milliseconds: 0),
-                                            ),
-                                          },
-                                        );
                                       },
-                                      text: 'Volume',
+                                      text: '',
+                                      icon: const FaIcon(
+                                        FontAwesomeIcons.braille,
+                                        color: Colors.white,
+                                        size: 24.0,
+                                      ),
                                       options: FFButtonOptions(
-                                        width:
-                                            MediaQuery.sizeOf(context).width *
-                                                0.4,
+                                        width: 50.0,
                                         height: 50.0,
                                         padding: const EdgeInsetsDirectional.fromSTEB(
-                                            24.0, 0.0, 24.0, 0.0),
+                                            8.0, 0.0, 0.0, 0.0),
                                         iconPadding:
                                             const EdgeInsetsDirectional.fromSTEB(
                                                 0.0, 0.0, 0.0, 0.0),
@@ -369,10 +369,58 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                           width: 1.0,
                                         ),
                                         borderRadius:
-                                            BorderRadius.circular(24.0),
+                                            BorderRadius.circular(100.0),
                                       ),
                                     ),
-                                ],
+                                    FFButtonWidget(
+                                      onPressed: () async {
+                                        context.pushNamed(
+                                          'criacaoVolume',
+                                          extra: <String, dynamic>{
+                                            kTransitionInfoKey: const TransitionInfo(
+                                              hasTransition: true,
+                                              transitionType:
+                                                  PageTransitionType.fade,
+                                              duration:
+                                                  Duration(milliseconds: 0),
+                                            ),
+                                          },
+                                        );
+                                      },
+                                      text: '',
+                                      icon: FaIcon(
+                                        FontAwesomeIcons.boxes,
+                                        color: FlutterFlowTheme.of(context)
+                                            .primaryBackground,
+                                        size: 28.0,
+                                      ),
+                                      options: FFButtonOptions(
+                                        width: 50.0,
+                                        height: 50.0,
+                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                            8.0, 0.0, 0.0, 0.0),
+                                        iconPadding:
+                                            const EdgeInsetsDirectional.fromSTEB(
+                                                0.0, 0.0, 0.0, 0.0),
+                                        color: FlutterFlowTheme.of(context)
+                                            .primary,
+                                        textStyle: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .override(
+                                              fontFamily: 'Readex Pro',
+                                              color: Colors.white,
+                                            ),
+                                        elevation: 3.0,
+                                        borderSide: const BorderSide(
+                                          color: Colors.transparent,
+                                          width: 1.0,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(100.0),
+                                      ),
+                                    ),
+                                  ].divide(const SizedBox(width: 5.0)),
+                                ),
                               ),
                             ],
                           ),
@@ -454,7 +502,7 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                         }
                                       }(),
                                       decoration: BoxDecoration(
-                                        color: const Color(0xFFE1E3E7),
+                                        color: const Color(0xFFE6F1F0),
                                         borderRadius:
                                             BorderRadius.circular(8.0),
                                         border: Border.all(
