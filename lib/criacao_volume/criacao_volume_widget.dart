@@ -151,11 +151,11 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
                 ),
               ),
             ),
-            Expanded(
+            Flexible(
               flex: 10,
               child: Container(
-                width: double.infinity,
-                height: double.infinity,
+                width: MediaQuery.sizeOf(context).width * 1.0,
+                height: MediaQuery.sizeOf(context).height * 1.0,
                 decoration: const BoxDecoration(
                   color: Color(0x00FFFFFF),
                 ),
