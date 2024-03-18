@@ -44,7 +44,7 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
       });
     });
 
-    _model.textController ??= TextEditingController();
+    _model.textController ??= TextEditingController(text: _model.codigoAtual);
     _model.textFieldFocusNode ??= FocusNode();
   }
 
@@ -67,8 +67,10 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
         floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {
-            print('FloatingActionButton pressed ...');
+          onPressed: () async {
+            setState(() {
+              _model.codigoAtual = '1234qwer';
+            });
           },
           backgroundColor: FlutterFlowTheme.of(context).primary,
           icon: const Icon(
