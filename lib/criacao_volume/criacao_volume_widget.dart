@@ -155,12 +155,13 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
               flex: 10,
               child: Container(
                 width: double.infinity,
-                height: 100.0,
+                height: double.infinity,
                 decoration: const BoxDecoration(
                   color: Color(0x00FFFFFF),
                 ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Align(
                       alignment: const AlignmentDirectional(0.0, 0.0),
