@@ -47,6 +47,7 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
     _model.textController ??=
         TextEditingController(text: FFAppState().numeroVolumeQrCode);
     _model.textFieldFocusNode ??= FocusNode();
+    _model.textFieldFocusNode!.addListener(() => setState(() {}));
   }
 
   @override
