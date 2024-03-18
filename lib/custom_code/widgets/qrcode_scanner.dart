@@ -38,22 +38,38 @@ class _QrcodeScannerState extends State<QrcodeScanner> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: SizedBox(
-        width: 200, // Set a desired width for the scanner
-        height: 200, // Set a desired height for the scanner
-        child: QRView(
-          key: qrKey,
-          onQRViewCreated: _onQRViewCreated,
-          overlay: QrScannerOverlayShape(
-            borderColor: Color(0xFF00736D),
-            borderRadius: 10,
-            borderLength: 130,
-            borderWidth: 5,
-            overlayColor: Colors.white,
+    return Stack(
+      children: [
+        Center(
+          child: SizedBox(
+            width: double.infinity,
+            height: double.infinity,
+            child: QRView(
+              key: qrKey,
+              onQRViewCreated: _onQRViewCreated,
+              overlay: QrScannerOverlayShape(
+                borderColor: Color(0xFF00736D),
+                borderRadius: 10,
+                borderLength: 130,
+                borderWidth: 5,
+                overlayColor: Colors.white,
+              ),
+            ),
           ),
         ),
-      ),
+        Positioned(
+          left: 10,
+          bottom: 10,
+          child: FloatingActionButton(
+            onPressed: () {
+              controller
+                  ?.resumeCamera(); // Call resumeCamera on the QRView controller
+            },
+            child: Icon(Icons.delete, color: Colors.white),
+            backgroundColor: Colors.red,
+          ),
+        ),
+      ],
     );
   }
 
@@ -62,6 +78,8 @@ class _QrcodeScannerState extends State<QrcodeScanner> {
     controller.scannedDataStream.listen((scanData) {
       setState(() {
         qrText = scanData.code!;
+        FFAppState().teste.add(qrText);
+        controller?.pauseCamera();
         // Potentially perform an action based on the scanned QR code
         print('Scanned QR code: $qrText'); // Example action: log to console
       });

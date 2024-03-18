@@ -287,8 +287,11 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
                                       color: Colors.white,
                                       size: 24.0,
                                     ),
-                                    onPressed: () {
-                                      print('IconButton pressed ...');
+                                    onPressed: () async {
+                                      setState(() {
+                                        FFAppState().addToTeste(
+                                            _model.textController.text);
+                                      });
                                     },
                                   ),
                                 ],
@@ -375,7 +378,7 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
                                                                 ),
                                                       ),
                                                       Text(
-                                                        'Hello World',
+                                                        testeItem,
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
