@@ -353,7 +353,7 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           FFButtonWidget(
                             onPressed: () async {
@@ -478,6 +478,39 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                             text: '',
                             icon: FaIcon(
                               FontAwesomeIcons.braille,
+                              color: FlutterFlowTheme.of(context)
+                                  .primaryBackground,
+                              size: 28.0,
+                            ),
+                            options: FFButtonOptions(
+                              width: 65.0,
+                              height: 65.0,
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  8.0, 0.0, 0.0, 0.0),
+                              iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                  0.0, 0.0, 0.0, 0.0),
+                              color: FlutterFlowTheme.of(context).primary,
+                              textStyle: FlutterFlowTheme.of(context)
+                                  .titleSmall
+                                  .override(
+                                    fontFamily: 'Readex Pro',
+                                    color: Colors.white,
+                                  ),
+                              elevation: 3.0,
+                              borderSide: const BorderSide(
+                                color: Colors.transparent,
+                                width: 1.0,
+                              ),
+                              borderRadius: BorderRadius.circular(100.0),
+                            ),
+                          ),
+                          FFButtonWidget(
+                            onPressed: () async {
+                              context.pushNamed('criacaoVolume');
+                            },
+                            text: '',
+                            icon: FaIcon(
+                              FontAwesomeIcons.boxes,
                               color: FlutterFlowTheme.of(context)
                                   .primaryBackground,
                               size: 28.0,
