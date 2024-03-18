@@ -173,7 +173,7 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
                                 width: double.infinity,
                                 height: 350.0,
                                 decoration: BoxDecoration(
-                                  color: const Color(0xFFFFE300),
+                                  color: const Color(0x0000736D),
                                   borderRadius: BorderRadius.circular(12.0),
                                 ),
                                 child: const SizedBox(

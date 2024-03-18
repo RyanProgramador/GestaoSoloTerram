@@ -49,19 +49,28 @@ class _QrcodeScannerState extends State<QrcodeScanner> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        QRView(
-          key: qrKey,
-          onQRViewCreated: _onQRViewCreated,
-          overlay: QrScannerOverlayShape(
-            borderColor: Color(0xFF00736D),
-            borderRadius: 10,
-            borderLength: 130,
-            borderWidth: 5,
-            overlayColor: Colors.white,
+        Positioned(
+          bottom: 70,
+          left: 0,
+          right: 0,
+          child: SizedBox(
+            width: double.infinity,
+            height: 300,
+            child: QRView(
+              key: qrKey,
+              onQRViewCreated: _onQRViewCreated,
+              overlay: QrScannerOverlayShape(
+                borderColor: Color(0xFF00736D),
+                borderRadius: 10,
+                borderLength: 130,
+                borderWidth: 5,
+                overlayColor: Colors.white,
+              ),
+            ),
           ),
         ),
         Positioned(
-          bottom: -30,
+          bottom: 6,
           left: 0,
           right: 0,
           child: Column(
@@ -109,7 +118,7 @@ class _QrcodeScannerState extends State<QrcodeScanner> {
                   FloatingActionButton(
                     mini: true,
                     onPressed: () {
-                      // Your button press logic here
+                      FFAppState().teste.add("dfjghdhjgfvfjhdsf");
                     },
                     child: Icon(Icons.arrow_forward, color: Colors.white),
                     backgroundColor: Color(0xFF00736d),
@@ -120,10 +129,13 @@ class _QrcodeScannerState extends State<QrcodeScanner> {
           ),
         ),
         Positioned(
+          bottom: 92,
           left: 10,
-          bottom: 10,
           child: FloatingActionButton(
-            onPressed: () => controller?.resumeCamera(),
+            onPressed: () {
+              controller?.resumeCamera();
+              textController.clear();
+            },
             child: Icon(Icons.delete, color: Colors.white),
             backgroundColor: Color(0xFF982c26),
           ),
