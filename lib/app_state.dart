@@ -160,6 +160,9 @@ class FFAppState extends ChangeNotifier {
               prefs.getInt('ff_diadoUltimoAcesso')!)
           : _diadoUltimoAcesso;
     });
+    _safeInit(() {
+      _teste = prefs.getStringList('ff_teste') ?? _teste;
+    });
   }
 
   void update(VoidCallback callback) {
@@ -625,6 +628,52 @@ class FFAppState extends ChangeNotifier {
     value != null
         ? prefs.setInt('ff_diadoUltimoAcesso', value.millisecondsSinceEpoch)
         : prefs.remove('ff_diadoUltimoAcesso');
+  }
+
+  List<String> _teste = [
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    'Hello World',
+    '5',
+    '6',
+    '7',
+    '8'
+  ];
+  List<String> get teste => _teste;
+  set teste(List<String> value) {
+    _teste = value;
+    prefs.setStringList('ff_teste', value);
+  }
+
+  void addToTeste(String value) {
+    _teste.add(value);
+    prefs.setStringList('ff_teste', _teste);
+  }
+
+  void removeFromTeste(String value) {
+    _teste.remove(value);
+    prefs.setStringList('ff_teste', _teste);
+  }
+
+  void removeAtIndexFromTeste(int index) {
+    _teste.removeAt(index);
+    prefs.setStringList('ff_teste', _teste);
+  }
+
+  void updateTesteAtIndex(
+    int index,
+    String Function(String) updateFn,
+  ) {
+    _teste[index] = updateFn(_teste[index]);
+    prefs.setStringList('ff_teste', _teste);
+  }
+
+  void insertAtIndexInTeste(int index, String value) {
+    _teste.insert(index, value);
+    prefs.setStringList('ff_teste', _teste);
   }
 }
 
