@@ -11,6 +11,9 @@ import 'package:flutter/material.dart';
 
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
+import '../../criacao_volume/criacao_volume_model.dart';
+export '../../criacao_volume/criacao_volume_model.dart';
+
 class QrcodeScanner extends StatefulWidget {
   const QrcodeScanner({
     super.key,
@@ -27,6 +30,8 @@ class QrcodeScanner extends StatefulWidget {
 
 class _QrcodeScannerState extends State<QrcodeScanner> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+  late CriacaoVolumeModel _model;
+
   QRViewController? controller;
   String qrText = '';
 
@@ -80,6 +85,7 @@ class _QrcodeScannerState extends State<QrcodeScanner> {
         qrText = scanData.code!;
         FFAppState().teste.add(qrText);
         controller?.pauseCamera();
+        _model.codigoAtual = "dfvhdhjbfdbhjfv";
         // Potentially perform an action based on the scanned QR code
         print('Scanned QR code: $qrText'); // Example action: log to console
       });
