@@ -506,7 +506,16 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                           ),
                           FFButtonWidget(
                             onPressed: () async {
-                              context.pushNamed('criacaoVolume');
+                              context.pushNamed(
+                                'criacaoVolume',
+                                extra: <String, dynamic>{
+                                  kTransitionInfoKey: const TransitionInfo(
+                                    hasTransition: true,
+                                    transitionType: PageTransitionType.fade,
+                                    duration: Duration(milliseconds: 0),
+                                  ),
+                                },
+                              );
                             },
                             text: '',
                             icon: FaIcon(

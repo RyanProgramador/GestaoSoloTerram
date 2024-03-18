@@ -83,124 +83,114 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
                 ),
           ),
         ),
-        body: SafeArea(
-          top: true,
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Expanded(
-                flex: 2,
-                child: Container(
-                  width: double.infinity,
-                  height: 100.0,
-                  decoration: const BoxDecoration(
-                    color: Color(0xFF00736D),
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(20.0),
-                      bottomRight: Radius.circular(20.0),
-                      topLeft: Radius.circular(0.0),
-                      topRight: Radius.circular(0.0),
-                    ),
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(
-                            16.0, 0.0, 16.0, 0.0),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            InkWell(
-                              splashColor: Colors.transparent,
-                              focusColor: Colors.transparent,
-                              hoverColor: Colors.transparent,
-                              highlightColor: Colors.transparent,
-                              onTap: () async {
-                                context.safePop();
-                              },
-                              child: Icon(
-                                Icons.arrow_back,
-                                color: FlutterFlowTheme.of(context)
-                                    .primaryBackground,
-                                size: 38.0,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Text(
-                        'Leia os qr-codes',
-                        textAlign: TextAlign.center,
-                        style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              fontFamily: 'Outfit',
-                              color: FlutterFlowTheme.of(context)
-                                  .primaryBackground,
-                              fontSize: 24.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                      ),
-                      if (true)
-                        Text(
-                          'Para criar o volume, leia todos os qr-codes!',
-                          style:
-                              FlutterFlowTheme.of(context).bodyMedium.override(
-                                    fontFamily: 'Readex Pro',
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryBackground,
-                                  ),
-                        ),
-                    ],
+        body: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Expanded(
+              flex: 2,
+              child: Container(
+                width: double.infinity,
+                height: 100.0,
+                decoration: const BoxDecoration(
+                  color: Color(0xFF00736D),
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(20.0),
+                    bottomRight: Radius.circular(20.0),
+                    topLeft: Radius.circular(0.0),
+                    topRight: Radius.circular(0.0),
                   ),
                 ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding:
+                          const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          InkWell(
+                            splashColor: Colors.transparent,
+                            focusColor: Colors.transparent,
+                            hoverColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            onTap: () async {
+                              context.safePop();
+                            },
+                            child: Icon(
+                              Icons.arrow_back,
+                              color: FlutterFlowTheme.of(context)
+                                  .primaryBackground,
+                              size: 38.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Text(
+                      'Leia os qr-codes',
+                      textAlign: TextAlign.center,
+                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                            fontFamily: 'Outfit',
+                            color:
+                                FlutterFlowTheme.of(context).primaryBackground,
+                            fontSize: 24.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                    ),
+                    if (true)
+                      Text(
+                        'Para criar o volume, leia todos os qr-codes!',
+                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                              fontFamily: 'Readex Pro',
+                              color: FlutterFlowTheme.of(context)
+                                  .primaryBackground,
+                            ),
+                      ),
+                  ],
+                ),
               ),
-              Expanded(
-                flex: 10,
-                child: Container(
-                  width: double.infinity,
-                  height: 100.0,
-                  decoration: const BoxDecoration(
-                    color: Color(0x00FFFFFF),
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Container(
-                        width: double.infinity,
-                        height: 220.0,
-                        decoration: BoxDecoration(
-                          color:
-                              FlutterFlowTheme.of(context).secondaryBackground,
-                        ),
-                        child: Align(
-                          alignment: const AlignmentDirectional(0.0, 0.0),
-                          child: Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
-                                16.0, 0.0, 16.0, 0.0),
-                            child: ClipRRect(
+            ),
+            Expanded(
+              flex: 10,
+              child: Container(
+                width: double.infinity,
+                height: 100.0,
+                decoration: const BoxDecoration(
+                  color: Color(0x00FFFFFF),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Align(
+                      alignment: const AlignmentDirectional(0.0, 0.0),
+                      child: Padding(
+                        padding: const EdgeInsetsDirectional.fromSTEB(
+                            16.0, 14.0, 16.0, 0.0),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(12.0),
+                          child: Container(
+                            width: double.infinity,
+                            height: 200.0,
+                            decoration: BoxDecoration(
+                              color: FlutterFlowTheme.of(context).primary,
                               borderRadius: BorderRadius.circular(12.0),
-                              child: Container(
+                            ),
+                            child: const SizedBox(
+                              width: double.infinity,
+                              height: double.infinity,
+                              child: custom_widgets.QrcodeScanner(
                                 width: double.infinity,
-                                height: 200.0,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context).primary,
-                                  borderRadius: BorderRadius.circular(12.0),
-                                ),
-                                child: const SizedBox(
-                                  width: double.infinity,
-                                  height: double.infinity,
-                                  child: custom_widgets.QrcodeScanner(
-                                    width: double.infinity,
-                                    height: double.infinity,
-                                  ),
-                                ),
+                                height: double.infinity,
                               ),
                             ),
                           ),
                         ),
                       ),
-                      Container(
+                    ),
+                    Flexible(
+                      child: Container(
                         width: double.infinity,
                         height: 80.0,
                         decoration: BoxDecoration(
@@ -313,92 +303,85 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
                           ),
                         ),
                       ),
-                      Flexible(
-                        child: Container(
-                          width: double.infinity,
-                          height: MediaQuery.sizeOf(context).height * 1.0,
-                          decoration: BoxDecoration(
-                            color: FlutterFlowTheme.of(context)
-                                .secondaryBackground,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
-                                16.0, 0.0, 16.0, 0.0),
-                            child: SingleChildScrollView(
-                              child: Column(
-                                mainAxisSize: MainAxisSize.max,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Flexible(
-                                    child: Text(
-                                      'Amostras lidas: X',
-                                      textAlign: TextAlign.start,
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            fontFamily: 'Readex Pro',
-                                            color: const Color(0xFF00736D),
-                                          ),
-                                    ),
-                                  ),
-                                  Container(
-                                    width: double.infinity,
-                                    decoration: const BoxDecoration(),
-                                    child: Builder(
-                                      builder: (context) {
-                                        final teste =
-                                            FFAppState().teste.toList();
-                                        return SingleChildScrollView(
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: List.generate(
-                                                teste.length, (testeIndex) {
-                                              final testeItem =
-                                                  teste[testeIndex];
-                                              return Container(
-                                                width: double.infinity,
-                                                height: 60.0,
-                                                decoration: BoxDecoration(
-                                                  color: const Color(0xFFE6F1F0),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          12.0),
-                                                  border: Border.all(
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
+                    ),
+                    Container(
+                      width: double.infinity,
+                      height: 297.0,
+                      decoration: BoxDecoration(
+                        color: FlutterFlowTheme.of(context).secondaryBackground,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsetsDirectional.fromSTEB(
+                            16.0, 0.0, 16.0, 0.0),
+                        child: SingleChildScrollView(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Flexible(
+                                child: Text(
+                                  'Amostras lidas: X',
+                                  textAlign: TextAlign.start,
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .override(
+                                        fontFamily: 'Readex Pro',
+                                        color: const Color(0xFF00736D),
+                                      ),
+                                ),
+                              ),
+                              Container(
+                                width: double.infinity,
+                                height: MediaQuery.sizeOf(context).height * 0.4,
+                                decoration: const BoxDecoration(),
+                                child: Builder(
+                                  builder: (context) {
+                                    final teste = FFAppState().teste.toList();
+                                    return SingleChildScrollView(
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.max,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: List.generate(teste.length,
+                                            (testeIndex) {
+                                          final testeItem = teste[testeIndex];
+                                          return Container(
+                                            width: double.infinity,
+                                            height: 60.0,
+                                            decoration: BoxDecoration(
+                                              color: const Color(0xFFE6F1F0),
+                                              borderRadius:
+                                                  BorderRadius.circular(12.0),
+                                              border: Border.all(
+                                                color:
+                                                    FlutterFlowTheme.of(context)
                                                         .primary,
-                                                  ),
-                                                ),
-                                                child: Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  10.0,
-                                                                  0.0,
-                                                                  0.0,
-                                                                  0.0),
-                                                      child: Column(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          Text(
-                                                            'Ponto',
-                                                            style: FlutterFlowTheme
-                                                                    .of(context)
+                                              ),
+                                            ),
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.max,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsetsDirectional
+                                                      .fromSTEB(
+                                                          10.0, 0.0, 0.0, 0.0),
+                                                  child: Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Text(
+                                                        'Ponto',
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
                                                                 .bodyMedium
                                                                 .override(
                                                                   fontFamily:
@@ -407,117 +390,110 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
                                                                       FontWeight
                                                                           .w600,
                                                                 ),
-                                                          ),
-                                                          Text(
-                                                            'Hello World',
-                                                            style: FlutterFlowTheme
-                                                                    .of(context)
+                                                      ),
+                                                      Text(
+                                                        'Hello World',
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
                                                                 .bodyMedium,
-                                                          ),
-                                                        ],
                                                       ),
-                                                    ),
-                                                    Column(
-                                                      mainAxisSize:
-                                                          MainAxisSize.max,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Text(
-                                                          'Profundidade',
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .bodyMedium
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Readex Pro',
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                              ),
-                                                        ),
-                                                        Text(
-                                                          'Hello World',
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .bodyMedium,
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    Column(
-                                                      mainAxisSize:
-                                                          MainAxisSize.max,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Text(
-                                                          'Etiqueta',
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .bodyMedium
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Readex Pro',
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                              ),
-                                                        ),
-                                                        Text(
-                                                          'Hello World',
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .bodyMedium,
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    const Padding(
-                                                      padding:
-                                                          EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  0.0,
-                                                                  0.0,
-                                                                  10.0,
-                                                                  0.0),
-                                                      child: Column(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          FaIcon(
-                                                            FontAwesomeIcons
-                                                                .trashAlt,
-                                                            color: Colors.black,
-                                                            size: 24.0,
+                                                    ],
+                                                  ),
+                                                ),
+                                                Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Text(
+                                                      'Profundidade',
+                                                      style: FlutterFlowTheme
+                                                              .of(context)
+                                                          .bodyMedium
+                                                          .override(
+                                                            fontFamily:
+                                                                'Readex Pro',
+                                                            fontWeight:
+                                                                FontWeight.w600,
                                                           ),
-                                                        ],
-                                                      ),
+                                                    ),
+                                                    Text(
+                                                      'Hello World',
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMedium,
                                                     ),
                                                   ],
                                                 ),
-                                              );
-                                            }).divide(const SizedBox(height: 5.0)),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                ],
+                                                Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Text(
+                                                      'Etiqueta',
+                                                      style: FlutterFlowTheme
+                                                              .of(context)
+                                                          .bodyMedium
+                                                          .override(
+                                                            fontFamily:
+                                                                'Readex Pro',
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                          ),
+                                                    ),
+                                                    Text(
+                                                      'Hello World',
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMedium,
+                                                    ),
+                                                  ],
+                                                ),
+                                                const Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(
+                                                          0.0, 0.0, 10.0, 0.0),
+                                                  child: Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      FaIcon(
+                                                        FontAwesomeIcons
+                                                            .trashAlt,
+                                                        color: Colors.black,
+                                                        size: 24.0,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        }).divide(const SizedBox(height: 5.0)),
+                                      ),
+                                    );
+                                  },
+                                ),
                               ),
-                            ),
+                            ],
                           ),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
