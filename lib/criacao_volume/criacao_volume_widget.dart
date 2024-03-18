@@ -1,6 +1,7 @@
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/custom_code/widgets/index.dart' as custom_widgets;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -179,6 +180,14 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
                                   color: FlutterFlowTheme.of(context).primary,
                                   borderRadius: BorderRadius.circular(12.0),
                                 ),
+                                child: const SizedBox(
+                                  width: double.infinity,
+                                  height: double.infinity,
+                                  child: custom_widgets.QrcodeScanner(
+                                    width: double.infinity,
+                                    height: double.infinity,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
@@ -210,7 +219,6 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
                                       child: TextFormField(
                                         controller: _model.textController,
                                         focusNode: _model.textFieldFocusNode,
-                                        autofocus: true,
                                         obscureText: false,
                                         decoration: InputDecoration(
                                           labelStyle:
