@@ -466,37 +466,3 @@ bool? buscaSeAEtapaEstaIniciada(dynamic trSinc) {
   }
   return false;
 }
-
-bool? buscaSeOVolumeEstaIniciadoENaoFinalizado(dynamic trSinc) {
-  if (trSinc['etapas'] != null && trSinc['etapas'].isNotEmpty) {
-    for (var etapa in trSinc['etapas']) {
-      if (etapa['etap_fim'] == null || etapa['etap_fim'].isEmpty) {
-        if (etapa['volumes'] != null && etapa['volumes'].isNotEmpty) {
-          for (var volume in etapa['volumes']) {
-            if (volume['volume_data_hora_fim'] == null ||
-                volume['volume_data_hora_fim'].isEmpty) {
-              return true; // existe uma etapa não finalizada com um volume não finalizado
-            }
-          }
-        } else {
-          // se não existem volumes, criamos um novo
-          var foto = capturaImagemCameraTraseira();
-
-          etapa['volumes'] = [
-            {
-              "volume_id": 1,
-              "foto": "$foto",
-              "volume_data_hora_inicio": DateTime.now().toIso8601String(),
-              "volume_data_hora_fim": "",
-              "lacre": "",
-              "amostras": [],
-              "sincronizado": "N",
-            }
-          ];
-          return true; // uma nova etapa foi criada, portanto, existe uma etapa não finalizada
-        }
-      }
-    }
-  }
-  return false;
-}

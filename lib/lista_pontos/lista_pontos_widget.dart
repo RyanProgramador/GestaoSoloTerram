@@ -374,6 +374,7 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                     ),
                                     FFButtonWidget(
                                       onPressed: () async {
+                                        var shouldSetState = false;
                                         if (functions.buscaSeAEtapaEstaIniciada(
                                             functions.buscaRegistro(
                                                 widget.fazId!,
@@ -381,14 +382,19 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                 FFAppState()
                                                     .trSincroniza
                                                     .toList()))!) {
-                                          if (!functions
-                                              .buscaSeOVolumeEstaIniciadoENaoFinalizado(
-                                                  functions.buscaRegistro(
-                                                      widget.fazId!,
-                                                      widget.oservId!,
-                                                      FFAppState()
-                                                          .trSincroniza
-                                                          .toList()))!) {
+                                          _model.buscaOVolumeIniciado =
+                                              await actions
+                                                  .buscaSeOVolumeEstaIniciadoENaoFinalizado(
+                                            context,
+                                            functions.buscaRegistro(
+                                                widget.fazId!,
+                                                widget.oservId!,
+                                                FFAppState()
+                                                    .trSincroniza
+                                                    .toList()),
+                                          );
+                                          shouldSetState = true;
+                                          if (!_model.buscaOVolumeIniciado!) {
                                             await showDialog(
                                               context: context,
                                               builder: (alertDialogContext) {
@@ -407,6 +413,9 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                 );
                                               },
                                             );
+                                            if (shouldSetState) {
+                                              setState(() {});
+                                            }
                                             return;
                                           }
                                         } else {
@@ -428,6 +437,7 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                               );
                                             },
                                           );
+                                          if (shouldSetState) setState(() {});
                                           return;
                                         }
 
@@ -443,6 +453,8 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                             ),
                                           },
                                         );
+
+                                        if (shouldSetState) setState(() {});
                                       },
                                       text: '',
                                       icon: FaIcon(

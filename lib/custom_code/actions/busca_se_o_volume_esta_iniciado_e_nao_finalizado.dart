@@ -11,13 +11,46 @@ import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'dart:convert';
 
+Future<bool> buscaSeOVolumeEstaIniciadoENaoFinalizado(
+    BuildContext context, dynamic trSinc) async {
+  if (trSinc['etapas'] != null && trSinc['etapas'].isNotEmpty) {
+    for (var etapa in trSinc['etapas']) {
+      if (etapa['etap_fim'] == null || etapa['etap_fim'].isEmpty) {
+        if (etapa['volumes'] != null && etapa['volumes'].isNotEmpty) {
+          for (var volume in etapa['volumes']) {
+            if (volume['volume_data_hora_fim'] == null ||
+                volume['volume_data_hora_fim'].isEmpty) {
+              return true; // existe uma etapa não finalizada com um volume não finalizado
+            }
+          }
+        } else {
+          // se não existem volumes, criamos um novo
+          var foto = await capturaImagemCameraTraseira(context);
+
+          etapa['volumes'].add({
+            "volume_id": 1,
+            "foto": foto,
+            "volume_data_hora_inicio": DateTime.now().toIso8601String(),
+            "volume_data_hora_fim": "",
+            "lacre": "",
+            "amostras": [],
+            "sincronizado": "N",
+          });
+          return true; // uma nova etapa foi criada, portanto, existe uma etapa não finalizada
+        }
+      }
+    }
+  }
+  return false;
+}
+
 Future<String?> capturaImagemCameraTraseira(BuildContext context) async {
   // Inicia as câmeras
   List<CameraDescription> cameras = await availableCameras();
 
   // Pega a câmera frontal
   CameraDescription frontCamera = cameras.firstWhere(
-    (camera) => camera.lensDirection == CameraLensDirection.first,
+    (camera) => camera.lensDirection == CameraLensDirection.back,
     orElse: () => cameras.first,
   );
 

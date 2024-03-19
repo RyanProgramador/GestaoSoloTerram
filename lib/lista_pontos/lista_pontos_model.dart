@@ -11,6 +11,8 @@ class ListaPontosModel extends FlutterFlowModel<ListaPontosWidget> {
   bool? temNet;
   // Stores action output result for [Backend Call - API (trTalhao)] action in Button widget.
   ApiCallResponse? trTalh;
+  // Stores action output result for [Custom Action - buscaSeOVolumeEstaIniciadoENaoFinalizado] action in Button widget.
+  bool? buscaOVolumeIniciado;
   // Stores action output result for [Custom Action - checkinternet] action in Icon widget.
   bool? temnetouno;
 
