@@ -243,7 +243,7 @@ String? pesquisaFotoBas64(
 }
 
 String? buscalegendaiconeAtravesDaEtiquetaEmPontosCopy(
-  List<dynamic> trSinc,
+  dynamic trSinc,
   String? etiquetaNum,
   int? fazId,
   int? oservId,
@@ -515,17 +515,20 @@ List<String> buscaVolumesNoRegistro(dynamic trSinc) {
 }
 
 String? buscaPontoAtravesDaEtiquetaEmPontos(
-  List<dynamic> trSinc,
+  dynamic trSinc,
   String? etiquetaNum,
   int? fazId,
   int? oservId,
 ) {
-  List<dynamic> trSincComS = trSinc['pontos'];
+  List<dynamic> pontosFiltrados = trSinc['pontos'];
 
-  for (var ponto in trSincComS) {
-    if (ponto.containsKey('pont_numero')) {
-      profundidadesNaoSincronizadas.add(ponto['pont_numero']);
-    }
-  }
-  return profundidadesNaoSincronizadas.first.toString();
+  List<dynamic> pontosEncontrados = pontosFiltrados
+      .where((ponto) =>
+          ponto['pprof_etiqueta_id'].toString() == etiquetaNum &&
+          ponto['sincronizado'] == 'S' &&
+          ponto.containsKey('pont_numero'))
+      .map((ponto) => ponto['pont_numero'])
+      .toList();
+
+  return pontosEncontrados.isNotEmpty ? pontosEncontrados.first : null;
 }
