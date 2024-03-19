@@ -206,7 +206,7 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Amostras lidas: X',
+                                'Amostras lidas: ${functions.buscaVolumesNoRegistro(functions.buscaRegistro(widget.fazId!, widget.oservId!, FFAppState().trSincroniza.toList())).length.toString()}',
                                 textAlign: TextAlign.start,
                                 style: FlutterFlowTheme.of(context)
                                     .bodyMedium
@@ -217,7 +217,7 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
                               ),
                               Container(
                                 width: double.infinity,
-                                height: MediaQuery.sizeOf(context).height * 0.4,
+                                height: MediaQuery.sizeOf(context).height * 0.3,
                                 decoration: const BoxDecoration(),
                                 child: Builder(
                                   builder: (context) {

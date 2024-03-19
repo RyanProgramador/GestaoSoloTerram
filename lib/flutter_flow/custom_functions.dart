@@ -469,6 +469,7 @@ bool? buscaSeAEtapaEstaIniciada(dynamic trSinc) {
 
 List<String> buscaVolumesNoRegistro(dynamic trSinc) {
   List<String> amostrasList = [];
+  List<String> etapaList = [];
 
   if (trSinc['etapas'] != null && trSinc['etapas'].isNotEmpty) {
     for (var etapa in trSinc['etapas']) {
@@ -476,13 +477,16 @@ List<String> buscaVolumesNoRegistro(dynamic trSinc) {
         if (etapa['volumes'] != null && etapa['volumes'].isNotEmpty) {
           for (var volume in etapa['volumes']) {
             if (volume['amostras'] != null && volume['amostras'].isNotEmpty) {
-              // Adiciona todas as amostras de cada volume à lista de amostras
-              amostrasList.addAll(volume['amostras']);
+              // Converta cada elemento de amostras em uma string e adicione à lista de amostras
+              List<String> amostrasAsString = List<String>.from(
+                  volume['amostras'].map((amostra) => amostra.toString()));
+              amostrasList.addAll(amostrasAsString);
             }
           }
         }
       }
     }
   }
+
   return amostrasList;
 }

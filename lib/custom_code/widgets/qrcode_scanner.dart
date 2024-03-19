@@ -50,6 +50,36 @@ class _QrcodeScannerState extends State<QrcodeScanner> {
   }
 
   void showSincro() {
+    List<dynamic> trSincComS = FFAppState()
+        .trSincroniza
+        .where((element) =>
+            element['fazenda_id'] == int.parse(widget.fazId!) &&
+            element['servico_id'] == int.parse(widget.oservid!))
+        .map((e) => e["pontos"])
+        .toList()
+        .first;
+    // var pontos = trSincComS
+    //     .map((e) => e["profundidades"])
+    //     .where((element) =>
+    // element["sincronizado"].toString() != "S" )
+    //     .toList()
+    // // .toString()
+    //     .first;
+    //     // .first;
+
+    List<dynamic> profundidadesNaoSincronizadas = [];
+
+    for (var ponto in trSincComS) {
+      var profundidades = ponto['profundidades'] as List<dynamic>;
+      var profundidadesFiltradas = profundidades
+          .where(
+              (profundidade) => profundidade['sincronizado'].toString() == "S")
+          .toList();
+
+      profundidadesNaoSincronizadas.addAll(profundidadesFiltradas);
+    }
+
+    // volumess['foto'].toString() = "1";
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -63,7 +93,9 @@ preciso antes do botão me mandar para essa tela, preciso fazer uma validação,
     */
         return AlertDialog(
           title: Text('Concluído!'),
-          content: Text('volumess.toString()'),
+          content: SingleChildScrollView(
+            child: Text(profundidadesNaoSincronizadas.toString()),
+          ),
         );
       },
     );
@@ -169,11 +201,17 @@ preciso antes do botão me mandar para essa tela, preciso fazer uma validação,
                       var volumess = trSincComS
                           .map((e) => e["volumes"])
                           //     .where((element) =>
-                          // element["volumes"] == "" || element["volumes"] == null)
+                          // element["volume_data_hora_fim"].toString() == "" || element["volume_data_hora_fim"].toString() == null)
                           .toList()
+                          .first
                           .first;
 
-                      volumess.add(textController.text);
+                      // volumess['amostras'].add(textController.text.toString());
+                      // volumess['amostras'].add(1);
+
+                      // volumess['amostras'] = ["1","2","3","4"];
+                      volumess['amostras'].add(textController.text
+                          .toString()); // Usa um valor padrão (como 0) caso a conversão falhe
 
                       textController.clear();
                     },
@@ -190,9 +228,9 @@ preciso antes do botão me mandar para essa tela, preciso fazer uma validação,
           left: 10,
           child: FloatingActionButton(
             onPressed: () {
-              controller?.resumeCamera();
-              textController.clear();
-              //showSincro();
+              // controller?.resumeCamera();
+              // textController.clear();
+              showSincro();
             },
             child: Icon(Icons.delete, color: Colors.white),
             backgroundColor: Color(0xFF982c26),
