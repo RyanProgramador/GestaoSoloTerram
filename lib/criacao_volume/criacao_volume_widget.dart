@@ -184,12 +184,14 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
                                   color: const Color(0x0000736D),
                                   borderRadius: BorderRadius.circular(12.0),
                                 ),
-                                child: const SizedBox(
+                                child: SizedBox(
                                   width: double.infinity,
                                   height: double.infinity,
                                   child: custom_widgets.QrcodeScanner(
                                     width: double.infinity,
                                     height: double.infinity,
+                                    oservid: widget.oservId?.toString(),
+                                    fazId: widget.fazId?.toString(),
                                   ),
                                 ),
                               ),
