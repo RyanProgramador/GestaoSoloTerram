@@ -1,6 +1,7 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/custom_code/widgets/index.dart' as custom_widgets;
+import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -9,7 +10,14 @@ import 'criacao_volume_model.dart';
 export 'criacao_volume_model.dart';
 
 class CriacaoVolumeWidget extends StatefulWidget {
-  const CriacaoVolumeWidget({super.key});
+  const CriacaoVolumeWidget({
+    super.key,
+    required this.fazId,
+    required this.oservId,
+  });
+
+  final int? fazId;
+  final int? oservId;
 
   @override
   State<CriacaoVolumeWidget> createState() => _CriacaoVolumeWidgetState();
@@ -211,7 +219,15 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
                                 decoration: const BoxDecoration(),
                                 child: Builder(
                                   builder: (context) {
-                                    final teste = FFAppState().teste.toList();
+                                    final teste = functions
+                                        .buscaVolumesNoRegistro(
+                                            functions.buscaRegistro(
+                                                widget.fazId!,
+                                                widget.oservId!,
+                                                FFAppState()
+                                                    .trSincroniza
+                                                    .toList()))
+                                        .toList();
                                     return SingleChildScrollView(
                                       child: Column(
                                         mainAxisSize: MainAxisSize.max,

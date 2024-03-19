@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 // Begin custom widget code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
-import '/flutter_flow/flutter_flow_icon_button.dart';
+// import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
@@ -21,10 +21,14 @@ class QrcodeScanner extends StatefulWidget {
     super.key,
     this.width,
     this.height,
+    this.oservid,
+    this.fazId,
   });
 
   final double? width;
   final double? height;
+  final String? oservid;
+  final String? fazId;
 
   @override
   State<QrcodeScanner> createState() => _QrcodeScannerState();
@@ -46,19 +50,6 @@ class _QrcodeScannerState extends State<QrcodeScanner> {
   }
 
   void showSincro() {
-    List<dynamic> trSincComS = FFAppState()
-        .trSincroniza
-        .where((element) =>
-            element['fazenda_id'] == 1 && element['servico_id'] == 1)
-        .map((e) => e["etapas"])
-        .toList()
-        .first;
-    var volumess = trSincComS
-        .map((e) => e["volumes"])
-        //     .where((element) =>
-        // element["volumes"] == "" || element["volumes"] == null)
-        .toList()
-        .first;
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -72,7 +63,7 @@ preciso antes do botão me mandar para essa tela, preciso fazer uma validação,
     */
         return AlertDialog(
           title: Text('Concluído!'),
-          content: Text(volumess.toString()),
+          content: Text('volumess.toString()'),
         );
       },
     );
@@ -164,7 +155,26 @@ preciso antes do botão me mandar para essa tela, preciso fazer uma validação,
                   FloatingActionButton(
                     mini: true,
                     onPressed: () {
-                      FFAppState().teste.add(textController.text);
+                      // FFAppState().teste.add(textController.text);
+                      List<dynamic> trSincComS = FFAppState()
+                          .trSincroniza
+                          .where((element) =>
+                              element['fazenda_id'] ==
+                                  int.parse(widget.fazId!) &&
+                              element['servico_id'] ==
+                                  int.parse(widget.oservid!))
+                          .map((e) => e["etapas"])
+                          .toList()
+                          .first;
+                      var volumess = trSincComS
+                          .map((e) => e["volumes"])
+                          //     .where((element) =>
+                          // element["volumes"] == "" || element["volumes"] == null)
+                          .toList()
+                          .first;
+
+                      volumess.add(textController.text);
+
                       textController.clear();
                     },
                     child: Icon(Icons.arrow_forward, color: Colors.white),
@@ -180,9 +190,9 @@ preciso antes do botão me mandar para essa tela, preciso fazer uma validação,
           left: 10,
           child: FloatingActionButton(
             onPressed: () {
-              // controller?.resumeCamera();
-              // textController.clear();
-              showSincro();
+              controller?.resumeCamera();
+              textController.clear();
+              //showSincro();
             },
             child: Icon(Icons.delete, color: Colors.white),
             backgroundColor: Color(0xFF982c26),

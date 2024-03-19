@@ -466,3 +466,23 @@ bool? buscaSeAEtapaEstaIniciada(dynamic trSinc) {
   }
   return false;
 }
+
+List<String> buscaVolumesNoRegistro(dynamic trSinc) {
+  List<String> amostrasList = [];
+
+  if (trSinc['etapas'] != null && trSinc['etapas'].isNotEmpty) {
+    for (var etapa in trSinc['etapas']) {
+      if (etapa['etap_fim'] == null || etapa['etap_fim'].isEmpty) {
+        if (etapa['volumes'] != null && etapa['volumes'].isNotEmpty) {
+          for (var volume in etapa['volumes']) {
+            if (volume['amostras'] != null && volume['amostras'].isNotEmpty) {
+              // Adiciona todas as amostras de cada volume à lista de amostras
+              amostrasList.addAll(volume['amostras']);
+            }
+          }
+        }
+      }
+    }
+  }
+  return amostrasList;
+}

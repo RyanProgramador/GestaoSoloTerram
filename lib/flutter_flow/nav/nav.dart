@@ -152,7 +152,10 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: 'criacaoVolume',
           path: '/criacaoVolume',
-          builder: (context, params) => const CriacaoVolumeWidget(),
+          builder: (context, params) => CriacaoVolumeWidget(
+            fazId: params.getParam('fazId', ParamType.int),
+            oservId: params.getParam('oservId', ParamType.int),
+          ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

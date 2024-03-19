@@ -443,6 +443,16 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
 
                                         context.pushNamed(
                                           'criacaoVolume',
+                                          queryParameters: {
+                                            'fazId': serializeParam(
+                                              widget.fazId,
+                                              ParamType.int,
+                                            ),
+                                            'oservId': serializeParam(
+                                              widget.oservId,
+                                              ParamType.int,
+                                            ),
+                                          }.withoutNulls,
                                           extra: <String, dynamic>{
                                             kTransitionInfoKey: const TransitionInfo(
                                               hasTransition: true,
