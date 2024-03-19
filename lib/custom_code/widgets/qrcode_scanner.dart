@@ -69,14 +69,53 @@ class _QrcodeScannerState extends State<QrcodeScanner> {
 
     List<dynamic> profundidadesNaoSincronizadas = [];
 
-    for (var ponto in trSincComS) {
-      var profundidades = ponto['profundidades'] as List<dynamic>;
-      var profundidadesFiltradas = profundidades
-          .where(
-              (profundidade) => profundidade['sincronizado'].toString() == "S")
+    for (var profIcon in trSincComS) {
+      var legendaIcone = profIcon['profundidades'] as List<dynamic>;
+      var legendaIconeFiltrada = legendaIcone
+          .where((legendaIcone) =>
+              legendaIcone['sincronizado'].toString() == "S" &&
+              legendaIcone['pprof_etiqueta_id'].toString() == '777')
+          .map((e) => e['pprof_icone'])
           .toList();
 
-      profundidadesNaoSincronizadas.addAll(profundidadesFiltradas);
+      profundidadesNaoSincronizadas.addAll(legendaIconeFiltrada);
+    }
+
+//---------------------------------------------------------
+//     List<dynamic> profundidadesNaoSincronizadas = [];
+//
+//     for (var ponto in trSincComS) {
+//       var profundidades = ponto['profundidades'] as List<dynamic>;
+//       var profundidadesFiltradas = profundidades
+//           .where(
+//               (profundidade) => profundidade['sincronizado'].toString() == "S")
+//           .map((e) => e['pprof_etiqueta_id'])
+//           .toList();
+//
+//       profundidadesNaoSincronizadas.addAll(profundidadesFiltradas);
+//     }
+//------------------------------------------------------
+    List<dynamic> trSincetapas = FFAppState()
+        .trSincroniza
+        .where((element) =>
+            element['fazenda_id'] == int.parse(widget.fazId!) &&
+            element['servico_id'] == int.parse(widget.oservid!))
+        .map((e) => e["etapas"])
+        .toList()
+        .first;
+    List<dynamic> volumesNaoSincronizadas = [];
+
+    for (var volume in trSincetapas) {
+      var volumes = volume['volumes'] as List<dynamic>;
+      var volumesFiltrados = volumes
+          .where((volumes) =>
+              volumes['volume_data_hora_fim'].toString() != "" ||
+              volumes['volume_data_hora_fim'].toString() != null)
+          .map((e) => e['amostras'])
+          .toList()
+          .first;
+
+      volumesNaoSincronizadas.addAll(volumesFiltrados);
     }
 
     // volumess['foto'].toString() = "1";
@@ -94,8 +133,52 @@ preciso antes do botão me mandar para essa tela, preciso fazer uma validação,
         return AlertDialog(
           title: Text('Concluído!'),
           content: SingleChildScrollView(
-            child: Text(profundidadesNaoSincronizadas.toString()),
+            child: Text(profundidadesNaoSincronizadas.first.toString()),
           ),
+        );
+      },
+    );
+  }
+
+  void semEtiqueta() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Ops!'),
+          content: SingleChildScrollView(
+            child: Text('Parece que não existe essa etiqueta coletada!'),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Fecha o AlertDialog
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void etiquetaRepetita() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Ops!'),
+          content: SingleChildScrollView(
+            child: Text('Parece que ja existe essa etiqueta no volume!'),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Fecha o AlertDialog
+              },
+            ),
+          ],
         );
       },
     );
@@ -210,8 +293,76 @@ preciso antes do botão me mandar para essa tela, preciso fazer uma validação,
                       // volumess['amostras'].add(1);
 
                       // volumess['amostras'] = ["1","2","3","4"];
-                      volumess['amostras'].add(textController.text
-                          .toString()); // Usa um valor padrão (como 0) caso a conversão falhe
+
+                      List<dynamic> trSincEtiqueta = FFAppState()
+                          .trSincroniza
+                          .where((element) =>
+                              element['fazenda_id'] ==
+                                  int.parse(widget.fazId!) &&
+                              element['servico_id'] ==
+                                  int.parse(widget.oservid!))
+                          .map((e) => e["pontos"])
+                          .toList()
+                          .first;
+                      List<dynamic> profundidadesNaoSincronizadas = [];
+
+                      for (var ponto in trSincEtiqueta) {
+                        var profundidades =
+                            ponto['profundidades'] as List<dynamic>;
+                        var profundidadesFiltradas = profundidades
+                            .where((profundidade) =>
+                                profundidade['sincronizado'].toString() == "S")
+                            .map((e) => e['pprof_etiqueta_id'])
+                            .toList();
+
+                        profundidadesNaoSincronizadas
+                            .addAll(profundidadesFiltradas);
+                      }
+
+                      //VERIFICAR TAMBEM SE A ETIQUETA JA EXISTE EM AMOSTRAS, SE JA EXISTE, CIRAR UM VOID etiquetaRepetita(), e mostrar qual etiqueta ja foi lida
+                      List<dynamic> trSincetapas = FFAppState()
+                          .trSincroniza
+                          .where((element) =>
+                              element['fazenda_id'] ==
+                                  int.parse(widget.fazId!) &&
+                              element['servico_id'] ==
+                                  int.parse(widget.oservid!))
+                          .map((e) => e["etapas"])
+                          .toList()
+                          .first;
+                      List<dynamic> volumesNaoSincronizadas = [];
+
+                      for (var volume in trSincetapas) {
+                        var volumes = volume['volumes'] as List<dynamic>;
+                        var volumesFiltrados = volumes
+                            .where((volumes) =>
+                                volumes['volume_data_hora_fim'].toString() !=
+                                    "" ||
+                                volumes['volume_data_hora_fim'].toString() !=
+                                    null)
+                            .map((e) => e['amostras'])
+                            .toList()
+                            .first;
+
+                        volumesNaoSincronizadas.addAll(volumesFiltrados);
+                      }
+
+                      //criar select de ppont_icone e ponto (PONTO?)
+                      String pesquisa = textController.text
+                          .toString(); // Asegúrese de que 'pesquisa' seja do tipo correto e tenha o valor correto
+                      if (profundidadesNaoSincronizadas.contains(pesquisa)) {
+                        if (volumesNaoSincronizadas.contains(pesquisa)) {
+                          etiquetaRepetita();
+                        } else {
+                          volumess['amostras']
+                              .add(textController.text.toString());
+                        }
+                        // volumess['amostras'] = [];
+                      } else {
+                        semEtiqueta();
+                      }
+                      // volumess['amostras'].add(textController.text
+                      //     .toString()); // Usa um valor padrão (como 0) caso a conversão falhe
 
                       textController.clear();
                     },

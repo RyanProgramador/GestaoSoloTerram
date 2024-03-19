@@ -313,7 +313,19 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
                                                           ),
                                                     ),
                                                     Text(
-                                                      'Hello World',
+                                                      valueOrDefault<String>(
+                                                        functions.buscalegendaiconeAtravesDaEtiquetaEmPontos(
+                                                            functions.buscaRegistro(
+                                                                widget.fazId!,
+                                                                widget.oservId!,
+                                                                FFAppState()
+                                                                    .trSincroniza
+                                                                    .toList()),
+                                                            testeItem,
+                                                            widget.fazId,
+                                                            widget.oservId),
+                                                        'error32',
+                                                      ),
                                                       style:
                                                           FlutterFlowTheme.of(
                                                                   context)

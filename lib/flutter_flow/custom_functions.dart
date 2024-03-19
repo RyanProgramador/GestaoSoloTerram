@@ -490,3 +490,32 @@ List<String> buscaVolumesNoRegistro(dynamic trSinc) {
 
   return amostrasList;
 }
+
+String? buscalegendaiconeAtravesDaEtiquetaEmPontos(
+  dynamic trSinc,
+  String? etiquetaNum,
+  int? fazId,
+  int? oservId,
+) {
+  List<dynamic> trSincComS = trSinc
+      .where((element) =>
+          element['fazenda_id'] == fazId! && element['servico_id'] == oservId!)
+      .map((e) => e["pontos"])
+      .toList()
+      .first;
+
+  List<dynamic> profundidadesNaoSincronizadas = [];
+
+  for (var profIcon in trSincComS) {
+    var legendaIcone = profIcon['profundidades'] as List<dynamic>;
+    var legendaIconeFiltrada = legendaIcone
+        .where((legendaIcone) =>
+            legendaIcone['sincronizado'].toString() == "S" &&
+            legendaIcone['pprof_etiqueta_id'].toString() == '777')
+        .map((e) => e['pprof_icone'])
+        .toList();
+
+    profundidadesNaoSincronizadas.addAll(legendaIconeFiltrada);
+  }
+  return profundidadesNaoSincronizadas.first.toString();
+}
