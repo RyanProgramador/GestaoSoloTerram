@@ -133,7 +133,7 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
                       ),
                     ),
                     Text(
-                      'Leia os qr-codes',
+                      'Escaneie os qr-codes',
                       textAlign: TextAlign.center,
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
                             fontFamily: 'Outfit',
