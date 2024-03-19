@@ -286,30 +286,18 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
                                                       ),
                                                       Text(
                                                         valueOrDefault<String>(
-                                                          functions
-                                                              .retornalegenda(
-                                                                  valueOrDefault<
-                                                                      String>(
-                                                                    functions.buscaPontoAtravesDaEtiquetaEmPontos(
-                                                                        functions.buscaRegistro(
-                                                                            widget
-                                                                                .fazId!,
-                                                                            widget
-                                                                                .oservId!,
-                                                                            FFAppState()
-                                                                                .trSincroniza
-                                                                                .toList()),
-                                                                        testeItem,
-                                                                        widget
-                                                                            .fazId,
-                                                                        widget
-                                                                            .oservId),
-                                                                    'error32',
-                                                                  ),
+                                                          functions.buscaPontoAtravesDaEtiquetaEmPontos(
+                                                              functions.buscaRegistro(
+                                                                  widget.fazId!,
+                                                                  widget
+                                                                      .oservId!,
                                                                   FFAppState()
-                                                                      .trIcones
+                                                                      .trSincroniza
                                                                       .toList()),
-                                                          'Erro',
+                                                              testeItem,
+                                                              widget.fazId,
+                                                              widget.oservId),
+                                                          '11111',
                                                         ),
                                                         style:
                                                             FlutterFlowTheme.of(
