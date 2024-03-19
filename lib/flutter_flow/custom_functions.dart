@@ -492,7 +492,7 @@ List<String> buscaVolumesNoRegistro(dynamic trSinc) {
 }
 
 String? buscalegendaiconeAtravesDaEtiquetaEmPontos(
-  dynamic trSinc,
+  List<dynamic> trSinc,
   String? etiquetaNum,
   int? fazId,
   int? oservId,
