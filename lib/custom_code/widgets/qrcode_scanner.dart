@@ -45,26 +45,77 @@ class _QrcodeScannerState extends State<QrcodeScanner> {
     super.dispose();
   }
 
+  void showSincro() {
+    List<dynamic> trSincComS = FFAppState()
+        .trSincroniza
+        .where((element) =>
+            element['fazenda_id'] == 1 && element['servico_id'] == 1)
+        .map((e) => e["etapas"])
+        .toList()
+        .first;
+    var volumess = trSincComS
+        .map((e) => e["volumes"])
+        //     .where((element) =>
+        // element["volumes"] == "" || element["volumes"] == null)
+        .toList()
+        .first;
+    if (volumess != null) {
+      volumess.add('volumess.lenght + 1');
+    } else {
+      volumess.add('1');
+    }
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+/*preciso criar uma forma de criar um volume quando entra nessa tela, oq preciso fazer, 
+preciso antes do botão me mandar para essa tela, preciso fazer uma validação, "existe volume criado?
+ se não, eu crio um volume usando o codigo acima de ffappstate.trsinc[etapas][volumes] 
+ para add uma list {id,foto,lacre,amostras (qr-codes lidos), sincronizado = S, datahorainicio, datahora fim}
+  após criar isso, adicionar verificar a lista, pois a lista sera necesario criar um novo appstate para
+   comportar lista de amostas, ou eu listo a profundiade e ponto atraves da etiqueta usando custom function, 
+   clicou em finalizar, fecha tudo usando o datahorafim para notar que tem um finalizado
+    */
+        return AlertDialog(
+          title: Text('Concluído!'),
+          content: Text(volumess.toString()),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         Positioned(
-          bottom: 70,
+          bottom: 85,
+          top: -5,
           left: 0,
           right: 0,
-          child: SizedBox(
-            width: double.infinity,
-            height: 300,
-            child: QRView(
-              key: qrKey,
-              onQRViewCreated: _onQRViewCreated,
-              overlay: QrScannerOverlayShape(
-                borderColor: Color(0xFF00736D),
-                borderRadius: 10,
-                borderLength: 130,
-                borderWidth: 5,
-                overlayColor: Colors.white,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(
+                  20), // Aplica bordas arredondadas ao Container
+              color: Colors
+                  .black, // Cor de fundo, pode ser transparente ou qualquer cor desejada
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(
+                  20), // Aplica bordas arredondadas ao conteúdo do Container
+              child: SizedBox(
+                width: 100,
+                height: 100,
+                child: QRView(
+                  key: qrKey,
+                  onQRViewCreated: _onQRViewCreated,
+                  overlay: QrScannerOverlayShape(
+                    borderColor: Color(0xFFFFFFFF),
+                    borderRadius: 2,
+                    borderLength: 30,
+                    borderWidth: 10,
+                    overlayColor: Color(0xDB000000),
+                  ),
+                ),
               ),
             ),
           ),
@@ -96,7 +147,7 @@ class _QrcodeScannerState extends State<QrcodeScanner> {
                         controller: textController,
                         obscureText: false,
                         decoration: InputDecoration(
-                          labelText: 'Código',
+                          labelText: '',
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                               color: Color(0xFF00736d),
@@ -118,7 +169,8 @@ class _QrcodeScannerState extends State<QrcodeScanner> {
                   FloatingActionButton(
                     mini: true,
                     onPressed: () {
-                      FFAppState().teste.add("dfjghdhjgfvfjhdsf");
+                      FFAppState().teste.add(textController.text);
+                      textController.clear();
                     },
                     child: Icon(Icons.arrow_forward, color: Colors.white),
                     backgroundColor: Color(0xFF00736d),
@@ -133,8 +185,9 @@ class _QrcodeScannerState extends State<QrcodeScanner> {
           left: 10,
           child: FloatingActionButton(
             onPressed: () {
-              controller?.resumeCamera();
-              textController.clear();
+              // controller?.resumeCamera();
+              // textController.clear();
+              showSincro();
             },
             child: Icon(Icons.delete, color: Colors.white),
             backgroundColor: Color(0xFF982c26),

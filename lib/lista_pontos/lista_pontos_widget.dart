@@ -374,6 +374,35 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                     ),
                                     FFButtonWidget(
                                       onPressed: () async {
+                                        if (functions.buscaSeAEtapaEstaIniciada(
+                                            functions.buscaRegistro(
+                                                widget.fazId!,
+                                                widget.oservId!,
+                                                FFAppState()
+                                                    .trSincroniza
+                                                    .toList()))!) {
+                                        } else {
+                                          await showDialog(
+                                            context: context,
+                                            builder: (alertDialogContext) {
+                                              return AlertDialog(
+                                                title: const Text('Ops!'),
+                                                content: const Text(
+                                                    'Voçê precisa iniciar uma etapa para criar um volume!'),
+                                                actions: [
+                                                  TextButton(
+                                                    onPressed: () =>
+                                                        Navigator.pop(
+                                                            alertDialogContext),
+                                                    child: const Text('Entendi'),
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
+                                          return;
+                                        }
+
                                         context.pushNamed(
                                           'criacaoVolume',
                                           extra: <String, dynamic>{
