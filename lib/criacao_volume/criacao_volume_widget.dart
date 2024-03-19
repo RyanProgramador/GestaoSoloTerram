@@ -1,5 +1,6 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/custom_code/actions/index.dart' as actions;
 import '/custom_code/widgets/index.dart' as custom_widgets;
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
@@ -386,8 +387,8 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
                                                     ),
                                                   ],
                                                 ),
-                                                const Padding(
-                                                  padding: EdgeInsetsDirectional
+                                                Padding(
+                                                  padding: const EdgeInsetsDirectional
                                                       .fromSTEB(
                                                           0.0, 0.0, 10.0, 0.0),
                                                   child: Column(
@@ -397,11 +398,99 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
                                                         MainAxisAlignment
                                                             .center,
                                                     children: [
-                                                      FaIcon(
-                                                        FontAwesomeIcons
-                                                            .trashAlt,
-                                                        color: Colors.black,
-                                                        size: 24.0,
+                                                      InkWell(
+                                                        splashColor:
+                                                            Colors.transparent,
+                                                        focusColor:
+                                                            Colors.transparent,
+                                                        hoverColor:
+                                                            Colors.transparent,
+                                                        highlightColor:
+                                                            Colors.transparent,
+                                                        onTap: () async {
+                                                          var shouldSetState =
+                                                              false;
+                                                          var confirmDialogResponse =
+                                                              await showDialog<
+                                                                      bool>(
+                                                                    context:
+                                                                        context,
+                                                                    builder:
+                                                                        (alertDialogContext) {
+                                                                      return AlertDialog(
+                                                                        title: const Text(
+                                                                            'Atenção!'),
+                                                                        content:
+                                                                            const Text('Você tem certeza que deseja remover essa amostra de dentro do volume?'),
+                                                                        actions: [
+                                                                          TextButton(
+                                                                            onPressed: () =>
+                                                                                Navigator.pop(alertDialogContext, false),
+                                                                            child:
+                                                                                const Text('Não'),
+                                                                          ),
+                                                                          TextButton(
+                                                                            onPressed: () =>
+                                                                                Navigator.pop(alertDialogContext, true),
+                                                                            child:
+                                                                                const Text('Sim'),
+                                                                          ),
+                                                                        ],
+                                                                      );
+                                                                    },
+                                                                  ) ??
+                                                                  false;
+                                                          if (confirmDialogResponse) {
+                                                            _model.retornoEclusao =
+                                                                actions
+                                                                    .excluiVolumeDaEtapaAberta(
+                                                              functions.buscaRegistro(
+                                                                  widget.fazId!,
+                                                                  widget
+                                                                      .oservId!,
+                                                                  FFAppState()
+                                                                      .trSincroniza
+                                                                      .toList()),
+                                                              testeItem,
+                                                            );
+                                                            shouldSetState =
+                                                                true;
+                                                            await showDialog(
+                                                              context: context,
+                                                              builder:
+                                                                  (alertDialogContext) {
+                                                                return AlertDialog(
+                                                                  title: Text(_model
+                                                                      .retornoEclusao!),
+                                                                  actions: [
+                                                                    TextButton(
+                                                                      onPressed:
+                                                                          () =>
+                                                                              Navigator.pop(alertDialogContext),
+                                                                      child: const Text(
+                                                                          'Ok'),
+                                                                    ),
+                                                                  ],
+                                                                );
+                                                              },
+                                                            );
+                                                          } else {
+                                                            if (shouldSetState) {
+                                                              setState(() {});
+                                                            }
+                                                            return;
+                                                          }
+
+                                                          if (shouldSetState) {
+                                                            setState(() {});
+                                                          }
+                                                        },
+                                                        child: const FaIcon(
+                                                          FontAwesomeIcons
+                                                              .trashAlt,
+                                                          color: Colors.black,
+                                                          size: 24.0,
+                                                        ),
                                                       ),
                                                     ],
                                                   ),

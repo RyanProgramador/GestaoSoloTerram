@@ -522,13 +522,16 @@ String? buscaPontoAtravesDaEtiquetaEmPontos(
 ) {
   List<dynamic> pontosFiltrados = trSinc['pontos'];
 
-  List<dynamic> pontosEncontrados = pontosFiltrados
-      .where((ponto) =>
-          ponto['pprof_etiqueta_id'].toString() == etiquetaNum &&
-          ponto['sincronizado'] == 'S' &&
-          ponto.containsKey('pont_numero'))
-      .map((ponto) => ponto['pont_numero'])
-      .toList();
-
-  return pontosEncontrados.isNotEmpty ? pontosEncontrados.first : null;
+  for (var ponto in pontosFiltrados) {
+    if (ponto['profundidades'] != null) {
+      for (var profundidade in ponto['profundidades']) {
+        if (profundidade['pprof_etiqueta_id'].toString() == etiquetaNum &&
+            profundidade['sincronizado'] == 'S') {
+          return ponto['pont_numero'].toString();
+        }
+      }
+    }
+  }
+  // return pontosEncontrados.isNotEmpty ? pontosEncontrados.first : null;
+  return 'error#buscaPontoAtravesDaEtiquetaEmPontos';
 }

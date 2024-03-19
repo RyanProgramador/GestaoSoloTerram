@@ -1,13 +1,13 @@
 import '/flutter_flow/flutter_flow_util.dart';
-import 'criacao_volume_widget.dart' show CriacaoVolumeWidget;
+import 'listade_volumes_widget.dart' show ListadeVolumesWidget;
 import 'package:flutter/material.dart';
 
-class CriacaoVolumeModel extends FlutterFlowModel<CriacaoVolumeWidget> {
+class ListadeVolumesModel extends FlutterFlowModel<ListadeVolumesWidget> {
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();
-  // Stores action output result for [Custom Action - excluiVolumeDaEtapaAberta] action in Icon widget.
-  String? retornoEclusao;
+  // Stores action output result for [Custom Action - checkinternet] action in Icon widget.
+  bool? temnetouno;
 
   /// Initialization and disposal methods.
 

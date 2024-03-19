@@ -156,6 +156,21 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
             fazId: params.getParam('fazId', ParamType.int),
             oservId: params.getParam('oservId', ParamType.int),
           ),
+        ),
+        FFRoute(
+          name: 'ListadeVolumes',
+          path: '/listadeVolumes',
+          builder: (context, params) => ListadeVolumesWidget(
+            listaJsonPontos: params.getParam<dynamic>(
+                'listaJsonPontos', ParamType.JSON, true),
+            oservId: params.getParam('oservId', ParamType.int),
+            fazId: params.getParam('fazId', ParamType.int),
+            fazNome: params.getParam('fazNome', ParamType.String),
+            fazLatlng: params.getParam('fazLatlng', ParamType.LatLng),
+            autoAuditoria: params.getParam('autoAuditoria', ParamType.bool),
+            quantidadeAutoAuditoria:
+                params.getParam('quantidadeAutoAuditoria', ParamType.int),
+          ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

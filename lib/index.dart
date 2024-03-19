@@ -11,3 +11,4 @@ export '/esqueceu_senha/esqueceu_senha_widget.dart' show EsqueceuSenhaWidget;
 export '/blanc_redir_inicio/blanc_redir_inicio_widget.dart'
     show BlancRedirInicioWidget;
 export '/criacao_volume/criacao_volume_widget.dart' show CriacaoVolumeWidget;
+export '/listade_volumes/listade_volumes_widget.dart' show ListadeVolumesWidget;
