@@ -40,7 +40,7 @@ class _LoginWidgetState extends State<LoginWidget>
         FadeEffect(
           curve: Curves.easeInOut,
           delay: 0.ms,
-          duration: 620.ms,
+          duration: 440.ms,
           begin: 0.0,
           end: 1.0,
         ),
