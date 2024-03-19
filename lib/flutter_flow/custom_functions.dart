@@ -481,6 +481,7 @@ bool? buscaSeOVolumeEstaIniciadoENaoFinalizado(dynamic trSinc) {
         } else {
           // se não existem volumes, criamos um novo
           var foto = capturaImagemCameraTraseira();
+
           etapa['volumes'] = [
             {
               "volume_id": 1,
