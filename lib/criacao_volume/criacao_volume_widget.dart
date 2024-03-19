@@ -331,7 +331,7 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
                                                             .retornalegenda(
                                                                 valueOrDefault<
                                                                     String>(
-                                                                  functions.buscaPontoAtravesDaEtiquetaEmPontos(
+                                                                  functions.buscalegendaiconeAtravesDaEtiquetaEmPontosCopy(
                                                                       functions.buscaRegistro(
                                                                           widget
                                                                               .fazId!,
