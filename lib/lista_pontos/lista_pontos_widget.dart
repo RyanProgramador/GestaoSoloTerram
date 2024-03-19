@@ -381,6 +381,34 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                 FFAppState()
                                                     .trSincroniza
                                                     .toList()))!) {
+                                          if (!functions
+                                              .buscaSeOVolumeEstaIniciadoENaoFinalizado(
+                                                  functions.buscaRegistro(
+                                                      widget.fazId!,
+                                                      widget.oservId!,
+                                                      FFAppState()
+                                                          .trSincroniza
+                                                          .toList()))!) {
+                                            await showDialog(
+                                              context: context,
+                                              builder: (alertDialogContext) {
+                                                return AlertDialog(
+                                                  title: const Text('Ops!'),
+                                                  content: const Text(
+                                                      'Parece que um erro inesperado aconteceu!'),
+                                                  actions: [
+                                                    TextButton(
+                                                      onPressed: () =>
+                                                          Navigator.pop(
+                                                              alertDialogContext),
+                                                      child: const Text('Entendi'),
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            );
+                                            return;
+                                          }
                                         } else {
                                           await showDialog(
                                             context: context,
