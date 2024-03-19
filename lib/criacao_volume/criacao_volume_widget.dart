@@ -312,25 +312,27 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
                                                                 FontWeight.w600,
                                                           ),
                                                     ),
-                                                    Text(
-                                                      valueOrDefault<String>(
-                                                        functions.buscalegendaiconeAtravesDaEtiquetaEmPontos(
-                                                            functions.buscaRegistro(
-                                                                widget.fazId!,
-                                                                widget.oservId!,
-                                                                FFAppState()
-                                                                    .trSincroniza
-                                                                    .toList()),
-                                                            testeItem,
-                                                            widget.fazId,
-                                                            widget.oservId),
-                                                        'error32',
+                                                    if (false)
+                                                      Text(
+                                                        valueOrDefault<String>(
+                                                          functions.buscalegendaiconeAtravesDaEtiquetaEmPontos(
+                                                              functions.buscaRegistro(
+                                                                  widget.fazId!,
+                                                                  widget
+                                                                      .oservId!,
+                                                                  FFAppState()
+                                                                      .trSincroniza
+                                                                      .toList()),
+                                                              testeItem,
+                                                              widget.fazId,
+                                                              widget.oservId),
+                                                          'error32',
+                                                        ),
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium,
                                                       ),
-                                                      style:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodyMedium,
-                                                    ),
                                                   ],
                                                 ),
                                                 Column(
