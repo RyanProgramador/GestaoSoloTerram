@@ -59,20 +59,15 @@ class _QrcodeScannerState extends State<QrcodeScanner> {
         // element["volumes"] == "" || element["volumes"] == null)
         .toList()
         .first;
-    if (volumess != null) {
-      volumess.add('volumess.lenght + 1');
-    } else {
-      volumess.add('1');
-    }
     showDialog(
       context: context,
       builder: (BuildContext context) {
-/*preciso criar uma forma de criar um volume quando entra nessa tela, oq preciso fazer, 
+/*preciso criar uma forma de criar um volume quando entra nessa tela, oq preciso fazer,
 preciso antes do botão me mandar para essa tela, preciso fazer uma validação, "existe volume criado?
- se não, eu crio um volume usando o codigo acima de ffappstate.trsinc[etapas][volumes] 
+ se não, eu crio um volume usando o codigo acima de ffappstate.trsinc[etapas][volumes]
  para add uma list {id,foto,lacre,amostras (qr-codes lidos), sincronizado = S, datahorainicio, datahora fim}
   após criar isso, adicionar verificar a lista, pois a lista sera necesario criar um novo appstate para
-   comportar lista de amostas, ou eu listo a profundiade e ponto atraves da etiqueta usando custom function, 
+   comportar lista de amostas, ou eu listo a profundiade e ponto atraves da etiqueta usando custom function,
    clicou em finalizar, fecha tudo usando o datahorafim para notar que tem um finalizado
     */
         return AlertDialog(
