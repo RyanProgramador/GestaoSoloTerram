@@ -242,6 +242,29 @@ String? pesquisaFotoBas64(
   return "Pending or Error"; // Adjust this return value based on your needs
 }
 
+String? buscalegendaiconeAtravesDaEtiquetaEmPontosCopy(
+  List<dynamic> trSinc,
+  String? etiquetaNum,
+  int? fazId,
+  int? oservId,
+) {
+  List<dynamic> trSincComS = trSinc['pontos'];
+
+  List<dynamic> profundidadesNaoSincronizadas = [];
+  for (var profIcon in trSincComS) {
+    var legendaIcone = profIcon['profundidades'] as List<dynamic>;
+    var legendaIconeFiltrada = legendaIcone
+        .where((legendaIcone) =>
+            legendaIcone['sincronizado'].toString() == "S" &&
+            legendaIcone['pprof_etiqueta_id'].toString() == etiquetaNum)
+        .map((e) => e['pprof_icone'])
+        .toList();
+
+    profundidadesNaoSincronizadas.addAll(legendaIconeFiltrada);
+  }
+  return profundidadesNaoSincronizadas.first.toString();
+}
+
 String? pesquisaFotoBas64HTML(
   String? pprofID,
   List<dynamic> pontosColetados,
@@ -491,31 +514,18 @@ List<String> buscaVolumesNoRegistro(dynamic trSinc) {
   return amostrasList;
 }
 
-String? buscalegendaiconeAtravesDaEtiquetaEmPontos(
+String? buscaPontoAtravesDaEtiquetaEmPontos(
   List<dynamic> trSinc,
   String? etiquetaNum,
   int? fazId,
   int? oservId,
 ) {
-  List<dynamic> trSincComS = trSinc
-      .where((element) =>
-          element['fazenda_id'] == fazId! && element['servico_id'] == oservId!)
-      .map((e) => e["pontos"])
-      .toList()
-      .first;
+  List<dynamic> trSincComS = trSinc['pontos'];
 
-  List<dynamic> profundidadesNaoSincronizadas = [];
-
-  for (var profIcon in trSincComS) {
-    var legendaIcone = profIcon['profundidades'] as List<dynamic>;
-    var legendaIconeFiltrada = legendaIcone
-        .where((legendaIcone) =>
-            legendaIcone['sincronizado'].toString() == "S" &&
-            legendaIcone['pprof_etiqueta_id'].toString() == '777')
-        .map((e) => e['pprof_icone'])
-        .toList();
-
-    profundidadesNaoSincronizadas.addAll(legendaIconeFiltrada);
+  for (var ponto in trSincComS) {
+    if (ponto.containsKey('pont_numero')) {
+      profundidadesNaoSincronizadas.add(ponto['pont_numero']);
+    }
   }
   return profundidadesNaoSincronizadas.first.toString();
 }

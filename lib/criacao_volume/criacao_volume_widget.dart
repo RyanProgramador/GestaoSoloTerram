@@ -285,7 +285,32 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
                                                                 ),
                                                       ),
                                                       Text(
-                                                        testeItem,
+                                                        valueOrDefault<String>(
+                                                          functions
+                                                              .retornalegenda(
+                                                                  valueOrDefault<
+                                                                      String>(
+                                                                    functions.buscaPontoAtravesDaEtiquetaEmPontos(
+                                                                        functions.buscaRegistro(
+                                                                            widget
+                                                                                .fazId!,
+                                                                            widget
+                                                                                .oservId!,
+                                                                            FFAppState()
+                                                                                .trSincroniza
+                                                                                .toList()),
+                                                                        testeItem,
+                                                                        widget
+                                                                            .fazId,
+                                                                        widget
+                                                                            .oservId),
+                                                                    'error32',
+                                                                  ),
+                                                                  FFAppState()
+                                                                      .trIcones
+                                                                      .toList()),
+                                                          'Erro',
+                                                        ),
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -314,17 +339,30 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
                                                     ),
                                                     Text(
                                                       valueOrDefault<String>(
-                                                        functions.buscalegendaiconeAtravesDaEtiquetaEmPontos(
-                                                            functions.buscaRegistro(
-                                                                widget.fazId!,
-                                                                widget.oservId!,
+                                                        functions
+                                                            .retornalegenda(
+                                                                valueOrDefault<
+                                                                    String>(
+                                                                  functions.buscaPontoAtravesDaEtiquetaEmPontos(
+                                                                      functions.buscaRegistro(
+                                                                          widget
+                                                                              .fazId!,
+                                                                          widget
+                                                                              .oservId!,
+                                                                          FFAppState()
+                                                                              .trSincroniza
+                                                                              .toList()),
+                                                                      testeItem,
+                                                                      widget
+                                                                          .fazId,
+                                                                      widget
+                                                                          .oservId),
+                                                                  'error32',
+                                                                ),
                                                                 FFAppState()
-                                                                    .trSincroniza
+                                                                    .trIcones
                                                                     .toList()),
-                                                            testeItem,
-                                                            widget.fazId,
-                                                            widget.oservId),
-                                                        'error32',
+                                                        'Erro',
                                                       ),
                                                       style:
                                                           FlutterFlowTheme.of(
