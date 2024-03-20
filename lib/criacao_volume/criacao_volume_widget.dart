@@ -53,6 +53,7 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
         FFAppState().trTalhoes =
             FFAppState().trTalhoes.toList().cast<dynamic>();
       });
+      _model.timerController.onStartTimer();
     });
 
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
