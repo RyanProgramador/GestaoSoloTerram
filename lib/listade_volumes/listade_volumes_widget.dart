@@ -251,46 +251,7 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                         16.0, 0.0, 16.0, 0.0),
                                     child: Container(
                                       width: double.infinity,
-                                      height: () {
-                                        if (functions.contadorDeIntensNaLista(
-                                                getJsonField(
-                                              volumesListadosItem,
-                                              r'''$.profundidades''',
-                                              true,
-                                            )) ==
-                                            4) {
-                                          return 190.0;
-                                        } else if (functions
-                                                .contadorDeIntensNaLista(
-                                                    getJsonField(
-                                              volumesListadosItem,
-                                              r'''$.profundidades''',
-                                              true,
-                                            )) ==
-                                            3) {
-                                          return 170.0;
-                                        } else if (functions
-                                                .contadorDeIntensNaLista(
-                                                    getJsonField(
-                                              volumesListadosItem,
-                                              r'''$.profundidades''',
-                                              true,
-                                            )) ==
-                                            2) {
-                                          return 150.0;
-                                        } else if (functions
-                                                .contadorDeIntensNaLista(
-                                                    getJsonField(
-                                              volumesListadosItem,
-                                              r'''$.profundidades''',
-                                              true,
-                                            )) ==
-                                            1) {
-                                          return 125.0;
-                                        } else {
-                                          return 100.0;
-                                        }
-                                      }(),
+                                      height: 170.0,
                                       decoration: BoxDecoration(
                                         color: const Color(0xFFE6F1F0),
                                         borderRadius:
@@ -398,18 +359,29 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                                         0.0,
                                                                         2.0),
                                                             child: Text(
-                                                              'Iniciado: 11/03/2024 - 10:21  AM',
+                                                              'Iniciado: ${getJsonField(
+                                                                volumesListadosItem,
+                                                                r'''$.volume_data_hora_inicio''',
+                                                              ).toString()}',
                                                               style: FlutterFlowTheme
                                                                       .of(context)
                                                                   .bodyMedium,
                                                             ),
                                                           ),
-                                                          Text(
-                                                            'Concluído: 14/03/2024 - 17:05  PM',
-                                                            style: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .bodyMedium,
-                                                          ),
+                                                          if (getJsonField(
+                                                                volumesListadosItem,
+                                                                r'''$.volume_data_hora_fim''',
+                                                              ) !=
+                                                              null)
+                                                            Text(
+                                                              'Concluído: ${getJsonField(
+                                                                volumesListadosItem,
+                                                                r'''$.volume_data_hora_fim''',
+                                                              ).toString()}',
+                                                              style: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .bodyMedium,
+                                                            ),
                                                         ],
                                                       ),
                                                     ),
@@ -491,7 +463,10 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                                               .start,
                                                                       children: [
                                                                         Text(
-                                                                          '01949001 ',
+                                                                          getJsonField(
+                                                                            volumesListadosItem,
+                                                                            r'''$.lacre''',
+                                                                          ).toString(),
                                                                           style:
                                                                               FlutterFlowTheme.of(context).bodyMedium,
                                                                         ),
@@ -500,53 +475,52 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                                   ),
                                                                 ],
                                                               ),
-                                                              Column(
-                                                                mainAxisSize:
-                                                                    MainAxisSize
-                                                                        .max,
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .center,
-                                                                children: [
-                                                                  Text(
-                                                                    'Etiqueta',
-                                                                    style: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyMedium
-                                                                        .override(
-                                                                          fontFamily:
-                                                                              'Readex Pro',
-                                                                          color:
-                                                                              FlutterFlowTheme.of(context).primaryText,
-                                                                          fontSize:
-                                                                              16.0,
-                                                                          fontWeight:
-                                                                              FontWeight.w500,
-                                                                        ),
-                                                                  ),
-                                                                  Padding(
-                                                                    padding: const EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            0.0,
-                                                                            4.0,
-                                                                            0.0,
-                                                                            0.0),
-                                                                    child:
-                                                                        Column(
-                                                                      mainAxisSize:
-                                                                          MainAxisSize
-                                                                              .max,
-                                                                      children: [
-                                                                        Text(
-                                                                          '01949001 ',
-                                                                          style:
-                                                                              FlutterFlowTheme.of(context).bodyMedium,
-                                                                        ),
-                                                                      ],
+                                                              if (true == false)
+                                                                Column(
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .max,
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .center,
+                                                                  children: [
+                                                                    Text(
+                                                                      'Etiqueta',
+                                                                      style: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyMedium
+                                                                          .override(
+                                                                            fontFamily:
+                                                                                'Readex Pro',
+                                                                            color:
+                                                                                FlutterFlowTheme.of(context).primaryText,
+                                                                            fontSize:
+                                                                                16.0,
+                                                                            fontWeight:
+                                                                                FontWeight.w500,
+                                                                          ),
                                                                     ),
-                                                                  ),
-                                                                ],
-                                                              ),
+                                                                    Padding(
+                                                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                                                          0.0,
+                                                                          4.0,
+                                                                          0.0,
+                                                                          0.0),
+                                                                      child:
+                                                                          Column(
+                                                                        mainAxisSize:
+                                                                            MainAxisSize.max,
+                                                                        children: [
+                                                                          Text(
+                                                                            '01949001 ',
+                                                                            style:
+                                                                                FlutterFlowTheme.of(context).bodyMedium,
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
                                                               Column(
                                                                 mainAxisSize:
                                                                     MainAxisSize
