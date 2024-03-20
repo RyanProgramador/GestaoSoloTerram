@@ -414,10 +414,16 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                                       ),
                                                                 ),
                                                                 Text(
-                                                                  getJsonField(
-                                                                    volumesListadosItem,
-                                                                    r'''$.amostras''',
-                                                                  ).toString(),
+                                                                  valueOrDefault<
+                                                                      String>(
+                                                                    functions
+                                                                        .contadorDeNumeroDeAmostras(
+                                                                            getJsonField(
+                                                                      volumesListadosItem,
+                                                                      r'''$.amostras[:]''',
+                                                                    ).toString()),
+                                                                    'Erro#nãotemNumero',
+                                                                  ),
                                                                   style: FlutterFlowTheme.of(
                                                                           context)
                                                                       .bodyMedium,
