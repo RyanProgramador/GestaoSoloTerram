@@ -12,3 +12,5 @@ export '/blanc_redir_inicio/blanc_redir_inicio_widget.dart'
     show BlancRedirInicioWidget;
 export '/criacao_volume/criacao_volume_widget.dart' show CriacaoVolumeWidget;
 export '/listade_volumes/listade_volumes_widget.dart' show ListadeVolumesWidget;
+export '/listade_amostras/listade_amostras_widget.dart'
+    show ListadeAmostrasWidget;

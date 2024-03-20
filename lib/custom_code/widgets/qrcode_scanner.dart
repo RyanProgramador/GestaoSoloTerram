@@ -49,6 +49,47 @@ class _QrcodeScannerState extends State<QrcodeScanner> {
     super.dispose();
   }
 
+  void atualiza() {
+    // showDialog(
+    //     context: context,
+    //     builder: (BuildContext context) {
+    //       return AlertDialog(
+    //
+    //       title: Text(''),
+    //       content: SingleChildScrollView(
+    //         child: Text(''),
+    //       ),
+    //     );
+    //     },
+    // );
+
+    showDialog(
+      context: context,
+      barrierDismissible: false, // Prevent dialog from closing on tap outside
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: SizedBox(
+            width: 1, // Very small width
+            height: 1, // Very small height
+            child: Center(
+              child: CircularProgressIndicator(
+                strokeWidth: 1,
+              ),
+            ),
+          ),
+          contentPadding:
+              EdgeInsets.zero, // Removes any extra padding inside the dialog
+          insetPadding:
+              EdgeInsets.zero, // Removes any extra padding outside the dialog
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(
+                1), // Optional: just to make sure it's as small as possible
+          ),
+        );
+      },
+    );
+  }
+
   void showSincro() {
     List<dynamic> trSincComS = FFAppState()
         .trSincroniza
@@ -68,18 +109,39 @@ class _QrcodeScannerState extends State<QrcodeScanner> {
     //     // .first;
 
     List<dynamic> profundidadesNaoSincronizadas = [];
+    //
+    // for (var profIcon in trSincComS) {
+    //   var legendaIcone = profIcon['profundidades'] as List<dynamic>;
+    //   var legendaIconeFiltrada = legendaIcone
+    //       .where((legendaIcone) =>
+    //   legendaIcone['sincronizado'].toString() == "S" &&
+    //       legendaIcone['pprof_etiqueta_id'].toString() == '777')
+    //       .map((e) => e['pprof_icone'])
+    //       .toList();
+    //
+    //   profundidadesNaoSincronizadas.addAll(legendaIconeFiltrada);
+    // }
 
-    for (var profIcon in trSincComS) {
-      var legendaIcone = profIcon['profundidades'] as List<dynamic>;
-      var legendaIconeFiltrada = legendaIcone
-          .where((legendaIcone) =>
-              legendaIcone['sincronizado'].toString() == "S" &&
-              legendaIcone['pprof_etiqueta_id'].toString() == '777')
-          .map((e) => e['pprof_icone'])
-          .toList();
-
-      profundidadesNaoSincronizadas.addAll(legendaIconeFiltrada);
+    for (var ponto in trSincComS) {
+      if (ponto.containsKey('pont_numero')) {
+        profundidadesNaoSincronizadas.add(ponto['pont_numero']);
+      }
     }
+
+// ----------------------------------------------------
+//     List<dynamic> profundidadesNaoSincronizadas = [];
+//
+//     for (var profIcon in trSincComS) {
+//       var legendaIcone = profIcon['profundidades'] as List<dynamic>;
+//       var legendaIconeFiltrada = legendaIcone
+//           .where((legendaIcone) =>
+//               legendaIcone['sincronizado'].toString() == "S" &&
+//               legendaIcone['pprof_etiqueta_id'].toString() == '777')
+//           .map((e) => e['pprof_icone'])
+//           .toList();
+//
+//       profundidadesNaoSincronizadas.addAll(legendaIconeFiltrada);
+//     }
 
 //---------------------------------------------------------
 //     List<dynamic> profundidadesNaoSincronizadas = [];
@@ -269,102 +331,110 @@ preciso antes do botão me mandar para essa tela, preciso fazer uma validação,
                   ),
                   FloatingActionButton(
                     mini: true,
-                    onPressed: () {
-                      // FFAppState().teste.add(textController.text);
-                      List<dynamic> trSincComS = FFAppState()
-                          .trSincroniza
-                          .where((element) =>
-                              element['fazenda_id'] ==
-                                  int.parse(widget.fazId!) &&
-                              element['servico_id'] ==
-                                  int.parse(widget.oservid!))
-                          .map((e) => e["etapas"])
-                          .toList()
-                          .first;
-                      var volumess = trSincComS
-                          .map((e) => e["volumes"])
-                          //     .where((element) =>
-                          // element["volume_data_hora_fim"].toString() == "" || element["volume_data_hora_fim"].toString() == null)
-                          .toList()
-                          .first
-                          .first;
-
-                      // volumess['amostras'].add(textController.text.toString());
-                      // volumess['amostras'].add(1);
-
-                      // volumess['amostras'] = ["1","2","3","4"];
-
-                      List<dynamic> trSincEtiqueta = FFAppState()
-                          .trSincroniza
-                          .where((element) =>
-                              element['fazenda_id'] ==
-                                  int.parse(widget.fazId!) &&
-                              element['servico_id'] ==
-                                  int.parse(widget.oservid!))
-                          .map((e) => e["pontos"])
-                          .toList()
-                          .first;
-                      List<dynamic> profundidadesNaoSincronizadas = [];
-
-                      for (var ponto in trSincEtiqueta) {
-                        var profundidades =
-                            ponto['profundidades'] as List<dynamic>;
-                        var profundidadesFiltradas = profundidades
-                            .where((profundidade) =>
-                                profundidade['sincronizado'].toString() == "S")
-                            .map((e) => e['pprof_etiqueta_id'])
-                            .toList();
-
-                        profundidadesNaoSincronizadas
-                            .addAll(profundidadesFiltradas);
-                      }
-
-                      //VERIFICAR TAMBEM SE A ETIQUETA JA EXISTE EM AMOSTRAS, SE JA EXISTE, CIRAR UM VOID etiquetaRepetita(), e mostrar qual etiqueta ja foi lida
-                      List<dynamic> trSincetapas = FFAppState()
-                          .trSincroniza
-                          .where((element) =>
-                              element['fazenda_id'] ==
-                                  int.parse(widget.fazId!) &&
-                              element['servico_id'] ==
-                                  int.parse(widget.oservid!))
-                          .map((e) => e["etapas"])
-                          .toList()
-                          .first;
-                      List<dynamic> volumesNaoSincronizadas = [];
-
-                      for (var volume in trSincetapas) {
-                        var volumes = volume['volumes'] as List<dynamic>;
-                        var volumesFiltrados = volumes
-                            .where((volumes) =>
-                                volumes['volume_data_hora_fim'].toString() !=
-                                    "" ||
-                                volumes['volume_data_hora_fim'].toString() !=
-                                    null)
-                            .map((e) => e['amostras'])
+                    onPressed: () async {
+                      setState(() async {
+                        // FFAppState().teste.add(textController.text);
+                        List<dynamic> trSincComS = FFAppState()
+                            .trSincroniza
+                            .where((element) =>
+                                element['fazenda_id'] ==
+                                    int.parse(widget.fazId!) &&
+                                element['servico_id'] ==
+                                    int.parse(widget.oservid!))
+                            .map((e) => e["etapas"])
                             .toList()
                             .first;
+                        var volumess = trSincComS
+                            .map((e) => e["volumes"])
+                            //     .where((element) =>
+                            // element["volume_data_hora_fim"].toString() == "" || element["volume_data_hora_fim"].toString() == null)
+                            .toList()
+                            .first
+                            .first;
 
-                        volumesNaoSincronizadas.addAll(volumesFiltrados);
-                      }
+                        // volumess['amostras'].add(textController.text.toString());
+                        // volumess['amostras'].add(1);
 
-                      //criar select de ppont_icone e ponto (PONTO?)
-                      String pesquisa = textController.text
-                          .toString(); // Asegúrese de que 'pesquisa' seja do tipo correto e tenha o valor correto
-                      if (profundidadesNaoSincronizadas.contains(pesquisa)) {
-                        if (volumesNaoSincronizadas.contains(pesquisa)) {
-                          etiquetaRepetita();
-                        } else {
-                          volumess['amostras']
-                              .add(textController.text.toString());
+                        // volumess['amostras'] = ["1","2","3","4"];
+
+                        List<dynamic> trSincEtiqueta = FFAppState()
+                            .trSincroniza
+                            .where((element) =>
+                                element['fazenda_id'] ==
+                                    int.parse(widget.fazId!) &&
+                                element['servico_id'] ==
+                                    int.parse(widget.oservid!))
+                            .map((e) => e["pontos"])
+                            .toList()
+                            .first;
+                        List<dynamic> profundidadesNaoSincronizadas = [];
+
+                        for (var ponto in trSincEtiqueta) {
+                          var profundidades =
+                              ponto['profundidades'] as List<dynamic>;
+                          var profundidadesFiltradas = profundidades
+                              .where((profundidade) =>
+                                  profundidade['sincronizado'].toString() ==
+                                  "S")
+                              .map((e) => e['pprof_etiqueta_id'])
+                              .toList();
+
+                          profundidadesNaoSincronizadas
+                              .addAll(profundidadesFiltradas);
                         }
-                        // volumess['amostras'] = [];
-                      } else {
-                        semEtiqueta();
-                      }
-                      // volumess['amostras'].add(textController.text
-                      //     .toString()); // Usa um valor padrão (como 0) caso a conversão falhe
 
-                      textController.clear();
+                        //VERIFICAR TAMBEM SE A ETIQUETA JA EXISTE EM AMOSTRAS, SE JA EXISTE, CIRAR UM VOID etiquetaRepetita(), e mostrar qual etiqueta ja foi lida
+                        List<dynamic> trSincetapas = FFAppState()
+                            .trSincroniza
+                            .where((element) =>
+                                element['fazenda_id'] ==
+                                    int.parse(widget.fazId!) &&
+                                element['servico_id'] ==
+                                    int.parse(widget.oservid!))
+                            .map((e) => e["etapas"])
+                            .toList()
+                            .first;
+                        List<dynamic> volumesNaoSincronizadas = [];
+
+                        for (var volume in trSincetapas) {
+                          var volumes = volume['volumes'] as List<dynamic>;
+                          var volumesFiltrados = volumes
+                              .where((volumes) =>
+                                  volumes['volume_data_hora_fim'].toString() !=
+                                      "" ||
+                                  volumes['volume_data_hora_fim'].toString() !=
+                                      null)
+                              .map((e) => e['amostras'])
+                              .toList()
+                              .first;
+
+                          volumesNaoSincronizadas.addAll(volumesFiltrados);
+                        }
+
+                        //criar select de ppont_icone e ponto (PONTO?)
+                        String pesquisa = textController.text
+                            .toString(); // Asegúrese de que 'pesquisa' seja do tipo correto e tenha o valor correto
+                        if (profundidadesNaoSincronizadas.contains(pesquisa)) {
+                          if (volumesNaoSincronizadas.contains(pesquisa)) {
+                            etiquetaRepetita();
+                          } else {
+                            volumess['amostras']
+                                .add(textController.text.toString());
+                          }
+                          // volumess['amostras'] = [];
+                        } else {
+                          semEtiqueta();
+                        }
+                        // volumess['amostras'].add(textController.text
+                        //     .toString()); // Usa um valor padrão (como 0) caso a conversão falhe
+
+                        atualiza();
+                        textController.clear();
+                        controller?.resumeCamera();
+                        await Future.delayed(Duration(milliseconds: 50));
+
+                        Navigator.of(context).pop();
+                      });
                     },
                     child: Icon(Icons.arrow_forward, color: Colors.white),
                     backgroundColor: Color(0xFF00736d),
@@ -378,10 +448,16 @@ preciso antes do botão me mandar para essa tela, preciso fazer uma validação,
           bottom: 92,
           left: 10,
           child: FloatingActionButton(
-            onPressed: () {
-              // controller?.resumeCamera();
-              // textController.clear();
-              showSincro();
+            onPressed: () async {
+              controller?.resumeCamera();
+              textController.clear();
+              setState(() async {
+                atualiza();
+                await Future.delayed(Duration(milliseconds: 50));
+
+                Navigator.of(context).pop();
+              });
+              // showSincro();
             },
             child: Icon(Icons.delete, color: Colors.white),
             backgroundColor: Color(0xFF982c26),

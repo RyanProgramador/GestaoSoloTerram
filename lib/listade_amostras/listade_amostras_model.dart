@@ -1,11 +1,13 @@
 import '/flutter_flow/flutter_flow_util.dart';
-import 'listade_volumes_widget.dart' show ListadeVolumesWidget;
+import 'listade_amostras_widget.dart' show ListadeAmostrasWidget;
 import 'package:flutter/material.dart';
 
-class ListadeVolumesModel extends FlutterFlowModel<ListadeVolumesWidget> {
+class ListadeAmostrasModel extends FlutterFlowModel<ListadeAmostrasWidget> {
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();
+  // Stores action output result for [Custom Action - excluiVolumeDaEtapaAberta] action in Icon widget.
+  String? retornoEclusao;
 
   /// Initialization and disposal methods.
 

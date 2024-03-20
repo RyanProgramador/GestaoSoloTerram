@@ -171,6 +171,14 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
             quantidadeAutoAuditoria:
                 params.getParam('quantidadeAutoAuditoria', ParamType.int),
           ),
+        ),
+        FFRoute(
+          name: 'ListadeAmostras',
+          path: '/listadeAmostras',
+          builder: (context, params) => ListadeAmostrasWidget(
+            fazId: params.getParam('fazId', ParamType.int),
+            oservId: params.getParam('oservId', ParamType.int),
+          ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
