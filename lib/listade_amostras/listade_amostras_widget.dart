@@ -16,11 +16,13 @@ class ListadeAmostrasWidget extends StatefulWidget {
     required this.fazId,
     required this.oservId,
     required this.amostras,
+    required this.idDoVolume,
   });
 
   final int? fazId;
   final int? oservId;
   final List<String>? amostras;
+  final String? idDoVolume;
 
   @override
   State<ListadeAmostrasWidget> createState() => _ListadeAmostrasWidgetState();
@@ -129,15 +131,14 @@ class _ListadeAmostrasWidgetState extends State<ListadeAmostrasWidget> {
                             fontWeight: FontWeight.bold,
                           ),
                     ),
-                    if (true)
-                      Text(
-                        'Lista de amostras no volume: XXX',
-                        style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              fontFamily: 'Readex Pro',
-                              color: FlutterFlowTheme.of(context)
-                                  .primaryBackground,
-                            ),
-                      ),
+                    Text(
+                      'Lista de amostras no volume: ${widget.idDoVolume}',
+                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                            fontFamily: 'Readex Pro',
+                            color:
+                                FlutterFlowTheme.of(context).primaryBackground,
+                          ),
+                    ),
                   ],
                 ),
               ),
@@ -231,7 +232,7 @@ class _ListadeAmostrasWidgetState extends State<ListadeAmostrasWidget> {
                                   ),
                                 ),
                               Text(
-                                'Pontos coletados:',
+                                'Pontos coletados: ${widget.amostras?.length.toString()}',
                                 textAlign: TextAlign.start,
                                 style: FlutterFlowTheme.of(context)
                                     .bodyMedium
@@ -246,15 +247,7 @@ class _ListadeAmostrasWidgetState extends State<ListadeAmostrasWidget> {
                                 decoration: const BoxDecoration(),
                                 child: Builder(
                                   builder: (context) {
-                                    final teste = functions
-                                        .buscaVolumesNoRegistro(
-                                            functions.buscaRegistro(
-                                                widget.fazId!,
-                                                widget.oservId!,
-                                                FFAppState()
-                                                    .trSincroniza
-                                                    .toList()))
-                                        .toList();
+                                    final teste = widget.amostras!.toList();
                                     return SingleChildScrollView(
                                       child: Column(
                                         mainAxisSize: MainAxisSize.max,

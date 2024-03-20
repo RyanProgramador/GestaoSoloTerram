@@ -400,6 +400,15 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                                       .String,
                                                                   true,
                                                                 ),
+                                                                'idDoVolume':
+                                                                    serializeParam(
+                                                                  getJsonField(
+                                                                    volumesListadosItem,
+                                                                    r'''$.volume_id''',
+                                                                  ).toString(),
+                                                                  ParamType
+                                                                      .String,
+                                                                ),
                                                               }.withoutNulls,
                                                               extra: <String,
                                                                   dynamic>{
@@ -412,7 +421,7 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                                           .rightToLeft,
                                                                   duration: Duration(
                                                                       milliseconds:
-                                                                          900),
+                                                                          800),
                                                                 ),
                                                               },
                                                             );
