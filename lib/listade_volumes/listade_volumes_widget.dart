@@ -275,7 +275,7 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                   _model.emptystring,
                                                   r'''$.teste''',
                                                 )
-                                            ? const Color(0xFF7BB3B6)
+                                            ? const Color(0xFFE6F1F0)
                                             : const Color(0xFFFFF4CE),
                                         boxShadow: [
                                           BoxShadow(
@@ -379,12 +379,13 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                               queryParameters: {
                                                                 'fazId':
                                                                     serializeParam(
-                                                                  0,
+                                                                  widget.fazId,
                                                                   ParamType.int,
                                                                 ),
                                                                 'oservId':
                                                                     serializeParam(
-                                                                  0,
+                                                                  widget
+                                                                      .oservId,
                                                                   ParamType.int,
                                                                 ),
                                                               }.withoutNulls,
@@ -422,7 +423,7 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                             .width *
                                                         1.0,
                                                     decoration: const BoxDecoration(
-                                                      color: Color(0xFFE6F1F0),
+                                                      color: Color(0x00E6F1F0),
                                                     ),
                                                     child: Column(
                                                       mainAxisSize:
