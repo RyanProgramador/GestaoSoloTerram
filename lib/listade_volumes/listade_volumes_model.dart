@@ -3,6 +3,10 @@ import 'listade_volumes_widget.dart' show ListadeVolumesWidget;
 import 'package:flutter/material.dart';
 
 class ListadeVolumesModel extends FlutterFlowModel<ListadeVolumesWidget> {
+  ///  Local state fields for this page.
+
+  dynamic emptystring;
+
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();

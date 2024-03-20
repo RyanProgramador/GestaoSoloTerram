@@ -49,6 +49,11 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
         FFAppState().trTalhoes =
             FFAppState().trTalhoes.toList().cast<dynamic>();
       });
+      setState(() {
+        _model.emptystring = <String, String?>{
+          'teste': '',
+        };
+      });
     });
   }
 
@@ -374,7 +379,11 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                                         volumesListadosItem,
                                                                         r'''$.volume_data_hora_fim''',
                                                                       ) !=
-                                                                      null)
+                                                                      getJsonField(
+                                                                        _model
+                                                                            .emptystring,
+                                                                        r'''$.teste''',
+                                                                      ))
                                                                     Padding(
                                                                       padding: const EdgeInsetsDirectional.fromSTEB(
                                                                           0.0,
