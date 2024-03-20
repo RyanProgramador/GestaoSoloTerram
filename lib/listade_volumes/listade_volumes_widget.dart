@@ -246,13 +246,44 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                   final volumesListadosItem =
                                       volumesListados[volumesListadosIndex];
                                   return Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
-                                        16.0, 0.0, 16.0, 0.0),
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        valueOrDefault<double>(
+                                          getJsonField(
+                                                    volumesListadosItem,
+                                                    r'''$.volume_data_hora_fim''',
+                                                  ) !=
+                                                  getJsonField(
+                                                    _model.emptystring,
+                                                    r'''$.teste''',
+                                                  )
+                                              ? 26.0
+                                              : 16.0,
+                                          0.0,
+                                        ),
+                                        0.0,
+                                        16.0,
+                                        0.0),
                                     child: Container(
                                       width: double.infinity,
                                       height: 170.0,
                                       decoration: BoxDecoration(
                                         color: const Color(0xFFE6F1F0),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            blurRadius: 0.0,
+                                            color: getJsonField(
+                                                      volumesListadosItem,
+                                                      r'''$.volume_data_hora_fim''',
+                                                    ) !=
+                                                    getJsonField(
+                                                      _model.emptystring,
+                                                      r'''$.teste''',
+                                                    )
+                                                ? const Color(0xFFFFAB00)
+                                                : Colors.transparent,
+                                            offset: const Offset(-10.0, 0.0),
+                                          )
+                                        ],
                                         borderRadius:
                                             BorderRadius.circular(8.0),
                                         border: Border.all(
@@ -344,20 +375,41 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                           mainAxisAlignment:
                                                               MainAxisAlignment
                                                                   .spaceAround,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
                                                           children: [
-                                                            Padding(
-                                                              padding:
-                                                                  const EdgeInsetsDirectional
+                                                            Column(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .max,
+                                                              children: [
+                                                                Padding(
+                                                                  padding: const EdgeInsetsDirectional
                                                                       .fromSTEB(
                                                                           0.0,
-                                                                          8.0,
                                                                           0.0,
-                                                                          0.0),
-                                                              child: Column(
-                                                                mainAxisSize:
-                                                                    MainAxisSize
-                                                                        .max,
-                                                                children: [
+                                                                          0.0,
+                                                                          2.0),
+                                                                  child: Text(
+                                                                    'Iniciado: ${getJsonField(
+                                                                      volumesListadosItem,
+                                                                      r'''$.volume_data_hora_inicio''',
+                                                                    ).toString()}',
+                                                                    style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium,
+                                                                  ),
+                                                                ),
+                                                                if (getJsonField(
+                                                                      volumesListadosItem,
+                                                                      r'''$.volume_data_hora_fim''',
+                                                                    ) !=
+                                                                    getJsonField(
+                                                                      _model
+                                                                          .emptystring,
+                                                                      r'''$.teste''',
+                                                                    ))
                                                                   Padding(
                                                                     padding: const EdgeInsetsDirectional
                                                                         .fromSTEB(
@@ -366,42 +418,16 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                                             0.0,
                                                                             2.0),
                                                                     child: Text(
-                                                                      'Iniciado: ${getJsonField(
+                                                                      'Concluído: ${getJsonField(
                                                                         volumesListadosItem,
-                                                                        r'''$.volume_data_hora_inicio''',
+                                                                        r'''$.volume_data_hora_fim''',
                                                                       ).toString()}',
                                                                       style: FlutterFlowTheme.of(
                                                                               context)
                                                                           .bodyMedium,
                                                                     ),
                                                                   ),
-                                                                  if (getJsonField(
-                                                                        volumesListadosItem,
-                                                                        r'''$.volume_data_hora_fim''',
-                                                                      ) !=
-                                                                      getJsonField(
-                                                                        _model
-                                                                            .emptystring,
-                                                                        r'''$.teste''',
-                                                                      ))
-                                                                    Padding(
-                                                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0,
-                                                                          2.0),
-                                                                      child:
-                                                                          Text(
-                                                                        'Concluído: ${getJsonField(
-                                                                          volumesListadosItem,
-                                                                          r'''$.volume_data_hora_fim''',
-                                                                        ).toString()}',
-                                                                        style: FlutterFlowTheme.of(context)
-                                                                            .bodyMedium,
-                                                                      ),
-                                                                    ),
-                                                                ],
-                                                              ),
+                                                              ],
                                                             ),
                                                             Column(
                                                               mainAxisSize:
