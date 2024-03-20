@@ -4,6 +4,7 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'listade_volumes_model.dart';
 export 'listade_volumes_model.dart';
@@ -126,16 +127,6 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                               fontWeight: FontWeight.bold,
                             ),
                       ),
-                      if (true)
-                        Text(
-                          'Volumes concluídos',
-                          style:
-                              FlutterFlowTheme.of(context).bodyMedium.override(
-                                    fontFamily: 'Readex Pro',
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryBackground,
-                                  ),
-                        ),
                     ],
                   ),
                 ),
@@ -152,68 +143,71 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        Container(
-                          width: double.infinity,
-                          height: 100.0,
-                          decoration: BoxDecoration(
-                            color: FlutterFlowTheme.of(context)
-                                .secondaryBackground,
-                          ),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    16.0, 0.0, 16.0, 0.0),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    FFButtonWidget(
-                                      onPressed: () {
-                                        print('Button pressed ...');
-                                      },
-                                      text: '',
-                                      icon: const Icon(
-                                        Icons.search_sharp,
-                                        color: Colors.white,
-                                        size: 32.0,
-                                      ),
-                                      options: FFButtonOptions(
-                                        width: 50.0,
-                                        height: 50.0,
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
-                                            8.0, 0.0, 0.0, 0.0),
-                                        iconPadding:
-                                            const EdgeInsetsDirectional.fromSTEB(
-                                                0.0, 0.0, 0.0, 0.0),
-                                        color: FlutterFlowTheme.of(context)
-                                            .primary,
-                                        textStyle: FlutterFlowTheme.of(context)
-                                            .titleSmall
-                                            .override(
-                                              fontFamily: 'Readex Pro',
-                                              color: Colors.white,
-                                            ),
-                                        elevation: 3.0,
-                                        borderSide: const BorderSide(
-                                          color: Colors.transparent,
-                                          width: 1.0,
+                        if (true == false)
+                          Container(
+                            width: double.infinity,
+                            height: 100.0,
+                            decoration: BoxDecoration(
+                              color: FlutterFlowTheme.of(context)
+                                  .secondaryBackground,
+                            ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      16.0, 0.0, 16.0, 0.0),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      FFButtonWidget(
+                                        onPressed: () {
+                                          print('Button pressed ...');
+                                        },
+                                        text: '',
+                                        icon: const Icon(
+                                          Icons.search_sharp,
+                                          color: Colors.white,
+                                          size: 32.0,
                                         ),
-                                        borderRadius:
-                                            BorderRadius.circular(100.0),
+                                        options: FFButtonOptions(
+                                          width: 50.0,
+                                          height: 50.0,
+                                          padding:
+                                              const EdgeInsetsDirectional.fromSTEB(
+                                                  8.0, 0.0, 0.0, 0.0),
+                                          iconPadding:
+                                              const EdgeInsetsDirectional.fromSTEB(
+                                                  0.0, 0.0, 0.0, 0.0),
+                                          color: FlutterFlowTheme.of(context)
+                                              .primary,
+                                          textStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .titleSmall
+                                                  .override(
+                                                    fontFamily: 'Readex Pro',
+                                                    color: Colors.white,
+                                                  ),
+                                          elevation: 3.0,
+                                          borderSide: const BorderSide(
+                                            color: Colors.transparent,
+                                            width: 1.0,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(100.0),
+                                        ),
                                       ),
-                                    ),
-                                  ].divide(const SizedBox(width: 5.0)),
+                                    ].divide(const SizedBox(width: 5.0)),
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
                         Padding(
                           padding: const EdgeInsetsDirectional.fromSTEB(
-                              16.0, 0.0, 16.0, 0.0),
+                              16.0, 8.0, 16.0, 0.0),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -288,16 +282,13 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                           MainAxisAlignment
                                                               .spaceAround,
                                                       children: [
-                                                        Opacity(
-                                                          opacity: 0.0,
-                                                          child: Icon(
-                                                            Icons
-                                                                .perm_media_sharp,
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .primary,
-                                                            size: 24.0,
-                                                          ),
+                                                        Icon(
+                                                          Icons
+                                                              .perm_media_sharp,
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .primary,
+                                                          size: 32.0,
                                                         ),
                                                         Text(
                                                           'Volume: ${getJsonField(
@@ -319,13 +310,13 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                                         .bold,
                                                               ),
                                                         ),
-                                                        Icon(
-                                                          Icons
-                                                              .perm_media_sharp,
+                                                        FaIcon(
+                                                          FontAwesomeIcons
+                                                              .arrowCircleRight,
                                                           color: FlutterFlowTheme
                                                                   .of(context)
                                                               .primary,
-                                                          size: 24.0,
+                                                          size: 32.0,
                                                         ),
                                                       ],
                                                     ),
