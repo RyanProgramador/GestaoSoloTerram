@@ -1,8 +1,10 @@
 import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_timer.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/custom_code/actions/index.dart' as actions;
 import '/custom_code/widgets/index.dart' as custom_widgets;
 import '/flutter_flow/custom_functions.dart' as functions;
+import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
@@ -52,6 +54,8 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
             FFAppState().trTalhoes.toList().cast<dynamic>();
       });
     });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -602,6 +606,41 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
                     ),
                   ),
                 ),
+              ),
+            ),
+            Container(
+              width: 100.0,
+              height: 100.0,
+              decoration: BoxDecoration(
+                color: FlutterFlowTheme.of(context).tertiary,
+              ),
+              child: FlutterFlowTimer(
+                initialTime: _model.timerMilliseconds,
+                getDisplayTime: (value) => StopWatchTimer.getDisplayTime(
+                  value,
+                  hours: false,
+                  milliSecond: false,
+                ),
+                controller: _model.timerController,
+                updateStateInterval: const Duration(milliseconds: 1000),
+                onChanged: (value, displayTime, shouldUpdate) {
+                  _model.timerMilliseconds = value;
+                  _model.timerValue = displayTime;
+                  if (shouldUpdate) setState(() {});
+                },
+                onEnded: () async {
+                  _model.timerController.timer.setPresetTime(
+                    mSec: _model.timerMilliseconds,
+                    add: false,
+                  );
+                  _model.timerController.onResetTimer();
+
+                  await Future.delayed(const Duration(milliseconds: 100));
+                  FFAppState().update(() {});
+                  _model.timerController.onStartTimer();
+                },
+                textAlign: TextAlign.start,
+                style: FlutterFlowTheme.of(context).headlineSmall,
               ),
             ),
           ],

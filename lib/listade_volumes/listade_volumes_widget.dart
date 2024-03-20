@@ -329,61 +329,101 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                     decoration: const BoxDecoration(
                                                       color: Color(0xFFE6F1F0),
                                                     ),
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  0.0,
-                                                                  8.0,
-                                                                  0.0,
-                                                                  0.0),
-                                                      child: Column(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        children: [
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                        0.0,
-                                                                        0.0,
-                                                                        0.0,
-                                                                        2.0),
-                                                            child: Text(
-                                                              'Iniciado: ${getJsonField(
-                                                                volumesListadosItem,
-                                                                r'''$.volume_data_hora_inicio''',
-                                                              ).toString()}',
-                                                              style: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .bodyMedium,
-                                                            ),
-                                                          ),
-                                                          if (getJsonField(
-                                                                volumesListadosItem,
-                                                                r'''$.volume_data_hora_fim''',
-                                                              ) !=
-                                                              null)
+                                                    child: Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      children: [
+                                                        Row(
+                                                          mainAxisSize:
+                                                              MainAxisSize.max,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceAround,
+                                                          children: [
                                                             Padding(
                                                               padding:
                                                                   const EdgeInsetsDirectional
                                                                       .fromSTEB(
                                                                           0.0,
+                                                                          8.0,
+                                                                          0.0,
+                                                                          0.0),
+                                                              child: Column(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .max,
+                                                                children: [
+                                                                  Padding(
+                                                                    padding: const EdgeInsetsDirectional
+                                                                        .fromSTEB(
+                                                                            0.0,
+                                                                            0.0,
+                                                                            0.0,
+                                                                            2.0),
+                                                                    child: Text(
+                                                                      'Iniciado: ${getJsonField(
+                                                                        volumesListadosItem,
+                                                                        r'''$.volume_data_hora_inicio''',
+                                                                      ).toString()}',
+                                                                      style: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyMedium,
+                                                                    ),
+                                                                  ),
+                                                                  if (getJsonField(
+                                                                        volumesListadosItem,
+                                                                        r'''$.volume_data_hora_fim''',
+                                                                      ) !=
+                                                                      null)
+                                                                    Padding(
+                                                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                                                          0.0,
                                                                           0.0,
                                                                           0.0,
                                                                           2.0),
-                                                              child: Text(
-                                                                'Concluído: ${getJsonField(
-                                                                  volumesListadosItem,
-                                                                  r'''$.volume_data_hora_fim''',
-                                                                ).toString()}',
-                                                                style: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMedium,
+                                                                      child:
+                                                                          Text(
+                                                                        'Concluído: ${getJsonField(
+                                                                          volumesListadosItem,
+                                                                          r'''$.volume_data_hora_fim''',
+                                                                        ).toString()}',
+                                                                        style: FlutterFlowTheme.of(context)
+                                                                            .bodyMedium,
+                                                                      ),
+                                                                    ),
+                                                                ],
                                                               ),
                                                             ),
-                                                        ],
-                                                      ),
+                                                            Column(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .max,
+                                                              children: [
+                                                                Text(
+                                                                  'N° amostras',
+                                                                  style: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .override(
+                                                                        fontFamily:
+                                                                            'Readex Pro',
+                                                                        fontSize:
+                                                                            16.0,
+                                                                        fontWeight:
+                                                                            FontWeight.w600,
+                                                                      ),
+                                                                ),
+                                                                Text(
+                                                                  'X',
+                                                                  style: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium,
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ],
                                                     ),
                                                   ),
                                                   Expanded(
@@ -443,7 +483,7 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                                           fontSize:
                                                                               16.0,
                                                                           fontWeight:
-                                                                              FontWeight.w500,
+                                                                              FontWeight.w600,
                                                                         ),
                                                                   ),
                                                                   Padding(
@@ -497,7 +537,7 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                                             fontSize:
                                                                                 16.0,
                                                                             fontWeight:
-                                                                                FontWeight.w500,
+                                                                                FontWeight.w600,
                                                                           ),
                                                                     ),
                                                                     Padding(
@@ -545,7 +585,7 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                                           fontSize:
                                                                               16.0,
                                                                           fontWeight:
-                                                                              FontWeight.w500,
+                                                                              FontWeight.w600,
                                                                         ),
                                                                   ),
                                                                   Padding(

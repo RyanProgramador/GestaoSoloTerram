@@ -17,27 +17,26 @@ Future<bool> buscaSeOVolumeEstaIniciadoENaoFinalizado(
     for (var etapa in trSinc['etapas']) {
       if (etapa['etap_fim'] == null || etapa['etap_fim'].isEmpty) {
         if (etapa['volumes'] != null && etapa['volumes'].isNotEmpty) {
-          for (var volume in etapa['volumes']) {
-            if (volume['volume_data_hora_fim'] == null ||
-                volume['volume_data_hora_fim'].isEmpty) {
-              return true; // existe uma etapa não finalizada com um volume não finalizado
-            } else {
-              // se não existem volumes, criamos um novo
-              var foto = await capturaImagemCameraTraseira(context);
-
-              etapa['volumes'].add({
-                "volume_id": 1,
-                "foto": foto,
-                "volume_data_hora_inicio":
-                    DateFormat('yyyy-MM-dd HH:mm').format(DateTime.now()),
-                "volume_data_hora_fim": "",
-                "lacre": "",
-                "amostras": [],
-                "sincronizado": "N",
-              });
-              return true; // uma nova etapa foi criada, portanto, existe uma etapa não finalizada
-            }
+          var ultimoVolume = etapa['volumes'].last;
+          if (ultimoVolume['volume_data_hora_fim'] == null ||
+              ultimoVolume['volume_data_hora_fim'].isEmpty) {
+            return true; // Existe uma etapa não finalizada com um volume não finalizado
           }
+
+          // Se o último volume está finalizado, cria um novo volume
+          var foto = await capturaImagemCameraTraseira(context);
+          var proximoVolumeId = etapa['volumes'].length + 1;
+          etapa['volumes'].add({
+            "volume_id": proximoVolumeId,
+            "foto": foto,
+            "volume_data_hora_inicio":
+                DateFormat('yyyy-MM-dd HH:mm').format(DateTime.now()),
+            "volume_data_hora_fim": "",
+            "lacre": "",
+            "amostras": [],
+            "sincronizado": "N",
+          });
+          return true;
         } else {
           // se não existem volumes, criamos um novo
           var foto = await capturaImagemCameraTraseira(context);

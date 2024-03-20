@@ -347,11 +347,17 @@ preciso antes do botão me mandar para essa tela, preciso fazer uma validação,
                         var volumess = trSincComS
                             .map((e) => e["volumes"])
                             //     .where((element) =>
-                            // element["volume_data_hora_fim"].toString() == "" || element["volume_data_hora_fim"].toString() == null)
+                            // element["volume_data_hora_fim"].isEmpty || element["volume_data_hora_fim"].toString() == null)
                             .toList()
-                            .first
+                            // .first
                             .first;
-
+                        var volumesss = volumess
+                            .where((element) =>
+                                element["volume_data_hora_fim"].isEmpty ||
+                                element["volume_data_hora_fim"].toString() ==
+                                    null)
+                            .toList()
+                            .first;
                         // volumess['amostras'].add(textController.text.toString());
                         // volumess['amostras'].add(1);
 
@@ -418,7 +424,7 @@ preciso antes do botão me mandar para essa tela, preciso fazer uma validação,
                           if (volumesNaoSincronizadas.contains(pesquisa)) {
                             etiquetaRepetita();
                           } else {
-                            volumess['amostras']
+                            volumesss['amostras']
                                 .add(textController.text.toString());
                           }
                           // volumess['amostras'] = [];
@@ -431,7 +437,7 @@ preciso antes do botão me mandar para essa tela, preciso fazer uma validação,
                         atualiza();
                         textController.clear();
                         controller?.resumeCamera();
-                        await Future.delayed(Duration(milliseconds: 50));
+                        await Future.delayed(Duration(milliseconds: 380));
 
                         Navigator.of(context).pop();
                       });
@@ -453,7 +459,7 @@ preciso antes do botão me mandar para essa tela, preciso fazer uma validação,
               textController.clear();
               setState(() async {
                 atualiza();
-                await Future.delayed(Duration(milliseconds: 50));
+                await Future.delayed(Duration(milliseconds: 380));
 
                 Navigator.of(context).pop();
               });

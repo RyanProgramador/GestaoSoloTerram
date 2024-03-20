@@ -2720,7 +2720,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
         return AlertDialog(
           title: Text('Aproxime-se do ponto!'),
           content: SingleChildScrollView(
-            child: SelectableText(trSincsS.toString()),
+            child: SelectableText(trSincTudoJunto.toString()),
           ),
           actions: <Widget>[
             TextButton(
