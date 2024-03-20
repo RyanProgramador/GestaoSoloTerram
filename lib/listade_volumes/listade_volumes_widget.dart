@@ -414,7 +414,10 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                                       ),
                                                                 ),
                                                                 Text(
-                                                                  'X',
+                                                                  getJsonField(
+                                                                    volumesListadosItem,
+                                                                    r'''$.amostras''',
+                                                                  ).toString(),
                                                                   style: FlutterFlowTheme.of(
                                                                           context)
                                                                       .bodyMedium,
