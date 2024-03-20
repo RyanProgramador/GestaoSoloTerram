@@ -390,15 +390,12 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                                 ),
                                                                 'amostras':
                                                                     serializeParam(
-                                                                  (getJsonField(
+                                                                  functions
+                                                                      .listaStringParaListaString(
+                                                                          getJsonField(
                                                                     volumesListadosItem,
-                                                                    r'''$.amostras''',
-                                                                    true,
-                                                                  ) as List)
-                                                                      .map<String>(
-                                                                          (s) =>
-                                                                              s.toString())
-                                                                      .toList(),
+                                                                    r'''$.amostras[:]''',
+                                                                  ).toString()),
                                                                   ParamType
                                                                       .String,
                                                                   true,
