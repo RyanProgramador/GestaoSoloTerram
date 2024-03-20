@@ -229,7 +229,7 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Total de volumes: ',
+                                'Total de volumes: ${functions.buscaListaDeVolumes(functions.buscaRegistro(widget.fazId!, widget.oservId!, FFAppState().trSincroniza.toList()))?.length.toString()}',
                                 style: FlutterFlowTheme.of(context).bodyMedium,
                               ),
                             ],
@@ -240,14 +240,22 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                               0.0, 10.0, 0.0, 30.0),
                           child: Builder(
                             builder: (context) {
-                              final pontosLista =
-                                  widget.listaJsonPontos!.toList();
+                              final volumesListados = functions
+                                      .buscaListaDeVolumes(
+                                          functions.buscaRegistro(
+                                              widget.fazId!,
+                                              widget.oservId!,
+                                              FFAppState()
+                                                  .trSincroniza
+                                                  .toList()))
+                                      ?.toList() ??
+                                  [];
                               return Column(
                                 mainAxisSize: MainAxisSize.max,
-                                children: List.generate(pontosLista.length,
-                                    (pontosListaIndex) {
-                                  final pontosListaItem =
-                                      pontosLista[pontosListaIndex];
+                                children: List.generate(volumesListados.length,
+                                    (volumesListadosIndex) {
+                                  final volumesListadosItem =
+                                      volumesListados[volumesListadosIndex];
                                   return Padding(
                                     padding: const EdgeInsetsDirectional.fromSTEB(
                                         16.0, 0.0, 16.0, 0.0),
@@ -256,7 +264,7 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                       height: () {
                                         if (functions.contadorDeIntensNaLista(
                                                 getJsonField(
-                                              pontosListaItem,
+                                              volumesListadosItem,
                                               r'''$.profundidades''',
                                               true,
                                             )) ==
@@ -265,7 +273,7 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                         } else if (functions
                                                 .contadorDeIntensNaLista(
                                                     getJsonField(
-                                              pontosListaItem,
+                                              volumesListadosItem,
                                               r'''$.profundidades''',
                                               true,
                                             )) ==
@@ -274,7 +282,7 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                         } else if (functions
                                                 .contadorDeIntensNaLista(
                                                     getJsonField(
-                                              pontosListaItem,
+                                              volumesListadosItem,
                                               r'''$.profundidades''',
                                               true,
                                             )) ==
@@ -283,7 +291,7 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                         } else if (functions
                                                 .contadorDeIntensNaLista(
                                                     getJsonField(
-                                              pontosListaItem,
+                                              volumesListadosItem,
                                               r'''$.profundidades''',
                                               true,
                                             )) ==
@@ -321,16 +329,30 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                     padding:
                                                         const EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 0.0,
-                                                                0.0, 8.0),
+                                                                0.0, 4.0),
                                                     child: Row(
                                                       mainAxisSize:
                                                           MainAxisSize.max,
                                                       mainAxisAlignment:
                                                           MainAxisAlignment
-                                                              .center,
+                                                              .spaceAround,
                                                       children: [
+                                                        Opacity(
+                                                          opacity: 0.0,
+                                                          child: Icon(
+                                                            Icons
+                                                                .perm_media_sharp,
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .primary,
+                                                            size: 24.0,
+                                                          ),
+                                                        ),
                                                         Text(
-                                                          'Volume: 001',
+                                                          'Volume: ${getJsonField(
+                                                            volumesListadosItem,
+                                                            r'''$.volume_id''',
+                                                          ).toString()}',
                                                           style: FlutterFlowTheme
                                                                   .of(context)
                                                               .bodyMedium
@@ -346,22 +368,13 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                                         .bold,
                                                               ),
                                                         ),
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      24.0,
-                                                                      0.0,
-                                                                      0.0,
-                                                                      0.0),
-                                                          child: Icon(
-                                                            Icons
-                                                                .perm_media_sharp,
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .primary,
-                                                            size: 24.0,
-                                                          ),
+                                                        Icon(
+                                                          Icons
+                                                              .perm_media_sharp,
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .primary,
+                                                          size: 24.0,
                                                         ),
                                                       ],
                                                     ),
@@ -393,16 +406,16 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                                         0.0,
                                                                         0.0,
                                                                         0.0,
-                                                                        8.0),
+                                                                        2.0),
                                                             child: Text(
-                                                              'Iniciado 11/03/2024 - 10:21  AM',
+                                                              'Iniciado: 11/03/2024 - 10:21  AM',
                                                               style: FlutterFlowTheme
                                                                       .of(context)
                                                                   .bodyMedium,
                                                             ),
                                                           ),
                                                           Text(
-                                                            'Concluído 14/03/2024 - 17:05  PM',
+                                                            'Concluído: 14/03/2024 - 17:05  PM',
                                                             style: FlutterFlowTheme
                                                                     .of(context)
                                                                 .bodyMedium,
@@ -553,7 +566,7 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                                         .center,
                                                                 crossAxisAlignment:
                                                                     CrossAxisAlignment
-                                                                        .end,
+                                                                        .center,
                                                                 children: [
                                                                   Text(
                                                                     'Tempo Total',

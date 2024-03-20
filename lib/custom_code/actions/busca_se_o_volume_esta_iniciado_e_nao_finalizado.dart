@@ -30,7 +30,8 @@ Future<bool> buscaSeOVolumeEstaIniciadoENaoFinalizado(
           etapa['volumes'].add({
             "volume_id": 1,
             "foto": foto,
-            "volume_data_hora_inicio": DateTime.now().toIso8601String(),
+            "volume_data_hora_inicio":
+                DateFormat('yyyy-MM-dd HH:mm').format(DateTime.now()),
             "volume_data_hora_fim": "",
             "lacre": "",
             "amostras": [],

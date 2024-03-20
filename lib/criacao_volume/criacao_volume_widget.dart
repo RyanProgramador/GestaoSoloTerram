@@ -107,7 +107,8 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
               );
 
               shouldSetState = true;
-              if (_model.qrCode != '') {
+              if ((_model.qrCode != '') &&
+                  (_model.qrCode != '-1')) {
                 _model.finalizacaoDeVolume =
                     await actions.buscaSeOVolumeEstaIniciadoEFinalizaEle(
                   context,
@@ -130,6 +131,17 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
                           ),
                         ],
                       );
+                    },
+                  );
+
+                  context.goNamed(
+                    'Inicio',
+                    extra: <String, dynamic>{
+                      kTransitionInfoKey: const TransitionInfo(
+                        hasTransition: true,
+                        transitionType: PageTransitionType.fade,
+                        duration: Duration(milliseconds: 0),
+                      ),
                     },
                   );
                 } else {
