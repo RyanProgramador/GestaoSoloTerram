@@ -504,6 +504,51 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                               borderRadius: BorderRadius.circular(100.0),
                             ),
                           ),
+                          FFButtonWidget(
+                            onPressed: () async {
+                              context.pushNamed(
+                                'ListadeVolumes',
+                                queryParameters: {
+                                  'oservId': serializeParam(
+                                    widget.servico,
+                                    ParamType.int,
+                                  ),
+                                  'fazId': serializeParam(
+                                    widget.fazId,
+                                    ParamType.int,
+                                  ),
+                                }.withoutNulls,
+                              );
+                            },
+                            text: '',
+                            icon: FaIcon(
+                              FontAwesomeIcons.boxes,
+                              color: FlutterFlowTheme.of(context)
+                                  .primaryBackground,
+                              size: 28.0,
+                            ),
+                            options: FFButtonOptions(
+                              width: 65.0,
+                              height: 65.0,
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  8.0, 0.0, 0.0, 0.0),
+                              iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                  0.0, 0.0, 0.0, 0.0),
+                              color: FlutterFlowTheme.of(context).primary,
+                              textStyle: FlutterFlowTheme.of(context)
+                                  .titleSmall
+                                  .override(
+                                    fontFamily: 'Readex Pro',
+                                    color: Colors.white,
+                                  ),
+                              elevation: 3.0,
+                              borderSide: const BorderSide(
+                                color: Colors.transparent,
+                                width: 1.0,
+                              ),
+                              borderRadius: BorderRadius.circular(100.0),
+                            ),
+                          ),
                         ],
                       ),
                     ),

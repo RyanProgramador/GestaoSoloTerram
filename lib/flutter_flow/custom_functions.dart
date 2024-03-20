@@ -539,17 +539,13 @@ String? buscaPontoAtravesDaEtiquetaEmPontos(
 List<dynamic>? buscaListaDeVolumes(dynamic trSinc) {
   List<dynamic> listaDeVolumes = [];
   if (trSinc['etapas'] != null && trSinc['etapas'].isNotEmpty) {
-    // Procura por uma etapa que esteja iniciada, mas não finalizada
     for (var etapa in trSinc['etapas']) {
       if (etapa['etap_fim'] == null || etapa['etap_fim'].isEmpty) {
         if (etapa['volumes'] != null && etapa['volumes'].isNotEmpty) {
-          for (var volume in etapa['volumes']) {
-            listaDeVolumes.addAll(volume);
-          }
-          return listaDeVolumes;
+          listaDeVolumes.addAll(etapa['volumes']);
         }
       }
     }
   }
-  return null;
+  return listaDeVolumes.isNotEmpty ? listaDeVolumes : null;
 }

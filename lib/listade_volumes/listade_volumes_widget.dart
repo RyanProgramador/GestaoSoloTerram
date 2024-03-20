@@ -11,22 +11,12 @@ export 'listade_volumes_model.dart';
 class ListadeVolumesWidget extends StatefulWidget {
   const ListadeVolumesWidget({
     super.key,
-    required this.listaJsonPontos,
     required this.oservId,
     required this.fazId,
-    required this.fazNome,
-    required this.fazLatlng,
-    required this.autoAuditoria,
-    required this.quantidadeAutoAuditoria,
   });
 
-  final List<dynamic>? listaJsonPontos;
   final int? oservId;
   final int? fazId;
-  final String? fazNome;
-  final LatLng? fazLatlng;
-  final bool? autoAuditoria;
-  final int? quantidadeAutoAuditoria;
 
   @override
   State<ListadeVolumesWidget> createState() => _ListadeVolumesWidgetState();
