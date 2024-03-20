@@ -171,6 +171,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => ListadeAmostrasWidget(
             fazId: params.getParam('fazId', ParamType.int),
             oservId: params.getParam('oservId', ParamType.int),
+            amostras:
+                params.getParam<String>('amostras', ParamType.String, true),
           ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),

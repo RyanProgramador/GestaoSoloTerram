@@ -15,10 +15,12 @@ class ListadeAmostrasWidget extends StatefulWidget {
     super.key,
     required this.fazId,
     required this.oservId,
+    required this.amostras,
   });
 
   final int? fazId;
   final int? oservId;
+  final List<String>? amostras;
 
   @override
   State<ListadeAmostrasWidget> createState() => _ListadeAmostrasWidgetState();
@@ -161,68 +163,73 @@ class _ListadeAmostrasWidgetState extends State<ListadeAmostrasWidget> {
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Container(
-                                width: double.infinity,
-                                height: 100.0,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                ),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          16.0, 0.0, 16.0, 0.0),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          FFButtonWidget(
-                                            onPressed: () {
-                                              print('Button pressed ...');
-                                            },
-                                            text: '',
-                                            icon: const Icon(
-                                              Icons.search_sharp,
-                                              color: Colors.white,
-                                              size: 32.0,
-                                            ),
-                                            options: FFButtonOptions(
-                                              width: 50.0,
-                                              height: 50.0,
-                                              padding: const EdgeInsetsDirectional
-                                                  .fromSTEB(8.0, 0.0, 0.0, 0.0),
-                                              iconPadding: const EdgeInsetsDirectional
-                                                  .fromSTEB(0.0, 0.0, 0.0, 0.0),
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primary,
-                                              textStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .titleSmall
-                                                      .override(
-                                                        fontFamily:
-                                                            'Readex Pro',
-                                                        color: Colors.white,
-                                                      ),
-                                              elevation: 3.0,
-                                              borderSide: const BorderSide(
-                                                color: Colors.transparent,
-                                                width: 1.0,
+                              if (true == false)
+                                Container(
+                                  width: double.infinity,
+                                  height: 100.0,
+                                  decoration: BoxDecoration(
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryBackground,
+                                  ),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                            16.0, 0.0, 16.0, 0.0),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            FFButtonWidget(
+                                              onPressed: () {
+                                                print('Button pressed ...');
+                                              },
+                                              text: '',
+                                              icon: const Icon(
+                                                Icons.search_sharp,
+                                                color: Colors.white,
+                                                size: 32.0,
                                               ),
-                                              borderRadius:
-                                                  BorderRadius.circular(100.0),
+                                              options: FFButtonOptions(
+                                                width: 50.0,
+                                                height: 50.0,
+                                                padding: const EdgeInsetsDirectional
+                                                    .fromSTEB(
+                                                        8.0, 0.0, 0.0, 0.0),
+                                                iconPadding:
+                                                    const EdgeInsetsDirectional
+                                                        .fromSTEB(
+                                                            0.0, 0.0, 0.0, 0.0),
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primary,
+                                                textStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .titleSmall
+                                                        .override(
+                                                          fontFamily:
+                                                              'Readex Pro',
+                                                          color: Colors.white,
+                                                        ),
+                                                elevation: 3.0,
+                                                borderSide: const BorderSide(
+                                                  color: Colors.transparent,
+                                                  width: 1.0,
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        100.0),
+                                              ),
                                             ),
-                                          ),
-                                        ].divide(const SizedBox(width: 5.0)),
+                                          ].divide(const SizedBox(width: 5.0)),
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
                               Text(
                                 'Pontos coletados:',
                                 textAlign: TextAlign.start,
@@ -415,100 +422,100 @@ class _ListadeAmostrasWidgetState extends State<ListadeAmostrasWidget> {
                                                         MainAxisAlignment
                                                             .center,
                                                     children: [
-                                                      InkWell(
-                                                        splashColor:
-                                                            Colors.transparent,
-                                                        focusColor:
-                                                            Colors.transparent,
-                                                        hoverColor:
-                                                            Colors.transparent,
-                                                        highlightColor:
-                                                            Colors.transparent,
-                                                        onTap: () async {
-                                                          var shouldSetState =
-                                                              false;
-                                                          var confirmDialogResponse =
-                                                              await showDialog<
-                                                                      bool>(
-                                                                    context:
-                                                                        context,
-                                                                    builder:
-                                                                        (alertDialogContext) {
-                                                                      return AlertDialog(
-                                                                        title: const Text(
-                                                                            'Atenção!'),
-                                                                        content:
-                                                                            const Text('Você tem certeza que deseja remover essa amostra de dentro do volume?'),
-                                                                        actions: [
-                                                                          TextButton(
-                                                                            onPressed: () =>
-                                                                                Navigator.pop(alertDialogContext, false),
-                                                                            child:
-                                                                                const Text('Não'),
-                                                                          ),
-                                                                          TextButton(
-                                                                            onPressed: () =>
-                                                                                Navigator.pop(alertDialogContext, true),
-                                                                            child:
-                                                                                const Text('Sim'),
-                                                                          ),
-                                                                        ],
-                                                                      );
-                                                                    },
-                                                                  ) ??
-                                                                  false;
-                                                          if (confirmDialogResponse) {
-                                                            _model.retornoEclusao =
-                                                                actions
-                                                                    .excluiVolumeDaEtapaAberta(
-                                                              functions.buscaRegistro(
-                                                                  widget.fazId!,
-                                                                  widget
-                                                                      .oservId!,
-                                                                  FFAppState()
-                                                                      .trSincroniza
-                                                                      .toList()),
-                                                              testeItem,
-                                                            );
-                                                            shouldSetState =
-                                                                true;
-                                                            await showDialog(
-                                                              context: context,
-                                                              builder:
-                                                                  (alertDialogContext) {
-                                                                return AlertDialog(
-                                                                  title: Text(_model
-                                                                      .retornoEclusao!),
-                                                                  actions: [
-                                                                    TextButton(
-                                                                      onPressed:
-                                                                          () =>
-                                                                              Navigator.pop(alertDialogContext),
-                                                                      child: const Text(
-                                                                          'Ok'),
-                                                                    ),
-                                                                  ],
-                                                                );
-                                                              },
-                                                            );
-                                                          } else {
+                                                      if (true == false)
+                                                        InkWell(
+                                                          splashColor: Colors
+                                                              .transparent,
+                                                          focusColor: Colors
+                                                              .transparent,
+                                                          hoverColor: Colors
+                                                              .transparent,
+                                                          highlightColor: Colors
+                                                              .transparent,
+                                                          onTap: () async {
+                                                            var shouldSetState =
+                                                                false;
+                                                            var confirmDialogResponse =
+                                                                await showDialog<
+                                                                        bool>(
+                                                                      context:
+                                                                          context,
+                                                                      builder:
+                                                                          (alertDialogContext) {
+                                                                        return AlertDialog(
+                                                                          title:
+                                                                              const Text('Atenção!'),
+                                                                          content:
+                                                                              const Text('Você tem certeza que deseja remover essa amostra de dentro do volume?'),
+                                                                          actions: [
+                                                                            TextButton(
+                                                                              onPressed: () => Navigator.pop(alertDialogContext, false),
+                                                                              child: const Text('Não'),
+                                                                            ),
+                                                                            TextButton(
+                                                                              onPressed: () => Navigator.pop(alertDialogContext, true),
+                                                                              child: const Text('Sim'),
+                                                                            ),
+                                                                          ],
+                                                                        );
+                                                                      },
+                                                                    ) ??
+                                                                    false;
+                                                            if (confirmDialogResponse) {
+                                                              _model.retornoEclusao =
+                                                                  actions
+                                                                      .excluiVolumeDaEtapaAberta(
+                                                                functions.buscaRegistro(
+                                                                    widget
+                                                                        .fazId!,
+                                                                    widget
+                                                                        .oservId!,
+                                                                    FFAppState()
+                                                                        .trSincroniza
+                                                                        .toList()),
+                                                                testeItem,
+                                                              );
+                                                              shouldSetState =
+                                                                  true;
+                                                              await showDialog(
+                                                                context:
+                                                                    context,
+                                                                builder:
+                                                                    (alertDialogContext) {
+                                                                  return AlertDialog(
+                                                                    title: Text(
+                                                                        _model
+                                                                            .retornoEclusao!),
+                                                                    actions: [
+                                                                      TextButton(
+                                                                        onPressed:
+                                                                            () =>
+                                                                                Navigator.pop(alertDialogContext),
+                                                                        child: const Text(
+                                                                            'Ok'),
+                                                                      ),
+                                                                    ],
+                                                                  );
+                                                                },
+                                                              );
+                                                            } else {
+                                                              if (shouldSetState) {
+                                                                setState(() {});
+                                                              }
+                                                              return;
+                                                            }
+
                                                             if (shouldSetState) {
                                                               setState(() {});
                                                             }
-                                                            return;
-                                                          }
-
-                                                          if (shouldSetState) {
-                                                            setState(() {});
-                                                          }
-                                                        },
-                                                        child: const FaIcon(
-                                                          FontAwesomeIcons
-                                                              .trashAlt,
-                                                          color: Colors.black,
-                                                          size: 24.0,
+                                                          },
+                                                          child: const FaIcon(
+                                                            FontAwesomeIcons
+                                                                .trashAlt,
+                                                            color: Colors.black,
+                                                            size: 24.0,
+                                                          ),
                                                         ),
-                                                      ),
                                                     ],
                                                   ),
                                                 ),

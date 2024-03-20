@@ -388,6 +388,21 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                                       .oservId,
                                                                   ParamType.int,
                                                                 ),
+                                                                'amostras':
+                                                                    serializeParam(
+                                                                  (getJsonField(
+                                                                    volumesListadosItem,
+                                                                    r'''$.amostras''',
+                                                                    true,
+                                                                  ) as List)
+                                                                      .map<String>(
+                                                                          (s) =>
+                                                                              s.toString())
+                                                                      .toList(),
+                                                                  ParamType
+                                                                      .String,
+                                                                  true,
+                                                                ),
                                                               }.withoutNulls,
                                                               extra: <String,
                                                                   dynamic>{
@@ -397,10 +412,10 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                                       true,
                                                                   transitionType:
                                                                       PageTransitionType
-                                                                          .leftToRight,
+                                                                          .rightToLeft,
                                                                   duration: Duration(
                                                                       milliseconds:
-                                                                          1000),
+                                                                          900),
                                                                 ),
                                                               },
                                                             );
