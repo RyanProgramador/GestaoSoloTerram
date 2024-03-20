@@ -557,7 +557,7 @@ String? contadorDeNumeroDeAmostras(String? stringDasAmostras) {
   return numero.length.toString();
 }
 
-List<String> listaStringParaListaString(String? stringDasAmostras) {
+List<dynamic> listaStringParaListaString(String? stringDasAmostras) {
   List<String> numero = stringDasAmostras!.split(',');
   return numero;
 }
