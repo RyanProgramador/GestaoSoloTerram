@@ -364,14 +364,23 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                                 r'''$.volume_data_hora_fim''',
                                                               ) !=
                                                               null)
-                                                            Text(
-                                                              'Concluído: ${getJsonField(
-                                                                volumesListadosItem,
-                                                                r'''$.volume_data_hora_fim''',
-                                                              ).toString()}',
-                                                              style: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .bodyMedium,
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          0.0,
+                                                                          0.0,
+                                                                          0.0,
+                                                                          2.0),
+                                                              child: Text(
+                                                                'Concluído: ${getJsonField(
+                                                                  volumesListadosItem,
+                                                                  r'''$.volume_data_hora_fim''',
+                                                                ).toString()}',
+                                                                style: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium,
+                                                              ),
                                                             ),
                                                         ],
                                                       ),

@@ -21,6 +21,21 @@ Future<bool> buscaSeOVolumeEstaIniciadoENaoFinalizado(
             if (volume['volume_data_hora_fim'] == null ||
                 volume['volume_data_hora_fim'].isEmpty) {
               return true; // existe uma etapa não finalizada com um volume não finalizado
+            } else {
+              // se não existem volumes, criamos um novo
+              var foto = await capturaImagemCameraTraseira(context);
+
+              etapa['volumes'].add({
+                "volume_id": 1,
+                "foto": foto,
+                "volume_data_hora_inicio":
+                    DateFormat('yyyy-MM-dd HH:mm').format(DateTime.now()),
+                "volume_data_hora_fim": "",
+                "lacre": "",
+                "amostras": [],
+                "sincronizado": "N",
+              });
+              return true; // uma nova etapa foi criada, portanto, existe uma etapa não finalizada
             }
           }
         } else {
