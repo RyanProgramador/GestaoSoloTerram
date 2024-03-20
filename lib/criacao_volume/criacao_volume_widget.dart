@@ -609,39 +609,45 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
                 ),
               ),
             ),
-            Container(
-              width: 100.0,
-              height: 100.0,
-              decoration: BoxDecoration(
-                color: FlutterFlowTheme.of(context).tertiary,
-              ),
-              child: FlutterFlowTimer(
-                initialTime: _model.timerMilliseconds,
-                getDisplayTime: (value) => StopWatchTimer.getDisplayTime(
-                  value,
-                  hours: false,
-                  milliSecond: false,
+            Opacity(
+              opacity: 0.1,
+              child: Container(
+                width: 100.0,
+                height: 5.0,
+                decoration: const BoxDecoration(
+                  color: Color(0x29EE8B60),
                 ),
-                controller: _model.timerController,
-                updateStateInterval: const Duration(milliseconds: 1000),
-                onChanged: (value, displayTime, shouldUpdate) {
-                  _model.timerMilliseconds = value;
-                  _model.timerValue = displayTime;
-                  if (shouldUpdate) setState(() {});
-                },
-                onEnded: () async {
-                  _model.timerController.timer.setPresetTime(
-                    mSec: _model.timerMilliseconds,
-                    add: false,
-                  );
-                  _model.timerController.onResetTimer();
+                child: Opacity(
+                  opacity: 0.1,
+                  child: FlutterFlowTimer(
+                    initialTime: _model.timerMilliseconds,
+                    getDisplayTime: (value) => StopWatchTimer.getDisplayTime(
+                      value,
+                      hours: false,
+                      milliSecond: false,
+                    ),
+                    controller: _model.timerController,
+                    updateStateInterval: const Duration(milliseconds: 1000),
+                    onChanged: (value, displayTime, shouldUpdate) {
+                      _model.timerMilliseconds = value;
+                      _model.timerValue = displayTime;
+                      if (shouldUpdate) setState(() {});
+                    },
+                    onEnded: () async {
+                      _model.timerController.timer.setPresetTime(
+                        mSec: _model.timerMilliseconds,
+                        add: false,
+                      );
+                      _model.timerController.onResetTimer();
 
-                  await Future.delayed(const Duration(milliseconds: 100));
-                  FFAppState().update(() {});
-                  _model.timerController.onStartTimer();
-                },
-                textAlign: TextAlign.start,
-                style: FlutterFlowTheme.of(context).headlineSmall,
+                      await Future.delayed(const Duration(milliseconds: 100));
+                      FFAppState().update(() {});
+                      _model.timerController.onStartTimer();
+                    },
+                    textAlign: TextAlign.start,
+                    style: FlutterFlowTheme.of(context).headlineSmall,
+                  ),
+                ),
               ),
             ),
           ],
