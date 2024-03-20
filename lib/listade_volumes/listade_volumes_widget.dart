@@ -256,8 +256,8 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                     _model.emptystring,
                                                     r'''$.teste''',
                                                   )
-                                              ? 26.0
-                                              : 16.0,
+                                              ? 16.0
+                                              : 26.0,
                                           0.0,
                                         ),
                                         0.0,
@@ -279,15 +279,24 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                       _model.emptystring,
                                                       r'''$.teste''',
                                                     )
-                                                ? const Color(0xFFFFAB00)
-                                                : Colors.transparent,
+                                                ? const Color(0x00FFAB00)
+                                                : const Color(0xFFFFAB00),
                                             offset: const Offset(-10.0, 0.0),
                                           )
                                         ],
                                         borderRadius:
                                             BorderRadius.circular(8.0),
                                         border: Border.all(
-                                          color: const Color(0xFF7BB3B6),
+                                          color: getJsonField(
+                                                    volumesListadosItem,
+                                                    r'''$.volume_data_hora_fim''',
+                                                  ) !=
+                                                  getJsonField(
+                                                    _model.emptystring,
+                                                    r'''$.teste''',
+                                                  )
+                                              ? const Color(0xFF7BB3B6)
+                                              : const Color(0xFFFFAB00),
                                         ),
                                       ),
                                       child: Padding(
