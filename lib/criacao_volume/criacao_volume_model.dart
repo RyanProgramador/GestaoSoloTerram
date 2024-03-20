@@ -8,6 +8,9 @@ class CriacaoVolumeModel extends FlutterFlowModel<CriacaoVolumeWidget> {
   final unfocusNode = FocusNode();
   // Stores action output result for [Custom Action - excluiVolumeDaEtapaAberta] action in Icon widget.
   String? retornoEclusao;
+  var qrCode = '';
+  // Stores action output result for [Custom Action - buscaSeOVolumeEstaIniciadoEFinalizaEle] action in FloatingActionButton widget.
+  bool? finalizacaoDeVolume;
 
   /// Initialization and disposal methods.
 

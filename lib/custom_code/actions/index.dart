@@ -1,6 +1,8 @@
 export 'checkinternet.dart' show checkinternet;
 export 'new_custom_action.dart' show newCustomAction;
 export 'md5encode.dart' show md5encode;
+export 'busca_se_o_volume_esta_iniciado_e_finaliza_ele.dart'
+    show buscaSeOVolumeEstaIniciadoEFinalizaEle;
 export 'captura_imagem_camera_traseira.dart' show capturaImagemCameraTraseira;
 export 'atualiza_tr_sinc.dart' show atualizaTrSinc;
 export 'conta_quantas_coletas_faltam.dart' show contaQuantasColetasFaltam;

@@ -5,6 +5,7 @@ import '/custom_code/widgets/index.dart' as custom_widgets;
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'criacao_volume_model.dart';
@@ -73,7 +74,86 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
         backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () async {
-            FFAppState().update(() {});
+            var shouldSetState = false;
+            var confirmDialogResponse = await showDialog<bool>(
+                  context: context,
+                  builder: (alertDialogContext) {
+                    return AlertDialog(
+                      title: const Text('Atenção!'),
+                      content:
+                          const Text('Você deseja realmente fechar esse volume?'),
+                      actions: [
+                        TextButton(
+                          onPressed: () =>
+                              Navigator.pop(alertDialogContext, false),
+                          child: const Text('Não'),
+                        ),
+                        TextButton(
+                          onPressed: () =>
+                              Navigator.pop(alertDialogContext, true),
+                          child: const Text('Sim'),
+                        ),
+                      ],
+                    );
+                  },
+                ) ??
+                false;
+            if (confirmDialogResponse) {
+              _model.qrCode = await FlutterBarcodeScanner.scanBarcode(
+                '#C62828', // scanning line color
+                'Cancel', // cancel button text
+                true, // whether to show the flash icon
+                ScanMode.QR,
+              );
+
+              shouldSetState = true;
+              if (_model.qrCode != '') {
+                _model.finalizacaoDeVolume =
+                    await actions.buscaSeOVolumeEstaIniciadoEFinalizaEle(
+                  context,
+                  functions.buscaRegistro(widget.fazId!, widget.oservId!,
+                      FFAppState().trSincroniza.toList()),
+                  _model.qrCode,
+                );
+                shouldSetState = true;
+                if (_model.finalizacaoDeVolume!) {
+                  await showDialog(
+                    context: context,
+                    builder: (alertDialogContext) {
+                      return AlertDialog(
+                        title: const Text('Sucesso!'),
+                        content: const Text('Volume finalizado com sucesso!'),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(alertDialogContext),
+                            child: const Text('Ok'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                } else {
+                  await showDialog(
+                    context: context,
+                    builder: (alertDialogContext) {
+                      return AlertDialog(
+                        title: const Text('Ops!'),
+                        content: const Text('Um erro inesperado aconteceu!'),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(alertDialogContext),
+                            child: const Text('Ok'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                  if (shouldSetState) setState(() {});
+                  return;
+                }
+              }
+            }
+            if (shouldSetState) setState(() {});
           },
           backgroundColor: FlutterFlowTheme.of(context).primary,
           icon: const Icon(
