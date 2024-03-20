@@ -267,7 +267,16 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                       width: double.infinity,
                                       height: 170.0,
                                       decoration: BoxDecoration(
-                                        color: const Color(0xFFE6F1F0),
+                                        color: getJsonField(
+                                                  volumesListadosItem,
+                                                  r'''$.volume_data_hora_fim''',
+                                                ) !=
+                                                getJsonField(
+                                                  _model.emptystring,
+                                                  r'''$.teste''',
+                                                )
+                                            ? const Color(0xFF7BB3B6)
+                                            : const Color(0xFFFFF4CE),
                                         boxShadow: [
                                           BoxShadow(
                                             blurRadius: 0.0,
@@ -355,13 +364,54 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                                         .bold,
                                                               ),
                                                         ),
-                                                        FaIcon(
-                                                          FontAwesomeIcons
-                                                              .arrowCircleRight,
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .primary,
-                                                          size: 32.0,
+                                                        InkWell(
+                                                          splashColor: Colors
+                                                              .transparent,
+                                                          focusColor: Colors
+                                                              .transparent,
+                                                          hoverColor: Colors
+                                                              .transparent,
+                                                          highlightColor: Colors
+                                                              .transparent,
+                                                          onTap: () async {
+                                                            context.pushNamed(
+                                                              'ListadeAmostras',
+                                                              queryParameters: {
+                                                                'fazId':
+                                                                    serializeParam(
+                                                                  0,
+                                                                  ParamType.int,
+                                                                ),
+                                                                'oservId':
+                                                                    serializeParam(
+                                                                  0,
+                                                                  ParamType.int,
+                                                                ),
+                                                              }.withoutNulls,
+                                                              extra: <String,
+                                                                  dynamic>{
+                                                                kTransitionInfoKey:
+                                                                    const TransitionInfo(
+                                                                  hasTransition:
+                                                                      true,
+                                                                  transitionType:
+                                                                      PageTransitionType
+                                                                          .leftToRight,
+                                                                  duration: Duration(
+                                                                      milliseconds:
+                                                                          1000),
+                                                                ),
+                                                              },
+                                                            );
+                                                          },
+                                                          child: FaIcon(
+                                                            FontAwesomeIcons
+                                                                .arrowCircleRight,
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .primary,
+                                                            size: 32.0,
+                                                          ),
                                                         ),
                                                       ],
                                                     ),
