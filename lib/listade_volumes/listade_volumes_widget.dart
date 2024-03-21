@@ -557,7 +557,7 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                         ),
                                                       ),
                                                     ),
-                                                    Expanded(
+                                                    Flexible(
                                                       child: Align(
                                                         alignment:
                                                             const AlignmentDirectional(
