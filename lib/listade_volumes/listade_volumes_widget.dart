@@ -220,7 +220,19 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Total de volumes: ${functions.buscaListaDeVolumes(functions.buscaRegistro(widget.fazId!, widget.oservId!, FFAppState().trSincroniza.toList()))?.length.toString()}',
+                                'Total de volumes: ${valueOrDefault<String>(
+                                  functions
+                                      .buscaListaDeVolumes(
+                                          functions.buscaRegistro(
+                                              widget.fazId!,
+                                              widget.oservId!,
+                                              FFAppState()
+                                                  .trSincroniza
+                                                  .toList()))
+                                      ?.length
+                                      .toString(),
+                                  '0',
+                                )}',
                                 style: FlutterFlowTheme.of(context).bodyMedium,
                               ),
                             ],
@@ -250,48 +262,18 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                   ),
                                 );
                               }
-                              return Column(
-                                mainAxisSize: MainAxisSize.max,
-                                children: List.generate(volumesListados.length,
-                                    (volumesListadosIndex) {
-                                  final volumesListadosItem =
-                                      volumesListados[volumesListadosIndex];
-                                  return Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        valueOrDefault<double>(
-                                          getJsonField(
-                                                    volumesListadosItem,
-                                                    r'''$.volume_data_hora_fim''',
-                                                  ) !=
-                                                  getJsonField(
-                                                    _model.emptystring,
-                                                    r'''$.teste''',
-                                                  )
-                                              ? 16.0
-                                              : 26.0,
-                                          0.0,
-                                        ),
-                                        0.0,
-                                        16.0,
-                                        0.0),
-                                    child: Container(
-                                      width: double.infinity,
-                                      height: 170.0,
-                                      decoration: BoxDecoration(
-                                        color: getJsonField(
-                                                  volumesListadosItem,
-                                                  r'''$.volume_data_hora_fim''',
-                                                ) !=
-                                                getJsonField(
-                                                  _model.emptystring,
-                                                  r'''$.teste''',
-                                                )
-                                            ? const Color(0xFFE6F1F0)
-                                            : const Color(0xFFFFF4CE),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            blurRadius: 0.0,
-                                            color: getJsonField(
+                              return SingleChildScrollView(
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children:
+                                      List.generate(volumesListados.length,
+                                          (volumesListadosIndex) {
+                                    final volumesListadosItem =
+                                        volumesListados[volumesListadosIndex];
+                                    return Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          valueOrDefault<double>(
+                                            getJsonField(
                                                       volumesListadosItem,
                                                       r'''$.volume_data_hora_fim''',
                                                     ) !=
@@ -299,14 +281,17 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                       _model.emptystring,
                                                       r'''$.teste''',
                                                     )
-                                                ? const Color(0x00FFAB00)
-                                                : const Color(0xFFFFAB00),
-                                            offset: const Offset(-10.0, 0.0),
-                                          )
-                                        ],
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                        border: Border.all(
+                                                ? 16.0
+                                                : 26.0,
+                                            0.0,
+                                          ),
+                                          0.0,
+                                          16.0,
+                                          0.0),
+                                      child: Container(
+                                        width: double.infinity,
+                                        height: 170.0,
+                                        decoration: BoxDecoration(
                                           color: getJsonField(
                                                     volumesListadosItem,
                                                     r'''$.volume_data_hora_fim''',
@@ -315,257 +300,271 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                     _model.emptystring,
                                                     r'''$.teste''',
                                                   )
-                                              ? const Color(0xFF7BB3B6)
-                                              : const Color(0xFFFFAB00),
+                                              ? const Color(0xFFE6F1F0)
+                                              : const Color(0xFFFFF4CE),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              blurRadius: 0.0,
+                                              color: getJsonField(
+                                                        volumesListadosItem,
+                                                        r'''$.volume_data_hora_fim''',
+                                                      ) !=
+                                                      getJsonField(
+                                                        _model.emptystring,
+                                                        r'''$.teste''',
+                                                      )
+                                                  ? const Color(0x00FFAB00)
+                                                  : const Color(0xFFFFAB00),
+                                              offset: const Offset(-10.0, 0.0),
+                                            )
+                                          ],
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                          border: Border.all(
+                                            color: getJsonField(
+                                                      volumesListadosItem,
+                                                      r'''$.volume_data_hora_fim''',
+                                                    ) !=
+                                                    getJsonField(
+                                                      _model.emptystring,
+                                                      r'''$.teste''',
+                                                    )
+                                                ? const Color(0xFF7BB3B6)
+                                                : const Color(0xFFFFAB00),
+                                          ),
                                         ),
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
-                                            0.0, 8.0, 0.0, 8.0),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Expanded(
-                                              child: Column(
-                                                mainAxisSize: MainAxisSize.max,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsetsDirectional
-                                                            .fromSTEB(0.0, 0.0,
-                                                                0.0, 4.0),
-                                                    child: Row(
-                                                      mainAxisSize:
-                                                          MainAxisSize.max,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceAround,
-                                                      children: [
-                                                        InkWell(
-                                                          splashColor: Colors
-                                                              .transparent,
-                                                          focusColor: Colors
-                                                              .transparent,
-                                                          hoverColor: Colors
-                                                              .transparent,
-                                                          highlightColor: Colors
-                                                              .transparent,
-                                                          onTap: () async {
-                                                            await showModalBottomSheet(
-                                                              isScrollControlled:
-                                                                  true,
-                                                              backgroundColor:
-                                                                  Colors
-                                                                      .transparent,
-                                                              enableDrag: false,
-                                                              context: context,
-                                                              builder:
-                                                                  (context) {
-                                                                return GestureDetector(
-                                                                  onTap: () => _model
-                                                                          .unfocusNode
-                                                                          .canRequestFocus
-                                                                      ? FocusScope.of(
-                                                                              context)
-                                                                          .requestFocus(_model
-                                                                              .unfocusNode)
-                                                                      : FocusScope.of(
-                                                                              context)
-                                                                          .unfocus(),
-                                                                  child:
-                                                                      Padding(
-                                                                    padding: MediaQuery
-                                                                        .viewInsetsOf(
-                                                                            context),
-                                                                    child:
-                                                                        FotoVolumeWidget(
-                                                                      base64:
-                                                                          getJsonField(
-                                                                        volumesListadosItem,
-                                                                        r'''$.foto''',
-                                                                      ).toString(),
-                                                                    ),
-                                                                  ),
-                                                                );
-                                                              },
-                                                            ).then((value) =>
-                                                                safeSetState(
-                                                                    () {}));
-                                                          },
-                                                          child: Icon(
-                                                            Icons
-                                                                .perm_media_sharp,
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .primary,
-                                                            size: 32.0,
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                          'Volume: ${getJsonField(
-                                                            volumesListadosItem,
-                                                            r'''$.volume_id''',
-                                                          ).toString()}',
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .bodyMedium
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Outfit',
-                                                                color: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .primaryText,
-                                                                fontSize: 24.0,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                              ),
-                                                        ),
-                                                        InkWell(
-                                                          splashColor: Colors
-                                                              .transparent,
-                                                          focusColor: Colors
-                                                              .transparent,
-                                                          hoverColor: Colors
-                                                              .transparent,
-                                                          highlightColor: Colors
-                                                              .transparent,
-                                                          onTap: () async {
-                                                            context.pushNamed(
-                                                              'ListadeAmostras',
-                                                              queryParameters: {
-                                                                'fazId':
-                                                                    serializeParam(
-                                                                  widget.fazId,
-                                                                  ParamType.int,
-                                                                ),
-                                                                'oservId':
-                                                                    serializeParam(
-                                                                  widget
-                                                                      .oservId,
-                                                                  ParamType.int,
-                                                                ),
-                                                                'amostras':
-                                                                    serializeParam(
-                                                                  (getJsonField(
-                                                                    volumesListadosItem,
-                                                                    r'''$.amostras''',
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsetsDirectional.fromSTEB(
+                                                  0.0, 8.0, 0.0, 8.0),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Expanded(
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  0.0,
+                                                                  0.0,
+                                                                  0.0,
+                                                                  4.0),
+                                                      child: Row(
+                                                        mainAxisSize:
+                                                            MainAxisSize.max,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceAround,
+                                                        children: [
+                                                          InkWell(
+                                                            splashColor: Colors
+                                                                .transparent,
+                                                            focusColor: Colors
+                                                                .transparent,
+                                                            hoverColor: Colors
+                                                                .transparent,
+                                                            highlightColor:
+                                                                Colors
+                                                                    .transparent,
+                                                            onTap: () async {
+                                                              await showModalBottomSheet(
+                                                                isScrollControlled:
                                                                     true,
-                                                                  ) as List)
-                                                                      .map<String>(
-                                                                          (s) =>
-                                                                              s.toString())
-                                                                      .toList(),
-                                                                  ParamType
-                                                                      .String,
-                                                                  true,
-                                                                ),
-                                                                'idDoVolume':
-                                                                    serializeParam(
-                                                                  getJsonField(
-                                                                    volumesListadosItem,
-                                                                    r'''$.volume_id''',
-                                                                  ).toString(),
-                                                                  ParamType
-                                                                      .String,
-                                                                ),
-                                                              }.withoutNulls,
-                                                              extra: <String,
-                                                                  dynamic>{
-                                                                kTransitionInfoKey:
-                                                                    const TransitionInfo(
-                                                                  hasTransition:
-                                                                      true,
-                                                                  transitionType:
-                                                                      PageTransitionType
-                                                                          .rightToLeft,
-                                                                  duration: Duration(
-                                                                      milliseconds:
-                                                                          800),
-                                                                ),
-                                                              },
-                                                            );
-                                                          },
-                                                          child: FaIcon(
-                                                            FontAwesomeIcons
-                                                                .arrowCircleRight,
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .primary,
-                                                            size: 32.0,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                    width: MediaQuery.sizeOf(
-                                                                context)
-                                                            .width *
-                                                        1.0,
-                                                    decoration: const BoxDecoration(
-                                                      color: Color(0x00E6F1F0),
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisSize:
-                                                          MainAxisSize.max,
-                                                      children: [
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      0.0,
-                                                                      8.0,
-                                                                      0.0,
-                                                                      0.0),
-                                                          child: Row(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .max,
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceAround,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              Column(
-                                                                mainAxisSize:
-                                                                    MainAxisSize
-                                                                        .max,
-                                                                children: [
-                                                                  Padding(
-                                                                    padding: const EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            0.0,
-                                                                            0.0,
-                                                                            0.0,
-                                                                            2.0),
-                                                                    child: Text(
-                                                                      'Iniciado: ${getJsonField(
-                                                                        volumesListadosItem,
-                                                                        r'''$.volume_data_hora_inicio''',
-                                                                      ).toString()}',
-                                                                      style: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .bodyMedium,
+                                                                backgroundColor:
+                                                                    Colors
+                                                                        .transparent,
+                                                                enableDrag:
+                                                                    false,
+                                                                context:
+                                                                    context,
+                                                                builder:
+                                                                    (context) {
+                                                                  return GestureDetector(
+                                                                    onTap: () => _model
+                                                                            .unfocusNode
+                                                                            .canRequestFocus
+                                                                        ? FocusScope.of(context).requestFocus(_model
+                                                                            .unfocusNode)
+                                                                        : FocusScope.of(context)
+                                                                            .unfocus(),
+                                                                    child:
+                                                                        Padding(
+                                                                      padding: MediaQuery
+                                                                          .viewInsetsOf(
+                                                                              context),
+                                                                      child:
+                                                                          FotoVolumeWidget(
+                                                                        base64:
+                                                                            getJsonField(
+                                                                          volumesListadosItem,
+                                                                          r'''$.foto''',
+                                                                        ).toString(),
+                                                                      ),
                                                                     ),
+                                                                  );
+                                                                },
+                                                              ).then((value) =>
+                                                                  safeSetState(
+                                                                      () {}));
+                                                            },
+                                                            child: Icon(
+                                                              Icons
+                                                                  .perm_media_sharp,
+                                                              color: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .primary,
+                                                              size: 32.0,
+                                                            ),
+                                                          ),
+                                                          Text(
+                                                            'Volume: ${getJsonField(
+                                                              volumesListadosItem,
+                                                              r'''$.volume_id''',
+                                                            ).toString()}',
+                                                            style: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Outfit',
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .primaryText,
+                                                                  fontSize:
+                                                                      24.0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                ),
+                                                          ),
+                                                          InkWell(
+                                                            splashColor: Colors
+                                                                .transparent,
+                                                            focusColor: Colors
+                                                                .transparent,
+                                                            hoverColor: Colors
+                                                                .transparent,
+                                                            highlightColor:
+                                                                Colors
+                                                                    .transparent,
+                                                            onTap: () async {
+                                                              context.pushNamed(
+                                                                'ListadeAmostras',
+                                                                queryParameters:
+                                                                    {
+                                                                  'fazId':
+                                                                      serializeParam(
+                                                                    widget
+                                                                        .fazId,
+                                                                    ParamType
+                                                                        .int,
                                                                   ),
-                                                                  if (getJsonField(
-                                                                        volumesListadosItem,
-                                                                        r'''$.volume_data_hora_fim''',
-                                                                      ) !=
-                                                                      getJsonField(
-                                                                        _model
-                                                                            .emptystring,
-                                                                        r'''$.teste''',
-                                                                      ))
+                                                                  'oservId':
+                                                                      serializeParam(
+                                                                    widget
+                                                                        .oservId,
+                                                                    ParamType
+                                                                        .int,
+                                                                  ),
+                                                                  'amostras':
+                                                                      serializeParam(
+                                                                    (getJsonField(
+                                                                      volumesListadosItem,
+                                                                      r'''$.amostras''',
+                                                                      true,
+                                                                    ) as List)
+                                                                        .map<String>((s) =>
+                                                                            s.toString())
+                                                                        .toList(),
+                                                                    ParamType
+                                                                        .String,
+                                                                    true,
+                                                                  ),
+                                                                  'idDoVolume':
+                                                                      serializeParam(
+                                                                    getJsonField(
+                                                                      volumesListadosItem,
+                                                                      r'''$.volume_id''',
+                                                                    ).toString(),
+                                                                    ParamType
+                                                                        .String,
+                                                                  ),
+                                                                }.withoutNulls,
+                                                                extra: <String,
+                                                                    dynamic>{
+                                                                  kTransitionInfoKey:
+                                                                      const TransitionInfo(
+                                                                    hasTransition:
+                                                                        true,
+                                                                    transitionType:
+                                                                        PageTransitionType
+                                                                            .rightToLeft,
+                                                                    duration: Duration(
+                                                                        milliseconds:
+                                                                            800),
+                                                                  ),
+                                                                },
+                                                              );
+                                                            },
+                                                            child: FaIcon(
+                                                              FontAwesomeIcons
+                                                                  .arrowCircleRight,
+                                                              color: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .primary,
+                                                              size: 32.0,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      width: MediaQuery.sizeOf(
+                                                                  context)
+                                                              .width *
+                                                          1.0,
+                                                      decoration: const BoxDecoration(
+                                                        color:
+                                                            Color(0x00E6F1F0),
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisSize:
+                                                            MainAxisSize.max,
+                                                        children: [
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        0.0,
+                                                                        8.0,
+                                                                        0.0,
+                                                                        0.0),
+                                                            child: Row(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .max,
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceAround,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Column(
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .max,
+                                                                  children: [
                                                                     Padding(
                                                                       padding: const EdgeInsetsDirectional.fromSTEB(
                                                                           0.0,
@@ -574,284 +573,293 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                                           2.0),
                                                                       child:
                                                                           Text(
-                                                                        'Concluído: ${getJsonField(
+                                                                        'Iniciado: ${getJsonField(
                                                                           volumesListadosItem,
-                                                                          r'''$.volume_data_hora_fim''',
+                                                                          r'''$.volume_data_hora_inicio''',
                                                                         ).toString()}',
                                                                         style: FlutterFlowTheme.of(context)
                                                                             .bodyMedium,
                                                                       ),
                                                                     ),
-                                                                ],
-                                                              ),
-                                                              Column(
-                                                                mainAxisSize:
-                                                                    MainAxisSize
-                                                                        .max,
-                                                                children: [
-                                                                  Text(
-                                                                    'N° amostras',
-                                                                    style: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyMedium
-                                                                        .override(
-                                                                          fontFamily:
-                                                                              'Readex Pro',
-                                                                          fontSize:
-                                                                              16.0,
-                                                                          fontWeight:
-                                                                              FontWeight.w600,
+                                                                    if (getJsonField(
+                                                                          volumesListadosItem,
+                                                                          r'''$.volume_data_hora_fim''',
+                                                                        ) !=
+                                                                        getJsonField(
+                                                                          _model
+                                                                              .emptystring,
+                                                                          r'''$.teste''',
+                                                                        ))
+                                                                      Padding(
+                                                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                                                            0.0,
+                                                                            0.0,
+                                                                            0.0,
+                                                                            2.0),
+                                                                        child:
+                                                                            Text(
+                                                                          'Concluído: ${getJsonField(
+                                                                            volumesListadosItem,
+                                                                            r'''$.volume_data_hora_fim''',
+                                                                          ).toString()}',
+                                                                          style:
+                                                                              FlutterFlowTheme.of(context).bodyMedium,
                                                                         ),
-                                                                  ),
-                                                                  Text(
-                                                                    valueOrDefault<
-                                                                        String>(
-                                                                      functions
-                                                                          .contadorDeNumeroDeAmostras(
-                                                                              getJsonField(
-                                                                        volumesListadosItem,
-                                                                        r'''$.amostras[:]''',
-                                                                      ).toString()),
-                                                                      'Erro#nãotemNumero',
+                                                                      ),
+                                                                  ],
+                                                                ),
+                                                                Column(
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .max,
+                                                                  children: [
+                                                                    Text(
+                                                                      'N° amostras',
+                                                                      style: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyMedium
+                                                                          .override(
+                                                                            fontFamily:
+                                                                                'Readex Pro',
+                                                                            fontSize:
+                                                                                16.0,
+                                                                            fontWeight:
+                                                                                FontWeight.w600,
+                                                                          ),
                                                                     ),
-                                                                    style: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyMedium,
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ],
+                                                                    Text(
+                                                                      valueOrDefault<
+                                                                          String>(
+                                                                        functions
+                                                                            .contadorDeNumeroDeAmostras(getJsonField(
+                                                                          volumesListadosItem,
+                                                                          r'''$.amostras[:]''',
+                                                                        ).toString()),
+                                                                        'Erro#nãotemNumero',
+                                                                      ),
+                                                                      style: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyMedium,
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                      ],
+                                                        ],
+                                                      ),
                                                     ),
-                                                  ),
-                                                  Expanded(
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  10.0,
-                                                                  6.0,
-                                                                  10.0,
-                                                                  0.0),
-                                                      child: Container(
-                                                        width: double.infinity,
-                                                        height: 100.0,
-                                                        decoration:
-                                                            const BoxDecoration(
-                                                          color:
-                                                              Color(0x00FFFFFF),
-                                                        ),
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      0.0,
-                                                                      0.0,
-                                                                      0.0,
-                                                                      8.0),
-                                                          child: Row(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .max,
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceEvenly,
-                                                            children: [
-                                                              if (getJsonField(
-                                                                    volumesListadosItem,
-                                                                    r'''$.lacre''',
-                                                                  ) !=
-                                                                  getJsonField(
-                                                                    _model
-                                                                        .emptystring,
-                                                                    r'''$.teste''',
-                                                                  ))
-                                                                Column(
-                                                                  mainAxisSize:
-                                                                      MainAxisSize
-                                                                          .max,
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .center,
-                                                                  crossAxisAlignment:
-                                                                      CrossAxisAlignment
-                                                                          .center,
-                                                                  children: [
-                                                                    Text(
-                                                                      'Lacre',
-                                                                      style: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .bodyMedium
-                                                                          .override(
-                                                                            fontFamily:
-                                                                                'Readex Pro',
-                                                                            color:
-                                                                                FlutterFlowTheme.of(context).primaryText,
-                                                                            fontSize:
-                                                                                16.0,
-                                                                            fontWeight:
-                                                                                FontWeight.w600,
-                                                                          ),
-                                                                    ),
-                                                                    Padding(
-                                                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                                                          0.0,
-                                                                          4.0,
-                                                                          0.0,
-                                                                          0.0),
-                                                                      child:
-                                                                          Column(
-                                                                        mainAxisSize:
-                                                                            MainAxisSize.max,
-                                                                        crossAxisAlignment:
-                                                                            CrossAxisAlignment.start,
-                                                                        children: [
-                                                                          Text(
-                                                                            getJsonField(
-                                                                              volumesListadosItem,
-                                                                              r'''$.lacre''',
-                                                                            ).toString(),
-                                                                            style:
-                                                                                FlutterFlowTheme.of(context).bodyMedium,
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              if (true == false)
-                                                                Column(
-                                                                  mainAxisSize:
-                                                                      MainAxisSize
-                                                                          .max,
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .center,
-                                                                  children: [
-                                                                    Text(
-                                                                      'Etiqueta',
-                                                                      style: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .bodyMedium
-                                                                          .override(
-                                                                            fontFamily:
-                                                                                'Readex Pro',
-                                                                            color:
-                                                                                FlutterFlowTheme.of(context).primaryText,
-                                                                            fontSize:
-                                                                                16.0,
-                                                                            fontWeight:
-                                                                                FontWeight.w600,
-                                                                          ),
-                                                                    ),
-                                                                    Padding(
-                                                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                                                          0.0,
-                                                                          4.0,
-                                                                          0.0,
-                                                                          0.0),
-                                                                      child:
-                                                                          Column(
-                                                                        mainAxisSize:
-                                                                            MainAxisSize.max,
-                                                                        children: [
-                                                                          Text(
-                                                                            '01949001 ',
-                                                                            style:
-                                                                                FlutterFlowTheme.of(context).bodyMedium,
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              if (getJsonField(
-                                                                    volumesListadosItem,
-                                                                    r'''$.volume_data_hora_fim''',
-                                                                  ) !=
-                                                                  getJsonField(
-                                                                    _model
-                                                                        .emptystring,
-                                                                    r'''$.teste''',
-                                                                  ))
-                                                                Column(
-                                                                  mainAxisSize:
-                                                                      MainAxisSize
-                                                                          .max,
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .center,
-                                                                  crossAxisAlignment:
-                                                                      CrossAxisAlignment
-                                                                          .center,
-                                                                  children: [
-                                                                    Text(
-                                                                      'Tempo Total',
-                                                                      style: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .bodyMedium
-                                                                          .override(
-                                                                            fontFamily:
-                                                                                'Readex Pro',
-                                                                            color:
-                                                                                FlutterFlowTheme.of(context).primaryText,
-                                                                            fontSize:
-                                                                                16.0,
-                                                                            fontWeight:
-                                                                                FontWeight.w600,
-                                                                          ),
-                                                                    ),
-                                                                    Padding(
-                                                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                                                          0.0,
-                                                                          4.0,
-                                                                          0.0,
-                                                                          0.0),
-                                                                      child:
-                                                                          Column(
-                                                                        mainAxisSize:
-                                                                            MainAxisSize.max,
-                                                                        crossAxisAlignment:
-                                                                            CrossAxisAlignment.end,
-                                                                        children: [
-                                                                          Text(
-                                                                            valueOrDefault<String>(
-                                                                              functions.diferencaEntreDatas(
-                                                                                  getJsonField(
-                                                                                    volumesListadosItem,
-                                                                                    r'''$.volume_data_hora_inicio''',
-                                                                                  ).toString(),
-                                                                                  getJsonField(
-                                                                                    volumesListadosItem,
-                                                                                    r'''$.volume_data_hora_fim''',
-                                                                                  ).toString()),
-                                                                              'erro',
+                                                    Expanded(
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    10.0,
+                                                                    6.0,
+                                                                    10.0,
+                                                                    0.0),
+                                                        child: Container(
+                                                          width:
+                                                              double.infinity,
+                                                          height: 100.0,
+                                                          decoration:
+                                                              const BoxDecoration(
+                                                            color: Color(
+                                                                0x00FFFFFF),
+                                                          ),
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        0.0,
+                                                                        0.0,
+                                                                        0.0,
+                                                                        8.0),
+                                                            child: Row(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .max,
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceEvenly,
+                                                              children: [
+                                                                if (getJsonField(
+                                                                      volumesListadosItem,
+                                                                      r'''$.lacre''',
+                                                                    ) !=
+                                                                    getJsonField(
+                                                                      _model
+                                                                          .emptystring,
+                                                                      r'''$.teste''',
+                                                                    ))
+                                                                  Column(
+                                                                    mainAxisSize:
+                                                                        MainAxisSize
+                                                                            .max,
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .center,
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .center,
+                                                                    children: [
+                                                                      Text(
+                                                                        'Lacre',
+                                                                        style: FlutterFlowTheme.of(context)
+                                                                            .bodyMedium
+                                                                            .override(
+                                                                              fontFamily: 'Readex Pro',
+                                                                              color: FlutterFlowTheme.of(context).primaryText,
+                                                                              fontSize: 16.0,
+                                                                              fontWeight: FontWeight.w600,
                                                                             ),
-                                                                            style:
-                                                                                FlutterFlowTheme.of(context).bodyMedium,
-                                                                          ),
-                                                                        ],
                                                                       ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                            ],
+                                                                      Padding(
+                                                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                                                            0.0,
+                                                                            4.0,
+                                                                            0.0,
+                                                                            0.0),
+                                                                        child:
+                                                                            Column(
+                                                                          mainAxisSize:
+                                                                              MainAxisSize.max,
+                                                                          crossAxisAlignment:
+                                                                              CrossAxisAlignment.start,
+                                                                          children: [
+                                                                            Text(
+                                                                              getJsonField(
+                                                                                volumesListadosItem,
+                                                                                r'''$.lacre''',
+                                                                              ).toString(),
+                                                                              style: FlutterFlowTheme.of(context).bodyMedium,
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                if (true ==
+                                                                    false)
+                                                                  Column(
+                                                                    mainAxisSize:
+                                                                        MainAxisSize
+                                                                            .max,
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .center,
+                                                                    children: [
+                                                                      Text(
+                                                                        'Etiqueta',
+                                                                        style: FlutterFlowTheme.of(context)
+                                                                            .bodyMedium
+                                                                            .override(
+                                                                              fontFamily: 'Readex Pro',
+                                                                              color: FlutterFlowTheme.of(context).primaryText,
+                                                                              fontSize: 16.0,
+                                                                              fontWeight: FontWeight.w600,
+                                                                            ),
+                                                                      ),
+                                                                      Padding(
+                                                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                                                            0.0,
+                                                                            4.0,
+                                                                            0.0,
+                                                                            0.0),
+                                                                        child:
+                                                                            Column(
+                                                                          mainAxisSize:
+                                                                              MainAxisSize.max,
+                                                                          children: [
+                                                                            Text(
+                                                                              '01949001 ',
+                                                                              style: FlutterFlowTheme.of(context).bodyMedium,
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                if (getJsonField(
+                                                                      volumesListadosItem,
+                                                                      r'''$.volume_data_hora_fim''',
+                                                                    ) !=
+                                                                    getJsonField(
+                                                                      _model
+                                                                          .emptystring,
+                                                                      r'''$.teste''',
+                                                                    ))
+                                                                  Column(
+                                                                    mainAxisSize:
+                                                                        MainAxisSize
+                                                                            .max,
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .center,
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .center,
+                                                                    children: [
+                                                                      Text(
+                                                                        'Tempo Total',
+                                                                        style: FlutterFlowTheme.of(context)
+                                                                            .bodyMedium
+                                                                            .override(
+                                                                              fontFamily: 'Readex Pro',
+                                                                              color: FlutterFlowTheme.of(context).primaryText,
+                                                                              fontSize: 16.0,
+                                                                              fontWeight: FontWeight.w600,
+                                                                            ),
+                                                                      ),
+                                                                      Padding(
+                                                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                                                            0.0,
+                                                                            4.0,
+                                                                            0.0,
+                                                                            0.0),
+                                                                        child:
+                                                                            Column(
+                                                                          mainAxisSize:
+                                                                              MainAxisSize.max,
+                                                                          crossAxisAlignment:
+                                                                              CrossAxisAlignment.end,
+                                                                          children: [
+                                                                            Text(
+                                                                              valueOrDefault<String>(
+                                                                                functions.diferencaEntreDatas(
+                                                                                    getJsonField(
+                                                                                      volumesListadosItem,
+                                                                                      r'''$.volume_data_hora_inicio''',
+                                                                                    ).toString(),
+                                                                                    getJsonField(
+                                                                                      volumesListadosItem,
+                                                                                      r'''$.volume_data_hora_fim''',
+                                                                                    ).toString()),
+                                                                                'erro',
+                                                                              ),
+                                                                              style: FlutterFlowTheme.of(context).bodyMedium,
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                              ],
+                                                            ),
                                                           ),
                                                         ),
                                                       ),
                                                     ),
-                                                  ),
-                                                ],
+                                                  ],
+                                                ),
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  );
-                                }).divide(const SizedBox(height: 10.0)),
+                                    );
+                                  }).divide(const SizedBox(height: 10.0)),
+                                ),
                               );
                             },
                           ),

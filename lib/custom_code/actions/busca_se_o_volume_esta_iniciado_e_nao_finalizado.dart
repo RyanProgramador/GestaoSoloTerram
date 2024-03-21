@@ -25,7 +25,8 @@ Future<bool> buscaSeOVolumeEstaIniciadoENaoFinalizado(
 
           // Se o último volume está finalizado, cria um novo volume
           var foto = await capturaImagemCameraTraseira(context);
-          if (foto != null || foto.isNotEmpty || foto != "") {
+
+          if (foto != null) {
             var proximoVolumeId = etapa['volumes'].length + 1;
             etapa['volumes'].add({
               "volume_id": proximoVolumeId,
@@ -45,7 +46,7 @@ Future<bool> buscaSeOVolumeEstaIniciadoENaoFinalizado(
         } else {
           // se não existem volumes, criamos um novo
           var foto = await capturaImagemCameraTraseira(context);
-          if (foto != null || foto.isNotEmpty || foto != "") {
+          if (foto != null) {
             etapa['volumes'].add({
               "volume_id": 1,
               "foto": foto,
@@ -68,26 +69,19 @@ Future<bool> buscaSeOVolumeEstaIniciadoENaoFinalizado(
 }
 
 Future<String?> capturaImagemCameraTraseira(BuildContext context) async {
-  // Inicia as câmeras
   List<CameraDescription> cameras = await availableCameras();
-
-  // Pega a câmera frontal
-  CameraDescription frontCamera = cameras.firstWhere(
-    (camera) => camera.lensDirection == CameraLensDirection.back,
+  CameraDescription camera = cameras.firstWhere(
+    (cam) => cam.lensDirection == CameraLensDirection.back,
     orElse: () => cameras.first,
   );
 
-  // Inicia o controlador da câmera
   CameraController controller =
-      CameraController(frontCamera, ResolutionPreset.medium);
+      CameraController(camera, ResolutionPreset.medium);
+
   try {
-    // Inicializa o controlador da câmera
     await controller.initialize();
 
-    // Variável para armazenar o base64 da imagem
     String? base64Image;
-
-    // Mostra o preview da câmera ocupando a tela inteira
     await showDialog(
       context: context,
       builder: (context) => Scaffold(
@@ -98,8 +92,8 @@ Future<String?> capturaImagemCameraTraseira(BuildContext context) async {
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
-              context.safePop(); // Volta para a tela anterior
-              // Ou use Navigator.of(context).pushNamed('/inicio'); para ir para a tela "Inicio"
+              Navigator.of(context)
+                  .pop(); // Simplesmente fecha o diálogo sem definir base64Image
             },
           ),
         ),
@@ -122,11 +116,10 @@ Future<String?> capturaImagemCameraTraseira(BuildContext context) async {
                   child: ElevatedButton(
                     onPressed: () async {
                       final image = await controller.takePicture();
-                      if (image != null) {
-                        final imageBytes = await image.readAsBytes();
-                        base64Image = base64Encode(imageBytes);
-                        Navigator.of(context).pop();
-                      }
+                      final imageBytes = await image.readAsBytes();
+                      base64Image = base64Encode(imageBytes);
+                      Navigator.of(context)
+                          .pop(); // Fecha o diálogo após tirar a foto
                     },
                     style: ElevatedButton.styleFrom(
                       primary: Colors.white,
@@ -142,11 +135,10 @@ Future<String?> capturaImagemCameraTraseira(BuildContext context) async {
         ),
       ),
     );
-
-    return base64Image; // Retorna o base64 da imagem capturada
+    return base64Image;
   } catch (e) {
-    // Lidar com erros, se houver
     print('Erro ao inicializar a câmera: $e');
+    return null;
   } finally {
     await controller.dispose();
   }

@@ -247,23 +247,22 @@ class _ListadeAmostrasWidgetState extends State<ListadeAmostrasWidget> {
                                 height:
                                     MediaQuery.sizeOf(context).height * 0.725,
                                 decoration: const BoxDecoration(),
+                                alignment: const AlignmentDirectional(0.0, -1.0),
                                 child: Builder(
                                   builder: (context) {
                                     final teste = widget.amostras!.toList();
                                     if (teste.isEmpty) {
-                                      return const Center(
-                                        child: SizedBox(
-                                          width: double.infinity,
-                                          height: 170.0,
-                                          child: NoSamplesFoundWidget(),
-                                        ),
+                                      return const SizedBox(
+                                        width: double.infinity,
+                                        height: 170.0,
+                                        child: NoSamplesFoundWidget(),
                                       );
                                     }
                                     return SingleChildScrollView(
                                       child: Column(
                                         mainAxisSize: MainAxisSize.max,
                                         mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                            MainAxisAlignment.start,
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
                                         children: List.generate(teste.length,
