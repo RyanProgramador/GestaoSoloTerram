@@ -1,7 +1,6 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/custom_code/widgets/index.dart' as custom_widgets;
-import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
 import 'foto_volume_model.dart';
 export 'foto_volume_model.dart';
@@ -112,19 +111,17 @@ class _FotoVolumeWidgetState extends State<FotoVolumeWidget> {
                             child: Column(
                               mainAxisSize: MainAxisSize.max,
                               children: [
-                                if (functions.indentificahtml(widget.html) ==
-                                    false)
-                                  Expanded(
-                                    child: SizedBox(
+                                Expanded(
+                                  child: SizedBox(
+                                    width: double.infinity,
+                                    height: 200.0,
+                                    child: custom_widgets.FotoBase64(
                                       width: double.infinity,
                                       height: 200.0,
-                                      child: custom_widgets.FotoBase64(
-                                        width: double.infinity,
-                                        height: 200.0,
-                                        base64Foto: widget.html,
-                                      ),
+                                      base64Foto: widget.base64,
                                     ),
                                   ),
+                                ),
                               ],
                             ),
                           ),
