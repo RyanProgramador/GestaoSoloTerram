@@ -1,10 +1,8 @@
 import '/flutter_flow/flutter_flow_theme.dart';
-import '/flutter_flow/flutter_flow_timer.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/custom_code/actions/index.dart' as actions;
 import '/custom_code/widgets/index.dart' as custom_widgets;
 import '/flutter_flow/custom_functions.dart' as functions;
-import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
@@ -53,10 +51,7 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
         FFAppState().trTalhoes =
             FFAppState().trTalhoes.toList().cast<dynamic>();
       });
-      _model.timerController.onStartTimer();
     });
-
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -355,7 +350,7 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
                                           final testeItem = teste[testeIndex];
                                           return Container(
                                             width: double.infinity,
-                                            height: 92.0,
+                                            height: 65.0,
                                             decoration: BoxDecoration(
                                               color: const Color(0xFFE6F1F0),
                                               borderRadius:
@@ -470,42 +465,46 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
                                                                   context)
                                                               .bodyMedium,
                                                     ),
-                                                    Text(
-                                                      valueOrDefault<String>(
-                                                        functions.buscalegendaiconeAtravesDaEtiquetaEmPontosCopy(
-                                                            functions.buscaRegistro(
-                                                                widget.fazId!,
-                                                                widget.oservId!,
-                                                                FFAppState()
-                                                                    .trSincroniza
-                                                                    .toList()),
-                                                            testeItem,
-                                                            widget.fazId,
-                                                            widget.oservId),
-                                                        'error32',
+                                                    if (true == false)
+                                                      Text(
+                                                        valueOrDefault<String>(
+                                                          functions.buscalegendaiconeAtravesDaEtiquetaEmPontosCopy(
+                                                              functions.buscaRegistro(
+                                                                  widget.fazId!,
+                                                                  widget
+                                                                      .oservId!,
+                                                                  FFAppState()
+                                                                      .trSincroniza
+                                                                      .toList()),
+                                                              testeItem,
+                                                              widget.fazId,
+                                                              widget.oservId),
+                                                          'error32',
+                                                        ),
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium,
                                                       ),
-                                                      style:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodyMedium,
-                                                    ),
-                                                    Text(
-                                                      valueOrDefault<String>(
-                                                        functions.buscapprofidAtravesDaEtiquetaEmPontos(
-                                                            functions.buscaRegistro(
-                                                                widget.fazId!,
-                                                                widget.oservId!,
-                                                                FFAppState()
-                                                                    .trSincroniza
-                                                                    .toList()),
-                                                            testeItem),
-                                                        'erro',
+                                                    if (true == false)
+                                                      Text(
+                                                        valueOrDefault<String>(
+                                                          functions.buscapprofidAtravesDaEtiquetaEmPontos(
+                                                              functions.buscaRegistro(
+                                                                  widget.fazId!,
+                                                                  widget
+                                                                      .oservId!,
+                                                                  FFAppState()
+                                                                      .trSincroniza
+                                                                      .toList()),
+                                                              testeItem),
+                                                          'erro',
+                                                        ),
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium,
                                                       ),
-                                                      style:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodyMedium,
-                                                    ),
                                                   ],
                                                 ),
                                                 Column(
@@ -546,98 +545,106 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
                                                         MainAxisAlignment
                                                             .center,
                                                     children: [
-                                                      InkWell(
-                                                        splashColor:
-                                                            Colors.transparent,
-                                                        focusColor:
-                                                            Colors.transparent,
-                                                        hoverColor:
-                                                            Colors.transparent,
-                                                        highlightColor:
-                                                            Colors.transparent,
-                                                        onTap: () async {
-                                                          var shouldSetState =
-                                                              false;
-                                                          var confirmDialogResponse =
-                                                              await showDialog<
-                                                                      bool>(
-                                                                    context:
-                                                                        context,
-                                                                    builder:
-                                                                        (alertDialogContext) {
-                                                                      return AlertDialog(
-                                                                        title: const Text(
-                                                                            'Atenção!'),
-                                                                        content:
-                                                                            const Text('Você tem certeza que deseja remover essa amostra de dentro do volume?'),
-                                                                        actions: [
-                                                                          TextButton(
-                                                                            onPressed: () =>
-                                                                                Navigator.pop(alertDialogContext, false),
-                                                                            child:
-                                                                                const Text('Não'),
-                                                                          ),
-                                                                          TextButton(
-                                                                            onPressed: () =>
-                                                                                Navigator.pop(alertDialogContext, true),
-                                                                            child:
-                                                                                const Text('Sim'),
-                                                                          ),
-                                                                        ],
-                                                                      );
-                                                                    },
-                                                                  ) ??
-                                                                  false;
-                                                          if (confirmDialogResponse) {
-                                                            _model.retornoEclusao =
-                                                                actions
-                                                                    .excluiVolumeDaEtapaAberta(
-                                                              functions.buscaRegistro(
-                                                                  widget.fazId!,
-                                                                  widget
-                                                                      .oservId!,
-                                                                  FFAppState()
-                                                                      .trSincroniza
-                                                                      .toList()),
-                                                              testeItem,
-                                                            );
-                                                            shouldSetState =
-                                                                true;
-                                                            await showDialog(
-                                                              context: context,
-                                                              builder:
-                                                                  (alertDialogContext) {
-                                                                return AlertDialog(
-                                                                  title: Text(_model
-                                                                      .retornoEclusao!),
-                                                                  actions: [
-                                                                    TextButton(
-                                                                      onPressed:
-                                                                          () =>
-                                                                              Navigator.pop(alertDialogContext),
-                                                                      child: const Text(
-                                                                          'Ok'),
-                                                                    ),
-                                                                  ],
-                                                                );
-                                                              },
-                                                            );
-                                                          } else {
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    0.0,
+                                                                    0.0,
+                                                                    8.0,
+                                                                    0.0),
+                                                        child: InkWell(
+                                                          splashColor: Colors
+                                                              .transparent,
+                                                          focusColor: Colors
+                                                              .transparent,
+                                                          hoverColor: Colors
+                                                              .transparent,
+                                                          highlightColor: Colors
+                                                              .transparent,
+                                                          onTap: () async {
+                                                            var shouldSetState =
+                                                                false;
+                                                            var confirmDialogResponse =
+                                                                await showDialog<
+                                                                        bool>(
+                                                                      context:
+                                                                          context,
+                                                                      builder:
+                                                                          (alertDialogContext) {
+                                                                        return AlertDialog(
+                                                                          title:
+                                                                              const Text('Atenção!'),
+                                                                          content:
+                                                                              const Text('Você tem certeza que deseja remover essa amostra de dentro do volume?'),
+                                                                          actions: [
+                                                                            TextButton(
+                                                                              onPressed: () => Navigator.pop(alertDialogContext, false),
+                                                                              child: const Text('Não'),
+                                                                            ),
+                                                                            TextButton(
+                                                                              onPressed: () => Navigator.pop(alertDialogContext, true),
+                                                                              child: const Text('Sim'),
+                                                                            ),
+                                                                          ],
+                                                                        );
+                                                                      },
+                                                                    ) ??
+                                                                    false;
+                                                            if (confirmDialogResponse) {
+                                                              _model.retornoEclusao =
+                                                                  actions
+                                                                      .excluiVolumeDaEtapaAberta(
+                                                                functions.buscaRegistro(
+                                                                    widget
+                                                                        .fazId!,
+                                                                    widget
+                                                                        .oservId!,
+                                                                    FFAppState()
+                                                                        .trSincroniza
+                                                                        .toList()),
+                                                                testeItem,
+                                                              );
+                                                              shouldSetState =
+                                                                  true;
+                                                              await showDialog(
+                                                                context:
+                                                                    context,
+                                                                builder:
+                                                                    (alertDialogContext) {
+                                                                  return AlertDialog(
+                                                                    title: Text(
+                                                                        _model
+                                                                            .retornoEclusao!),
+                                                                    actions: [
+                                                                      TextButton(
+                                                                        onPressed:
+                                                                            () =>
+                                                                                Navigator.pop(alertDialogContext),
+                                                                        child: const Text(
+                                                                            'Ok'),
+                                                                      ),
+                                                                    ],
+                                                                  );
+                                                                },
+                                                              );
+                                                            } else {
+                                                              if (shouldSetState) {
+                                                                setState(() {});
+                                                              }
+                                                              return;
+                                                            }
+
                                                             if (shouldSetState) {
                                                               setState(() {});
                                                             }
-                                                            return;
-                                                          }
-
-                                                          if (shouldSetState) {
-                                                            setState(() {});
-                                                          }
-                                                        },
-                                                        child: const FaIcon(
-                                                          FontAwesomeIcons
-                                                              .trashAlt,
-                                                          color: Colors.black,
-                                                          size: 24.0,
+                                                          },
+                                                          child: const FaIcon(
+                                                            FontAwesomeIcons
+                                                                .trashAlt,
+                                                            color: Colors.black,
+                                                            size: 24.0,
+                                                          ),
                                                         ),
                                                       ),
                                                     ],
@@ -657,47 +664,6 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
                         ),
                       ],
                     ),
-                  ),
-                ),
-              ),
-            ),
-            Opacity(
-              opacity: 0.1,
-              child: Container(
-                width: 100.0,
-                height: 5.0,
-                decoration: const BoxDecoration(
-                  color: Color(0x29EE8B60),
-                ),
-                child: Opacity(
-                  opacity: 0.1,
-                  child: FlutterFlowTimer(
-                    initialTime: _model.timerMilliseconds,
-                    getDisplayTime: (value) => StopWatchTimer.getDisplayTime(
-                      value,
-                      hours: false,
-                      milliSecond: false,
-                    ),
-                    controller: _model.timerController,
-                    updateStateInterval: const Duration(milliseconds: 1000),
-                    onChanged: (value, displayTime, shouldUpdate) {
-                      _model.timerMilliseconds = value;
-                      _model.timerValue = displayTime;
-                      if (shouldUpdate) setState(() {});
-                    },
-                    onEnded: () async {
-                      _model.timerController.timer.setPresetTime(
-                        mSec: _model.timerMilliseconds,
-                        add: false,
-                      );
-                      _model.timerController.onResetTimer();
-
-                      await Future.delayed(const Duration(milliseconds: 100));
-                      FFAppState().update(() {});
-                      _model.timerController.onStartTimer();
-                    },
-                    textAlign: TextAlign.start,
-                    style: FlutterFlowTheme.of(context).headlineSmall,
                   ),
                 ),
               ),

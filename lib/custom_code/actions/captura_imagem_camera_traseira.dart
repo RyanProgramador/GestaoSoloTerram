@@ -17,7 +17,7 @@ Future<String?> capturaImagemCameraTraseira(BuildContext context) async {
 
   // Pega a câmera frontal
   CameraDescription frontCamera = cameras.firstWhere(
-    (camera) => camera.lensDirection == CameraLensDirection.first,
+    (camera) => camera.lensDirection == CameraLensDirection.back,
     orElse: () => cameras.first,
   );
 

@@ -214,7 +214,7 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                           ),
                         Padding(
                           padding: const EdgeInsetsDirectional.fromSTEB(
-                              16.0, 8.0, 16.0, 0.0),
+                              36.0, 8.0, 36.0, 0.0),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -240,7 +240,7 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                         ),
                         Padding(
                           padding: const EdgeInsetsDirectional.fromSTEB(
-                              16.0, 10.0, 16.0, 30.0),
+                              20.0, 10.0, 20.0, 30.0),
                           child: Builder(
                             builder: (context) {
                               final volumesListados = functions
@@ -301,7 +301,7 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                     r'''$.teste''',
                                                   )
                                               ? const Color(0xFFE6F1F0)
-                                              : const Color(0xFFFFF4CE),
+                                              : const Color(0xFFE59925),
                                           boxShadow: [
                                             BoxShadow(
                                               blurRadius: 0.0,
@@ -349,23 +349,67 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.start,
                                                   crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
+                                                      CrossAxisAlignment.start,
                                                   children: [
                                                     Padding(
                                                       padding:
                                                           const EdgeInsetsDirectional
                                                               .fromSTEB(
+                                                                  14.0,
                                                                   0.0,
-                                                                  0.0,
-                                                                  0.0,
+                                                                  14.0,
                                                                   4.0),
                                                       child: Row(
                                                         mainAxisSize:
                                                             MainAxisSize.max,
                                                         mainAxisAlignment:
                                                             MainAxisAlignment
-                                                                .spaceAround,
+                                                                .spaceBetween,
                                                         children: [
+                                                          Text(
+                                                            'Volume: ${getJsonField(
+                                                              volumesListadosItem,
+                                                              r'''$.volume_id''',
+                                                            ).toString()} (${valueOrDefault<String>(
+                                                              functions
+                                                                  .contadorDeNumeroDeAmostras(
+                                                                      getJsonField(
+                                                                volumesListadosItem,
+                                                                r'''$.amostras[:]''',
+                                                              ).toString()),
+                                                              'Erro#nãotemNumero',
+                                                            )} amostras)',
+                                                            style: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Outfit',
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .primaryText,
+                                                                  fontSize:
+                                                                      24.0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                ),
+                                                          ),
+                                                          Text(
+                                                            valueOrDefault<
+                                                                String>(
+                                                              functions
+                                                                  .contadorDeNumeroDeAmostras(
+                                                                      getJsonField(
+                                                                volumesListadosItem,
+                                                                r'''$.amostras[:].volam_etiqueta_id''',
+                                                              ).toString()),
+                                                              'Erro#nãotemNumero',
+                                                            ),
+                                                            style: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .bodyMedium,
+                                                          ),
                                                           InkWell(
                                                             splashColor: Colors
                                                                 .transparent,
@@ -426,173 +470,59 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                               size: 32.0,
                                                             ),
                                                           ),
-                                                          Text(
-                                                            'Volume: ${getJsonField(
-                                                              volumesListadosItem,
-                                                              r'''$.volume_id''',
-                                                            ).toString()}',
-                                                            style: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .bodyMedium
-                                                                .override(
-                                                                  fontFamily:
-                                                                      'Outfit',
-                                                                  color: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .primaryText,
-                                                                  fontSize:
-                                                                      24.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                ),
-                                                          ),
-                                                          InkWell(
-                                                            splashColor: Colors
-                                                                .transparent,
-                                                            focusColor: Colors
-                                                                .transparent,
-                                                            hoverColor: Colors
-                                                                .transparent,
-                                                            highlightColor:
-                                                                Colors
-                                                                    .transparent,
-                                                            onTap: () async {
-                                                              context.pushNamed(
-                                                                'ListadeAmostras',
-                                                                queryParameters:
-                                                                    {
-                                                                  'fazId':
-                                                                      serializeParam(
-                                                                    widget
-                                                                        .fazId,
-                                                                    ParamType
-                                                                        .int,
-                                                                  ),
-                                                                  'oservId':
-                                                                      serializeParam(
-                                                                    widget
-                                                                        .oservId,
-                                                                    ParamType
-                                                                        .int,
-                                                                  ),
-                                                                  'amostras':
-                                                                      serializeParam(
-                                                                    (getJsonField(
-                                                                      volumesListadosItem,
-                                                                      r'''$.amostras''',
-                                                                      true,
-                                                                    ) as List)
-                                                                        .map<String>((s) =>
-                                                                            s.toString())
-                                                                        .toList(),
-                                                                    ParamType
-                                                                        .String,
-                                                                    true,
-                                                                  ),
-                                                                  'idDoVolume':
-                                                                      serializeParam(
-                                                                    getJsonField(
-                                                                      volumesListadosItem,
-                                                                      r'''$.volume_id''',
-                                                                    ).toString(),
-                                                                    ParamType
-                                                                        .String,
-                                                                  ),
-                                                                }.withoutNulls,
-                                                                extra: <String,
-                                                                    dynamic>{
-                                                                  kTransitionInfoKey:
-                                                                      const TransitionInfo(
-                                                                    hasTransition:
-                                                                        true,
-                                                                    transitionType:
-                                                                        PageTransitionType
-                                                                            .rightToLeft,
-                                                                    duration: Duration(
-                                                                        milliseconds:
-                                                                            800),
-                                                                  ),
-                                                                },
-                                                              );
-                                                            },
-                                                            child: FaIcon(
-                                                              FontAwesomeIcons
-                                                                  .arrowCircleRight,
-                                                              color: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .primary,
-                                                              size: 32.0,
-                                                            ),
-                                                          ),
                                                         ],
                                                       ),
                                                     ),
-                                                    Container(
-                                                      width: MediaQuery.sizeOf(
-                                                                  context)
-                                                              .width *
-                                                          1.0,
-                                                      decoration: const BoxDecoration(
-                                                        color:
-                                                            Color(0x00E6F1F0),
-                                                      ),
-                                                      child: Column(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        children: [
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                        0.0,
-                                                                        8.0,
-                                                                        0.0,
-                                                                        0.0),
-                                                            child: Row(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .max,
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .spaceAround,
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                Column(
-                                                                  mainAxisSize:
-                                                                      MainAxisSize
-                                                                          .max,
-                                                                  crossAxisAlignment:
-                                                                      CrossAxisAlignment
-                                                                          .start,
-                                                                  children: [
-                                                                    Padding(
-                                                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  14.0,
+                                                                  0.0,
+                                                                  14.0,
+                                                                  0.0),
+                                                      child: Container(
+                                                        width:
+                                                            MediaQuery.sizeOf(
+                                                                        context)
+                                                                    .width *
+                                                                1.0,
+                                                        decoration:
+                                                            const BoxDecoration(
+                                                          color:
+                                                              Color(0x00E6F1F0),
+                                                        ),
+                                                        child: Column(
+                                                          mainAxisSize:
+                                                              MainAxisSize.max,
+                                                          children: [
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsetsDirectional
+                                                                      .fromSTEB(
                                                                           0.0,
+                                                                          8.0,
                                                                           0.0,
-                                                                          0.0,
-                                                                          2.0),
-                                                                      child:
-                                                                          Text(
-                                                                        'Iniciado: ${functions.formatardatahora(getJsonField(
-                                                                          volumesListadosItem,
-                                                                          r'''$.volume_data_hora_inicio''',
-                                                                        ).toString())}',
-                                                                        style: FlutterFlowTheme.of(context)
-                                                                            .bodyMedium,
-                                                                      ),
-                                                                    ),
-                                                                    if (getJsonField(
-                                                                          volumesListadosItem,
-                                                                          r'''$.volume_data_hora_fim''',
-                                                                        ) !=
-                                                                        getJsonField(
-                                                                          _model
-                                                                              .emptystring,
-                                                                          r'''$.teste''',
-                                                                        ))
+                                                                          0.0),
+                                                              child: Row(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .max,
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .start,
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Column(
+                                                                    mainAxisSize:
+                                                                        MainAxisSize
+                                                                            .max,
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .start,
+                                                                    children: [
                                                                       Padding(
                                                                         padding: const EdgeInsetsDirectional.fromSTEB(
                                                                             0.0,
@@ -601,55 +531,45 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                                             2.0),
                                                                         child:
                                                                             Text(
-                                                                          'Concluído: ${functions.formatardatahora(getJsonField(
+                                                                          'Iniciado em  ${functions.formatardatahora(getJsonField(
                                                                             volumesListadosItem,
-                                                                            r'''$.volume_data_hora_fim''',
+                                                                            r'''$.volume_data_hora_inicio''',
                                                                           ).toString())}',
                                                                           style:
                                                                               FlutterFlowTheme.of(context).bodyMedium,
                                                                         ),
                                                                       ),
-                                                                  ],
-                                                                ),
-                                                                Column(
-                                                                  mainAxisSize:
-                                                                      MainAxisSize
-                                                                          .max,
-                                                                  children: [
-                                                                    Text(
-                                                                      'N° amostras',
-                                                                      style: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .bodyMedium
-                                                                          .override(
-                                                                            fontFamily:
-                                                                                'Readex Pro',
-                                                                            fontSize:
-                                                                                16.0,
-                                                                            fontWeight:
-                                                                                FontWeight.w600,
+                                                                      if (getJsonField(
+                                                                            volumesListadosItem,
+                                                                            r'''$.volume_data_hora_fim''',
+                                                                          ) !=
+                                                                          getJsonField(
+                                                                            _model.emptystring,
+                                                                            r'''$.teste''',
+                                                                          ))
+                                                                        Padding(
+                                                                          padding: const EdgeInsetsDirectional.fromSTEB(
+                                                                              0.0,
+                                                                              0.0,
+                                                                              0.0,
+                                                                              2.0),
+                                                                          child:
+                                                                              Text(
+                                                                            'Concluído em ${functions.formatardatahora(getJsonField(
+                                                                              volumesListadosItem,
+                                                                              r'''$.volume_data_hora_fim''',
+                                                                            ).toString())}',
+                                                                            style:
+                                                                                FlutterFlowTheme.of(context).bodyMedium,
                                                                           ),
-                                                                    ),
-                                                                    Text(
-                                                                      valueOrDefault<
-                                                                          String>(
-                                                                        functions
-                                                                            .contadorDeNumeroDeAmostras(getJsonField(
-                                                                          volumesListadosItem,
-                                                                          r'''$.amostras[:]''',
-                                                                        ).toString()),
-                                                                        'Erro#nãotemNumero',
-                                                                      ),
-                                                                      style: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .bodyMedium,
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ],
+                                                                        ),
+                                                                    ],
+                                                                  ),
+                                                                ],
+                                                              ),
                                                             ),
-                                                          ),
-                                                        ],
+                                                          ],
+                                                        ),
                                                       ),
                                                     ),
                                                     Expanded(
@@ -657,9 +577,9 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                         padding:
                                                             const EdgeInsetsDirectional
                                                                 .fromSTEB(
-                                                                    10.0,
+                                                                    14.0,
                                                                     6.0,
-                                                                    10.0,
+                                                                    14.0,
                                                                     0.0),
                                                         child: Container(
                                                           width:
@@ -684,7 +604,7 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                                       .max,
                                                               mainAxisAlignment:
                                                                   MainAxisAlignment
-                                                                      .spaceEvenly,
+                                                                      .spaceBetween,
                                                               children: [
                                                                 if (getJsonField(
                                                                       volumesListadosItem,
@@ -704,7 +624,7 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                                             .center,
                                                                     crossAxisAlignment:
                                                                         CrossAxisAlignment
-                                                                            .center,
+                                                                            .start,
                                                                     children: [
                                                                       Text(
                                                                         'Lacre',
@@ -751,6 +671,9 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                                     mainAxisAlignment:
                                                                         MainAxisAlignment
                                                                             .center,
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .start,
                                                                     children: [
                                                                       Text(
                                                                         'Etiqueta',
@@ -801,7 +724,7 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                                             .center,
                                                                     crossAxisAlignment:
                                                                         CrossAxisAlignment
-                                                                            .center,
+                                                                            .start,
                                                                     children: [
                                                                       Text(
                                                                         'Tempo Total',
@@ -847,6 +770,84 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                                       ),
                                                                     ],
                                                                   ),
+                                                                InkWell(
+                                                                  splashColor:
+                                                                      Colors
+                                                                          .transparent,
+                                                                  focusColor: Colors
+                                                                      .transparent,
+                                                                  hoverColor: Colors
+                                                                      .transparent,
+                                                                  highlightColor:
+                                                                      Colors
+                                                                          .transparent,
+                                                                  onTap:
+                                                                      () async {
+                                                                    context
+                                                                        .pushNamed(
+                                                                      'ListadeAmostras',
+                                                                      queryParameters:
+                                                                          {
+                                                                        'fazId':
+                                                                            serializeParam(
+                                                                          widget
+                                                                              .fazId,
+                                                                          ParamType
+                                                                              .int,
+                                                                        ),
+                                                                        'oservId':
+                                                                            serializeParam(
+                                                                          widget
+                                                                              .oservId,
+                                                                          ParamType
+                                                                              .int,
+                                                                        ),
+                                                                        'amostras':
+                                                                            serializeParam(
+                                                                          (getJsonField(
+                                                                            volumesListadosItem,
+                                                                            r'''$.amostras[:].volam_etiqueta_id''',
+                                                                            true,
+                                                                          ) as List)
+                                                                              .map<String>((s) => s.toString())
+                                                                              .toList(),
+                                                                          ParamType
+                                                                              .String,
+                                                                          true,
+                                                                        ),
+                                                                        'idDoVolume':
+                                                                            serializeParam(
+                                                                          getJsonField(
+                                                                            volumesListadosItem,
+                                                                            r'''$.volume_id''',
+                                                                          ).toString(),
+                                                                          ParamType
+                                                                              .String,
+                                                                        ),
+                                                                      }.withoutNulls,
+                                                                      extra: <String,
+                                                                          dynamic>{
+                                                                        kTransitionInfoKey:
+                                                                            const TransitionInfo(
+                                                                          hasTransition:
+                                                                              true,
+                                                                          transitionType:
+                                                                              PageTransitionType.rightToLeft,
+                                                                          duration:
+                                                                              Duration(milliseconds: 800),
+                                                                        ),
+                                                                      },
+                                                                    );
+                                                                  },
+                                                                  child: FaIcon(
+                                                                    FontAwesomeIcons
+                                                                        .arrowCircleRight,
+                                                                    color: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .primary,
+                                                                    size: 32.0,
+                                                                  ),
+                                                                ),
                                                               ],
                                                             ),
                                                           ),

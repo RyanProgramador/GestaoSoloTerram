@@ -503,7 +503,14 @@ List<String> buscaVolumesNoRegistro(dynamic trSinc) {
               // Se existem amostras no volume não finalizado, adiciona à lista
               if (volume['amostras'] != null && volume['amostras'].isNotEmpty) {
                 // Extende a lista de amostrasNaoFinalizadas com as amostras do volume não finalizado
-                amostrasList.addAll(List<String>.from(volume['amostras']));
+                for (var amostra in volume['amostras']) {
+                  // Certifique-se de que amostra é um Map e volam_etiqueta_id é uma chave válida
+                  if (amostra is Map &&
+                      amostra.containsKey('volam_etiqueta_id')) {
+                    // Adicione diretamente a String à lista
+                    amostrasList.add(amostra['volam_etiqueta_id'].toString());
+                  }
+                }
               }
             }
           }
@@ -511,8 +518,7 @@ List<String> buscaVolumesNoRegistro(dynamic trSinc) {
       }
     }
   }
-
-  return amostrasList;
+  return amostrasList.reversed.toList();
 }
 
 String? buscaPontoAtravesDaEtiquetaEmPontos(
