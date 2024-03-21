@@ -38,9 +38,6 @@ class _NoSamplesFoundWidgetState extends State<NoSamplesFoundWidget> {
     return Container(
       width: double.infinity,
       height: 170.0,
-      constraints: const BoxConstraints(
-        maxWidth: 300.0,
-      ),
       decoration: BoxDecoration(
         color: const Color(0xFFE6F1F0),
         borderRadius: BorderRadius.circular(24.0),
