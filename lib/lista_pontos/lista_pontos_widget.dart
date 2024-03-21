@@ -197,8 +197,8 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                         size: 32.0,
                                       ),
                                       options: FFButtonOptions(
-                                        width: 50.0,
-                                        height: 50.0,
+                                        width: 60.0,
+                                        height: 60.0,
                                         padding: const EdgeInsetsDirectional.fromSTEB(
                                             8.0, 0.0, 0.0, 0.0),
                                         iconPadding:
@@ -348,8 +348,8 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                         size: 24.0,
                                       ),
                                       options: FFButtonOptions(
-                                        width: 50.0,
-                                        height: 50.0,
+                                        width: 60.0,
+                                        height: 60.0,
                                         padding: const EdgeInsetsDirectional.fromSTEB(
                                             8.0, 0.0, 0.0, 0.0),
                                         iconPadding:
@@ -375,6 +375,39 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                     FFButtonWidget(
                                       onPressed: () async {
                                         var shouldSetState = false;
+                                        var confirmDialogResponse =
+                                            await showDialog<bool>(
+                                                  context: context,
+                                                  builder:
+                                                      (alertDialogContext) {
+                                                    return AlertDialog(
+                                                      title: const Text('Atenção!'),
+                                                      content: const Text(
+                                                          'Deseja iniciar um volume?'),
+                                                      actions: [
+                                                        TextButton(
+                                                          onPressed: () =>
+                                                              Navigator.pop(
+                                                                  alertDialogContext,
+                                                                  false),
+                                                          child: const Text('Não'),
+                                                        ),
+                                                        TextButton(
+                                                          onPressed: () =>
+                                                              Navigator.pop(
+                                                                  alertDialogContext,
+                                                                  true),
+                                                          child: const Text('Sim'),
+                                                        ),
+                                                      ],
+                                                    );
+                                                  },
+                                                ) ??
+                                                false;
+                                        if (!confirmDialogResponse) {
+                                          if (shouldSetState) setState(() {});
+                                          return;
+                                        }
                                         if (functions.buscaSeAEtapaEstaIniciada(
                                             functions.buscaRegistro(
                                                 widget.fazId!,
@@ -456,8 +489,8 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                         size: 28.0,
                                       ),
                                       options: FFButtonOptions(
-                                        width: 50.0,
-                                        height: 50.0,
+                                        width: 60.0,
+                                        height: 60.0,
                                         padding: const EdgeInsetsDirectional.fromSTEB(
                                             8.0, 0.0, 0.0, 0.0),
                                         iconPadding:
@@ -480,7 +513,7 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                             BorderRadius.circular(100.0),
                                       ),
                                     ),
-                                  ].divide(const SizedBox(width: 5.0)),
+                                  ].divide(const SizedBox(width: 10.0)),
                                 ),
                               ),
                             ],

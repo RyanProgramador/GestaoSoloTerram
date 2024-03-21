@@ -10,6 +10,8 @@ class ListadeVolumesModel extends FlutterFlowModel<ListadeVolumesWidget> {
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();
+  // Stores action output result for [Custom Action - buscaSeOVolumeEstaIniciadoENaoFinalizado] action in Button widget.
+  bool? buscaOVolumeIniciado;
 
   /// Initialization and disposal methods.
 
