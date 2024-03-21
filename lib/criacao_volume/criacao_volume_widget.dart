@@ -355,7 +355,7 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
                                           final testeItem = teste[testeIndex];
                                           return Container(
                                             width: double.infinity,
-                                            height: 60.0,
+                                            height: 92.0,
                                             decoration: BoxDecoration(
                                               color: const Color(0xFFE6F1F0),
                                               borderRadius:
@@ -483,6 +483,23 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
                                                             widget.fazId,
                                                             widget.oservId),
                                                         'error32',
+                                                      ),
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMedium,
+                                                    ),
+                                                    Text(
+                                                      valueOrDefault<String>(
+                                                        functions.buscapprofidAtravesDaEtiquetaEmPontos(
+                                                            functions.buscaRegistro(
+                                                                widget.fazId!,
+                                                                widget.oservId!,
+                                                                FFAppState()
+                                                                    .trSincroniza
+                                                                    .toList()),
+                                                            testeItem),
+                                                        'erro',
                                                       ),
                                                       style:
                                                           FlutterFlowTheme.of(

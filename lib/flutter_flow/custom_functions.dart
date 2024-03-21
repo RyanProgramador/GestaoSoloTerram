@@ -587,3 +587,24 @@ String? formatardatahora(String? datahora) {
   String dataFormatada = DateFormat('dd/MM/yyyy HH:mm').format(parsedData);
   return dataFormatada;
 }
+
+String? buscapprofidAtravesDaEtiquetaEmPontos(
+  dynamic trSinc,
+  String? etiquetaNum,
+) {
+  List<dynamic> trSincComS = trSinc['pontos'];
+
+  List<dynamic> profundidadesNaoSincronizadas = [];
+  for (var profIcon in trSincComS) {
+    var legendaIcone = profIcon['profundidades'] as List<dynamic>;
+    var legendaIconeFiltrada = legendaIcone
+        .where((legendaIcone) =>
+            legendaIcone['sincronizado'].toString() == "S" &&
+            legendaIcone['pprof_etiqueta_id'].toString() == etiquetaNum)
+        .map((e) => e['pprof_id'])
+        .toList();
+
+    profundidadesNaoSincronizadas.addAll(legendaIconeFiltrada);
+  }
+  return profundidadesNaoSincronizadas.first.toString();
+}
