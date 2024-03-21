@@ -25,33 +25,41 @@ Future<bool> buscaSeOVolumeEstaIniciadoENaoFinalizado(
 
           // Se o último volume está finalizado, cria um novo volume
           var foto = await capturaImagemCameraTraseira(context);
-          var proximoVolumeId = etapa['volumes'].length + 1;
-          etapa['volumes'].add({
-            "volume_id": proximoVolumeId,
-            "foto": foto,
-            "volume_data_hora_inicio":
-                DateFormat('yyyy-MM-dd HH:mm').format(DateTime.now()),
-            "volume_data_hora_fim": "",
-            "lacre": "",
-            "amostras": [],
-            "sincronizado": "N",
-          });
-          return true;
+          if (foto != null || foto.isNotEmpty || foto != "") {
+            var proximoVolumeId = etapa['volumes'].length + 1;
+            etapa['volumes'].add({
+              "volume_id": proximoVolumeId,
+              "foto": foto,
+              "volume_data_hora_inicio":
+                  DateFormat('yyyy-MM-dd HH:mm').format(DateTime.now()),
+              "volume_data_hora_fim": "",
+              "lacre": "",
+              "amostras": [],
+              "sincronizado": "N",
+            });
+
+            return true;
+          } else {
+            return false;
+          }
         } else {
           // se não existem volumes, criamos um novo
           var foto = await capturaImagemCameraTraseira(context);
-
-          etapa['volumes'].add({
-            "volume_id": 1,
-            "foto": foto,
-            "volume_data_hora_inicio":
-                DateFormat('yyyy-MM-dd HH:mm').format(DateTime.now()),
-            "volume_data_hora_fim": "",
-            "lacre": "",
-            "amostras": [],
-            "sincronizado": "N",
-          });
-          return true; // uma nova etapa foi criada, portanto, existe uma etapa não finalizada
+          if (foto != null || foto.isNotEmpty || foto != "") {
+            etapa['volumes'].add({
+              "volume_id": 1,
+              "foto": foto,
+              "volume_data_hora_inicio":
+                  DateFormat('yyyy-MM-dd HH:mm').format(DateTime.now()),
+              "volume_data_hora_fim": "",
+              "lacre": "",
+              "amostras": [],
+              "sincronizado": "N",
+            });
+            return true;
+          } else {
+            return false;
+          } // uma nova etapa foi criada, portanto, existe uma etapa não finalizada
         }
       }
     }
@@ -90,7 +98,7 @@ Future<String?> capturaImagemCameraTraseira(BuildContext context) async {
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
-              Navigator.of(context).pop(); // Volta para a tela anterior
+              context.safePop(); // Volta para a tela anterior
               // Ou use Navigator.of(context).pushNamed('/inicio'); para ir para a tela "Inicio"
             },
           ),
