@@ -343,7 +343,14 @@ class _ListadeAmostrasWidgetState extends State<ListadeAmostrasWidget> {
                                                           ),
                                                           style: FlutterFlowTheme
                                                                   .of(context)
-                                                              .bodyMedium,
+                                                              .bodyMedium
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Readex Pro',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w300,
+                                                              ),
                                                         ),
                                                       ],
                                                     ),
@@ -394,7 +401,14 @@ class _ListadeAmostrasWidgetState extends State<ListadeAmostrasWidget> {
                                                           ),
                                                           style: FlutterFlowTheme
                                                                   .of(context)
-                                                              .bodyMedium,
+                                                              .bodyMedium
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Readex Pro',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w300,
+                                                              ),
                                                         ),
                                                       ],
                                                     ),
@@ -425,7 +439,14 @@ class _ListadeAmostrasWidgetState extends State<ListadeAmostrasWidget> {
                                                           testeItem,
                                                           style: FlutterFlowTheme
                                                                   .of(context)
-                                                              .bodyMedium,
+                                                              .bodyMedium
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Readex Pro',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w300,
+                                                              ),
                                                         ),
                                                       ],
                                                     ),
@@ -572,7 +593,14 @@ class _ListadeAmostrasWidgetState extends State<ListadeAmostrasWidget> {
                                                           ),
                                                           style: FlutterFlowTheme
                                                                   .of(context)
-                                                              .bodyMedium,
+                                                              .bodyMedium
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Readex Pro',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w300,
+                                                              ),
                                                         ),
                                                       ],
                                                     ),
