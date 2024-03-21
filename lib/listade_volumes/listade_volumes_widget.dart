@@ -151,160 +151,153 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        if (true == false)
-                          Container(
-                            width: double.infinity,
-                            height: 80.0,
-                            decoration: BoxDecoration(
-                              color: FlutterFlowTheme.of(context)
-                                  .secondaryBackground,
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
-                                  16.0, 0.0, 16.0, 0.0),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  FFButtonWidget(
-                                    onPressed: () async {
-                                      var shouldSetState = false;
-                                      var confirmDialogResponse =
-                                          await showDialog<bool>(
-                                                context: context,
-                                                builder: (alertDialogContext) {
-                                                  return AlertDialog(
-                                                    title: const Text('Atenção!'),
-                                                    content: const Text(
-                                                        'Deseja iniciar um volume?'),
-                                                    actions: [
-                                                      TextButton(
-                                                        onPressed: () =>
-                                                            Navigator.pop(
-                                                                alertDialogContext,
-                                                                false),
-                                                        child: const Text('Não'),
-                                                      ),
-                                                      TextButton(
-                                                        onPressed: () =>
-                                                            Navigator.pop(
-                                                                alertDialogContext,
-                                                                true),
-                                                        child: const Text('Sim'),
-                                                      ),
-                                                    ],
-                                                  );
-                                                },
-                                              ) ??
-                                              false;
-                                      if (!confirmDialogResponse) {
+                        Container(
+                          width: double.infinity,
+                          height: 80.0,
+                          decoration: BoxDecoration(
+                            color: FlutterFlowTheme.of(context)
+                                .secondaryBackground,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                16.0, 0.0, 16.0, 0.0),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                FFButtonWidget(
+                                  onPressed: () async {
+                                    var shouldSetState = false;
+                                    var confirmDialogResponse =
+                                        await showDialog<bool>(
+                                              context: context,
+                                              builder: (alertDialogContext) {
+                                                return AlertDialog(
+                                                  title: const Text('Atenção!'),
+                                                  content: const Text(
+                                                      'Deseja iniciar um volume?'),
+                                                  actions: [
+                                                    TextButton(
+                                                      onPressed: () =>
+                                                          Navigator.pop(
+                                                              alertDialogContext,
+                                                              false),
+                                                      child: const Text('Não'),
+                                                    ),
+                                                    TextButton(
+                                                      onPressed: () =>
+                                                          Navigator.pop(
+                                                              alertDialogContext,
+                                                              true),
+                                                      child: const Text('Sim'),
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            ) ??
+                                            false;
+                                    if (!confirmDialogResponse) {
+                                      if (shouldSetState) setState(() {});
+                                      return;
+                                    }
+                                    if (functions.buscaSeAEtapaEstaIniciada(
+                                        functions.buscaRegistro(
+                                            widget.fazId!,
+                                            widget.oservId!,
+                                            FFAppState()
+                                                .trSincroniza
+                                                .toList()))!) {
+                                      _model.buscaOVolumeIniciado = await actions
+                                          .buscaSeOVolumeEstaIniciadoENaoFinalizado(
+                                        context,
+                                        functions.buscaRegistro(
+                                            widget.fazId!,
+                                            widget.oservId!,
+                                            FFAppState().trSincroniza.toList()),
+                                      );
+                                      shouldSetState = true;
+                                      if (!_model.buscaOVolumeIniciado!) {
                                         if (shouldSetState) setState(() {});
                                         return;
                                       }
-                                      if (functions.buscaSeAEtapaEstaIniciada(
-                                          functions.buscaRegistro(
-                                              widget.fazId!,
-                                              widget.oservId!,
-                                              FFAppState()
-                                                  .trSincroniza
-                                                  .toList()))!) {
-                                        _model.buscaOVolumeIniciado = await actions
-                                            .buscaSeOVolumeEstaIniciadoENaoFinalizado(
-                                          context,
-                                          functions.buscaRegistro(
-                                              widget.fazId!,
-                                              widget.oservId!,
-                                              FFAppState()
-                                                  .trSincroniza
-                                                  .toList()),
-                                        );
-                                        shouldSetState = true;
-                                        if (!_model.buscaOVolumeIniciado!) {
-                                          if (shouldSetState) setState(() {});
-                                          return;
-                                        }
-                                      } else {
-                                        await showDialog(
-                                          context: context,
-                                          builder: (alertDialogContext) {
-                                            return AlertDialog(
-                                              title: const Text('Ops!'),
-                                              content: const Text(
-                                                  'Voçê precisa iniciar uma etapa para criar um volume!'),
-                                              actions: [
-                                                TextButton(
-                                                  onPressed: () =>
-                                                      Navigator.pop(
-                                                          alertDialogContext),
-                                                  child: const Text('Entendi'),
-                                                ),
-                                              ],
-                                            );
-                                          },
-                                        );
-                                        if (shouldSetState) setState(() {});
-                                        return;
-                                      }
-
-                                      context.pushNamed(
-                                        'criacaoVolume',
-                                        queryParameters: {
-                                          'fazId': serializeParam(
-                                            widget.fazId,
-                                            ParamType.int,
-                                          ),
-                                          'oservId': serializeParam(
-                                            widget.oservId,
-                                            ParamType.int,
-                                          ),
-                                        }.withoutNulls,
-                                        extra: <String, dynamic>{
-                                          kTransitionInfoKey: const TransitionInfo(
-                                            hasTransition: true,
-                                            transitionType:
-                                                PageTransitionType.fade,
-                                            duration: Duration(milliseconds: 0),
-                                          ),
+                                    } else {
+                                      await showDialog(
+                                        context: context,
+                                        builder: (alertDialogContext) {
+                                          return AlertDialog(
+                                            title: const Text('Ops!'),
+                                            content: const Text(
+                                                'Voçê precisa iniciar uma etapa para criar um volume!'),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () => Navigator.pop(
+                                                    alertDialogContext),
+                                                child: const Text('Entendi'),
+                                              ),
+                                            ],
+                                          );
                                         },
                                       );
-
                                       if (shouldSetState) setState(() {});
-                                    },
-                                    text: '',
-                                    icon: const FaIcon(
-                                      FontAwesomeIcons.boxes,
-                                      color: Colors.white,
-                                      size: 32.0,
-                                    ),
-                                    options: FFButtonOptions(
-                                      width: 65.0,
-                                      height: 65.0,
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          8.0, 0.0, 0.0, 0.0),
-                                      iconPadding:
-                                          const EdgeInsetsDirectional.fromSTEB(
-                                              0.0, 0.0, 0.0, 0.0),
-                                      color:
-                                          FlutterFlowTheme.of(context).primary,
-                                      textStyle: FlutterFlowTheme.of(context)
-                                          .titleSmall
-                                          .override(
-                                            fontFamily: 'Readex Pro',
-                                            color: Colors.white,
-                                          ),
-                                      elevation: 3.0,
-                                      borderSide: const BorderSide(
-                                        color: Colors.transparent,
-                                        width: 1.0,
-                                      ),
-                                      borderRadius:
-                                          BorderRadius.circular(100.0),
-                                    ),
+                                      return;
+                                    }
+
+                                    context.pushNamed(
+                                      'criacaoVolume',
+                                      queryParameters: {
+                                        'fazId': serializeParam(
+                                          widget.fazId,
+                                          ParamType.int,
+                                        ),
+                                        'oservId': serializeParam(
+                                          widget.oservId,
+                                          ParamType.int,
+                                        ),
+                                      }.withoutNulls,
+                                      extra: <String, dynamic>{
+                                        kTransitionInfoKey: const TransitionInfo(
+                                          hasTransition: true,
+                                          transitionType:
+                                              PageTransitionType.fade,
+                                          duration: Duration(milliseconds: 0),
+                                        ),
+                                      },
+                                    );
+
+                                    if (shouldSetState) setState(() {});
+                                  },
+                                  text: '',
+                                  icon: const FaIcon(
+                                    FontAwesomeIcons.boxes,
+                                    color: Colors.white,
+                                    size: 32.0,
                                   ),
-                                ].divide(const SizedBox(width: 5.0)),
-                              ),
+                                  options: FFButtonOptions(
+                                    width: 65.0,
+                                    height: 65.0,
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                        8.0, 0.0, 0.0, 0.0),
+                                    iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 0.0, 0.0, 0.0),
+                                    color: FlutterFlowTheme.of(context).primary,
+                                    textStyle: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .override(
+                                          fontFamily: 'Readex Pro',
+                                          color: Colors.white,
+                                        ),
+                                    elevation: 3.0,
+                                    borderSide: const BorderSide(
+                                      color: Colors.transparent,
+                                      width: 1.0,
+                                    ),
+                                    borderRadius: BorderRadius.circular(100.0),
+                                  ),
+                                ),
+                              ].divide(const SizedBox(width: 5.0)),
                             ),
                           ),
+                        ),
                         Padding(
                           padding: const EdgeInsetsDirectional.fromSTEB(
                               16.0, 8.0, 16.0, 0.0),
