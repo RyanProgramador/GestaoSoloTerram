@@ -158,7 +158,7 @@ class _ListadeAmostrasWidgetState extends State<ListadeAmostrasWidget> {
                     alignment: const AlignmentDirectional(0.0, -1.0),
                     child: Padding(
                       padding:
-                          const EdgeInsetsDirectional.fromSTEB(20.0, 8.0, 20.0, 0.0),
+                          const EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 0.0, 0.0),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.start,

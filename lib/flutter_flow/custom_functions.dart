@@ -614,3 +614,7 @@ String? buscapprofidAtravesDaEtiquetaEmPontos(
   }
   return profundidadesNaoSincronizadas.first.toString();
 }
+
+List<String> inverterLista(List<String> lista) {
+  return lista.reversed.toList();
+}

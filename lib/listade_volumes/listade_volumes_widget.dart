@@ -214,7 +214,7 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                           ),
                         Padding(
                           padding: const EdgeInsetsDirectional.fromSTEB(
-                              36.0, 8.0, 36.0, 0.0),
+                              16.0, 8.0, 16.0, 0.0),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -240,7 +240,7 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                         ),
                         Padding(
                           padding: const EdgeInsetsDirectional.fromSTEB(
-                              20.0, 10.0, 20.0, 30.0),
+                              0.0, 10.0, 0.0, 30.0),
                           child: Builder(
                             builder: (context) {
                               final volumesListados = functions
@@ -777,13 +777,13 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                                                 ParamType.int,
                                                                               ),
                                                                               'amostras': serializeParam(
-                                                                                (getJsonField(
+                                                                                functions.inverterLista((getJsonField(
                                                                                   volumesListadosItem,
                                                                                   r'''$.amostras[:].volam_etiqueta_id''',
                                                                                   true,
                                                                                 ) as List)
                                                                                     .map<String>((s) => s.toString())
-                                                                                    .toList(),
+                                                                                    .toList()),
                                                                                 ParamType.String,
                                                                                 true,
                                                                               ),
@@ -795,13 +795,13 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                                                 ParamType.String,
                                                                               ),
                                                                               'coletadoEmList': serializeParam(
-                                                                                (getJsonField(
+                                                                                functions.inverterLista((getJsonField(
                                                                                   volumesListadosItem,
                                                                                   r'''$.amostras[:].volam_data''',
                                                                                   true,
                                                                                 ) as List)
                                                                                     .map<String>((s) => s.toString())
-                                                                                    .toList(),
+                                                                                    .toList()),
                                                                                 ParamType.String,
                                                                                 true,
                                                                               ),
