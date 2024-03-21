@@ -556,7 +556,7 @@ class _ListadeAmostrasWidgetState extends State<ListadeAmostrasWidget> {
                                                               ),
                                                         ),
                                                         Text(
-                                                          '',
+                                                          '123',
                                                           style: FlutterFlowTheme
                                                                   .of(context)
                                                               .bodyMedium,

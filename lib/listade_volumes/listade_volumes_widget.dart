@@ -301,7 +301,7 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                     r'''$.teste''',
                                                   )
                                               ? const Color(0xFFE6F1F0)
-                                              : const Color(0xFFE59925),
+                                              : const Color(0xFFFFF4CE),
                                           boxShadow: [
                                             BoxShadow(
                                               blurRadius: 0.0,
@@ -755,82 +755,87 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                                       ),
                                                                     ],
                                                                   ),
-                                                                InkWell(
-                                                                  splashColor:
-                                                                      Colors
-                                                                          .transparent,
-                                                                  focusColor: Colors
-                                                                      .transparent,
-                                                                  hoverColor: Colors
-                                                                      .transparent,
-                                                                  highlightColor:
-                                                                      Colors
-                                                                          .transparent,
-                                                                  onTap:
-                                                                      () async {
-                                                                    context
-                                                                        .pushNamed(
-                                                                      'ListadeAmostras',
-                                                                      queryParameters:
-                                                                          {
-                                                                        'fazId':
-                                                                            serializeParam(
-                                                                          widget
-                                                                              .fazId,
-                                                                          ParamType
-                                                                              .int,
-                                                                        ),
-                                                                        'oservId':
-                                                                            serializeParam(
-                                                                          widget
-                                                                              .oservId,
-                                                                          ParamType
-                                                                              .int,
-                                                                        ),
-                                                                        'amostras':
-                                                                            serializeParam(
-                                                                          (getJsonField(
-                                                                            volumesListadosItem,
-                                                                            r'''$.amostras[:].volam_etiqueta_id''',
-                                                                            true,
-                                                                          ) as List)
-                                                                              .map<String>((s) => s.toString())
-                                                                              .toList(),
-                                                                          ParamType
-                                                                              .String,
-                                                                          true,
-                                                                        ),
-                                                                        'idDoVolume':
-                                                                            serializeParam(
-                                                                          getJsonField(
-                                                                            volumesListadosItem,
-                                                                            r'''$.volume_id''',
-                                                                          ).toString(),
-                                                                          ParamType
-                                                                              .String,
-                                                                        ),
-                                                                      }.withoutNulls,
-                                                                      extra: <String,
-                                                                          dynamic>{
-                                                                        kTransitionInfoKey:
-                                                                            const TransitionInfo(
-                                                                          hasTransition:
+                                                                Align(
+                                                                  alignment:
+                                                                      const AlignmentDirectional(
+                                                                          1.0,
+                                                                          0.0),
+                                                                  child:
+                                                                      InkWell(
+                                                                    splashColor:
+                                                                        Colors
+                                                                            .transparent,
+                                                                    focusColor:
+                                                                        Colors
+                                                                            .transparent,
+                                                                    hoverColor:
+                                                                        Colors
+                                                                            .transparent,
+                                                                    highlightColor:
+                                                                        Colors
+                                                                            .transparent,
+                                                                    onTap:
+                                                                        () async {
+                                                                      context
+                                                                          .pushNamed(
+                                                                        'ListadeAmostras',
+                                                                        queryParameters:
+                                                                            {
+                                                                          'fazId':
+                                                                              serializeParam(
+                                                                            widget.fazId,
+                                                                            ParamType.int,
+                                                                          ),
+                                                                          'oservId':
+                                                                              serializeParam(
+                                                                            widget.oservId,
+                                                                            ParamType.int,
+                                                                          ),
+                                                                          'amostras':
+                                                                              serializeParam(
+                                                                            (getJsonField(
+                                                                              volumesListadosItem,
+                                                                              r'''$.amostras[:].volam_etiqueta_id''',
                                                                               true,
-                                                                          transitionType:
-                                                                              PageTransitionType.rightToLeft,
-                                                                          duration:
-                                                                              Duration(milliseconds: 800),
-                                                                        ),
-                                                                      },
-                                                                    );
-                                                                  },
-                                                                  child: FaIcon(
-                                                                    FontAwesomeIcons
-                                                                        .arrowCircleRight,
-                                                                    color: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .primary,
-                                                                    size: 32.0,
+                                                                            ) as List)
+                                                                                .map<String>((s) => s.toString())
+                                                                                .toList(),
+                                                                            ParamType.String,
+                                                                            true,
+                                                                          ),
+                                                                          'idDoVolume':
+                                                                              serializeParam(
+                                                                            getJsonField(
+                                                                              volumesListadosItem,
+                                                                              r'''$.volume_id''',
+                                                                            ).toString(),
+                                                                            ParamType.String,
+                                                                          ),
+                                                                        }.withoutNulls,
+                                                                        extra: <String,
+                                                                            dynamic>{
+                                                                          kTransitionInfoKey:
+                                                                              const TransitionInfo(
+                                                                            hasTransition:
+                                                                                true,
+                                                                            transitionType:
+                                                                                PageTransitionType.rightToLeft,
+                                                                            duration:
+                                                                                Duration(milliseconds: 800),
+                                                                          ),
+                                                                        },
+                                                                      );
+                                                                    },
+                                                                    child:
+                                                                        FaIcon(
+                                                                      FontAwesomeIcons
+                                                                          .arrowCircleRight,
+                                                                      color: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .primary,
+                                                                      size:
+                                                                          32.0,
+                                                                    ),
                                                                   ),
                                                                 ),
                                                               ],
