@@ -1,3 +1,4 @@
+import '/components/no_samples_found_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -243,11 +244,21 @@ class _ListadeAmostrasWidgetState extends State<ListadeAmostrasWidget> {
                               ),
                               Container(
                                 width: double.infinity,
-                                height: MediaQuery.sizeOf(context).height * 0.3,
+                                height:
+                                    MediaQuery.sizeOf(context).height * 0.725,
                                 decoration: const BoxDecoration(),
                                 child: Builder(
                                   builder: (context) {
                                     final teste = widget.amostras!.toList();
+                                    if (teste.isEmpty) {
+                                      return const Center(
+                                        child: SizedBox(
+                                          width: double.infinity,
+                                          height: 170.0,
+                                          child: NoSamplesFoundWidget(),
+                                        ),
+                                      );
+                                    }
                                     return SingleChildScrollView(
                                       child: Column(
                                         mainAxisSize: MainAxisSize.max,
@@ -274,56 +285,46 @@ class _ListadeAmostrasWidgetState extends State<ListadeAmostrasWidget> {
                                             child: Row(
                                               mainAxisSize: MainAxisSize.max,
                                               mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                                  MainAxisAlignment.spaceEvenly,
                                               children: [
-                                                Padding(
-                                                  padding: const EdgeInsetsDirectional
-                                                      .fromSTEB(
-                                                          10.0, 0.0, 0.0, 0.0),
-                                                  child: Column(
-                                                    mainAxisSize:
-                                                        MainAxisSize.max,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Text(
-                                                        'Ponto',
-                                                        style:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .bodyMedium
-                                                                .override(
-                                                                  fontFamily:
-                                                                      'Readex Pro',
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                ),
+                                                Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Text(
+                                                      'Ponto',
+                                                      style: FlutterFlowTheme
+                                                              .of(context)
+                                                          .bodyMedium
+                                                          .override(
+                                                            fontFamily:
+                                                                'Readex Pro',
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                          ),
+                                                    ),
+                                                    Text(
+                                                      valueOrDefault<String>(
+                                                        functions.buscaPontoAtravesDaEtiquetaEmPontos(
+                                                            functions.buscaRegistro(
+                                                                widget.fazId!,
+                                                                widget.oservId!,
+                                                                FFAppState()
+                                                                    .trSincroniza
+                                                                    .toList()),
+                                                            testeItem,
+                                                            widget.fazId,
+                                                            widget.oservId),
+                                                        '11111',
                                                       ),
-                                                      Text(
-                                                        valueOrDefault<String>(
-                                                          functions.buscaPontoAtravesDaEtiquetaEmPontos(
-                                                              functions.buscaRegistro(
-                                                                  widget.fazId!,
-                                                                  widget
-                                                                      .oservId!,
-                                                                  FFAppState()
-                                                                      .trSincroniza
-                                                                      .toList()),
-                                                              testeItem,
-                                                              widget.fazId,
-                                                              widget.oservId),
-                                                          '11111',
-                                                        ),
-                                                        style:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .bodyMedium,
-                                                      ),
-                                                    ],
-                                                  ),
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMedium,
+                                                    ),
+                                                  ],
                                                 ),
                                                 Column(
                                                   mainAxisSize:
@@ -404,114 +405,110 @@ class _ListadeAmostrasWidgetState extends State<ListadeAmostrasWidget> {
                                                     ),
                                                   ],
                                                 ),
-                                                Padding(
-                                                  padding: const EdgeInsetsDirectional
-                                                      .fromSTEB(
-                                                          0.0, 0.0, 10.0, 0.0),
-                                                  child: Column(
+                                                if (true == false)
+                                                  Column(
                                                     mainAxisSize:
                                                         MainAxisSize.max,
                                                     mainAxisAlignment:
                                                         MainAxisAlignment
                                                             .center,
                                                     children: [
-                                                      if (true == false)
-                                                        InkWell(
-                                                          splashColor: Colors
-                                                              .transparent,
-                                                          focusColor: Colors
-                                                              .transparent,
-                                                          hoverColor: Colors
-                                                              .transparent,
-                                                          highlightColor: Colors
-                                                              .transparent,
-                                                          onTap: () async {
-                                                            var shouldSetState =
-                                                                false;
-                                                            var confirmDialogResponse =
-                                                                await showDialog<
-                                                                        bool>(
-                                                                      context:
-                                                                          context,
-                                                                      builder:
-                                                                          (alertDialogContext) {
-                                                                        return AlertDialog(
-                                                                          title:
-                                                                              const Text('Atenção!'),
-                                                                          content:
-                                                                              const Text('Você tem certeza que deseja remover essa amostra de dentro do volume?'),
-                                                                          actions: [
-                                                                            TextButton(
-                                                                              onPressed: () => Navigator.pop(alertDialogContext, false),
-                                                                              child: const Text('Não'),
-                                                                            ),
-                                                                            TextButton(
-                                                                              onPressed: () => Navigator.pop(alertDialogContext, true),
-                                                                              child: const Text('Sim'),
-                                                                            ),
-                                                                          ],
-                                                                        );
-                                                                      },
-                                                                    ) ??
-                                                                    false;
-                                                            if (confirmDialogResponse) {
-                                                              _model.retornoEclusao =
-                                                                  actions
-                                                                      .excluiVolumeDaEtapaAberta(
-                                                                functions.buscaRegistro(
-                                                                    widget
-                                                                        .fazId!,
-                                                                    widget
-                                                                        .oservId!,
-                                                                    FFAppState()
-                                                                        .trSincroniza
-                                                                        .toList()),
-                                                                testeItem,
-                                                              );
-                                                              shouldSetState =
-                                                                  true;
-                                                              await showDialog(
-                                                                context:
-                                                                    context,
-                                                                builder:
-                                                                    (alertDialogContext) {
-                                                                  return AlertDialog(
-                                                                    title: Text(
-                                                                        _model
-                                                                            .retornoEclusao!),
-                                                                    actions: [
-                                                                      TextButton(
-                                                                        onPressed:
-                                                                            () =>
-                                                                                Navigator.pop(alertDialogContext),
-                                                                        child: const Text(
-                                                                            'Ok'),
-                                                                      ),
-                                                                    ],
-                                                                  );
-                                                                },
-                                                              );
-                                                            } else {
-                                                              if (shouldSetState) {
-                                                                setState(() {});
-                                                              }
-                                                              return;
-                                                            }
-
+                                                      InkWell(
+                                                        splashColor:
+                                                            Colors.transparent,
+                                                        focusColor:
+                                                            Colors.transparent,
+                                                        hoverColor:
+                                                            Colors.transparent,
+                                                        highlightColor:
+                                                            Colors.transparent,
+                                                        onTap: () async {
+                                                          var shouldSetState =
+                                                              false;
+                                                          var confirmDialogResponse =
+                                                              await showDialog<
+                                                                      bool>(
+                                                                    context:
+                                                                        context,
+                                                                    builder:
+                                                                        (alertDialogContext) {
+                                                                      return AlertDialog(
+                                                                        title: const Text(
+                                                                            'Atenção!'),
+                                                                        content:
+                                                                            const Text('Você tem certeza que deseja remover essa amostra de dentro do volume?'),
+                                                                        actions: [
+                                                                          TextButton(
+                                                                            onPressed: () =>
+                                                                                Navigator.pop(alertDialogContext, false),
+                                                                            child:
+                                                                                const Text('Não'),
+                                                                          ),
+                                                                          TextButton(
+                                                                            onPressed: () =>
+                                                                                Navigator.pop(alertDialogContext, true),
+                                                                            child:
+                                                                                const Text('Sim'),
+                                                                          ),
+                                                                        ],
+                                                                      );
+                                                                    },
+                                                                  ) ??
+                                                                  false;
+                                                          if (confirmDialogResponse) {
+                                                            _model.retornoEclusao =
+                                                                actions
+                                                                    .excluiVolumeDaEtapaAberta(
+                                                              functions.buscaRegistro(
+                                                                  widget.fazId!,
+                                                                  widget
+                                                                      .oservId!,
+                                                                  FFAppState()
+                                                                      .trSincroniza
+                                                                      .toList()),
+                                                              testeItem,
+                                                            );
+                                                            shouldSetState =
+                                                                true;
+                                                            await showDialog(
+                                                              context: context,
+                                                              builder:
+                                                                  (alertDialogContext) {
+                                                                return AlertDialog(
+                                                                  title: Text(_model
+                                                                      .retornoEclusao!),
+                                                                  actions: [
+                                                                    TextButton(
+                                                                      onPressed:
+                                                                          () =>
+                                                                              Navigator.pop(alertDialogContext),
+                                                                      child: const Text(
+                                                                          'Ok'),
+                                                                    ),
+                                                                  ],
+                                                                );
+                                                              },
+                                                            );
+                                                          } else {
                                                             if (shouldSetState) {
                                                               setState(() {});
                                                             }
-                                                          },
-                                                          child: const FaIcon(
-                                                            FontAwesomeIcons
-                                                                .trashAlt,
-                                                            color: Colors.black,
-                                                            size: 24.0,
-                                                          ),
+                                                            return;
+                                                          }
+
+                                                          if (shouldSetState) {
+                                                            setState(() {});
+                                                          }
+                                                        },
+                                                        child: const FaIcon(
+                                                          FontAwesomeIcons
+                                                              .trashAlt,
+                                                          color: Colors.black,
+                                                          size: 24.0,
                                                         ),
+                                                      ),
                                                     ],
                                                   ),
-                                                ),
                                               ],
                                             ),
                                           );

@@ -1,8 +1,8 @@
 import '/flutter_flow/flutter_flow_util.dart';
-import 'pesquisar_volume_widget.dart' show PesquisarVolumeWidget;
+import 'no_samples_found_widget.dart' show NoSamplesFoundWidget;
 import 'package:flutter/material.dart';
 
-class PesquisarVolumeModel extends FlutterFlowModel<PesquisarVolumeWidget> {
+class NoSamplesFoundModel extends FlutterFlowModel<NoSamplesFoundWidget> {
   /// Initialization and disposal methods.
 
   @override

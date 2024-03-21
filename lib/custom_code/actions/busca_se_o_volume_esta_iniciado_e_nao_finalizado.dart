@@ -84,9 +84,16 @@ Future<String?> capturaImagemCameraTraseira(BuildContext context) async {
       context: context,
       builder: (context) => Scaffold(
         appBar: AppBar(
-          title: Text('Bater Ponto'),
+          title: Text('Foto de todas as amostras'),
           backgroundColor: Color(0xFF025959),
           centerTitle: true,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.of(context).pop(); // Volta para a tela anterior
+              // Ou use Navigator.of(context).pushNamed('/inicio'); para ir para a tela "Inicio"
+            },
+          ),
         ),
         body: Container(
           color: Color(0xFF025959),

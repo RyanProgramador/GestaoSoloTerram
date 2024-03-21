@@ -562,3 +562,22 @@ List<String> listaStringParaListaString(String? stringDasAmostras) {
   List<String> resultado = numero.map((e) => e.trim()).toList();
   return resultado;
 }
+
+String? diferencaEntreDatas(
+  String? data1,
+  String? data2,
+) {
+  // Parse the date strings to DateTime objects
+  DateTime start = DateTime.parse(data1!);
+  DateTime end = DateTime.parse(data2!);
+
+  // Calculate the difference between the dates
+  Duration diff = end.difference(start);
+
+  // Convert the difference to hours and minutes
+  int hours = diff.inHours;
+  int minutes = diff.inMinutes % 60;
+
+  // Format the difference as "1h30min"
+  return "${hours}h ${minutes}min";
+}
