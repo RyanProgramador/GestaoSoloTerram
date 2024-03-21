@@ -1,5 +1,6 @@
 // Automatic FlutterFlow imports
 import '/backend/sqlite/sqlite_manager.dart';
+import '/actions/actions.dart' as action_blocks;
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'index.dart'; // Imports other custom widgets
@@ -554,17 +555,17 @@ class _QrcodeScannerState extends State<QrcodeScanner> {
               setState(() {
                 //   atualiza();
                 //   await Future.delayed(Duration(milliseconds: 380));
-                // Navigator.of(context).pop();
-                // context.pushNamed('criacaoVolume', queryParameters: {
-                //   'fazId': serializeParam(
-                //     widget.fazId,
-                //     ParamType.int,
-                //   ),
-                //   'oservId': serializeParam(
-                //     widget.oservid,
-                //     ParamType.int,
-                //   ),
-                // });
+                Navigator.of(context).pop();
+                context.pushNamed('criacaoVolume', queryParameters: {
+                  'fazId': serializeParam(
+                    widget.fazId,
+                    ParamType.int,
+                  ),
+                  'oservId': serializeParam(
+                    widget.oservid,
+                    ParamType.int,
+                  ),
+                });
                 //   Navigator.of(context).pop();
               });
               showSincro();

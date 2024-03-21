@@ -558,8 +558,12 @@ List<dynamic>? buscaListaDeVolumes(dynamic trSinc) {
 }
 
 String? contadorDeNumeroDeAmostras(String? stringDasAmostras) {
+  if (stringDasAmostras == null || stringDasAmostras == "") {
+    return "0";
+  }
   //var stringExemplo = "1,2,3,4";
   List<String> numero = stringDasAmostras!.split(',');
+
   return numero.length.toString();
 }
 

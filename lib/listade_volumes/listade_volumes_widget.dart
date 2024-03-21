@@ -850,6 +850,32 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                                               hoverColor: Colors.transparent,
                                                                               highlightColor: Colors.transparent,
                                                                               onTap: () async {
+                                                                                if (valueOrDefault<String>(
+                                                                                      functions.contadorDeNumeroDeAmostras(getJsonField(
+                                                                                        volumesListadosItem,
+                                                                                        r'''$.amostras[:].volam_etiqueta_id''',
+                                                                                      ).toString()),
+                                                                                      'Erro#nãotemNumero',
+                                                                                    ) ==
+                                                                                    '0') {
+                                                                                  await showDialog(
+                                                                                    context: context,
+                                                                                    builder: (alertDialogContext) {
+                                                                                      return AlertDialog(
+                                                                                        title: const Text('Ops!'),
+                                                                                        content: const Text('Não há amostras nesse volume!'),
+                                                                                        actions: [
+                                                                                          TextButton(
+                                                                                            onPressed: () => Navigator.pop(alertDialogContext),
+                                                                                            child: const Text('Entendi'),
+                                                                                          ),
+                                                                                        ],
+                                                                                      );
+                                                                                    },
+                                                                                  );
+                                                                                  return;
+                                                                                }
+
                                                                                 context.pushNamed(
                                                                                   'ListadeAmostras',
                                                                                   queryParameters: {
