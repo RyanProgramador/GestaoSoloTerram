@@ -794,6 +794,17 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                                                 ).toString(),
                                                                                 ParamType.String,
                                                                               ),
+                                                                              'coletadoEmList': serializeParam(
+                                                                                (getJsonField(
+                                                                                  volumesListadosItem,
+                                                                                  r'''$.amostras[:].volam_data''',
+                                                                                  true,
+                                                                                ) as List)
+                                                                                    .map<String>((s) => s.toString())
+                                                                                    .toList(),
+                                                                                ParamType.String,
+                                                                                true,
+                                                                              ),
                                                                             }.withoutNulls,
                                                                             extra: <String,
                                                                                 dynamic>{

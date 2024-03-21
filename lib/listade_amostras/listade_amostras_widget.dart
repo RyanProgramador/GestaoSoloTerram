@@ -18,12 +18,14 @@ class ListadeAmostrasWidget extends StatefulWidget {
     required this.oservId,
     required this.amostras,
     required this.idDoVolume,
+    this.coletadoEmList,
   });
 
   final int? fazId;
   final int? oservId;
   final List<String>? amostras;
   final String? idDoVolume;
+  final List<String>? coletadoEmList;
 
   @override
   State<ListadeAmostrasWidget> createState() => _ListadeAmostrasWidgetState();
@@ -556,7 +558,12 @@ class _ListadeAmostrasWidgetState extends State<ListadeAmostrasWidget> {
                                                               ),
                                                         ),
                                                         Text(
-                                                          '123',
+                                                          valueOrDefault<
+                                                              String>(
+                                                            widget.coletadoEmList?[
+                                                                testeIndex],
+                                                            'error',
+                                                          ),
                                                           style: FlutterFlowTheme
                                                                   .of(context)
                                                               .bodyMedium,

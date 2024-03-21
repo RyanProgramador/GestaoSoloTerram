@@ -174,6 +174,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
             amostras:
                 params.getParam<String>('amostras', ParamType.String, true),
             idDoVolume: params.getParam('idDoVolume', ParamType.String),
+            coletadoEmList: params.getParam<String>(
+                'coletadoEmList', ParamType.String, true),
           ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
