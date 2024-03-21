@@ -564,6 +564,9 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                                   mainAxisSize:
                                                                       MainAxisSize
                                                                           .max,
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
                                                                   children: [
                                                                     Padding(
                                                                       padding: const EdgeInsetsDirectional.fromSTEB(
