@@ -72,115 +72,122 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () async {
-            var shouldSetState = false;
-            var confirmDialogResponse = await showDialog<bool>(
-                  context: context,
-                  builder: (alertDialogContext) {
-                    return AlertDialog(
-                      title: const Text('Atenção!'),
-                      content:
-                          const Text('Você deseja realmente fechar esse volume?'),
-                      actions: [
-                        TextButton(
-                          onPressed: () =>
-                              Navigator.pop(alertDialogContext, false),
-                          child: const Text('Não'),
-                        ),
-                        TextButton(
-                          onPressed: () =>
-                              Navigator.pop(alertDialogContext, true),
-                          child: const Text('Sim'),
-                        ),
-                      ],
-                    );
-                  },
-                ) ??
-                false;
-            if (confirmDialogResponse) {
-              _model.qrCode = await FlutterBarcodeScanner.scanBarcode(
-                '#C62828', // scanning line color
-                'Cancel', // cancel button text
-                true, // whether to show the flash icon
-                ScanMode.QR,
-              );
-
-              shouldSetState = true;
-              if ((_model.qrCode != '') &&
-                  (_model.qrCode != '-12')) {
-                _model.finalizacaoDeVolume =
-                    await actions.buscaSeOVolumeEstaIniciadoEFinalizaEle(
-                  context,
-                  functions.buscaRegistro(widget.fazId!, widget.oservId!,
-                      FFAppState().trSincroniza.toList()),
-                  _model.qrCode,
+        floatingActionButton: Visibility(
+          visible: functions
+                  .buscaVolumesNoRegistro(functions.buscaRegistro(widget.fazId!,
+                      widget.oservId!, FFAppState().trSincroniza.toList())).isNotEmpty,
+          child: FloatingActionButton.extended(
+            onPressed: () async {
+              var shouldSetState = false;
+              var confirmDialogResponse = await showDialog<bool>(
+                    context: context,
+                    builder: (alertDialogContext) {
+                      return AlertDialog(
+                        title: const Text('Atenção!'),
+                        content:
+                            const Text('Você deseja realmente fechar esse volume?'),
+                        actions: [
+                          TextButton(
+                            onPressed: () =>
+                                Navigator.pop(alertDialogContext, false),
+                            child: const Text('Não'),
+                          ),
+                          TextButton(
+                            onPressed: () =>
+                                Navigator.pop(alertDialogContext, true),
+                            child: const Text('Sim'),
+                          ),
+                        ],
+                      );
+                    },
+                  ) ??
+                  false;
+              if (confirmDialogResponse) {
+                _model.qrCode = await FlutterBarcodeScanner.scanBarcode(
+                  '#C62828', // scanning line color
+                  'Cancel', // cancel button text
+                  true, // whether to show the flash icon
+                  ScanMode.QR,
                 );
-                shouldSetState = true;
-                if (_model.finalizacaoDeVolume!) {
-                  await showDialog(
-                    context: context,
-                    builder: (alertDialogContext) {
-                      return AlertDialog(
-                        title: const Text('Sucesso!'),
-                        content: const Text('Volume finalizado com sucesso!'),
-                        actions: [
-                          TextButton(
-                            onPressed: () => Navigator.pop(alertDialogContext),
-                            child: const Text('Ok'),
-                          ),
-                        ],
-                      );
-                    },
-                  );
 
-                  context.goNamed(
-                    'Inicio',
-                    extra: <String, dynamic>{
-                      kTransitionInfoKey: const TransitionInfo(
-                        hasTransition: true,
-                        transitionType: PageTransitionType.fade,
-                        duration: Duration(milliseconds: 0),
-                      ),
-                    },
+                shouldSetState = true;
+                if ((_model.qrCode != '') &&
+                    (_model.qrCode != '-12')) {
+                  _model.finalizacaoDeVolume =
+                      await actions.buscaSeOVolumeEstaIniciadoEFinalizaEle(
+                    context,
+                    functions.buscaRegistro(widget.fazId!, widget.oservId!,
+                        FFAppState().trSincroniza.toList()),
+                    _model.qrCode,
                   );
+                  shouldSetState = true;
+                  if (_model.finalizacaoDeVolume!) {
+                    await showDialog(
+                      context: context,
+                      builder: (alertDialogContext) {
+                        return AlertDialog(
+                          title: const Text('Sucesso!'),
+                          content: const Text('Volume finalizado com sucesso!'),
+                          actions: [
+                            TextButton(
+                              onPressed: () =>
+                                  Navigator.pop(alertDialogContext),
+                              child: const Text('Ok'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+
+                    context.goNamed(
+                      'Inicio',
+                      extra: <String, dynamic>{
+                        kTransitionInfoKey: const TransitionInfo(
+                          hasTransition: true,
+                          transitionType: PageTransitionType.fade,
+                          duration: Duration(milliseconds: 0),
+                        ),
+                      },
+                    );
+                  } else {
+                    await showDialog(
+                      context: context,
+                      builder: (alertDialogContext) {
+                        return AlertDialog(
+                          title: const Text('Ops!'),
+                          content: const Text('Um erro inesperado aconteceu!'),
+                          actions: [
+                            TextButton(
+                              onPressed: () =>
+                                  Navigator.pop(alertDialogContext),
+                              child: const Text('Ok'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                    if (shouldSetState) setState(() {});
+                    return;
+                  }
                 } else {
-                  await showDialog(
-                    context: context,
-                    builder: (alertDialogContext) {
-                      return AlertDialog(
-                        title: const Text('Ops!'),
-                        content: const Text('Um erro inesperado aconteceu!'),
-                        actions: [
-                          TextButton(
-                            onPressed: () => Navigator.pop(alertDialogContext),
-                            child: const Text('Ok'),
-                          ),
-                        ],
-                      );
-                    },
-                  );
                   if (shouldSetState) setState(() {});
                   return;
                 }
-              } else {
-                if (shouldSetState) setState(() {});
-                return;
               }
-            }
-            if (shouldSetState) setState(() {});
-          },
-          backgroundColor: FlutterFlowTheme.of(context).primary,
-          icon: const Icon(
-            Icons.check,
-          ),
-          elevation: 8.0,
-          label: Text(
-            'Finalizar',
-            style: FlutterFlowTheme.of(context).bodyMedium.override(
-                  fontFamily: 'Readex Pro',
-                  color: Colors.white,
-                ),
+              if (shouldSetState) setState(() {});
+            },
+            backgroundColor: FlutterFlowTheme.of(context).primary,
+            icon: const Icon(
+              Icons.check,
+            ),
+            elevation: 8.0,
+            label: Text(
+              'Finalizar',
+              style: FlutterFlowTheme.of(context).bodyMedium.override(
+                    fontFamily: 'Readex Pro',
+                    color: Colors.white,
+                  ),
+            ),
           ),
         ),
         body: Column(

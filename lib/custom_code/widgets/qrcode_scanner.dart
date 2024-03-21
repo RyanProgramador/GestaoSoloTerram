@@ -12,7 +12,6 @@ import 'package:flutter/material.dart';
 // import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-
 import '../../criacao_volume/criacao_volume_model.dart';
 export '../../criacao_volume/criacao_volume_model.dart';
 
@@ -200,7 +199,6 @@ class _QrcodeScannerState extends State<QrcodeScanner> {
         .toList()
         .first;
     List<dynamic> volumesNaoSincronizadas = [];
-
     for (var volume in trSincetapas) {
       var volumes = volume['volumes'] as List<dynamic>;
       var volumesFiltrados = volumes
@@ -213,23 +211,30 @@ class _QrcodeScannerState extends State<QrcodeScanner> {
 
       volumesNaoSincronizadas.addAll(volumesFiltrados);
     }
+    List<dynamic> volEtiquetasID = [];
+    for (var etapa in trSincetapas) {
+      List<dynamic> volumes = etapa['volumes'] as List<dynamic>;
+      for (var volume in volumes) {
+        if (volume['volume_data_hora_fim'] == null ||
+            volume['volume_data_hora_fim'].toString() == "") {
+          List<dynamic> amostras = volume['amostras'] as List<dynamic>;
+          for (var amostra in amostras) {
+            if (amostra['volam_etiqueta_id'] != null) {
+              volEtiquetasID.add(amostra['volam_etiqueta_id']);
+            }
+          }
+        }
+      }
+    }
 
     // volumess['foto'].toString() = "1";
     showDialog(
       context: context,
       builder: (BuildContext context) {
-/*preciso criar uma forma de criar um volume quando entra nessa tela, oq preciso fazer,
-preciso antes do botão me mandar para essa tela, preciso fazer uma validação, "existe volume criado?
- se não, eu crio um volume usando o codigo acima de ffappstate.trsinc[etapas][volumes]
- para add uma list {id,foto,lacre,amostras (qr-codes lidos), sincronizado = S, datahorainicio, datahora fim}
-  após criar isso, adicionar verificar a lista, pois a lista sera necesario criar um novo appstate para
-   comportar lista de amostas, ou eu listo a profundiade e ponto atraves da etiqueta usando custom function,
-   clicou em finalizar, fecha tudo usando o datahorafim para notar que tem um finalizado
-    */
         return AlertDialog(
           title: Text('Concluído!'),
           content: SingleChildScrollView(
-            child: Text(etiquetaId.toString()),
+            child: Text(volEtiquetasID.toString()),
           ),
         );
       },
@@ -306,11 +311,11 @@ preciso antes do botão me mandar para essa tela, preciso fazer uma validação,
                   key: qrKey,
                   onQRViewCreated: _onQRViewCreated,
                   overlay: QrScannerOverlayShape(
-                    borderColor: Color(0xFFFFFFFF),
-                    borderRadius: 2,
-                    borderLength: 30,
-                    borderWidth: 10,
-                    overlayColor: Color(0xDB000000),
+                    borderColor: Color(0x8FFFFFF),
+                    borderRadius: 0,
+                    borderLength: 0,
+                    borderWidth: 0,
+                    overlayColor: Color(0x8FFFFFF),
                   ),
                 ),
               ),
@@ -432,38 +437,49 @@ preciso antes do botão me mandar para essa tela, preciso fazer uma validação,
                           .map((e) => e["etapas"])
                           .toList()
                           .first;
-                      List<dynamic> volumesNaoSincronizadas = [];
+                      // List<dynamic> volumesNaoSincronizadas = [];
+                      //
+                      // for (var volume in trSincetapas) {
+                      //   var volumes = volume['volumes'] as List<dynamic>;
+                      //   var volumesFiltrados = volumes
+                      //       .where((volumes) =>
+                      //           volumes['volume_data_hora_fim'].toString() !=
+                      //               "" ||
+                      //           volumes['volume_data_hora_fim'].toString() !=
+                      //               null)
+                      //       .map((e) => e['amostras'])
+                      //       .toList()
+                      //       .first;
+                      //
+                      //   volumesNaoSincronizadas.addAll(volumesFiltrados);
+                      // }
 
-                      for (var volume in trSincetapas) {
-                        var volumes = volume['volumes'] as List<dynamic>;
-                        var volumesFiltrados = volumes
-                            .where((volumes) =>
-                                volumes['volume_data_hora_fim'].toString() !=
-                                    "" ||
-                                volumes['volume_data_hora_fim'].toString() !=
-                                    null)
-                            .map((e) => e['amostras'])
-                            .toList()
-                            .first;
-
-                        volumesNaoSincronizadas.addAll(volumesFiltrados);
+                      List<dynamic> volEtiquetasID = [];
+                      for (var etapa in trSincetapas) {
+                        List<dynamic> volumes =
+                            etapa['volumes'] as List<dynamic>;
+                        for (var volume in volumes) {
+                          if (volume['volume_data_hora_fim'] == null ||
+                              volume['volume_data_hora_fim'].toString() == "") {
+                            List<dynamic> amostras =
+                                volume['amostras'] as List<dynamic>;
+                            for (var amostra in amostras) {
+                              if (amostra['volam_etiqueta_id'] != null) {
+                                volEtiquetasID
+                                    .add(amostra['volam_etiqueta_id']);
+                              }
+                            }
+                          }
+                        }
                       }
-                      setState(() async {
+                      setState(() {
                         //criar select de ppont_icone e ponto (PONTO?)
                         String pesquisa = textController.text
                             .toString(); // Asegúrese de que 'pesquisa' seja do tipo correto e tenha o valor correto
                         if (profundidadesNaoSincronizadas.contains(pesquisa)) {
-                          if (volumesNaoSincronizadas.contains(pesquisa)) {
+                          if (volEtiquetasID.toString().contains(pesquisa)) {
                             etiquetaRepetita();
                           } else {
-                            /*
-                            * isserir assim:
-                            * volam_etiqueta_id: x
-                              volam_profundidade_id : x
-                              volam_data : yyyy mm dd
-                            *
-                            *
-                            * */
                             List<dynamic> profundidadesNaoSincronizadas3 = [];
                             for (var profIcon in trSincEtiqueta) {
                               var legendaIcone =
@@ -491,7 +507,20 @@ preciso antes do botão me mandar para essa tela, preciso fazer uma validação,
                               "volam_data": DateFormat('yyyy-MM-dd HH:mm')
                                   .format(DateTime.now())
                             });
+                            Navigator.of(context).pop();
+                            context
+                                .pushNamed('criacaoVolume', queryParameters: {
+                              'fazId': serializeParam(
+                                widget.fazId,
+                                ParamType.int,
+                              ),
+                              'oservId': serializeParam(
+                                widget.oservid,
+                                ParamType.int,
+                              ),
+                            });
                           }
+
                           // volumess['amostras'] = [];
                         } else {
                           semEtiqueta();
@@ -500,21 +529,12 @@ preciso antes do botão me mandar para essa tela, preciso fazer uma validação,
                         //     .toString()); // Usa um valor padrão (como 0) caso a conversão falhe
 
                         // atualiza();
-                        textController.clear();
-                        controller?.resumeCamera();
-                        // await Future.delayed(Duration(milliseconds: 380));
-                        context.pushNamed('criacaoVolume', queryParameters: {
-                          'fazId': serializeParam(
-                            widget.fazId,
-                            ParamType.int,
-                          ),
-                          'oservId': serializeParam(
-                            widget.oservid,
-                            ParamType.int,
-                          ),
-                        });
+
                         // Navigator.of(context).pop();
                       });
+                      textController.clear();
+                      controller?.resumeCamera();
+                      // await Future.delayed(Duration(milliseconds: 180));
                     },
                     child: Icon(Icons.arrow_forward, color: Colors.white),
                     backgroundColor: Color(0xFF00736d),
@@ -534,19 +554,20 @@ preciso antes do botão me mandar para essa tela, preciso fazer uma validação,
               setState(() {
                 //   atualiza();
                 //   await Future.delayed(Duration(milliseconds: 380));
-                context.pushNamed('criacaoVolume', queryParameters: {
-                  'fazId': serializeParam(
-                    widget.fazId,
-                    ParamType.int,
-                  ),
-                  'oservId': serializeParam(
-                    widget.oservid,
-                    ParamType.int,
-                  ),
-                });
+                // Navigator.of(context).pop();
+                // context.pushNamed('criacaoVolume', queryParameters: {
+                //   'fazId': serializeParam(
+                //     widget.fazId,
+                //     ParamType.int,
+                //   ),
+                //   'oservId': serializeParam(
+                //     widget.oservid,
+                //     ParamType.int,
+                //   ),
+                // });
                 //   Navigator.of(context).pop();
               });
-              // showSincro();
+              showSincro();
             },
             child: Icon(Icons.delete, color: Colors.white),
             backgroundColor: Color(0xFF982c26),

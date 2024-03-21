@@ -11,6 +11,9 @@ import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'dart:convert';
 
+import 'package:image/image.dart' as img;
+import 'package:image_picker/image_picker.dart';
+
 Future<bool> buscaSeOVolumeEstaIniciadoENaoFinalizado(
     BuildContext context, dynamic trSinc) async {
   if (trSinc['etapas'] != null && trSinc['etapas'].isNotEmpty) {
@@ -24,7 +27,7 @@ Future<bool> buscaSeOVolumeEstaIniciadoENaoFinalizado(
           }
 
           // Se o último volume está finalizado, cria um novo volume
-          var foto = await capturaImagemCameraTraseira(context);
+          var foto = await capturaImagemCameraTraseira();
 
           if (foto != null) {
             var proximoVolumeId = etapa['volumes'].length + 1;
@@ -45,7 +48,7 @@ Future<bool> buscaSeOVolumeEstaIniciadoENaoFinalizado(
           }
         } else {
           // se não existem volumes, criamos um novo
-          var foto = await capturaImagemCameraTraseira(context);
+          var foto = await capturaImagemCameraTraseira();
           if (foto != null) {
             etapa['volumes'].add({
               "volume_id": 1,
@@ -68,78 +71,28 @@ Future<bool> buscaSeOVolumeEstaIniciadoENaoFinalizado(
   return false;
 }
 
-Future<String?> capturaImagemCameraTraseira(BuildContext context) async {
-  List<CameraDescription> cameras = await availableCameras();
-  CameraDescription camera = cameras.firstWhere(
-    (cam) => cam.lensDirection == CameraLensDirection.back,
-    orElse: () => cameras.first,
-  );
+Future<String?> capturaImagemCameraTraseira() async {
+  final ImagePicker _picker = ImagePicker();
+  final XFile? image = await _picker.pickImage(source: ImageSource.camera);
 
-  CameraController controller =
-      CameraController(camera, ResolutionPreset.medium);
+  if (image != null) {
+    Uint8List bytes = await image.readAsBytes();
+    img.Image? originalImage = img.decodeImage(bytes);
 
-  try {
-    await controller.initialize();
+    if (originalImage != null) {
+      // Reduzindo a imagem para 33% da qualidade original
+      int width = (originalImage.width * 0.33).round();
+      int height = (originalImage.height * 0.33).round();
 
-    String? base64Image;
-    await showDialog(
-      context: context,
-      builder: (context) => Scaffold(
-        appBar: AppBar(
-          title: Text('Foto de todas as amostras'),
-          backgroundColor: Color(0xFF025959),
-          centerTitle: true,
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.of(context)
-                  .pop(); // Simplesmente fecha o diálogo sem definir base64Image
-            },
-          ),
-        ),
-        body: Container(
-          color: Color(0xFF025959),
-          child: Stack(
-            fit: StackFit.loose,
-            children: [
-              Positioned.fill(
-                bottom: MediaQuery.of(context).size.height *
-                    0.23, // Adjust this value as needed
-                child: CameraPreview(controller),
-              ),
-              Positioned(
-                bottom: MediaQuery.of(context).size.height *
-                    0.08, // Adjust this value as needed
-                left: 0,
-                right: 0,
-                child: Center(
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      final image = await controller.takePicture();
-                      final imageBytes = await image.readAsBytes();
-                      base64Image = base64Encode(imageBytes);
-                      Navigator.of(context)
-                          .pop(); // Fecha o diálogo após tirar a foto
-                    },
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.white,
-                      shape: CircleBorder(),
-                      padding: EdgeInsets.all(20),
-                    ),
-                    child: Icon(Icons.camera_alt, color: Colors.black),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-    return base64Image;
-  } catch (e) {
-    print('Erro ao inicializar a câmera: $e');
-    return null;
-  } finally {
-    await controller.dispose();
+      img.Image resizedImage =
+          img.copyResize(originalImage, width: width, height: height);
+      Uint8List resizedBytes =
+          Uint8List.fromList(img.encodeJpg(resizedImage, quality: 33));
+
+      // Convertendo para base64
+      String base64Image = base64Encode(resizedBytes);
+      return base64Image;
+    }
   }
+  return null; // Retorna nulo se a imagem não for capturada ou houver algum erro
 }

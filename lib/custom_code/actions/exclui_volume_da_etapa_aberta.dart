@@ -18,11 +18,16 @@ String? excluiVolumeDaEtapaAberta(
     for (var etapa in trSinc['etapas']) {
       if (etapa['volumes'] != null) {
         for (var volume in etapa['volumes']) {
-          // Supondo que 'amostras' é uma lista dentro de 'volumes'
           if (volume['amostras'] != null) {
-            // Remove a amostra com o 'etiquetaNum' específico
-            volume['amostras']
-                .removeWhere((amostra) => amostra.toString() == etiquetaNum);
+            volume['amostras'].removeWhere((amostra) =>
+                amostra['volam_etiqueta_id'].toString() == etiquetaNum);
+
+            //for(var item in volume['amostras']){
+            //  if(item['volam_etiqueta_id'] !=null){
+            //    item['volam_etiqueta_id'].removeWhere((item) => item['volam_etiqueta_id'].toString() ==  etiquetaNum);
+            //  }
+            //}
+            //volume['amostras'].removeWhere((amostra) => amostra.toString() == etiquetaNum);
           }
         }
       }
