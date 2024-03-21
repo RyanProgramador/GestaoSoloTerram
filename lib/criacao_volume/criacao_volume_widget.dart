@@ -112,7 +112,8 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
               );
 
               shouldSetState = true;
-              if (_model.qrCode != '') {
+              if ((_model.qrCode != '') &&
+                  (_model.qrCode != '-1')) {
                 _model.finalizacaoDeVolume =
                     await actions.buscaSeOVolumeEstaIniciadoEFinalizaEle(
                   context,
@@ -167,6 +168,9 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
                   if (shouldSetState) setState(() {});
                   return;
                 }
+              } else {
+                if (shouldSetState) setState(() {});
+                return;
               }
             }
             if (shouldSetState) setState(() {});
@@ -303,7 +307,19 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Amostras lidas: ${functions.buscaVolumesNoRegistro(functions.buscaRegistro(widget.fazId!, widget.oservId!, FFAppState().trSincroniza.toList())).length.toString()}',
+                                'Amostras lidas: ${valueOrDefault<String>(
+                                  functions
+                                      .buscaVolumesNoRegistro(
+                                          functions.buscaRegistro(
+                                              widget.fazId!,
+                                              widget.oservId!,
+                                              FFAppState()
+                                                  .trSincroniza
+                                                  .toList()))
+                                      .length
+                                      .toString(),
+                                  '0',
+                                )}',
                                 textAlign: TextAlign.start,
                                 style: FlutterFlowTheme.of(context)
                                     .bodyMedium
