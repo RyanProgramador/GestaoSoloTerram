@@ -560,9 +560,15 @@ class _ListadeAmostrasWidgetState extends State<ListadeAmostrasWidget> {
                                                         Text(
                                                           valueOrDefault<
                                                               String>(
-                                                            widget.coletadoEmList?[
-                                                                testeIndex],
-                                                            'error',
+                                                            functions
+                                                                .formatardatahora(
+                                                                    valueOrDefault<
+                                                                        String>(
+                                                              widget.coletadoEmList?[
+                                                                  testeIndex],
+                                                              'error',
+                                                            )),
+                                                            'erro na formatação',
                                                           ),
                                                           style: FlutterFlowTheme
                                                                   .of(context)
