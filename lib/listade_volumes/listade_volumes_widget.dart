@@ -659,42 +659,36 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                                         false)
                                                                       Flexible(
                                                                         child:
-                                                                            Align(
-                                                                          alignment: const AlignmentDirectional(
-                                                                              0.0,
-                                                                              0.0),
-                                                                          child:
-                                                                              Column(
-                                                                            mainAxisSize:
-                                                                                MainAxisSize.max,
-                                                                            mainAxisAlignment:
-                                                                                MainAxisAlignment.center,
-                                                                            crossAxisAlignment:
-                                                                                CrossAxisAlignment.start,
-                                                                            children: [
-                                                                              Text(
-                                                                                'Etiqueta',
-                                                                                style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                      fontFamily: 'Readex Pro',
-                                                                                      color: FlutterFlowTheme.of(context).primaryText,
-                                                                                      fontSize: 16.0,
-                                                                                      fontWeight: FontWeight.w600,
-                                                                                    ),
+                                                                            Column(
+                                                                          mainAxisSize:
+                                                                              MainAxisSize.max,
+                                                                          mainAxisAlignment:
+                                                                              MainAxisAlignment.center,
+                                                                          crossAxisAlignment:
+                                                                              CrossAxisAlignment.start,
+                                                                          children: [
+                                                                            Text(
+                                                                              'Etiqueta',
+                                                                              style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                    fontFamily: 'Readex Pro',
+                                                                                    color: FlutterFlowTheme.of(context).primaryText,
+                                                                                    fontSize: 16.0,
+                                                                                    fontWeight: FontWeight.w600,
+                                                                                  ),
+                                                                            ),
+                                                                            Padding(
+                                                                              padding: const EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 0.0),
+                                                                              child: Column(
+                                                                                mainAxisSize: MainAxisSize.max,
+                                                                                children: [
+                                                                                  Text(
+                                                                                    '01949001 ',
+                                                                                    style: FlutterFlowTheme.of(context).bodyMedium,
+                                                                                  ),
+                                                                                ],
                                                                               ),
-                                                                              Padding(
-                                                                                padding: const EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 0.0),
-                                                                                child: Column(
-                                                                                  mainAxisSize: MainAxisSize.max,
-                                                                                  children: [
-                                                                                    Text(
-                                                                                      '01949001 ',
-                                                                                      style: FlutterFlowTheme.of(context).bodyMedium,
-                                                                                    ),
-                                                                                  ],
-                                                                                ),
-                                                                              ),
-                                                                            ],
-                                                                          ),
+                                                                            ),
+                                                                          ],
                                                                         ),
                                                                       ),
                                                                     if (getJsonField(
@@ -706,59 +700,53 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                                               .emptystring,
                                                                           r'''$.teste''',
                                                                         ))
-                                                                      Flexible(
+                                                                      Expanded(
                                                                         child:
-                                                                            Align(
-                                                                          alignment: const AlignmentDirectional(
-                                                                              0.0,
-                                                                              0.0),
-                                                                          child:
-                                                                              Column(
-                                                                            mainAxisSize:
-                                                                                MainAxisSize.max,
-                                                                            mainAxisAlignment:
-                                                                                MainAxisAlignment.center,
-                                                                            crossAxisAlignment:
-                                                                                CrossAxisAlignment.start,
-                                                                            children: [
-                                                                              Text(
-                                                                                'Tempo Total',
-                                                                                style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                      fontFamily: 'Readex Pro',
-                                                                                      color: FlutterFlowTheme.of(context).primaryText,
-                                                                                      fontSize: 16.0,
-                                                                                      fontWeight: FontWeight.w600,
+                                                                            Column(
+                                                                          mainAxisSize:
+                                                                              MainAxisSize.max,
+                                                                          mainAxisAlignment:
+                                                                              MainAxisAlignment.center,
+                                                                          crossAxisAlignment:
+                                                                              CrossAxisAlignment.start,
+                                                                          children: [
+                                                                            Text(
+                                                                              'Tempo Total',
+                                                                              style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                    fontFamily: 'Readex Pro',
+                                                                                    color: FlutterFlowTheme.of(context).primaryText,
+                                                                                    fontSize: 16.0,
+                                                                                    fontWeight: FontWeight.w600,
+                                                                                  ),
+                                                                            ),
+                                                                            Padding(
+                                                                              padding: const EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 0.0),
+                                                                              child: Column(
+                                                                                mainAxisSize: MainAxisSize.max,
+                                                                                crossAxisAlignment: CrossAxisAlignment.end,
+                                                                                children: [
+                                                                                  Text(
+                                                                                    valueOrDefault<String>(
+                                                                                      functions.diferencaEntreDatas(
+                                                                                          getJsonField(
+                                                                                            volumesListadosItem,
+                                                                                            r'''$.volume_data_hora_inicio''',
+                                                                                          ).toString(),
+                                                                                          getJsonField(
+                                                                                            volumesListadosItem,
+                                                                                            r'''$.volume_data_hora_fim''',
+                                                                                          ).toString()),
+                                                                                      'erro',
                                                                                     ),
+                                                                                    style: FlutterFlowTheme.of(context).bodyMedium,
+                                                                                  ),
+                                                                                ],
                                                                               ),
-                                                                              Padding(
-                                                                                padding: const EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 0.0),
-                                                                                child: Column(
-                                                                                  mainAxisSize: MainAxisSize.max,
-                                                                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                                                                  children: [
-                                                                                    Text(
-                                                                                      valueOrDefault<String>(
-                                                                                        functions.diferencaEntreDatas(
-                                                                                            getJsonField(
-                                                                                              volumesListadosItem,
-                                                                                              r'''$.volume_data_hora_inicio''',
-                                                                                            ).toString(),
-                                                                                            getJsonField(
-                                                                                              volumesListadosItem,
-                                                                                              r'''$.volume_data_hora_fim''',
-                                                                                            ).toString()),
-                                                                                        'erro',
-                                                                                      ),
-                                                                                      style: FlutterFlowTheme.of(context).bodyMedium,
-                                                                                    ),
-                                                                                  ],
-                                                                                ),
-                                                                              ),
-                                                                            ],
-                                                                          ),
+                                                                            ),
+                                                                          ],
                                                                         ),
                                                                       ),
-                                                                    Expanded(
+                                                                    Flexible(
                                                                       child:
                                                                           Row(
                                                                         mainAxisSize:
@@ -836,13 +824,7 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                                         ],
                                                                       ),
                                                                     ),
-                                                                  ]
-                                                                      .divide(const SizedBox(
-                                                                          width:
-                                                                              20.0))
-                                                                      .around(const SizedBox(
-                                                                          width:
-                                                                              20.0)),
+                                                                  ],
                                                                 ),
                                                               ),
                                                             ),
