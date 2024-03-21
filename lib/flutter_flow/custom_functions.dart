@@ -581,3 +581,9 @@ String? diferencaEntreDatas(
   // Format the difference as "1h30min"
   return "${hours}h ${minutes}min";
 }
+
+String? formatardatahora(String? datahora) {
+  DateTime parsedData = DateFormat('yyyy-MM-dd HH:mm').parse(datahora!);
+  String dataFormatada = DateFormat('dd/MM/yyyy HH:mm').format(parsedData);
+  return dataFormatada;
+}

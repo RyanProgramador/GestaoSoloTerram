@@ -22,7 +22,7 @@ Future<bool> buscaSeOVolumeEstaIniciadoEFinalizaEle(
                 volume['volume_data_hora_fim'].isEmpty) {
               volume['lacre'] = qrCode.toString();
               volume['volume_data_hora_fim'] =
-                  DateFormat('dd/MM/yyyy HH:mm').format(DateTime.now());
+                  DateFormat('yyyy-MM-dd HH:mm').format(DateTime.now());
 
               return true; // Finalizou o volume
             }

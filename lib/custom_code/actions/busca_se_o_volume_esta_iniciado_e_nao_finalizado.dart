@@ -32,7 +32,7 @@ Future<bool> buscaSeOVolumeEstaIniciadoENaoFinalizado(
               "volume_id": proximoVolumeId,
               "foto": foto,
               "volume_data_hora_inicio":
-                  DateFormat('dd/MM/yyyy HH:mm').format(DateTime.now()),
+                  DateFormat('yyyy-MM-dd HH:mm').format(DateTime.now()),
               "volume_data_hora_fim": "",
               "lacre": "",
               "amostras": [],
@@ -51,7 +51,7 @@ Future<bool> buscaSeOVolumeEstaIniciadoENaoFinalizado(
               "volume_id": 1,
               "foto": foto,
               "volume_data_hora_inicio":
-                  DateFormat('dd/MM/yyyy HH:mm').format(DateTime.now()),
+                  DateFormat('yyyy-MM-dd HH:mm').format(DateTime.now()),
               "volume_data_hora_fim": "",
               "lacre": "",
               "amostras": [],
