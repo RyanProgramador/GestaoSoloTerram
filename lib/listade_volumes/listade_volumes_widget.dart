@@ -375,7 +375,7 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                                   .contadorDeNumeroDeAmostras(
                                                                       getJsonField(
                                                                 volumesListadosItem,
-                                                                r'''$.amostras[:]''',
+                                                                r'''$.amostras[:].volam_etiqueta_id''',
                                                               ).toString()),
                                                               'Erro#nãotemNumero',
                                                             )} amostras)',
@@ -394,21 +394,6 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                                       FontWeight
                                                                           .bold,
                                                                 ),
-                                                          ),
-                                                          Text(
-                                                            valueOrDefault<
-                                                                String>(
-                                                              functions
-                                                                  .contadorDeNumeroDeAmostras(
-                                                                      getJsonField(
-                                                                volumesListadosItem,
-                                                                r'''$.amostras[:].volam_etiqueta_id''',
-                                                              ).toString()),
-                                                              'Erro#nãotemNumero',
-                                                            ),
-                                                            style: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .bodyMedium,
                                                           ),
                                                           InkWell(
                                                             splashColor: Colors
