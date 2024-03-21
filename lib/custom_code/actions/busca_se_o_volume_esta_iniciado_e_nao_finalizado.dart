@@ -36,7 +36,7 @@ Future<bool> buscaSeOVolumeEstaIniciadoENaoFinalizado(
               "volume_data_hora_fim": "",
               "lacre": "",
               "amostras": [],
-              "sincronizado": "N",
+              "sincronizado": "S",
             });
 
             return true;
@@ -55,7 +55,7 @@ Future<bool> buscaSeOVolumeEstaIniciadoENaoFinalizado(
               "volume_data_hora_fim": "",
               "lacre": "",
               "amostras": [],
-              "sincronizado": "N",
+              "sincronizado": "S",
             });
             return true;
           } else {

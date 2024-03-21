@@ -470,6 +470,25 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
                                                                   context)
                                                               .bodyMedium,
                                                     ),
+                                                    Text(
+                                                      valueOrDefault<String>(
+                                                        functions.buscalegendaiconeAtravesDaEtiquetaEmPontosCopy(
+                                                            functions.buscaRegistro(
+                                                                widget.fazId!,
+                                                                widget.oservId!,
+                                                                FFAppState()
+                                                                    .trSincroniza
+                                                                    .toList()),
+                                                            testeItem,
+                                                            widget.fazId,
+                                                            widget.oservId),
+                                                        'error32',
+                                                      ),
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMedium,
+                                                    ),
                                                   ],
                                                 ),
                                                 Column(
