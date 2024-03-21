@@ -39,12 +39,33 @@ class CriacaoVolumeModel extends FlutterFlowModel<CriacaoVolumeWidget> {
       ScanMode.QR,
     );
 
+    if (functions.verificaSeQrCodeJaFoiLidoOuNao(
+        functions.buscaRegistro(
+            fazId!, oservId!, FFAppState().trSincroniza.toList()),
+        qrCode)!) {
+      await showDialog(
+        context: context,
+        builder: (alertDialogContext) {
+          return AlertDialog(
+            title: const Text('Atenção!'),
+            content: const Text('Etiqueta ja cadastrada anteriormente!'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(alertDialogContext),
+                child: const Text('Ok'),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    }
     if ((qrCode != '') && (qrCode != '-1')) {
       finalizacaoDeVolume =
           await actions.buscaSeOVolumeEstaIniciadoEFinalizaEle(
         context,
         functions.buscaRegistro(
-            fazId!, oservId!, FFAppState().trSincroniza.toList()),
+            fazId, oservId, FFAppState().trSincroniza.toList()),
         qrCode,
       );
       if (finalizacaoDeVolume) {

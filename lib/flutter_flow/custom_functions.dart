@@ -558,13 +558,20 @@ List<dynamic>? buscaListaDeVolumes(dynamic trSinc) {
 }
 
 String? contadorDeNumeroDeAmostras(String? stringDasAmostras) {
-  if (stringDasAmostras == null || stringDasAmostras == "") {
+  if (stringDasAmostras == null ||
+      stringDasAmostras == "" ||
+      stringDasAmostras.isEmpty) {
     return "0";
+  } else {
+    //var stringExemplo = "1,2,3,4";
+    List<String> numero = stringDasAmostras!.split(',');
+    if (numero.first == null || numero.first == "null" || numero.first == "") {
+      return "0";
+    } else {
+      return numero.length.toString();
+    }
   }
-  //var stringExemplo = "1,2,3,4";
-  List<String> numero = stringDasAmostras!.split(',');
-
-  return numero.length.toString();
+  return "0";
 }
 
 List<String> listaStringParaListaString(String? stringDasAmostras) {
@@ -621,4 +628,28 @@ String? buscapprofidAtravesDaEtiquetaEmPontos(
 
 List<String> inverterLista(List<String> lista) {
   return lista.reversed.toList();
+}
+
+bool? verificaSeQrCodeJaFoiLidoOuNao(
+  dynamic trSinc,
+  String? etiquetaLida,
+) {
+  List<dynamic> volumesLacres = [];
+  if (trSinc['etiquetas'] != null &&
+      trSinc['etiquetas'].contains(etiquetaLida)) {
+    return true;
+  }
+  if (trSinc['etapas'] != null) {
+    for (var etapa in trSinc['etapas']) {
+      if (etapa['volumes'] != null) {
+        for (var volume in etapa['volumes']) {
+          if (volume['lacre'] != null &&
+              volume['lacre'].contains(etiquetaLida)) {
+            return true;
+          }
+        }
+      }
+    }
+  }
+  return false;
 }
