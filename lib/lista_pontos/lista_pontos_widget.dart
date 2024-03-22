@@ -186,41 +186,44 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                   mainAxisSize: MainAxisSize.max,
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    FFButtonWidget(
-                                      onPressed: () {
-                                        print('Button pressed ...');
-                                      },
-                                      text: '',
-                                      icon: const Icon(
-                                        Icons.search_sharp,
-                                        color: Colors.white,
-                                        size: 32.0,
-                                      ),
-                                      options: FFButtonOptions(
-                                        width: 60.0,
-                                        height: 60.0,
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
-                                            8.0, 0.0, 0.0, 0.0),
-                                        iconPadding:
-                                            const EdgeInsetsDirectional.fromSTEB(
-                                                0.0, 0.0, 0.0, 0.0),
-                                        color: FlutterFlowTheme.of(context)
-                                            .primary,
-                                        textStyle: FlutterFlowTheme.of(context)
-                                            .titleSmall
-                                            .override(
-                                              fontFamily: 'Readex Pro',
-                                              color: Colors.white,
-                                            ),
-                                        elevation: 3.0,
-                                        borderSide: const BorderSide(
-                                          color: Colors.transparent,
-                                          width: 1.0,
+                                    if (true == false)
+                                      FFButtonWidget(
+                                        onPressed: () {
+                                          print('Button pressed ...');
+                                        },
+                                        text: '',
+                                        icon: const Icon(
+                                          Icons.search_sharp,
+                                          color: Colors.white,
+                                          size: 32.0,
                                         ),
-                                        borderRadius:
-                                            BorderRadius.circular(100.0),
+                                        options: FFButtonOptions(
+                                          width: 60.0,
+                                          height: 60.0,
+                                          padding:
+                                              const EdgeInsetsDirectional.fromSTEB(
+                                                  8.0, 0.0, 0.0, 0.0),
+                                          iconPadding:
+                                              const EdgeInsetsDirectional.fromSTEB(
+                                                  0.0, 0.0, 0.0, 0.0),
+                                          color: FlutterFlowTheme.of(context)
+                                              .primary,
+                                          textStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .titleSmall
+                                                  .override(
+                                                    fontFamily: 'Readex Pro',
+                                                    color: Colors.white,
+                                                  ),
+                                          elevation: 3.0,
+                                          borderSide: const BorderSide(
+                                            color: Colors.transparent,
+                                            width: 1.0,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(100.0),
+                                        ),
                                       ),
-                                    ),
                                     FFButtonWidget(
                                       onPressed: () async {
                                         var shouldSetState = false;
@@ -372,147 +375,156 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                             BorderRadius.circular(100.0),
                                       ),
                                     ),
-                                    FFButtonWidget(
-                                      onPressed: () async {
-                                        var shouldSetState = false;
-                                        var confirmDialogResponse =
-                                            await showDialog<bool>(
-                                                  context: context,
-                                                  builder:
-                                                      (alertDialogContext) {
-                                                    return AlertDialog(
-                                                      title: const Text('Atenção!'),
-                                                      content: const Text(
-                                                          'Deseja iniciar um volume?'),
-                                                      actions: [
-                                                        TextButton(
-                                                          onPressed: () =>
-                                                              Navigator.pop(
-                                                                  alertDialogContext,
-                                                                  false),
-                                                          child: const Text('Não'),
-                                                        ),
-                                                        TextButton(
-                                                          onPressed: () =>
-                                                              Navigator.pop(
-                                                                  alertDialogContext,
-                                                                  true),
-                                                          child: const Text('Sim'),
-                                                        ),
-                                                      ],
-                                                    );
-                                                  },
-                                                ) ??
-                                                false;
-                                        if (!confirmDialogResponse) {
-                                          if (shouldSetState) setState(() {});
-                                          return;
-                                        }
-                                        if (functions.buscaSeAEtapaEstaIniciada(
-                                            functions.buscaRegistro(
-                                                widget.fazId!,
-                                                widget.oservId!,
-                                                FFAppState()
-                                                    .trSincroniza
-                                                    .toList()))!) {
-                                          _model.buscaOVolumeIniciado =
-                                              await actions
-                                                  .buscaSeOVolumeEstaIniciadoENaoFinalizado(
-                                            context,
-                                            functions.buscaRegistro(
-                                                widget.fazId!,
-                                                widget.oservId!,
-                                                FFAppState()
-                                                    .trSincroniza
-                                                    .toList()),
-                                          );
-                                          shouldSetState = true;
-                                          if (!_model.buscaOVolumeIniciado!) {
+                                    if (true == false)
+                                      FFButtonWidget(
+                                        onPressed: () async {
+                                          var shouldSetState = false;
+                                          var confirmDialogResponse =
+                                              await showDialog<bool>(
+                                                    context: context,
+                                                    builder:
+                                                        (alertDialogContext) {
+                                                      return AlertDialog(
+                                                        title: const Text('Atenção!'),
+                                                        content: const Text(
+                                                            'Deseja iniciar um volume?'),
+                                                        actions: [
+                                                          TextButton(
+                                                            onPressed: () =>
+                                                                Navigator.pop(
+                                                                    alertDialogContext,
+                                                                    false),
+                                                            child: const Text('Não'),
+                                                          ),
+                                                          TextButton(
+                                                            onPressed: () =>
+                                                                Navigator.pop(
+                                                                    alertDialogContext,
+                                                                    true),
+                                                            child: const Text('Sim'),
+                                                          ),
+                                                        ],
+                                                      );
+                                                    },
+                                                  ) ??
+                                                  false;
+                                          if (!confirmDialogResponse) {
                                             if (shouldSetState) {
                                               setState(() {});
                                             }
                                             return;
                                           }
-                                        } else {
-                                          await showDialog(
-                                            context: context,
-                                            builder: (alertDialogContext) {
-                                              return AlertDialog(
-                                                title: const Text('Ops!'),
-                                                content: const Text(
-                                                    'Voçê precisa iniciar uma etapa para criar um volume!'),
-                                                actions: [
-                                                  TextButton(
-                                                    onPressed: () =>
-                                                        Navigator.pop(
-                                                            alertDialogContext),
-                                                    child: const Text('Entendi'),
-                                                  ),
-                                                ],
-                                              );
+                                          if (functions
+                                              .buscaSeAEtapaEstaIniciada(
+                                                  functions.buscaRegistro(
+                                                      widget.fazId!,
+                                                      widget.oservId!,
+                                                      FFAppState()
+                                                          .trSincroniza
+                                                          .toList()))!) {
+                                            _model.buscaOVolumeIniciado =
+                                                await actions
+                                                    .buscaSeOVolumeEstaIniciadoENaoFinalizado(
+                                              context,
+                                              functions.buscaRegistro(
+                                                  widget.fazId!,
+                                                  widget.oservId!,
+                                                  FFAppState()
+                                                      .trSincroniza
+                                                      .toList()),
+                                            );
+                                            shouldSetState = true;
+                                            if (!_model.buscaOVolumeIniciado!) {
+                                              if (shouldSetState) {
+                                                setState(() {});
+                                              }
+                                              return;
+                                            }
+                                          } else {
+                                            await showDialog(
+                                              context: context,
+                                              builder: (alertDialogContext) {
+                                                return AlertDialog(
+                                                  title: const Text('Ops!'),
+                                                  content: const Text(
+                                                      'Voçê precisa iniciar uma etapa para criar um volume!'),
+                                                  actions: [
+                                                    TextButton(
+                                                      onPressed: () =>
+                                                          Navigator.pop(
+                                                              alertDialogContext),
+                                                      child: const Text('Entendi'),
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            );
+                                            if (shouldSetState) {
+                                              setState(() {});
+                                            }
+                                            return;
+                                          }
+
+                                          context.pushNamed(
+                                            'criacaoVolume',
+                                            queryParameters: {
+                                              'fazId': serializeParam(
+                                                widget.fazId,
+                                                ParamType.int,
+                                              ),
+                                              'oservId': serializeParam(
+                                                widget.oservId,
+                                                ParamType.int,
+                                              ),
+                                            }.withoutNulls,
+                                            extra: <String, dynamic>{
+                                              kTransitionInfoKey:
+                                                  const TransitionInfo(
+                                                hasTransition: true,
+                                                transitionType:
+                                                    PageTransitionType.fade,
+                                                duration:
+                                                    Duration(milliseconds: 0),
+                                              ),
                                             },
                                           );
+
                                           if (shouldSetState) setState(() {});
-                                          return;
-                                        }
-
-                                        context.pushNamed(
-                                          'criacaoVolume',
-                                          queryParameters: {
-                                            'fazId': serializeParam(
-                                              widget.fazId,
-                                              ParamType.int,
-                                            ),
-                                            'oservId': serializeParam(
-                                              widget.oservId,
-                                              ParamType.int,
-                                            ),
-                                          }.withoutNulls,
-                                          extra: <String, dynamic>{
-                                            kTransitionInfoKey: const TransitionInfo(
-                                              hasTransition: true,
-                                              transitionType:
-                                                  PageTransitionType.fade,
-                                              duration:
-                                                  Duration(milliseconds: 0),
-                                            ),
-                                          },
-                                        );
-
-                                        if (shouldSetState) setState(() {});
-                                      },
-                                      text: '',
-                                      icon: FaIcon(
-                                        FontAwesomeIcons.boxes,
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryBackground,
-                                        size: 28.0,
-                                      ),
-                                      options: FFButtonOptions(
-                                        width: 60.0,
-                                        height: 60.0,
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
-                                            8.0, 0.0, 0.0, 0.0),
-                                        iconPadding:
-                                            const EdgeInsetsDirectional.fromSTEB(
-                                                0.0, 0.0, 0.0, 0.0),
-                                        color: FlutterFlowTheme.of(context)
-                                            .primary,
-                                        textStyle: FlutterFlowTheme.of(context)
-                                            .titleSmall
-                                            .override(
-                                              fontFamily: 'Readex Pro',
-                                              color: Colors.white,
-                                            ),
-                                        elevation: 3.0,
-                                        borderSide: const BorderSide(
-                                          color: Colors.transparent,
-                                          width: 1.0,
+                                        },
+                                        text: '',
+                                        icon: FaIcon(
+                                          FontAwesomeIcons.boxes,
+                                          color: FlutterFlowTheme.of(context)
+                                              .primaryBackground,
+                                          size: 28.0,
                                         ),
-                                        borderRadius:
-                                            BorderRadius.circular(100.0),
+                                        options: FFButtonOptions(
+                                          width: 60.0,
+                                          height: 60.0,
+                                          padding:
+                                              const EdgeInsetsDirectional.fromSTEB(
+                                                  8.0, 0.0, 0.0, 0.0),
+                                          iconPadding:
+                                              const EdgeInsetsDirectional.fromSTEB(
+                                                  0.0, 0.0, 0.0, 0.0),
+                                          color: FlutterFlowTheme.of(context)
+                                              .primary,
+                                          textStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .titleSmall
+                                                  .override(
+                                                    fontFamily: 'Readex Pro',
+                                                    color: Colors.white,
+                                                  ),
+                                          elevation: 3.0,
+                                          borderSide: const BorderSide(
+                                            color: Colors.transparent,
+                                            width: 1.0,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(100.0),
+                                        ),
                                       ),
-                                    ),
                                   ].divide(const SizedBox(width: 10.0)),
                                 ),
                               ),

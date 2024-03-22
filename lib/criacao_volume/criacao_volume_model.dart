@@ -84,17 +84,7 @@ class CriacaoVolumeModel extends FlutterFlowModel<CriacaoVolumeWidget> {
             );
           },
         );
-
-        context.goNamed(
-          'Inicio',
-          extra: <String, dynamic>{
-            kTransitionInfoKey: const TransitionInfo(
-              hasTransition: true,
-              transitionType: PageTransitionType.fade,
-              duration: Duration(milliseconds: 0),
-            ),
-          },
-        );
+        Navigator.pop(context);
       } else {
         await showDialog(
           context: context,
