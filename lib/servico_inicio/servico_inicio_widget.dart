@@ -183,6 +183,7 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                         children: [
                           FFButtonWidget(
                             onPressed: () async {
+                              var shouldSetState = false;
                               var confirmDialogResponse =
                                   await showDialog<bool>(
                                         context: context,
@@ -218,9 +219,43 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                                         },
                                       ) ??
                                       false;
-                              if (!confirmDialogResponse) {
+                              if (confirmDialogResponse) {
+                                _model.precisaserfinalizado = await actions
+                                    .buscaSeOVolumePrecisaSerFinalizado(
+                                  context,
+                                  functions.buscaRegistro(
+                                      widget.fazId!,
+                                      widget.servico!,
+                                      FFAppState().trSincroniza.toList()),
+                                  null,
+                                );
+                                shouldSetState = true;
+                                if (_model.precisaserfinalizado!) {
+                                  await showDialog(
+                                    context: context,
+                                    builder: (alertDialogContext) {
+                                      return AlertDialog(
+                                        title: const Text('Ops!'),
+                                        content: const Text(
+                                            'Voçê precisa fechar o volume em aberto!'),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () => Navigator.pop(
+                                                alertDialogContext),
+                                            child: const Text('Entendi'),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                  if (shouldSetState) setState(() {});
+                                  return;
+                                }
+                              } else {
+                                if (shouldSetState) setState(() {});
                                 return;
                               }
+
                               setState(() {
                                 FFAppState().updateTrSincronizaAtIndex(
                                   functions.buscaRegistroIndex(
@@ -262,6 +297,7 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                                   );
                                 },
                               );
+                              if (shouldSetState) setState(() {});
                             },
                             text: valueOrDefault<String>(
                               functions.buscaSeAEtapaEstaIniciada(

@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 // Begin custom action code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
-Future<bool> buscaSeOVolumeEstaIniciadoEFinalizaEle(
+Future<bool> buscaSeOVolumePrecisaSerFinalizado(
   BuildContext context,
   dynamic trSinc,
   String? qrCode,
@@ -20,16 +20,12 @@ Future<bool> buscaSeOVolumeEstaIniciadoEFinalizaEle(
           for (var volume in etapa['volumes']) {
             if (volume['volume_data_hora_fim'] == null ||
                 volume['volume_data_hora_fim'].isEmpty) {
-              volume['lacre'] = qrCode.toString();
-              volume['volume_data_hora_fim'] =
-                  DateFormat('yyyy-MM-dd HH:mm').format(DateTime.now());
-              trSinc['etiquetas'].add(volume['vol_etiqueta_id'].toString());
-              return true; // Finalizou o volume
+              return true; // Volume precisa ser finalizado
             }
           }
         }
       }
     }
   }
-  return false;
+  return false; // Volume não precisa ser finalizado
 }

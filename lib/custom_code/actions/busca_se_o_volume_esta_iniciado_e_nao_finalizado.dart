@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'dart:convert';
 
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:image/image.dart' as img;
 import 'package:image_picker/image_picker.dart';
 
@@ -28,6 +29,7 @@ Future<bool> buscaSeOVolumeEstaIniciadoENaoFinalizado(
 
           // Se o último volume está finalizado, cria um novo volume
           var foto = await capturaImagemCameraTraseira();
+          var vol_etiqueta_id = await leitorDeQrCode(context);
 
           if (foto != null) {
             var proximoVolumeId = etapa['volumes'].length + 1;
@@ -38,10 +40,10 @@ Future<bool> buscaSeOVolumeEstaIniciadoENaoFinalizado(
                   DateFormat('yyyy-MM-dd HH:mm').format(DateTime.now()),
               "volume_data_hora_fim": "",
               "lacre": "",
+              "vol_etiqueta_id": vol_etiqueta_id,
               "amostras": [],
               "sincronizado": "S",
             });
-
             return true;
           } else {
             return false;
@@ -49,6 +51,8 @@ Future<bool> buscaSeOVolumeEstaIniciadoENaoFinalizado(
         } else {
           // se não existem volumes, criamos um novo
           var foto = await capturaImagemCameraTraseira();
+          var vol_etiqueta_id = await leitorDeQrCode(context);
+
           if (foto != null) {
             etapa['volumes'].add({
               "volume_id": 1,
@@ -57,9 +61,11 @@ Future<bool> buscaSeOVolumeEstaIniciadoENaoFinalizado(
                   DateFormat('yyyy-MM-dd HH:mm').format(DateTime.now()),
               "volume_data_hora_fim": "",
               "lacre": "",
+              "vol_etiqueta_id": vol_etiqueta_id,
               "amostras": [],
               "sincronizado": "S",
             });
+
             return true;
           } else {
             return false;
@@ -95,4 +101,38 @@ Future<String?> capturaImagemCameraTraseira() async {
     }
   }
   return null; // Retorna nulo se a imagem não for capturada ou houver algum erro
+}
+
+Future<String?> leitorDeQrCode(BuildContext context) async {
+  String? scannedResult;
+
+  await Navigator.of(context).push(MaterialPageRoute(
+    builder: (context) => Scaffold(
+      appBar: AppBar(
+        title: Text('Leitor de QR Code'),
+        backgroundColor: Color(0xFF025959),
+      ),
+      body: QRView(
+        key: GlobalKey(debugLabel: 'QR'),
+        onQRViewCreated: (QRViewController controller) {
+          controller.scannedDataStream.listen((scanData) {
+            scannedResult = scanData.code;
+            controller.dispose();
+            Navigator.of(context)
+                .pop(); // Fecha a tela de leitura após capturar o QR code
+          });
+        },
+        overlay: QrScannerOverlayShape(
+          borderColor: Colors.red,
+          borderRadius: 10,
+          borderLength: 30,
+          borderWidth: 10,
+          cutOutSize: MediaQuery.of(context).size.width * 0.8,
+        ),
+      ),
+    ),
+  ));
+
+  return scannedResult ??
+      "-1"; // Retorna o conteúdo do QR Code lido ou "-1" se nenhum QR code foi escaneado
 }
