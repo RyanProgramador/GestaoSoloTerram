@@ -741,8 +741,15 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                                           ),
                                                                         ),
                                                                       ),
-                                                                    if (true ==
-                                                                        false)
+                                                                    if (getJsonField(
+                                                                          volumesListadosItem,
+                                                                          r'''$.vol_etiqueta_id''',
+                                                                        ) !=
+                                                                        getJsonField(
+                                                                          _model
+                                                                              .emptystring,
+                                                                          r'''$.teste''',
+                                                                        ))
                                                                       Flexible(
                                                                         child:
                                                                             Column(
@@ -768,7 +775,10 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                                                 mainAxisSize: MainAxisSize.max,
                                                                                 children: [
                                                                                   Text(
-                                                                                    '01949001 ',
+                                                                                    getJsonField(
+                                                                                      volumesListadosItem,
+                                                                                      r'''$.vol_etiqueta_id''',
+                                                                                    ).toString(),
                                                                                     style: FlutterFlowTheme.of(context).bodyMedium,
                                                                                   ),
                                                                                 ],
