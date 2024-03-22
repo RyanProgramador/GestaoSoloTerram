@@ -3,7 +3,6 @@ import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'criacao_volume_widget.dart' show CriacaoVolumeWidget;
 import 'package:flutter/material.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
 class CriacaoVolumeModel extends FlutterFlowModel<CriacaoVolumeWidget> {
   ///  State fields for stateful widgets in this page.
@@ -29,16 +28,10 @@ class CriacaoVolumeModel extends FlutterFlowModel<CriacaoVolumeWidget> {
     required int? fazId,
     required int? oservId,
   }) async {
-    var qrCode = '';
+    String? qrCode;
     bool? finalizacaoDeVolume;
 
-    qrCode = await FlutterBarcodeScanner.scanBarcode(
-      '#C62828', // scanning line color
-      'Cancel', // cancel button text
-      true, // whether to show the flash icon
-      ScanMode.QR,
-    );
-
+    qrCode = await actions.leitorDeQrCode();
     if (functions.verificaSeQrCodeJaFoiLidoOuNao(
         functions.buscaRegistro(
             fazId!, oservId!, FFAppState().trSincroniza.toList()),

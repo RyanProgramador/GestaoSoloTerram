@@ -42,8 +42,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 
+
 	<key>NSCameraUsageDescription</key>
-    <string>In order to scan for barcodes and QR codes, this app requires permission to access the camera.</string>
+    <string>Permita o uso da sua camera</string>
 	<key>PermissionGroupNotification</key>
     <string>Habilite notificações</string>
 
