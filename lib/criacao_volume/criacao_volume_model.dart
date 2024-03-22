@@ -31,7 +31,9 @@ class CriacaoVolumeModel extends FlutterFlowModel<CriacaoVolumeWidget> {
     String? qrCode;
     bool? finalizacaoDeVolume;
 
-    qrCode = await actions.leitorDeQrCode();
+    qrCode = await actions.leitorDeQrCode(
+      context,
+    );
     if (functions.verificaSeQrCodeJaFoiLidoOuNao(
         functions.buscaRegistro(
             fazId!, oservId!, FFAppState().trSincroniza.toList()),

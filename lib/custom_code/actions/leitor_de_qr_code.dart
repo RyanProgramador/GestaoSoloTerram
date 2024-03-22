@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
-Future<String> leitorDeQrCode() async {
+Future<String> leitorDeQrCode(BuildContext context) async {
   // Add your function code here!
 
   String? scannedResult;
@@ -41,5 +41,5 @@ Future<String> leitorDeQrCode() async {
     ),
   ));
 
-  return scannedResult; // Retorna o conteúdo do QR Code lido
+  return scannedResult! ?? "-1"; // Retorna o conteúdo do QR Code lido
 }
