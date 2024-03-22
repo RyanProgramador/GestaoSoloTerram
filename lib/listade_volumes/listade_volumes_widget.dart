@@ -787,15 +787,16 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                                           ],
                                                                         ),
                                                                       ),
-                                                                    if (getJsonField(
-                                                                          volumesListadosItem,
-                                                                          r'''$.volume_data_hora_fim''',
-                                                                        ) !=
-                                                                        getJsonField(
-                                                                          _model
-                                                                              .emptystring,
-                                                                          r'''$.teste''',
-                                                                        ))
+                                                                    if ((getJsonField(
+                                                                              volumesListadosItem,
+                                                                              r'''$.volume_data_hora_fim''',
+                                                                            ) !=
+                                                                            getJsonField(
+                                                                              _model.emptystring,
+                                                                              r'''$.teste''',
+                                                                            )) &&
+                                                                        (true ==
+                                                                            false))
                                                                       Expanded(
                                                                         child:
                                                                             Column(
