@@ -1,7 +1,6 @@
 import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/custom_code/actions/index.dart' as actions;
 import '/custom_code/widgets/index.dart' as custom_widgets;
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
@@ -62,15 +61,11 @@ class _LoadingSincWidgetState extends State<LoadingSincWidget> {
         );
         return;
       }
-      _model.trSincSoComS = await actions
-          .tSincronizaApenasQueAindaNaoFOramSincronizadosAnteriormente(
-        functions.buscaRegistro(
-            widget.fazID!, widget.servico!, FFAppState().trSincroniza.toList()),
-      );
       _model.trSinc =
           await TrOsServicosGroup.trSincronizaPontosColetadosCall.call(
         urlApi: FFAppState().UrlApi,
-        pontosJson: _model.trSincSoComS,
+        pontosJson: functions.buscaRegistro(
+            widget.fazID!, widget.servico!, FFAppState().trSincroniza.toList()),
       );
       if (getJsonField(
         (_model.trSinc?.jsonBody ?? ''),
