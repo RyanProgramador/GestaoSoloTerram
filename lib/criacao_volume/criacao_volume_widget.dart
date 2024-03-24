@@ -210,25 +210,36 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
                         ],
                       ),
                     ),
-                    Text(
-                      'Escaneie os qr-codes',
-                      textAlign: TextAlign.center,
-                      style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            fontFamily: 'Outfit',
-                            color:
-                                FlutterFlowTheme.of(context).primaryBackground,
-                            fontSize: 24.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                    ),
-                    if (true)
-                      Text(
-                        'Para criar o volume, leia todos os qr-codes!',
+                    Padding(
+                      padding:
+                          const EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 8.0, 0.0),
+                      child: Text(
+                        'Amostras que compõe o volume',
+                        textAlign: TextAlign.center,
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              fontFamily: 'Readex Pro',
+                              fontFamily: 'Outfit',
                               color: FlutterFlowTheme.of(context)
                                   .primaryBackground,
+                              fontSize: 24.0,
+                              fontWeight: FontWeight.bold,
                             ),
+                      ),
+                    ),
+                    if (true)
+                      Padding(
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 8.0, 0.0),
+                        child: Text(
+                          'Leia o qr code das etiquetas necessárias para compor o volume atual',
+                          textAlign: TextAlign.center,
+                          style:
+                              FlutterFlowTheme.of(context).bodyMedium.override(
+                                    fontFamily: 'Readex Pro',
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryBackground,
+                                    fontWeight: FontWeight.w200,
+                                  ),
+                        ),
                       ),
                   ],
                 ),

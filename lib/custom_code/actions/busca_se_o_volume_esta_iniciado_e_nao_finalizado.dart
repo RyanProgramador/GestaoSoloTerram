@@ -17,59 +17,44 @@ import 'package:image_picker/image_picker.dart';
 
 Future<bool> buscaSeOVolumeEstaIniciadoENaoFinalizado(
     BuildContext context, dynamic trSinc) async {
-  if (trSinc['etapas'] != null && trSinc['etapas'].isNotEmpty) {
+  // Verifica se existem etapas e se alguma etapa está aberta
+  if (trSinc['etapas'] != null) {
     for (var etapa in trSinc['etapas']) {
       if (etapa['etap_fim'] == null || etapa['etap_fim'].isEmpty) {
-        if (etapa['volumes'] != null && etapa['volumes'].isNotEmpty) {
-          var ultimoVolume = etapa['volumes'].last;
-          if (ultimoVolume['volume_data_hora_fim'] == null ||
-              ultimoVolume['volume_data_hora_fim'].isEmpty) {
-            return true; // Existe uma etapa não finalizada com um volume não finalizado
-          }
+        // Verifica se existe algum volume aberto na etapa
+        var ultimoVolume = etapa['volumes'].lastWhere(
+            (v) =>
+                v['volume_data_hora_fim'] == null ||
+                v['volume_data_hora_fim'].isEmpty,
+            orElse: () => null);
+        if (ultimoVolume != null) {
+          return true;
+        }
 
-          // Se o último volume está finalizado, cria um novo volume
-          var foto = await capturaImagemCameraTraseira();
-          var vol_etiqueta_id = await leitorDeQrCode(context);
+        // Se todos os volumes estão fechados, solicita a criação de um novo volume
+        String? foto = await capturaImagemCameraTraseira();
+        String? volEtiquetaId = await leitorDeQrCode(context);
 
-          if (foto != null) {
-            var proximoVolumeId = etapa['volumes'].length + 1;
-            etapa['volumes'].add({
-              "volume_id": proximoVolumeId,
-              "foto": foto,
-              "volume_data_hora_inicio":
-                  DateFormat('yyyy-MM-dd HH:mm').format(DateTime.now()),
-              "volume_data_hora_fim": "",
-              "lacre": "",
-              "vol_etiqueta_id": vol_etiqueta_id,
-              "amostras": [],
-              "sincronizado": "S",
-            });
-            return true;
-          } else {
-            return false;
-          }
-        } else {
-          // se não existem volumes, criamos um novo
-          var foto = await capturaImagemCameraTraseira();
-          var vol_etiqueta_id = await leitorDeQrCode(context);
+        // Confirma a etiqueta lida
+        // bool confirmacao = await etiquetaConfirmation(context, volEtiquetaId);
+        // if (!confirmacao) {
+        //   return false; // Interrompe a operação se o usuário não confirmar a etiqueta
+        // }
 
-          if (foto != null) {
-            etapa['volumes'].add({
-              "volume_id": 1,
-              "foto": foto,
-              "volume_data_hora_inicio":
-                  DateFormat('yyyy-MM-dd HH:mm').format(DateTime.now()),
-              "volume_data_hora_fim": "",
-              "lacre": "",
-              "vol_etiqueta_id": vol_etiqueta_id,
-              "amostras": [],
-              "sincronizado": "S",
-            });
-
-            return true;
-          } else {
-            return false;
-          } // uma nova etapa foi criada, portanto, existe uma etapa não finalizada
+        if (foto != null && volEtiquetaId != null && volEtiquetaId != "-1") {
+          // Adiciona o novo volume
+          etapa['volumes'].add({
+            "volume_id": etapa['volumes'].length + 1,
+            "foto": foto,
+            "volume_data_hora_inicio":
+                DateFormat('yyyy-MM-dd HH:mm').format(DateTime.now()),
+            "volume_data_hora_fim": "",
+            "lacre": "",
+            "vol_etiqueta_id": volEtiquetaId,
+            "amostras": [],
+            "sincronizado": "S",
+          });
+          return true;
         }
       }
     }
@@ -77,62 +62,95 @@ Future<bool> buscaSeOVolumeEstaIniciadoENaoFinalizado(
   return false;
 }
 
-Future<String?> capturaImagemCameraTraseira() async {
-  final ImagePicker _picker = ImagePicker();
-  final XFile? image = await _picker.pickImage(source: ImageSource.camera);
+Future<bool> etiquetaConfirmation(
+    BuildContext context, String? etiqueta) async {
+  return await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Atenção!!'),
+            content: Text(
+                'Identificamos a etiqueta de número $etiqueta. Deseja confirmar?'),
+            actions: <Widget>[
+              TextButton(
+                child: Text("Não, ler novamente"),
+                onPressed: () => Navigator.of(context).pop(false),
+              ),
+              TextButton(
+                child: Text("Sim"),
+                onPressed: () => Navigator.of(context).pop(true),
+              ),
+            ],
+          );
+        },
+      ) ??
+      false;
+}
 
+Future<String?> capturaImagemCameraTraseira() async {
+  final ImagePicker picker = ImagePicker();
+  final XFile? image = await picker.pickImage(source: ImageSource.camera);
   if (image != null) {
     Uint8List bytes = await image.readAsBytes();
     img.Image? originalImage = img.decodeImage(bytes);
-
     if (originalImage != null) {
-      // Reduzindo a imagem para 33% da qualidade original
-      int width = (originalImage.width * 0.33).round();
-      int height = (originalImage.height * 0.33).round();
-
-      img.Image resizedImage =
-          img.copyResize(originalImage, width: width, height: height);
+      img.Image resizedImage = img.copyResize(originalImage,
+          width: (originalImage.width * 0.33).round(),
+          height: (originalImage.height * 0.33).round());
       Uint8List resizedBytes =
           Uint8List.fromList(img.encodeJpg(resizedImage, quality: 33));
-
-      // Convertendo para base64
-      String base64Image = base64Encode(resizedBytes);
-      return base64Image;
+      return base64Encode(resizedBytes);
     }
   }
-  return null; // Retorna nulo se a imagem não for capturada ou houver algum erro
+  return null;
 }
 
 Future<String?> leitorDeQrCode(BuildContext context) async {
   String? scannedResult;
 
-  await Navigator.of(context).push(MaterialPageRoute(
-    builder: (context) => Scaffold(
-      appBar: AppBar(
-        title: Text('Leitor de QR Code'),
-        backgroundColor: Color(0xFF025959),
-      ),
-      body: QRView(
-        key: GlobalKey(debugLabel: 'QR'),
-        onQRViewCreated: (QRViewController controller) {
-          controller.scannedDataStream.listen((scanData) {
-            scannedResult = scanData.code;
-            controller.dispose();
-            Navigator.of(context)
-                .pop(); // Fecha a tela de leitura após capturar o QR code
-          });
-        },
-        overlay: QrScannerOverlayShape(
-          borderColor: Colors.red,
-          borderRadius: 10,
-          borderLength: 30,
-          borderWidth: 10,
-          cutOutSize: MediaQuery.of(context).size.width * 0.8,
+  bool confirm = false;
+  while (!confirm) {
+    // Inicia o scanner de QR Code
+    scannedResult = await Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => Scaffold(
+        appBar: AppBar(
+          title: Text('Ler QR Code da etiqueta do volume'),
+          backgroundColor: Color(0xFF025959),
+        ),
+        body: QRView(
+          key: GlobalKey(debugLabel: 'QR'),
+          onQRViewCreated: (QRViewController controller) {
+            controller.scannedDataStream.listen((scanData) async {
+              scannedResult = scanData.code;
+              controller
+                  .pauseCamera(); // Pausa a câmera para aguardar confirmação
+
+              // Solicita a confirmação da etiqueta
+              confirm = await etiquetaConfirmation(context, scannedResult);
+              if (confirm) {
+                Navigator.of(context).pop(
+                    scannedResult); // Fecha a tela de leitura após confirmar o QR Code
+              } else {
+                controller.resumeCamera(); // Retoma a câmera para nova leitura
+              }
+            });
+          },
+          overlay: QrScannerOverlayShape(
+            borderColor: Colors.red,
+            borderRadius: 10,
+            borderLength: 30,
+            borderWidth: 10,
+            cutOutSize: MediaQuery.of(context).size.width * 0.8,
+          ),
         ),
       ),
-    ),
-  ));
+    ));
 
-  return scannedResult ??
-      "-1"; // Retorna o conteúdo do QR Code lido ou "-1" se nenhum QR code foi escaneado
+    // Se o scanner foi cancelado ou o resultado é inválido, sai do loop
+    if (scannedResult == null || scannedResult == "-1") {
+      break;
+    }
+  }
+
+  return scannedResult; // Retorna o resultado final do QR Code lido ou "-1" se cancelado ou inválido
 }

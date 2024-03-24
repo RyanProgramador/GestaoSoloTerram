@@ -241,7 +241,7 @@ class _ListadeAmostrasWidgetState extends State<ListadeAmostrasWidget> {
                                     ),
                                   ),
                                 Text(
-                                  'Pontos coletados: ${widget.amostras?.length.toString()}',
+                                  'Quantidade de amostras coletadas: ${widget.amostras?.length.toString()}',
                                   textAlign: TextAlign.start,
                                   style: FlutterFlowTheme.of(context)
                                       .bodyMedium
