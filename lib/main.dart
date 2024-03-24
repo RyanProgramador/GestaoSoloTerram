@@ -1,3 +1,4 @@
+import '/custom_code/actions/index.dart' as actions;
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +14,10 @@ import 'index.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   usePathUrlStrategy();
+
+  // Start initial custom actions code
+  await actions.travaOrientacao();
+  // End initial custom actions code
 
   await SQLiteManager.initialize();
 

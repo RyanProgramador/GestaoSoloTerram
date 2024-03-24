@@ -202,19 +202,7 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
                               hoverColor: Colors.transparent,
                               highlightColor: Colors.transparent,
                               onTap: () async {
-                                context.pushNamed(
-                                  'ListadeVolumes',
-                                  queryParameters: {
-                                    'oservId': serializeParam(
-                                      widget.oservId,
-                                      ParamType.int,
-                                    ),
-                                    'fazId': serializeParam(
-                                      widget.fazId,
-                                      ParamType.int,
-                                    ),
-                                  }.withoutNulls,
-                                );
+                                Navigator.pop(context);
                               },
                               child: Icon(
                                 Icons.arrow_back,
