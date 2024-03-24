@@ -303,136 +303,194 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
                               ),
                             ),
                           ),
-                          Container(
-                            width: double.infinity,
-                            height: 291.0,
-                            decoration: const BoxDecoration(),
-                            child: Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
-                                  16.0, 0.0, 16.0, 0.0),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Amostras lidas: ${valueOrDefault<String>(
-                                      functions
-                                          .buscaVolumesNoRegistro(
-                                              functions.buscaRegistro(
-                                                  widget.fazId!,
-                                                  widget.oservId!,
-                                                  FFAppState()
-                                                      .trSincroniza
-                                                      .toList()))
-                                          .length
-                                          .toString(),
-                                      '0',
-                                    )}',
-                                    textAlign: TextAlign.start,
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .override(
-                                          fontFamily: 'Readex Pro',
-                                          color: const Color(0xFF00736D),
-                                        ),
-                                  ),
-                                  Container(
-                                    width: double.infinity,
-                                    height:
-                                        MediaQuery.sizeOf(context).height * 0.3,
-                                    decoration: const BoxDecoration(),
-                                    child: FutureBuilder<ApiCallResponse>(
-                                      future: (_model.apiRequestCompleter ??=
-                                              Completer<ApiCallResponse>()
-                                                ..complete(TrOsServicosGroup
-                                                    .trOsServicosCall
-                                                    .call()))
-                                          .future,
-                                      builder: (context, snapshot) {
-                                        // Customize what your widget looks like when it's loading.
-                                        if (!snapshot.hasData) {
-                                          return Center(
-                                            child: SizedBox(
-                                              width: 50.0,
-                                              height: 50.0,
-                                              child: CircularProgressIndicator(
-                                                valueColor:
-                                                    AlwaysStoppedAnimation<
-                                                        Color>(
-                                                  FlutterFlowTheme.of(context)
-                                                      .primary,
+                          InkWell(
+                            splashColor: Colors.transparent,
+                            focusColor: Colors.transparent,
+                            hoverColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            onTap: () async {
+                              while (true == false) {
+                                setState(() {});
+                                setState(
+                                    () => _model.apiRequestCompleter = null);
+                              }
+                            },
+                            child: Container(
+                              width: double.infinity,
+                              height: 291.0,
+                              decoration: const BoxDecoration(),
+                              child: Padding(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                    16.0, 0.0, 16.0, 0.0),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Amostras lidas: ${valueOrDefault<String>(
+                                        functions
+                                            .buscaVolumesNoRegistro(
+                                                functions.buscaRegistro(
+                                                    widget.fazId!,
+                                                    widget.oservId!,
+                                                    FFAppState()
+                                                        .trSincroniza
+                                                        .toList()))
+                                            .length
+                                            .toString(),
+                                        '0',
+                                      )}',
+                                      textAlign: TextAlign.start,
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            fontFamily: 'Readex Pro',
+                                            color: const Color(0xFF00736D),
+                                          ),
+                                    ),
+                                    Container(
+                                      width: double.infinity,
+                                      height:
+                                          MediaQuery.sizeOf(context).height *
+                                              0.3,
+                                      decoration: const BoxDecoration(),
+                                      child: FutureBuilder<ApiCallResponse>(
+                                        future: (_model.apiRequestCompleter ??=
+                                                Completer<ApiCallResponse>()
+                                                  ..complete(TrOsServicosGroup
+                                                      .trOsServicosCall
+                                                      .call()))
+                                            .future,
+                                        builder: (context, snapshot) {
+                                          // Customize what your widget looks like when it's loading.
+                                          if (!snapshot.hasData) {
+                                            return Center(
+                                              child: SizedBox(
+                                                width: 50.0,
+                                                height: 50.0,
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  valueColor:
+                                                      AlwaysStoppedAnimation<
+                                                          Color>(
+                                                    FlutterFlowTheme.of(context)
+                                                        .primary,
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                          );
-                                        }
-                                        final columnTrOsServicosResponse =
-                                            snapshot.data!;
-                                        return Builder(
-                                          builder: (context) {
-                                            final teste = functions
-                                                .buscaVolumesNoRegistro(
-                                                    functions.buscaRegistro(
-                                                        widget.fazId!,
-                                                        widget.oservId!,
-                                                        FFAppState()
-                                                            .trSincroniza
-                                                            .toList()))
-                                                .toList();
-                                            return RefreshIndicator(
-                                              onRefresh: () async {
-                                                setState(() =>
-                                                    _model.apiRequestCompleter =
-                                                        null);
-                                                await _model
-                                                    .waitForApiRequestCompleted();
-                                              },
-                                              child: SingleChildScrollView(
-                                                physics:
-                                                    const AlwaysScrollableScrollPhysics(),
-                                                child: Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  children: List.generate(
-                                                      teste.length,
-                                                      (testeIndex) {
-                                                    final testeItem =
-                                                        teste[testeIndex];
-                                                    return Container(
-                                                      width: double.infinity,
-                                                      height: 65.0,
-                                                      decoration: BoxDecoration(
-                                                        color:
-                                                            const Color(0xFFE6F1F0),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(12.0),
-                                                        border: Border.all(
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .primary,
+                                            );
+                                          }
+                                          final columnTrOsServicosResponse =
+                                              snapshot.data!;
+                                          return Builder(
+                                            builder: (context) {
+                                              final teste = functions
+                                                  .buscaVolumesNoRegistro(
+                                                      functions.buscaRegistro(
+                                                          widget.fazId!,
+                                                          widget.oservId!,
+                                                          FFAppState()
+                                                              .trSincroniza
+                                                              .toList()))
+                                                  .toList();
+                                              return RefreshIndicator(
+                                                onRefresh: () async {
+                                                  setState(() => _model
+                                                          .apiRequestCompleter =
+                                                      null);
+                                                  await _model
+                                                      .waitForApiRequestCompleted();
+                                                },
+                                                child: SingleChildScrollView(
+                                                  physics:
+                                                      const AlwaysScrollableScrollPhysics(),
+                                                  child: Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: List.generate(
+                                                        teste.length,
+                                                        (testeIndex) {
+                                                      final testeItem =
+                                                          teste[testeIndex];
+                                                      return Container(
+                                                        width: double.infinity,
+                                                        height: 65.0,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color:
+                                                              const Color(0xFFE6F1F0),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      12.0),
+                                                          border: Border.all(
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .primary,
+                                                          ),
                                                         ),
-                                                      ),
-                                                      child: Row(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                        children: [
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                        10.0,
-                                                                        0.0,
-                                                                        0.0,
-                                                                        0.0),
-                                                            child: Column(
+                                                        child: Row(
+                                                          mainAxisSize:
+                                                              MainAxisSize.max,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          10.0,
+                                                                          0.0,
+                                                                          0.0,
+                                                                          0.0),
+                                                              child: Column(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .max,
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .center,
+                                                                children: [
+                                                                  Text(
+                                                                    'Ponto',
+                                                                    style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .override(
+                                                                          fontFamily:
+                                                                              'Readex Pro',
+                                                                          fontWeight:
+                                                                              FontWeight.w600,
+                                                                        ),
+                                                                  ),
+                                                                  Text(
+                                                                    valueOrDefault<
+                                                                        String>(
+                                                                      functions.buscaPontoAtravesDaEtiquetaEmPontos(
+                                                                          functions.buscaRegistro(
+                                                                              widget.fazId!,
+                                                                              widget.oservId!,
+                                                                              FFAppState().trSincroniza.toList()),
+                                                                          testeItem,
+                                                                          widget.fazId,
+                                                                          widget.oservId),
+                                                                      '11111',
+                                                                    ),
+                                                                    style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium,
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                            Column(
                                                               mainAxisSize:
                                                                   MainAxisSize
                                                                       .max,
@@ -441,7 +499,7 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
                                                                       .center,
                                                               children: [
                                                                 Text(
-                                                                  'Ponto',
+                                                                  'Profundidade',
                                                                   style: FlutterFlowTheme.of(
                                                                           context)
                                                                       .bodyMedium
@@ -455,153 +513,61 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
                                                                 Text(
                                                                   valueOrDefault<
                                                                       String>(
-                                                                    functions.buscaPontoAtravesDaEtiquetaEmPontos(
-                                                                        functions.buscaRegistro(
-                                                                            widget
-                                                                                .fazId!,
-                                                                            widget
-                                                                                .oservId!,
-                                                                            FFAppState()
-                                                                                .trSincroniza
-                                                                                .toList()),
-                                                                        testeItem,
-                                                                        widget
-                                                                            .fazId,
-                                                                        widget
-                                                                            .oservId),
-                                                                    '11111',
+                                                                    functions.retornalegenda(
+                                                                        valueOrDefault<String>(
+                                                                          functions.buscalegendaiconeAtravesDaEtiquetaEmPontosCopy(
+                                                                              functions.buscaRegistro(widget.fazId!, widget.oservId!, FFAppState().trSincroniza.toList()),
+                                                                              testeItem,
+                                                                              widget.fazId,
+                                                                              widget.oservId),
+                                                                          'error32',
+                                                                        ),
+                                                                        FFAppState().trIcones.toList()),
+                                                                    'Erro',
                                                                   ),
                                                                   style: FlutterFlowTheme.of(
                                                                           context)
                                                                       .bodyMedium,
                                                                 ),
+                                                                if (true ==
+                                                                    false)
+                                                                  Text(
+                                                                    valueOrDefault<
+                                                                        String>(
+                                                                      functions.buscalegendaiconeAtravesDaEtiquetaEmPontosCopy(
+                                                                          functions.buscaRegistro(
+                                                                              widget.fazId!,
+                                                                              widget.oservId!,
+                                                                              FFAppState().trSincroniza.toList()),
+                                                                          testeItem,
+                                                                          widget.fazId,
+                                                                          widget.oservId),
+                                                                      'error32',
+                                                                    ),
+                                                                    style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium,
+                                                                  ),
+                                                                if (true ==
+                                                                    false)
+                                                                  Text(
+                                                                    valueOrDefault<
+                                                                        String>(
+                                                                      functions.buscapprofidAtravesDaEtiquetaEmPontos(
+                                                                          functions.buscaRegistro(
+                                                                              widget.fazId!,
+                                                                              widget.oservId!,
+                                                                              FFAppState().trSincroniza.toList()),
+                                                                          testeItem),
+                                                                      'erro',
+                                                                    ),
+                                                                    style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium,
+                                                                  ),
                                                               ],
                                                             ),
-                                                          ),
-                                                          Column(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .max,
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              Text(
-                                                                'Profundidade',
-                                                                style: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMedium
-                                                                    .override(
-                                                                      fontFamily:
-                                                                          'Readex Pro',
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w600,
-                                                                    ),
-                                                              ),
-                                                              Text(
-                                                                valueOrDefault<
-                                                                    String>(
-                                                                  functions
-                                                                      .retornalegenda(
-                                                                          valueOrDefault<
-                                                                              String>(
-                                                                            functions.buscalegendaiconeAtravesDaEtiquetaEmPontosCopy(
-                                                                                functions.buscaRegistro(widget.fazId!, widget.oservId!, FFAppState().trSincroniza.toList()),
-                                                                                testeItem,
-                                                                                widget.fazId,
-                                                                                widget.oservId),
-                                                                            'error32',
-                                                                          ),
-                                                                          FFAppState()
-                                                                              .trIcones
-                                                                              .toList()),
-                                                                  'Erro',
-                                                                ),
-                                                                style: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMedium,
-                                                              ),
-                                                              if (true == false)
-                                                                Text(
-                                                                  valueOrDefault<
-                                                                      String>(
-                                                                    functions.buscalegendaiconeAtravesDaEtiquetaEmPontosCopy(
-                                                                        functions.buscaRegistro(
-                                                                            widget
-                                                                                .fazId!,
-                                                                            widget
-                                                                                .oservId!,
-                                                                            FFAppState()
-                                                                                .trSincroniza
-                                                                                .toList()),
-                                                                        testeItem,
-                                                                        widget
-                                                                            .fazId,
-                                                                        widget
-                                                                            .oservId),
-                                                                    'error32',
-                                                                  ),
-                                                                  style: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMedium,
-                                                                ),
-                                                              if (true == false)
-                                                                Text(
-                                                                  valueOrDefault<
-                                                                      String>(
-                                                                    functions.buscapprofidAtravesDaEtiquetaEmPontos(
-                                                                        functions.buscaRegistro(
-                                                                            widget.fazId!,
-                                                                            widget.oservId!,
-                                                                            FFAppState().trSincroniza.toList()),
-                                                                        testeItem),
-                                                                    'erro',
-                                                                  ),
-                                                                  style: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMedium,
-                                                                ),
-                                                            ],
-                                                          ),
-                                                          Column(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .max,
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              Text(
-                                                                'Etiqueta',
-                                                                style: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMedium
-                                                                    .override(
-                                                                      fontFamily:
-                                                                          'Readex Pro',
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w600,
-                                                                    ),
-                                                              ),
-                                                              Text(
-                                                                testeItem,
-                                                                style: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMedium,
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                        0.0,
-                                                                        0.0,
-                                                                        10.0,
-                                                                        0.0),
-                                                            child: Column(
+                                                            Column(
                                                               mainAxisSize:
                                                                   MainAxisSize
                                                                       .max,
@@ -609,122 +575,155 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
                                                                   MainAxisAlignment
                                                                       .center,
                                                               children: [
-                                                                Padding(
-                                                                  padding: const EdgeInsetsDirectional
+                                                                Text(
+                                                                  'Etiqueta',
+                                                                  style: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .override(
+                                                                        fontFamily:
+                                                                            'Readex Pro',
+                                                                        fontWeight:
+                                                                            FontWeight.w600,
+                                                                      ),
+                                                                ),
+                                                                Text(
+                                                                  testeItem,
+                                                                  style: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium,
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsetsDirectional
                                                                       .fromSTEB(
                                                                           0.0,
                                                                           0.0,
-                                                                          8.0,
+                                                                          10.0,
                                                                           0.0),
-                                                                  child:
-                                                                      InkWell(
-                                                                    splashColor:
-                                                                        Colors
-                                                                            .transparent,
-                                                                    focusColor:
-                                                                        Colors
-                                                                            .transparent,
-                                                                    hoverColor:
-                                                                        Colors
-                                                                            .transparent,
-                                                                    highlightColor:
-                                                                        Colors
-                                                                            .transparent,
-                                                                    onTap:
-                                                                        () async {
-                                                                      var shouldSetState =
-                                                                          false;
-                                                                      var confirmDialogResponse = await showDialog<
-                                                                              bool>(
+                                                              child: Column(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .max,
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .center,
+                                                                children: [
+                                                                  Padding(
+                                                                    padding: const EdgeInsetsDirectional
+                                                                        .fromSTEB(
+                                                                            0.0,
+                                                                            0.0,
+                                                                            8.0,
+                                                                            0.0),
+                                                                    child:
+                                                                        InkWell(
+                                                                      splashColor:
+                                                                          Colors
+                                                                              .transparent,
+                                                                      focusColor:
+                                                                          Colors
+                                                                              .transparent,
+                                                                      hoverColor:
+                                                                          Colors
+                                                                              .transparent,
+                                                                      highlightColor:
+                                                                          Colors
+                                                                              .transparent,
+                                                                      onTap:
+                                                                          () async {
+                                                                        var shouldSetState =
+                                                                            false;
+                                                                        var confirmDialogResponse = await showDialog<bool>(
+                                                                              context: context,
+                                                                              builder: (alertDialogContext) {
+                                                                                return AlertDialog(
+                                                                                  title: const Text('Atenção!'),
+                                                                                  content: const Text('Você tem certeza que deseja remover essa amostra de dentro do volume?'),
+                                                                                  actions: [
+                                                                                    TextButton(
+                                                                                      onPressed: () => Navigator.pop(alertDialogContext, false),
+                                                                                      child: const Text('Não'),
+                                                                                    ),
+                                                                                    TextButton(
+                                                                                      onPressed: () => Navigator.pop(alertDialogContext, true),
+                                                                                      child: const Text('Sim'),
+                                                                                    ),
+                                                                                  ],
+                                                                                );
+                                                                              },
+                                                                            ) ??
+                                                                            false;
+                                                                        if (confirmDialogResponse) {
+                                                                          _model.retornoEclusao =
+                                                                              actions.excluiVolumeDaEtapaAberta(
+                                                                            functions.buscaRegistro(
+                                                                                widget.fazId!,
+                                                                                widget.oservId!,
+                                                                                FFAppState().trSincroniza.toList()),
+                                                                            testeItem,
+                                                                          );
+                                                                          shouldSetState =
+                                                                              true;
+                                                                          await showDialog(
                                                                             context:
                                                                                 context,
                                                                             builder:
                                                                                 (alertDialogContext) {
                                                                               return AlertDialog(
-                                                                                title: const Text('Atenção!'),
-                                                                                content: const Text('Você tem certeza que deseja remover essa amostra de dentro do volume?'),
+                                                                                title: Text(_model.retornoEclusao!),
                                                                                 actions: [
                                                                                   TextButton(
-                                                                                    onPressed: () => Navigator.pop(alertDialogContext, false),
-                                                                                    child: const Text('Não'),
-                                                                                  ),
-                                                                                  TextButton(
-                                                                                    onPressed: () => Navigator.pop(alertDialogContext, true),
-                                                                                    child: const Text('Sim'),
+                                                                                    onPressed: () => Navigator.pop(alertDialogContext),
+                                                                                    child: const Text('Ok'),
                                                                                   ),
                                                                                 ],
                                                                               );
                                                                             },
-                                                                          ) ??
-                                                                          false;
-                                                                      if (confirmDialogResponse) {
-                                                                        _model.retornoEclusao =
-                                                                            actions.excluiVolumeDaEtapaAberta(
-                                                                          functions.buscaRegistro(
-                                                                              widget.fazId!,
-                                                                              widget.oservId!,
-                                                                              FFAppState().trSincroniza.toList()),
-                                                                          testeItem,
-                                                                        );
-                                                                        shouldSetState =
-                                                                            true;
-                                                                        await showDialog(
-                                                                          context:
-                                                                              context,
-                                                                          builder:
-                                                                              (alertDialogContext) {
-                                                                            return AlertDialog(
-                                                                              title: Text(_model.retornoEclusao!),
-                                                                              actions: [
-                                                                                TextButton(
-                                                                                  onPressed: () => Navigator.pop(alertDialogContext),
-                                                                                  child: const Text('Ok'),
-                                                                                ),
-                                                                              ],
-                                                                            );
-                                                                          },
-                                                                        );
-                                                                      } else {
+                                                                          );
+                                                                        } else {
+                                                                          if (shouldSetState) {
+                                                                            setState(() {});
+                                                                          }
+                                                                          return;
+                                                                        }
+
                                                                         if (shouldSetState) {
                                                                           setState(
                                                                               () {});
                                                                         }
-                                                                        return;
-                                                                      }
-
-                                                                      if (shouldSetState) {
-                                                                        setState(
-                                                                            () {});
-                                                                      }
-                                                                    },
-                                                                    child:
-                                                                        const FaIcon(
-                                                                      FontAwesomeIcons
-                                                                          .trashAlt,
-                                                                      color: Colors
-                                                                          .black,
-                                                                      size:
-                                                                          24.0,
+                                                                      },
+                                                                      child:
+                                                                          const FaIcon(
+                                                                        FontAwesomeIcons
+                                                                            .trashAlt,
+                                                                        color: Colors
+                                                                            .black,
+                                                                        size:
+                                                                            24.0,
+                                                                      ),
                                                                     ),
                                                                   ),
-                                                                ),
-                                                              ],
+                                                                ],
+                                                              ),
                                                             ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    );
-                                                  }).divide(
-                                                      const SizedBox(height: 5.0)),
+                                                          ],
+                                                        ),
+                                                      );
+                                                    }).divide(
+                                                        const SizedBox(height: 5.0)),
+                                                  ),
                                                 ),
-                                              ),
-                                            );
-                                          },
-                                        );
-                                      },
+                                              );
+                                            },
+                                          );
+                                        },
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           ),
