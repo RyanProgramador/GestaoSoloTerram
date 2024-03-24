@@ -168,37 +168,51 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                 FFButtonWidget(
                                   onPressed: () async {
                                     var shouldSetState = false;
-                                    var confirmDialogResponse =
-                                        await showDialog<bool>(
-                                              context: context,
-                                              builder: (alertDialogContext) {
-                                                return AlertDialog(
-                                                  title: const Text('Atenção!'),
-                                                  content: const Text(
-                                                      'Deseja iniciar um volume?'),
-                                                  actions: [
-                                                    TextButton(
-                                                      onPressed: () =>
-                                                          Navigator.pop(
-                                                              alertDialogContext,
-                                                              false),
-                                                      child: const Text('Não'),
-                                                    ),
-                                                    TextButton(
-                                                      onPressed: () =>
-                                                          Navigator.pop(
-                                                              alertDialogContext,
-                                                              true),
-                                                      child: const Text('Sim'),
-                                                    ),
-                                                  ],
-                                                );
-                                              },
-                                            ) ??
-                                            false;
-                                    if (!confirmDialogResponse) {
-                                      if (shouldSetState) setState(() {});
-                                      return;
+                                    _model.buscaSeOVolumePrecisaSerFinaliz =
+                                        await actions
+                                            .buscaSeOVolumePrecisaSerFinalizado(
+                                      context,
+                                      functions.buscaRegistro(
+                                          widget.fazId!,
+                                          widget.oservId!,
+                                          FFAppState().trSincroniza.toList()),
+                                      null,
+                                    );
+                                    shouldSetState = true;
+                                    if (!_model
+                                        .buscaSeOVolumePrecisaSerFinaliz!) {
+                                      var confirmDialogResponse =
+                                          await showDialog<bool>(
+                                                context: context,
+                                                builder: (alertDialogContext) {
+                                                  return AlertDialog(
+                                                    title: const Text('Atenção!'),
+                                                    content: const Text(
+                                                        'Deseja iniciar um volume?'),
+                                                    actions: [
+                                                      TextButton(
+                                                        onPressed: () =>
+                                                            Navigator.pop(
+                                                                alertDialogContext,
+                                                                false),
+                                                        child: const Text('Não'),
+                                                      ),
+                                                      TextButton(
+                                                        onPressed: () =>
+                                                            Navigator.pop(
+                                                                alertDialogContext,
+                                                                true),
+                                                        child: const Text('Sim'),
+                                                      ),
+                                                    ],
+                                                  );
+                                                },
+                                              ) ??
+                                              false;
+                                      if (!confirmDialogResponse) {
+                                        if (shouldSetState) setState(() {});
+                                        return;
+                                      }
                                     }
                                     if (functions.buscaSeAEtapaEstaIniciada(
                                         functions.buscaRegistro(
