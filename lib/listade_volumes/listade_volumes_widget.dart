@@ -1,4 +1,5 @@
 import '/components/foto_volume_widget.dart';
+import '/components/just_loading_widget.dart';
 import '/components/no_volume_found_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -221,6 +222,31 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                             FFAppState()
                                                 .trSincroniza
                                                 .toList()))!) {
+                                      showModalBottomSheet(
+                                        isScrollControlled: true,
+                                        backgroundColor: Colors.transparent,
+                                        isDismissible: false,
+                                        enableDrag: false,
+                                        useSafeArea: true,
+                                        context: context,
+                                        builder: (context) {
+                                          return GestureDetector(
+                                            onTap: () => _model
+                                                    .unfocusNode.canRequestFocus
+                                                ? FocusScope.of(context)
+                                                    .requestFocus(
+                                                        _model.unfocusNode)
+                                                : FocusScope.of(context)
+                                                    .unfocus(),
+                                            child: Padding(
+                                              padding: MediaQuery.viewInsetsOf(
+                                                  context),
+                                              child: const JustLoadingWidget(),
+                                            ),
+                                          );
+                                        },
+                                      ).then((value) => safeSetState(() {}));
+
                                       _model.buscaOVolumeIniciado = await actions
                                           .buscaSeOVolumeEstaIniciadoENaoFinalizado(
                                         context,
@@ -234,6 +260,7 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                         if (shouldSetState) setState(() {});
                                         return;
                                       }
+                                      Navigator.pop(context);
                                     } else {
                                       await showDialog(
                                         context: context,

@@ -55,7 +55,7 @@ class CriacaoVolumeModel extends FlutterFlowModel<CriacaoVolumeWidget> {
       );
       return;
     }
-    if ((qrCode != '') && (qrCode != '-1')) {
+    if ((qrCode != null && qrCode != '') && (qrCode != '-1')) {
       finalizacaoDeVolume =
           await actions.buscaSeOVolumeEstaIniciadoEFinalizaEle(
         context,

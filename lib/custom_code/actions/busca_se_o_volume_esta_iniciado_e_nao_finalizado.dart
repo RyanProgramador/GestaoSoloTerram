@@ -114,7 +114,14 @@ Future<String?> leitorDeQrCode(BuildContext context) async {
     scannedResult = await Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => Scaffold(
         appBar: AppBar(
-          title: Text('Ler QR Code da etiqueta do volume'),
+          title: Text(
+            'Ler qr code da etiqueta do volume',
+            softWrap: true, // Permite que o texto quebre linhas
+            overflow:
+                TextOverflow.visible, // Garante que o texto não seja cortado
+            style: TextStyle(
+                fontSize: 16), // Ajuste o tamanho da fonte conforme necessário
+          ),
           backgroundColor: Color(0xFF025959),
         ),
         body: QRView(

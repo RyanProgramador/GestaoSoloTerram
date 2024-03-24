@@ -10,24 +10,37 @@ import 'package:flutter/material.dart';
 
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
-Future<String> leitorDeQrCode(BuildContext context) async {
-  // Add your function code here!
-
+Future<String?> leitorDeQrCode(BuildContext context) async {
   String? scannedResult;
+  QRViewController? controller;
 
   await Navigator.of(context).push(MaterialPageRoute(
     builder: (context) => Scaffold(
       appBar: AppBar(
-        title: Text('Leitor de QR Code'),
+        title: Text(
+          'Ler qr code do lacre do volume',
+          softWrap: true,
+          overflow: TextOverflow.visible,
+          style: TextStyle(fontSize: 16),
+        ),
         backgroundColor: Color(0xFF025959),
       ),
       body: QRView(
         key: GlobalKey(debugLabel: 'QR'),
-        onQRViewCreated: (QRViewController controller) {
-          controller.scannedDataStream.listen((scanData) {
+        onQRViewCreated: (QRViewController qrController) {
+          controller = qrController;
+          qrController.scannedDataStream.listen((scanData) async {
             scannedResult = scanData.code;
-            Navigator.of(context)
-                .pop(); // Fecha a tela de leitura após capturar o QR code
+            qrController
+                .pauseCamera(); // Pausa a câmera para mostrar a confirmação
+
+            bool confirm = await etiquetaConfirmation(context, scannedResult);
+            if (confirm) {
+              Navigator.of(context)
+                  .pop(scannedResult); // Retorna o QR Code lido
+            } else {
+              qrController.resumeCamera(); // Retoma a leitura do QR Code
+            }
           });
         },
         overlay: QrScannerOverlayShape(
@@ -41,5 +54,31 @@ Future<String> leitorDeQrCode(BuildContext context) async {
     ),
   ));
 
-  return scannedResult! ?? "-1"; // Retorna o conteúdo do QR Code lido
+  controller?.dispose(); // Garante a liberação do recurso da câmera
+  return scannedResult ?? "-1";
+}
+
+Future<bool> etiquetaConfirmation(
+    BuildContext context, String? etiqueta) async {
+  return await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Atenção!!'),
+            content: Text(
+                'Identificamos O lacre de número $etiqueta. Deseja confirmar?'),
+            actions: <Widget>[
+              TextButton(
+                child: Text("Não, ler novamente"),
+                onPressed: () => Navigator.of(context).pop(false),
+              ),
+              TextButton(
+                child: Text("Sim"),
+                onPressed: () => Navigator.of(context).pop(true),
+              ),
+            ],
+          );
+        },
+      ) ??
+      false;
 }
