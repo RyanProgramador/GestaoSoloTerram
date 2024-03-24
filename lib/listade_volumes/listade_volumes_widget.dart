@@ -368,7 +368,7 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                         ),
                         Padding(
                           padding: const EdgeInsetsDirectional.fromSTEB(
-                              0.0, 10.0, 0.0, 30.0),
+                              0.0, 8.0, 0.0, 30.0),
                           child: Builder(
                             builder: (context) {
                               final volumesListados = functions
