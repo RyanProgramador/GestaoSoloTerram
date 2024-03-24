@@ -309,7 +309,7 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
                             hoverColor: Colors.transparent,
                             highlightColor: Colors.transparent,
                             onTap: () async {
-                              while (true == false) {
+                              while (true == true) {
                                 setState(() {});
                                 setState(
                                     () => _model.apiRequestCompleter = null);
