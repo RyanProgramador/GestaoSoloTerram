@@ -351,1329 +351,626 @@ class _QrcodeScannerState extends State<QrcodeScanner>
 
   @override
   Widget build(BuildContext context) {
-//     return Stack(
-//       children: [
-//       Column(
-//       mainAxisSize: MainAxisSize.min,
-//       mainAxisAlignment: MainAxisAlignment.center,
-//       children: [
-//
-//         Positioned(
-//         bottom: 85,
-//         top: -5,
-//         left: 0,
-//         right: 0,
-//         child: Container(
-//           width: double.infinity,
-//           height: 200,
-//           decoration: BoxDecoration(
-//             borderRadius: BorderRadius.circular(
-//                 20), // Aplica bordas arredondadas ao Container
-//             color: Colors
-//                 .black, // Cor de fundo, pode ser transparente ou qualquer cor desejada
-//           ),
-//           child: ClipRRect(
-//             borderRadius: BorderRadius.circular(
-//                 20), // Aplica bordas arredondadas ao conteúdo do Container
-//             child: SizedBox(
-//               width: 100,
-//               height: 100,
-//               child: QRView(
-//                 key: qrKey,
-//                 onQRViewCreated: _onQRViewCreated,
-//                 overlay: QrScannerOverlayShape(
-//                   borderColor: Color(0x8FFFFFF),
-//                   borderRadius: 0,
-//                   borderLength: 0,
-//                   borderWidth: 0,
-//                   overlayColor: Color(0x8FFFFFF),
-//                 ),
-//               ),
-//             ),
-//           ),
-//         ),
-//       ),
-//         Positioned(
-//           bottom: 6,
-//           left: 0,
-//           right: 0,
-//           child: Column(
-//             mainAxisSize: MainAxisSize.min,
-//             mainAxisAlignment: MainAxisAlignment.center,
-//             children: [
-//               Row(
-//                 mainAxisSize: MainAxisSize.max,
-//                 children: [
-//                   Text(
-//                     'Código',
-//                     style: TextStyle(fontSize: 16),
-//                   ),
-//                 ],
-//               ),
-//               Row(
-//                 mainAxisSize: MainAxisSize.min,
-//                 children: [
-//                   Expanded(
-//                     child: Padding(
-//                       padding: EdgeInsets.only(right: 8),
-//                       child: TextFormField(
-//                         controller: textController,
-//                         obscureText: false,
-//                         decoration: InputDecoration(
-//                           labelText: '',
-//                           enabledBorder: OutlineInputBorder(
-//                             borderSide: BorderSide(
-//                               color: Color(0xFF00736d),
-//                               width: 2,
-//                             ),
-//                             borderRadius: BorderRadius.circular(8),
-//                           ),
-//                           focusedBorder: OutlineInputBorder(
-//                             borderSide: BorderSide(
-//                               color: Color(0xFF00736d),
-//                               width: 2,
-//                             ),
-//                             borderRadius: BorderRadius.circular(8),
-//                           ),
-//                         ),
-//                       ),
-//                     ),
-//                   ),
-//                   FloatingActionButton(
-//                     mini: true,
-//                     onPressed: () async {
-//                       // FFAppState().teste.add(textController.text);
-//                       List<dynamic> trSincComS = FFAppState()
-//                           .trSincroniza
-//                           .where((element) =>
-//                       element['fazenda_id'] ==
-//                           int.parse(widget.fazId!) &&
-//                           element['servico_id'] ==
-//                               int.parse(widget.oservid!))
-//                           .map((e) => e["etapas"])
-//                           .toList()
-//                           .first;
-//                       var volumess = trSincComS
-//                           .map((e) => e["volumes"])
-//                       //     .where((element) =>
-//                       // element["volume_data_hora_fim"].isEmpty || element["volume_data_hora_fim"].toString() == null)
-//                           .toList()
-//                       // .first
-//                           .first;
-//                       var volumesss = volumess
-//                           .where((element) =>
-//                       element["volume_data_hora_fim"].isEmpty ||
-//                           element["volume_data_hora_fim"].toString() ==
-//                               null)
-//                           .toList()
-//                           .first;
-//                       // volumess['amostras'].add(textController.text.toString());
-//                       // volumess['amostras'].add(1);
-//
-//                       // volumess['amostras'] = ["1","2","3","4"];
-//
-//                       List<dynamic> trSincEtiqueta = FFAppState()
-//                           .trSincroniza
-//                           .where((element) =>
-//                       element['fazenda_id'] ==
-//                           int.parse(widget.fazId!) &&
-//                           element['servico_id'] ==
-//                               int.parse(widget.oservid!))
-//                           .map((e) => e["pontos"])
-//                           .toList()
-//                           .first;
-//                       List<dynamic> profundidadesNaoSincronizadas = [];
-//
-//                       for (var ponto in trSincEtiqueta) {
-//                         var profundidades =
-//                         ponto['profundidades'] as List<dynamic>;
-//                         var profundidadesFiltradas = profundidades
-//                             .where((profundidade) =>
-//                         profundidade['sincronizado'].toString() == "S")
-//                             .map((e) => e['pprof_etiqueta_id'])
-//                             .toList();
-//
-//                         profundidadesNaoSincronizadas
-//                             .addAll(profundidadesFiltradas);
-//                       }
-//
-//                       //VERIFICAR TAMBEM SE A ETIQUETA JA EXISTE EM AMOSTRAS, SE JA EXISTE, CIRAR UM VOID etiquetaRepetita(), e mostrar qual etiqueta ja foi lida
-//                       List<dynamic> trSincetapas = FFAppState()
-//                           .trSincroniza
-//                           .where((element) =>
-//                       element['fazenda_id'] ==
-//                           int.parse(widget.fazId!) &&
-//                           element['servico_id'] ==
-//                               int.parse(widget.oservid!))
-//                           .map((e) => e["etapas"])
-//                           .toList()
-//                           .first;
-//                       // List<dynamic> volumesNaoSincronizadas = [];
-//                       //
-//                       // for (var volume in trSincetapas) {
-//                       //   var volumes = volume['volumes'] as List<dynamic>;
-//                       //   var volumesFiltrados = volumes
-//                       //       .where((volumes) =>
-//                       //           volumes['volume_data_hora_fim'].toString() !=
-//                       //               "" ||
-//                       //           volumes['volume_data_hora_fim'].toString() !=
-//                       //               null)
-//                       //       .map((e) => e['amostras'])
-//                       //       .toList()
-//                       //       .first;
-//                       //
-//                       //   volumesNaoSincronizadas.addAll(volumesFiltrados);
-//                       // }
-//
-//                       List<dynamic> volEtiquetasID = [];
-//                       for (var etapa in trSincetapas) {
-//                         List<dynamic> volumes =
-//                         etapa['volumes'] as List<dynamic>;
-//                         for (var volume in volumes) {
-//                           if (volume['volume_data_hora_fim'] == null ||
-//                               volume['volume_data_hora_fim'].toString() == "") {
-//                             List<dynamic> amostras =
-//                             volume['amostras'] as List<dynamic>;
-//                             for (var amostra in amostras) {
-//                               if (amostra['volam_etiqueta_id'] != null) {
-//                                 volEtiquetasID
-//                                     .add(amostra['volam_etiqueta_id']);
-//                               }
-//                             }
-//                           }
-//                         }
-//                       }
-//                       setState(() {
-//                         //criar select de ppont_icone e ponto (PONTO?)
-//                         String pesquisa = textController.text
-//                             .toString(); // Asegúrese de que 'pesquisa' seja do tipo correto e tenha o valor correto
-//                         if (profundidadesNaoSincronizadas.contains(pesquisa)) {
-//                           if (volEtiquetasID.toString().contains(pesquisa)) {
-//                             etiquetaRepetita();
-//                           } else {
-//                             List<dynamic> profundidadesNaoSincronizadas3 = [];
-//                             for (var profIcon in trSincEtiqueta) {
-//                               var legendaIcone =
-//                               profIcon['profundidades'] as List<dynamic>;
-//                               var legendaIconeFiltrada = legendaIcone
-//                                   .where((legendaIcone) =>
-//                               legendaIcone['sincronizado'].toString() ==
-//                                   "S" &&
-//                                   legendaIcone['pprof_etiqueta_id']
-//                                       .toString() ==
-//                                       textController.text.toString())
-//                                   .map((e) => e['pprof_id'])
-//                                   .toList();
-//
-//                               profundidadesNaoSincronizadas3
-//                                   .addAll(legendaIconeFiltrada);
-//                             }
-//                             var pprof_id =
-//                             profundidadesNaoSincronizadas3.first.toString();
-//
-//                             volumesss['amostras'].add({
-//                               "volam_etiqueta_id":
-//                               textController.text.toString(),
-//                               "volam_profundidade_id": pprof_id.toString(),
-//                               "volam_data": DateFormat('yyyy-MM-dd HH:mm')
-//                                   .format(DateTime.now())
-//                             });
-//
-//                             sucesso();
-//
-//                             // if (mounted) {
-//                             //   Navigator.of(context).pop();
-//                             //   context.goNamed(
-//                             //     'criacaoVolume',
-//                             //     queryParameters: {
-//                             //       'fazId': serializeParam(
-//                             //         widget.fazId,
-//                             //         ParamType.int,
-//                             //       ),
-//                             //       'oservId': serializeParam(
-//                             //         widget.oservid,
-//                             //         ParamType.int,
-//                             //       ),
-//                             //     }.withoutNulls,
-//                             //     extra: <String, dynamic>{
-//                             //       kTransitionInfoKey: TransitionInfo(
-//                             //         hasTransition: true,
-//                             //         transitionType: PageTransitionType.fade,
-//                             //         duration: Duration(milliseconds: 0),
-//                             //       ),
-//                             //     },
-//                             //   );
-//                             // }
-//                           }
-//
-//                           // volumess['amostras'] = [];
-//                         } else {
-//                           semEtiqueta();
-//                         }
-//                         // volumess['amostras'].add(textController.text
-//                         //     .toString()); // Usa um valor padrão (como 0) caso a conversão falhe
-//
-//                         // atualiza();
-//
-//                         // Navigator.of(context).pop();
-//                       });
-//                       textController.clear();
-//                       controller?.resumeCamera();
-//                       // await Future.delayed(Duration(milliseconds: 180));
-//                     },
-//                     child: Icon(Icons.arrow_forward, color: Colors.white),
-//                     backgroundColor: Color(0xFF00736d),
-//                   ),
-//                 ],
-//               ),
-//             ],
-//           ),
-//         ),
-//         Positioned(
-//           bottom: 92,
-//           left: 10,
-//           child: FloatingActionButton(
-//             onPressed: () {
-//               // setState(() {
-//
-//               controller?.resumeCamera();
-//               textController.clear();
-//
-//               //   atualiza();
-//               //   await Future.delayed(Duration(milliseconds: 380));
-//
-//               // if (mounted) {
-//               //   Navigator.of(context).pop();
-//               //   context.goNamed(
-//               //     'criacaoVolume',
-//               //     queryParameters: {
-//               //       'fazId': serializeParam(
-//               //         widget.fazId,
-//               //         ParamType.int,
-//               //       ),
-//               //       'oservId': serializeParam(
-//               //         widget.oservid,
-//               //         ParamType.int,
-//               //       ),
-//               //     }.withoutNulls,
-//               //     extra: <String, dynamic>{
-//               //       kTransitionInfoKey: TransitionInfo(
-//               //         hasTransition: true,
-//               //         transitionType: PageTransitionType.fade,
-//               //         duration: Duration(milliseconds: 0),
-//               //       ),
-//               //     },
-//               //   );
-//               // }
-//
-//               //   Navigator.of(context).pop();
-//               // });
-//               // showSincro();
-//             },
-//             child: Icon(Icons.delete, color: Colors.white),
-//             backgroundColor: Color(0xFF982c26),
-//           ),
-//         ),
-//
-//         ],
-//       ),
-//
-//         Positioned(
-// // top: 300,
-//           child: Padding(
-//             padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
-//             child: Column(
-//               mainAxisSize: MainAxisSize.min,
-//               crossAxisAlignment: CrossAxisAlignment.start,
-//               children: [
-//                 Text(
-//                   'Amostras lidas: ${valueOrDefault<String>(
-//                     functions
-//                         .buscaVolumesNoRegistro(functions.buscaRegistro(
-//                         int.parse(widget.fazId!),
-//                         int.parse(widget.oservid!),
-//                         FFAppState().trSincroniza.toList()))
-//                         .length
-//                         .toString(),
-//                     '0',
-//                   )}',
-//                   textAlign: TextAlign.start,
-//                   style: FlutterFlowTheme.of(context).bodyMedium.override(
-//                     fontFamily: 'Readex Pro',
-//                     color: Color(0xFF00736D),
-//                   ),
-//                 ),
-//                 Container(
-//                   width: double.infinity,
-//                   height: MediaQuery.sizeOf(context).height * 0.3,
-//                   decoration: BoxDecoration(),
-//                   child: Builder(
-//                     builder: (context) {
-//                       final teste = functions
-//                           .buscaVolumesNoRegistro(functions.buscaRegistro(
-//                           int.parse(widget.fazId!),
-//                           int.parse(widget.oservid!),
-//                           FFAppState().trSincroniza.toList()))
-//                           .toList();
-//                       return SingleChildScrollView(
-//                         child: Column(
-//                           mainAxisSize: MainAxisSize.max,
-//                           mainAxisAlignment: MainAxisAlignment.center,
-//                           crossAxisAlignment: CrossAxisAlignment.center,
-//                           children: List.generate(teste.length, (testeIndex) {
-//                             final testeItem = teste[testeIndex];
-//                             return Container(
-//                               width: double.infinity,
-//                               height: 65.0,
-//                               decoration: BoxDecoration(
-//                                 color: Color(0xFFE6F1F0),
-//                                 borderRadius: BorderRadius.circular(12.0),
-//                                 border: Border.all(
-//                                   color: FlutterFlowTheme.of(context).primary,
-//                                 ),
-//                               ),
-//                               child: Row(
-//                                 mainAxisSize: MainAxisSize.max,
-//                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                                 children: [
-//                                   Padding(
-//                                     padding: EdgeInsetsDirectional.fromSTEB(
-//                                         10.0, 0.0, 0.0, 0.0),
-//                                     child: Column(
-//                                       mainAxisSize: MainAxisSize.max,
-//                                       mainAxisAlignment: MainAxisAlignment.center,
-//                                       children: [
-//                                         Text(
-//                                           'Ponto',
-//                                           style: FlutterFlowTheme.of(context)
-//                                               .bodyMedium
-//                                               .override(
-//                                             fontFamily: 'Readex Pro',
-//                                             fontWeight: FontWeight.w600,
-//                                           ),
-//                                         ),
-//                                         Text(
-//                                           valueOrDefault<String>(
-//                                             functions
-//                                                 .buscaPontoAtravesDaEtiquetaEmPontos(
-//                                                 functions.buscaRegistro(
-//                                                     int.parse(widget.fazId!),
-//                                                     int.parse(
-//                                                         widget.oservid!),
-//                                                     FFAppState()
-//                                                         .trSincroniza
-//                                                         .toList()),
-//                                                 testeItem,
-//                                                 int.parse(widget.fazId!),
-//                                                 int.parse(widget.oservid!)),
-//                                             '11111',
-//                                           ),
-//                                           style: FlutterFlowTheme.of(context)
-//                                               .bodyMedium,
-//                                         ),
-//                                       ],
-//                                     ),
-//                                   ),
-//                                   Column(
-//                                     mainAxisSize: MainAxisSize.max,
-//                                     mainAxisAlignment: MainAxisAlignment.center,
-//                                     children: [
-//                                       Text(
-//                                         'Profundidade',
-//                                         style: FlutterFlowTheme.of(context)
-//                                             .bodyMedium
-//                                             .override(
-//                                           fontFamily: 'Readex Pro',
-//                                           fontWeight: FontWeight.w600,
-//                                         ),
-//                                       ),
-//                                       Text(
-//                                         valueOrDefault<String>(
-//                                           functions.retornalegenda(
-//                                               valueOrDefault<String>(
-//                                                 functions
-//                                                     .buscalegendaiconeAtravesDaEtiquetaEmPontosCopy(
-//                                                     functions.buscaRegistro(
-//                                                         int.parse(
-//                                                             widget.fazId!),
-//                                                         int.parse(
-//                                                             widget.oservid!),
-//                                                         FFAppState()
-//                                                             .trSincroniza
-//                                                             .toList()),
-//                                                     testeItem,
-//                                                     int.parse(widget.fazId!),
-//                                                     int.parse(
-//                                                         widget.oservid!)),
-//                                                 'error32',
-//                                               ),
-//                                               FFAppState().trIcones.toList()),
-//                                           'Erro',
-//                                         ),
-//                                         style: FlutterFlowTheme.of(context)
-//                                             .bodyMedium,
-//                                       ),
-//                                       if (true == false)
-//                                         Text(
-//                                           valueOrDefault<String>(
-//                                             functions
-//                                                 .buscalegendaiconeAtravesDaEtiquetaEmPontosCopy(
-//                                                 functions.buscaRegistro(
-//                                                     int.parse(widget.fazId!),
-//                                                     int.parse(
-//                                                         widget.oservid!),
-//                                                     FFAppState()
-//                                                         .trSincroniza
-//                                                         .toList()),
-//                                                 testeItem,
-//                                                 int.parse(widget.fazId!),
-//                                                 int.parse(widget.oservid!)),
-//                                             'error32',
-//                                           ),
-//                                           style: FlutterFlowTheme.of(context)
-//                                               .bodyMedium,
-//                                         ),
-//                                       if (true == false)
-//                                         Text(
-//                                           valueOrDefault<String>(
-//                                             functions
-//                                                 .buscapprofidAtravesDaEtiquetaEmPontos(
-//                                                 functions.buscaRegistro(
-//                                                     int.parse(widget.fazId!),
-//                                                     int.parse(
-//                                                         widget.oservid!),
-//                                                     FFAppState()
-//                                                         .trSincroniza
-//                                                         .toList()),
-//                                                 testeItem),
-//                                             'erro',
-//                                           ),
-//                                           style: FlutterFlowTheme.of(context)
-//                                               .bodyMedium,
-//                                         ),
-//                                     ],
-//                                   ),
-//                                   Column(
-//                                     mainAxisSize: MainAxisSize.max,
-//                                     mainAxisAlignment: MainAxisAlignment.center,
-//                                     children: [
-//                                       Text(
-//                                         'Etiqueta',
-//                                         style: FlutterFlowTheme.of(context)
-//                                             .bodyMedium
-//                                             .override(
-//                                           fontFamily: 'Readex Pro',
-//                                           fontWeight: FontWeight.w600,
-//                                         ),
-//                                       ),
-//                                       Text(
-//                                         testeItem,
-//                                         style: FlutterFlowTheme.of(context)
-//                                             .bodyMedium,
-//                                       ),
-//                                     ],
-//                                   ),
-//                                   Padding(
-//                                     padding: EdgeInsetsDirectional.fromSTEB(
-//                                         0.0, 0.0, 10.0, 0.0),
-//                                     child: Column(
-//                                       mainAxisSize: MainAxisSize.max,
-//                                       mainAxisAlignment: MainAxisAlignment.center,
-//                                       children: [
-//                                         Padding(
-//                                           padding: EdgeInsetsDirectional.fromSTEB(
-//                                               0.0, 0.0, 8.0, 0.0),
-//                                           child: InkWell(
-//                                             splashColor: Colors.transparent,
-//                                             focusColor: Colors.transparent,
-//                                             hoverColor: Colors.transparent,
-//                                             highlightColor: Colors.transparent,
-//                                             onTap: () async {
-//                                               var _shouldSetState = false;
-//                                               var confirmDialogResponse =
-//                                                   await showDialog<bool>(
-//                                                     context: context,
-//                                                     builder:
-//                                                         (alertDialogContext) {
-//                                                       return AlertDialog(
-//                                                         title:
-//                                                         Text('Atenção!'),
-//                                                         content: Text(
-//                                                             'Você tem certeza que deseja remover essa amostra de dentro do volume?'),
-//                                                         actions: [
-//                                                           TextButton(
-//                                                             onPressed: () =>
-//                                                                 Navigator.pop(
-//                                                                     alertDialogContext,
-//                                                                     false),
-//                                                             child:
-//                                                             Text('Não'),
-//                                                           ),
-//                                                           TextButton(
-//                                                             onPressed: () =>
-//                                                                 Navigator.pop(
-//                                                                     alertDialogContext,
-//                                                                     true),
-//                                                             child:
-//                                                             Text('Sim'),
-//                                                           ),
-//                                                         ],
-//                                                       );
-//                                                     },
-//                                                   ) ??
-//                                                       false;
-//                                               if (confirmDialogResponse) {
-//                                                 _model.retornoEclusao =
-//                                                 await actions
-//                                                     .excluiVolumeDaEtapaAberta(
-//                                                   functions.buscaRegistro(
-//                                                       int.parse(widget.fazId!),
-//                                                       int.parse(widget.oservid!),
-//                                                       FFAppState()
-//                                                           .trSincroniza
-//                                                           .toList()),
-//                                                   testeItem,
-//                                                 );
-//                                                 _shouldSetState = true;
-//                                                 await showDialog(
-//                                                   context: context,
-//                                                   builder: (alertDialogContext) {
-//                                                     return AlertDialog(
-//                                                       title: Text(
-//                                                           _model.retornoEclusao!),
-//                                                       actions: [
-//                                                         TextButton(
-//                                                           onPressed: () =>
-//                                                               Navigator.pop(
-//                                                                   alertDialogContext),
-//                                                           child: Text('Ok'),
-//                                                         ),
-//                                                       ],
-//                                                     );
-//                                                   },
-//                                                 );
-//                                               } else {
-//                                                 if (_shouldSetState)
-//                                                   setState(() {});
-//                                                 return;
-//                                               }
-//                                               if (_shouldSetState)
-//                                                 setState(() {});
-//                                             },
-//                                             child: FaIcon(
-//                                               FontAwesomeIcons.trashAlt,
-//                                               color: Colors.black,
-//                                               size: 24.0,
-//                                             ),
-//                                           ),
-//                                         ),
-//                                       ],
-//                                     ),
-//                                   ),
-//                                 ],
-//                               ),
-//                             );
-//                           }).divide(SizedBox(height: 5.0)),
-//                         ),
-//                       );
-//                     },
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ),
-//
-//       ],
-//
-//     );
-
-    return Expanded(
-      flex: 10,
-      child: Align(
-        alignment: Alignment.topCenter,
-        child: Stack(
-          // mainAxisSize: MainAxisSize.min,
-          // mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Container(
-              width: double.infinity,
-              height: 200,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(
-                    20), // Aplica bordas arredondadas ao Container
-                color: Colors
-                    .black, // Cor de fundo, pode ser transparente ou qualquer cor desejada
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(
-                    20), // Aplica bordas arredondadas ao conteúdo do Container
-                child: SizedBox(
-                  width: 100,
-                  height: 100,
-                  child: QRView(
-                    key: qrKey,
-                    onQRViewCreated: _onQRViewCreated,
-                    overlay: QrScannerOverlayShape(
-                      borderColor: Color(0x8FFFFFF),
-                      borderRadius: 0,
-                      borderLength: 0,
-                      borderWidth: 0,
-                      overlayColor: Color(0x8FFFFFF),
-                    ),
+    return Stack(
+      children: [
+        Positioned(
+          bottom: 85,
+          top: -5,
+          left: 0,
+          right: 0,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(
+                  20), // Aplica bordas arredondadas ao Container
+              color: Colors
+                  .black, // Cor de fundo, pode ser transparente ou qualquer cor desejada
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(
+                  20), // Aplica bordas arredondadas ao conteúdo do Container
+              child: SizedBox(
+                width: 100,
+                height: 100,
+                child: QRView(
+                  key: qrKey,
+                  onQRViewCreated: _onQRViewCreated,
+                  overlay: QrScannerOverlayShape(
+                    borderColor: Color(0x8FFFFFF),
+                    borderRadius: 0,
+                    borderLength: 0,
+                    borderWidth: 0,
+                    overlayColor: Color(0x8FFFFFF),
                   ),
                 ),
               ),
             ),
-            Positioned(
-              bottom: 6,
-              left: 0,
-              right: 0,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
+          ),
+        ),
+        Positioned(
+          bottom: 6,
+          left: 0,
+          right: 0,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Row(
+                mainAxisSize: MainAxisSize.max,
                 children: [
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Text(
-                        'Código',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.only(right: 8),
-                          child: TextFormField(
-                            controller: textController,
-                            obscureText: false,
-                            decoration: InputDecoration(
-                              labelText: '',
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0xFF00736d),
-                                  width: 2,
-                                ),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0xFF00736d),
-                                  width: 2,
-                                ),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      FloatingActionButton(
-                        mini: true,
-                        onPressed: () async {
-                          // FFAppState().teste.add(textController.text);
-                          List<dynamic> trSincComS = FFAppState()
-                              .trSincroniza
-                              .where((element) =>
-                                  element['fazenda_id'] ==
-                                      int.parse(widget.fazId!) &&
-                                  element['servico_id'] ==
-                                      int.parse(widget.oservid!))
-                              .map((e) => e["etapas"])
-                              .toList()
-                              .first;
-                          var volumess = trSincComS
-                              .map((e) => e["volumes"])
-                              //     .where((element) =>
-                              // element["volume_data_hora_fim"].isEmpty || element["volume_data_hora_fim"].toString() == null)
-                              .toList()
-                              // .first
-                              .first;
-                          var volumesss = volumess
-                              .where((element) =>
-                                  element["volume_data_hora_fim"].isEmpty ||
-                                  element["volume_data_hora_fim"].toString() ==
-                                      null)
-                              .toList()
-                              .first;
-                          // volumess['amostras'].add(textController.text.toString());
-                          // volumess['amostras'].add(1);
-
-                          // volumess['amostras'] = ["1","2","3","4"];
-
-                          List<dynamic> trSincEtiqueta = FFAppState()
-                              .trSincroniza
-                              .where((element) =>
-                                  element['fazenda_id'] ==
-                                      int.parse(widget.fazId!) &&
-                                  element['servico_id'] ==
-                                      int.parse(widget.oservid!))
-                              .map((e) => e["pontos"])
-                              .toList()
-                              .first;
-                          List<dynamic> profundidadesNaoSincronizadas = [];
-
-                          for (var ponto in trSincEtiqueta) {
-                            var profundidades =
-                                ponto['profundidades'] as List<dynamic>;
-                            var profundidadesFiltradas = profundidades
-                                .where((profundidade) =>
-                                    profundidade['sincronizado'].toString() ==
-                                    "S")
-                                .map((e) => e['pprof_etiqueta_id'])
-                                .toList();
-
-                            profundidadesNaoSincronizadas
-                                .addAll(profundidadesFiltradas);
-                          }
-
-                          //VERIFICAR TAMBEM SE A ETIQUETA JA EXISTE EM AMOSTRAS, SE JA EXISTE, CIRAR UM VOID etiquetaRepetita(), e mostrar qual etiqueta ja foi lida
-                          List<dynamic> trSincetapas = FFAppState()
-                              .trSincroniza
-                              .where((element) =>
-                                  element['fazenda_id'] ==
-                                      int.parse(widget.fazId!) &&
-                                  element['servico_id'] ==
-                                      int.parse(widget.oservid!))
-                              .map((e) => e["etapas"])
-                              .toList()
-                              .first;
-                          // List<dynamic> volumesNaoSincronizadas = [];
-                          //
-                          // for (var volume in trSincetapas) {
-                          //   var volumes = volume['volumes'] as List<dynamic>;
-                          //   var volumesFiltrados = volumes
-                          //       .where((volumes) =>
-                          //           volumes['volume_data_hora_fim'].toString() !=
-                          //               "" ||
-                          //           volumes['volume_data_hora_fim'].toString() !=
-                          //               null)
-                          //       .map((e) => e['amostras'])
-                          //       .toList()
-                          //       .first;
-                          //
-                          //   volumesNaoSincronizadas.addAll(volumesFiltrados);
-                          // }
-
-                          List<dynamic> volEtiquetasID = [];
-                          for (var etapa in trSincetapas) {
-                            List<dynamic> volumes =
-                                etapa['volumes'] as List<dynamic>;
-                            for (var volume in volumes) {
-                              if (volume['volume_data_hora_fim'] == null ||
-                                  volume['volume_data_hora_fim'].toString() ==
-                                      "") {
-                                List<dynamic> amostras =
-                                    volume['amostras'] as List<dynamic>;
-                                for (var amostra in amostras) {
-                                  if (amostra['volam_etiqueta_id'] != null) {
-                                    volEtiquetasID
-                                        .add(amostra['volam_etiqueta_id']);
-                                  }
-                                }
-                              }
-                            }
-                          }
-                          setState(() {
-                            //criar select de ppont_icone e ponto (PONTO?)
-                            String pesquisa = textController.text
-                                .toString(); // Asegúrese de que 'pesquisa' seja do tipo correto e tenha o valor correto
-                            if (profundidadesNaoSincronizadas
-                                .contains(pesquisa)) {
-                              if (volEtiquetasID
-                                  .toString()
-                                  .contains(pesquisa)) {
-                                etiquetaRepetita();
-                              } else {
-                                List<dynamic> profundidadesNaoSincronizadas3 =
-                                    [];
-                                for (var profIcon in trSincEtiqueta) {
-                                  var legendaIcone = profIcon['profundidades']
-                                      as List<dynamic>;
-                                  var legendaIconeFiltrada = legendaIcone
-                                      .where((legendaIcone) =>
-                                          legendaIcone['sincronizado']
-                                                  .toString() ==
-                                              "S" &&
-                                          legendaIcone['pprof_etiqueta_id']
-                                                  .toString() ==
-                                              textController.text.toString())
-                                      .map((e) => e['pprof_id'])
-                                      .toList();
-
-                                  profundidadesNaoSincronizadas3
-                                      .addAll(legendaIconeFiltrada);
-                                }
-                                var pprof_id = profundidadesNaoSincronizadas3
-                                    .first
-                                    .toString();
-
-                                volumesss['amostras'].add({
-                                  "volam_etiqueta_id":
-                                      textController.text.toString(),
-                                  "volam_profundidade_id": pprof_id.toString(),
-                                  "volam_data": DateFormat('yyyy-MM-dd HH:mm')
-                                      .format(DateTime.now())
-                                });
-
-                                sucesso();
-
-                                // if (mounted) {
-                                //   Navigator.of(context).pop();
-                                //   context.goNamed(
-                                //     'criacaoVolume',
-                                //     queryParameters: {
-                                //       'fazId': serializeParam(
-                                //         widget.fazId,
-                                //         ParamType.int,
-                                //       ),
-                                //       'oservId': serializeParam(
-                                //         widget.oservid,
-                                //         ParamType.int,
-                                //       ),
-                                //     }.withoutNulls,
-                                //     extra: <String, dynamic>{
-                                //       kTransitionInfoKey: TransitionInfo(
-                                //         hasTransition: true,
-                                //         transitionType: PageTransitionType.fade,
-                                //         duration: Duration(milliseconds: 0),
-                                //       ),
-                                //     },
-                                //   );
-                                // }
-                              }
-
-                              // volumess['amostras'] = [];
-                            } else {
-                              semEtiqueta();
-                            }
-                            // volumess['amostras'].add(textController.text
-                            //     .toString()); // Usa um valor padrão (como 0) caso a conversão falhe
-
-                            // atualiza();
-
-                            // Navigator.of(context).pop();
-                          });
-                          textController.clear();
-                          controller?.resumeCamera();
-                          // await Future.delayed(Duration(milliseconds: 180));
-                        },
-                        child: Icon(Icons.arrow_forward, color: Colors.white),
-                        backgroundColor: Color(0xFF00736d),
-                      ),
-                    ],
+                  Text(
+                    'Código',
+                    style: TextStyle(fontSize: 16),
                   ),
                 ],
               ),
-            ),
-            Positioned(
-              bottom: 92,
-              left: 10,
-              child: FloatingActionButton(
-                onPressed: () {
-                  // setState(() {
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.only(right: 8),
+                      child: TextFormField(
+                        controller: textController,
+                        obscureText: false,
+                        decoration: InputDecoration(
+                          labelText: '',
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Color(0xFF00736d),
+                              width: 2,
+                            ),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Color(0xFF00736d),
+                              width: 2,
+                            ),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  FloatingActionButton(
+                    mini: true,
+                    onPressed: () async {
+                      // FFAppState().teste.add(textController.text);
+                      List<dynamic> trSincComS = FFAppState()
+                          .trSincroniza
+                          .where((element) =>
+                              element['fazenda_id'] ==
+                                  int.parse(widget.fazId!) &&
+                              element['servico_id'] ==
+                                  int.parse(widget.oservid!))
+                          .map((e) => e["etapas"])
+                          .toList()
+                          .first;
+                      var volumess = trSincComS
+                          .map((e) => e["volumes"])
+                          //     .where((element) =>
+                          // element["volume_data_hora_fim"].isEmpty || element["volume_data_hora_fim"].toString() == null)
+                          .toList()
+                          // .first
+                          .first;
+                      var volumesss = volumess
+                          .where((element) =>
+                              element["volume_data_hora_fim"].isEmpty ||
+                              element["volume_data_hora_fim"].toString() ==
+                                  null)
+                          .toList()
+                          .first;
+                      // volumess['amostras'].add(textController.text.toString());
+                      // volumess['amostras'].add(1);
 
-                  controller?.resumeCamera();
-                  textController.clear();
+                      // volumess['amostras'] = ["1","2","3","4"];
 
-                  //   atualiza();
-                  //   await Future.delayed(Duration(milliseconds: 380));
+                      List<dynamic> trSincEtiqueta = FFAppState()
+                          .trSincroniza
+                          .where((element) =>
+                              element['fazenda_id'] ==
+                                  int.parse(widget.fazId!) &&
+                              element['servico_id'] ==
+                                  int.parse(widget.oservid!))
+                          .map((e) => e["pontos"])
+                          .toList()
+                          .first;
+                      List<dynamic> profundidadesNaoSincronizadas = [];
 
-                  // if (mounted) {
-                  //   Navigator.of(context).pop();
-                  //   context.goNamed(
-                  //     'criacaoVolume',
-                  //     queryParameters: {
-                  //       'fazId': serializeParam(
-                  //         widget.fazId,
-                  //         ParamType.int,
-                  //       ),
-                  //       'oservId': serializeParam(
-                  //         widget.oservid,
-                  //         ParamType.int,
-                  //       ),
-                  //     }.withoutNulls,
-                  //     extra: <String, dynamic>{
-                  //       kTransitionInfoKey: TransitionInfo(
-                  //         hasTransition: true,
-                  //         transitionType: PageTransitionType.fade,
-                  //         duration: Duration(milliseconds: 0),
-                  //       ),
-                  //     },
-                  //   );
-                  // }
+                      for (var ponto in trSincEtiqueta) {
+                        var profundidades =
+                            ponto['profundidades'] as List<dynamic>;
+                        var profundidadesFiltradas = profundidades
+                            .where((profundidade) =>
+                                profundidade['sincronizado'].toString() == "S")
+                            .map((e) => e['pprof_etiqueta_id'])
+                            .toList();
 
-                  //   Navigator.of(context).pop();
-                  // });
-                  // showSincro();
-                },
-                child: Icon(Icons.delete, color: Colors.white),
-                backgroundColor: Color(0xFF982c26),
+                        profundidadesNaoSincronizadas
+                            .addAll(profundidadesFiltradas);
+                      }
+
+                      //VERIFICAR TAMBEM SE A ETIQUETA JA EXISTE EM AMOSTRAS, SE JA EXISTE, CIRAR UM VOID etiquetaRepetita(), e mostrar qual etiqueta ja foi lida
+                      List<dynamic> trSincetapas = FFAppState()
+                          .trSincroniza
+                          .where((element) =>
+                              element['fazenda_id'] ==
+                                  int.parse(widget.fazId!) &&
+                              element['servico_id'] ==
+                                  int.parse(widget.oservid!))
+                          .map((e) => e["etapas"])
+                          .toList()
+                          .first;
+                      // List<dynamic> volumesNaoSincronizadas = [];
+                      //
+                      // for (var volume in trSincetapas) {
+                      //   var volumes = volume['volumes'] as List<dynamic>;
+                      //   var volumesFiltrados = volumes
+                      //       .where((volumes) =>
+                      //           volumes['volume_data_hora_fim'].toString() !=
+                      //               "" ||
+                      //           volumes['volume_data_hora_fim'].toString() !=
+                      //               null)
+                      //       .map((e) => e['amostras'])
+                      //       .toList()
+                      //       .first;
+                      //
+                      //   volumesNaoSincronizadas.addAll(volumesFiltrados);
+                      // }
+
+                      List<dynamic> volEtiquetasID = [];
+                      for (var etapa in trSincetapas) {
+                        List<dynamic> volumes =
+                            etapa['volumes'] as List<dynamic>;
+                        for (var volume in volumes) {
+                          if (volume['volume_data_hora_fim'] == null ||
+                              volume['volume_data_hora_fim'].toString() == "") {
+                            List<dynamic> amostras =
+                                volume['amostras'] as List<dynamic>;
+                            for (var amostra in amostras) {
+                              if (amostra['volam_etiqueta_id'] != null) {
+                                volEtiquetasID
+                                    .add(amostra['volam_etiqueta_id']);
+                              }
+                            }
+                          }
+                        }
+                      }
+                      setState(() {
+                        //criar select de ppont_icone e ponto (PONTO?)
+                        String pesquisa = textController.text
+                            .toString(); // Asegúrese de que 'pesquisa' seja do tipo correto e tenha o valor correto
+                        if (profundidadesNaoSincronizadas.contains(pesquisa)) {
+                          if (volEtiquetasID.toString().contains(pesquisa)) {
+                            etiquetaRepetita();
+                          } else {
+                            List<dynamic> profundidadesNaoSincronizadas3 = [];
+                            for (var profIcon in trSincEtiqueta) {
+                              var legendaIcone =
+                                  profIcon['profundidades'] as List<dynamic>;
+                              var legendaIconeFiltrada = legendaIcone
+                                  .where((legendaIcone) =>
+                                      legendaIcone['sincronizado'].toString() ==
+                                          "S" &&
+                                      legendaIcone['pprof_etiqueta_id']
+                                              .toString() ==
+                                          textController.text.toString())
+                                  .map((e) => e['pprof_id'])
+                                  .toList();
+
+                              profundidadesNaoSincronizadas3
+                                  .addAll(legendaIconeFiltrada);
+                            }
+                            var pprof_id =
+                                profundidadesNaoSincronizadas3.first.toString();
+
+                            volumesss['amostras'].add({
+                              "volam_etiqueta_id":
+                                  textController.text.toString(),
+                              "volam_profundidade_id": pprof_id.toString(),
+                              "volam_data": DateFormat('yyyy-MM-dd HH:mm')
+                                  .format(DateTime.now())
+                            });
+
+                            sucesso();
+
+                            // if (mounted) {
+                            //   Navigator.of(context).pop();
+                            //   context.goNamed(
+                            //     'criacaoVolume',
+                            //     queryParameters: {
+                            //       'fazId': serializeParam(
+                            //         widget.fazId,
+                            //         ParamType.int,
+                            //       ),
+                            //       'oservId': serializeParam(
+                            //         widget.oservid,
+                            //         ParamType.int,
+                            //       ),
+                            //     }.withoutNulls,
+                            //     extra: <String, dynamic>{
+                            //       kTransitionInfoKey: TransitionInfo(
+                            //         hasTransition: true,
+                            //         transitionType: PageTransitionType.fade,
+                            //         duration: Duration(milliseconds: 0),
+                            //       ),
+                            //     },
+                            //   );
+                            // }
+                          }
+
+                          // volumess['amostras'] = [];
+                        } else {
+                          semEtiqueta();
+                        }
+                        // volumess['amostras'].add(textController.text
+                        //     .toString()); // Usa um valor padrão (como 0) caso a conversão falhe
+
+                        // atualiza();
+
+                        // Navigator.of(context).pop();
+                      });
+                      textController.clear();
+                      controller?.resumeCamera();
+                      // await Future.delayed(Duration(milliseconds: 180));
+                    },
+                    child: Icon(Icons.arrow_forward, color: Colors.white),
+                    backgroundColor: Color(0xFF00736d),
+                  ),
+                ],
               ),
-            ),
-            // Positioned(
-            //   bottom: 92,
-            //   left: 10,
-            //   child: Container(
-            //     width: double.infinity,
-            //     height: 291.0,
-            //     decoration: BoxDecoration(),
-            //     child: Visibility(
-            //       visible: true == false,
-            //       child: Padding(
-            //         padding:
-            //             EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
-            //         child: Column(
-            //           mainAxisSize: MainAxisSize.min,
-            //           crossAxisAlignment: CrossAxisAlignment.start,
-            //           children: [
-            //             Text(
-            //               'Amostras lidas: ${valueOrDefault<String>(
-            //                 functions
-            //                     .buscaVolumesNoRegistro(functions.buscaRegistro(
-            //                         int.parse(widget.fazId!),
-            //                         int.parse(widget.oservid!),
-            //                         FFAppState().trSincroniza.toList()))
-            //                     .length
-            //                     .toString(),
-            //                 '0',
-            //               )}',
-            //               textAlign: TextAlign.start,
-            //               style:
-            //                   FlutterFlowTheme.of(context).bodyMedium.override(
-            //                         fontFamily: 'Readex Pro',
-            //                         color: Color(0xFF00736D),
-            //                       ),
-            //             ),
-            //             Container(
-            //               width: double.infinity,
-            //               height: MediaQuery.sizeOf(context).height * 0.3,
-            //               decoration: BoxDecoration(),
-            //               child: Builder(
-            //                 builder: (context) {
-            //                   final teste = functions
-            //                       .buscaVolumesNoRegistro(
-            //                           functions.buscaRegistro(
-            //                               int.parse(widget.fazId!),
-            //                               int.parse(widget.oservid!),
-            //                               FFAppState().trSincroniza.toList()))
-            //                       .toList();
-            //                   return SingleChildScrollView(
-            //                     child: Column(
-            //                       mainAxisSize: MainAxisSize.max,
-            //                       mainAxisAlignment: MainAxisAlignment.center,
-            //                       crossAxisAlignment: CrossAxisAlignment.center,
-            //                       children:
-            //                           List.generate(teste.length, (testeIndex) {
-            //                         final testeItem = teste[testeIndex];
-            //                         return Container(
-            //                           width: double.infinity,
-            //                           height: 65.0,
-            //                           decoration: BoxDecoration(
-            //                             color: Color(0xFFE6F1F0),
-            //                             borderRadius:
-            //                                 BorderRadius.circular(12.0),
-            //                             border: Border.all(
-            //                               color: FlutterFlowTheme.of(context)
-            //                                   .primary,
-            //                             ),
-            //                           ),
-            //                           child: Row(
-            //                             mainAxisSize: MainAxisSize.max,
-            //                             mainAxisAlignment:
-            //                                 MainAxisAlignment.spaceBetween,
-            //                             children: [
-            //                               Padding(
-            //                                 padding:
-            //                                     EdgeInsetsDirectional.fromSTEB(
-            //                                         10.0, 0.0, 0.0, 0.0),
-            //                                 child: Column(
-            //                                   mainAxisSize: MainAxisSize.max,
-            //                                   mainAxisAlignment:
-            //                                       MainAxisAlignment.center,
-            //                                   children: [
-            //                                     Text(
-            //                                       'Ponto',
-            //                                       style: FlutterFlowTheme.of(
-            //                                               context)
-            //                                           .bodyMedium
-            //                                           .override(
-            //                                             fontFamily:
-            //                                                 'Readex Pro',
-            //                                             fontWeight:
-            //                                                 FontWeight.w600,
-            //                                           ),
-            //                                     ),
-            //                                     Text(
-            //                                       valueOrDefault<String>(
-            //                                         functions.buscaPontoAtravesDaEtiquetaEmPontos(
-            //                                             functions.buscaRegistro(
-            //                                                 int.parse(
-            //                                                     widget.fazId!),
-            //                                                 int.parse(widget
-            //                                                     .oservid!),
-            //                                                 FFAppState()
-            //                                                     .trSincroniza
-            //                                                     .toList()),
-            //                                             testeItem,
-            //                                             int.parse(
-            //                                                 widget.fazId!),
-            //                                             int.parse(
-            //                                                 widget.oservid!)),
-            //                                         '11111',
-            //                                       ),
-            //                                       style: FlutterFlowTheme.of(
-            //                                               context)
-            //                                           .bodyMedium,
-            //                                     ),
-            //                                   ],
-            //                                 ),
-            //                               ),
-            //                               Column(
-            //                                 mainAxisSize: MainAxisSize.max,
-            //                                 mainAxisAlignment:
-            //                                     MainAxisAlignment.center,
-            //                                 children: [
-            //                                   Text(
-            //                                     'Profundidade',
-            //                                     style:
-            //                                         FlutterFlowTheme.of(context)
-            //                                             .bodyMedium
-            //                                             .override(
-            //                                               fontFamily:
-            //                                                   'Readex Pro',
-            //                                               fontWeight:
-            //                                                   FontWeight.w600,
-            //                                             ),
-            //                                   ),
-            //                                   Text(
-            //                                     valueOrDefault<String>(
-            //                                       functions.retornalegenda(
-            //                                           valueOrDefault<String>(
-            //                                             functions.buscalegendaiconeAtravesDaEtiquetaEmPontosCopy(
-            //                                                 functions.buscaRegistro(
-            //                                                     int.parse(widget
-            //                                                         .fazId!),
-            //                                                     int.parse(widget
-            //                                                         .oservid!),
-            //                                                     FFAppState()
-            //                                                         .trSincroniza
-            //                                                         .toList()),
-            //                                                 testeItem,
-            //                                                 int.parse(
-            //                                                     widget.fazId!),
-            //                                                 int.parse(widget
-            //                                                     .oservid!)),
-            //                                             'error32',
-            //                                           ),
-            //                                           FFAppState()
-            //                                               .trIcones
-            //                                               .toList()),
-            //                                       'Erro',
-            //                                     ),
-            //                                     style:
-            //                                         FlutterFlowTheme.of(context)
-            //                                             .bodyMedium,
-            //                                   ),
-            //                                   if (true == false)
-            //                                     Text(
-            //                                       valueOrDefault<String>(
-            //                                         functions.buscalegendaiconeAtravesDaEtiquetaEmPontosCopy(
-            //                                             functions.buscaRegistro(
-            //                                                 int.parse(
-            //                                                     widget.fazId!),
-            //                                                 int.parse(widget
-            //                                                     .oservid!),
-            //                                                 FFAppState()
-            //                                                     .trSincroniza
-            //                                                     .toList()),
-            //                                             testeItem,
-            //                                             int.parse(
-            //                                                 widget.fazId!),
-            //                                             int.parse(
-            //                                                 widget.oservid!)),
-            //                                         'error32',
-            //                                       ),
-            //                                       style: FlutterFlowTheme.of(
-            //                                               context)
-            //                                           .bodyMedium,
-            //                                     ),
-            //                                   if (true == false)
-            //                                     Text(
-            //                                       valueOrDefault<String>(
-            //                                         functions.buscapprofidAtravesDaEtiquetaEmPontos(
-            //                                             functions.buscaRegistro(
-            //                                                 int.parse(
-            //                                                     widget.fazId!),
-            //                                                 int.parse(widget
-            //                                                     .oservid!),
-            //                                                 FFAppState()
-            //                                                     .trSincroniza
-            //                                                     .toList()),
-            //                                             testeItem),
-            //                                         'erro',
-            //                                       ),
-            //                                       style: FlutterFlowTheme.of(
-            //                                               context)
-            //                                           .bodyMedium,
-            //                                     ),
-            //                                 ],
-            //                               ),
-            //                               Column(
-            //                                 mainAxisSize: MainAxisSize.max,
-            //                                 mainAxisAlignment:
-            //                                     MainAxisAlignment.center,
-            //                                 children: [
-            //                                   Text(
-            //                                     'Etiqueta',
-            //                                     style:
-            //                                         FlutterFlowTheme.of(context)
-            //                                             .bodyMedium
-            //                                             .override(
-            //                                               fontFamily:
-            //                                                   'Readex Pro',
-            //                                               fontWeight:
-            //                                                   FontWeight.w600,
-            //                                             ),
-            //                                   ),
-            //                                   Text(
-            //                                     testeItem,
-            //                                     style:
-            //                                         FlutterFlowTheme.of(context)
-            //                                             .bodyMedium,
-            //                                   ),
-            //                                 ],
-            //                               ),
-            //                               Padding(
-            //                                 padding:
-            //                                     EdgeInsetsDirectional.fromSTEB(
-            //                                         0.0, 0.0, 10.0, 0.0),
-            //                                 child: Column(
-            //                                   mainAxisSize: MainAxisSize.max,
-            //                                   mainAxisAlignment:
-            //                                       MainAxisAlignment.center,
-            //                                   children: [
-            //                                     Padding(
-            //                                       padding: EdgeInsetsDirectional
-            //                                           .fromSTEB(
-            //                                               0.0, 0.0, 8.0, 0.0),
-            //                                       child: InkWell(
-            //                                         splashColor:
-            //                                             Colors.transparent,
-            //                                         focusColor:
-            //                                             Colors.transparent,
-            //                                         hoverColor:
-            //                                             Colors.transparent,
-            //                                         highlightColor:
-            //                                             Colors.transparent,
-            //                                         onTap: () async {
-            //                                           var _shouldSetState =
-            //                                               false;
-            //                                           var confirmDialogResponse =
-            //                                               await showDialog<
-            //                                                       bool>(
-            //                                                     context:
-            //                                                         context,
-            //                                                     builder:
-            //                                                         (alertDialogContext) {
-            //                                                       return AlertDialog(
-            //                                                         title: Text(
-            //                                                             'Atenção!'),
-            //                                                         content: Text(
-            //                                                             'Você tem certeza que deseja remover essa amostra de dentro do volume?'),
-            //                                                         actions: [
-            //                                                           TextButton(
-            //                                                             onPressed: () => Navigator.pop(
-            //                                                                 alertDialogContext,
-            //                                                                 false),
-            //                                                             child: Text(
-            //                                                                 'Não'),
-            //                                                           ),
-            //                                                           TextButton(
-            //                                                             onPressed: () => Navigator.pop(
-            //                                                                 alertDialogContext,
-            //                                                                 true),
-            //                                                             child: Text(
-            //                                                                 'Sim'),
-            //                                                           ),
-            //                                                         ],
-            //                                                       );
-            //                                                     },
-            //                                                   ) ??
-            //                                                   false;
-            //                                           if (confirmDialogResponse) {
-            //                                             _model.retornoEclusao =
-            //                                                 await actions
-            //                                                     .excluiVolumeDaEtapaAberta(
-            //                                               functions.buscaRegistro(
-            //                                                   int.parse(widget
-            //                                                       .fazId!),
-            //                                                   int.parse(widget
-            //                                                       .oservid!),
-            //                                                   FFAppState()
-            //                                                       .trSincroniza
-            //                                                       .toList()),
-            //                                               testeItem,
-            //                                             );
-            //                                             _shouldSetState = true;
-            //                                             await showDialog(
-            //                                               context: context,
-            //                                               builder:
-            //                                                   (alertDialogContext) {
-            //                                                 return AlertDialog(
-            //                                                   title: Text(_model
-            //                                                       .retornoEclusao!),
-            //                                                   actions: [
-            //                                                     TextButton(
-            //                                                       onPressed: () =>
-            //                                                           Navigator.pop(
-            //                                                               alertDialogContext),
-            //                                                       child: Text(
-            //                                                           'Ok'),
-            //                                                     ),
-            //                                                   ],
-            //                                                 );
-            //                                               },
-            //                                             );
-            //                                           } else {
-            //                                             if (_shouldSetState)
-            //                                               setState(() {});
-            //                                             return;
-            //                                           }
-            //                                           if (_shouldSetState)
-            //                                             setState(() {});
-            //                                         },
-            //                                         child: FaIcon(
-            //                                           FontAwesomeIcons.trashAlt,
-            //                                           color: Colors.black,
-            //                                           size: 24.0,
-            //                                         ),
-            //                                       ),
-            //                                     ),
-            //                                   ],
-            //                                 ),
-            //                               ),
-            //                             ],
-            //                           ),
-            //                         );
-            //                       }).divide(SizedBox(height: 5.0)),
-            //                     ),
-            //                   );
-            //                 },
-            //               ),
-            //             ),
-            //           ],
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            // ),
-          ],
+            ],
+          ),
         ),
-      ),
+        Positioned(
+          bottom: 92,
+          left: 10,
+          child: FloatingActionButton(
+            onPressed: () {
+              // setState(() {
+
+              controller?.resumeCamera();
+              textController.clear();
+
+              //   atualiza();
+              //   await Future.delayed(Duration(milliseconds: 380));
+
+              // if (mounted) {
+              //   Navigator.of(context).pop();
+              //   context.goNamed(
+              //     'criacaoVolume',
+              //     queryParameters: {
+              //       'fazId': serializeParam(
+              //         widget.fazId,
+              //         ParamType.int,
+              //       ),
+              //       'oservId': serializeParam(
+              //         widget.oservid,
+              //         ParamType.int,
+              //       ),
+              //     }.withoutNulls,
+              //     extra: <String, dynamic>{
+              //       kTransitionInfoKey: TransitionInfo(
+              //         hasTransition: true,
+              //         transitionType: PageTransitionType.fade,
+              //         duration: Duration(milliseconds: 0),
+              //       ),
+              //     },
+              //   );
+              // }
+
+              //   Navigator.of(context).pop();
+              // });
+              // showSincro();
+            },
+            child: Icon(Icons.delete, color: Colors.white),
+            backgroundColor: Color(0xFF982c26),
+          ),
+        ),
+        // Generated code for this Column Widget...
+        // Padding(
+        //   padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+        //   child: Column(
+        //     mainAxisSize: MainAxisSize.min,
+        //     crossAxisAlignment: CrossAxisAlignment.start,
+        //     children: [
+        //       Text(
+        //         'Amostras lidas: ${valueOrDefault<String>(
+        //           functions
+        //               .buscaVolumesNoRegistro(functions.buscaRegistro(
+        //                   int.parse(widget.fazId!),
+        //                   int.parse(widget.oservid!),
+        //                   FFAppState().trSincroniza.toList()))
+        //               .length
+        //               .toString(),
+        //           '0',
+        //         )}',
+        //         textAlign: TextAlign.start,
+        //         style: FlutterFlowTheme.of(context).bodyMedium.override(
+        //               fontFamily: 'Readex Pro',
+        //               color: Color(0xFF00736D),
+        //             ),
+        //       ),
+        //       Container(
+        //         width: double.infinity,
+        //         height: MediaQuery.sizeOf(context).height * 0.3,
+        //         decoration: BoxDecoration(),
+        //         child: Builder(
+        //           builder: (context) {
+        //             final teste = functions
+        //                 .buscaVolumesNoRegistro(functions.buscaRegistro(
+        //                     int.parse(widget.fazId!),
+        //                     int.parse(widget.oservid!),
+        //                     FFAppState().trSincroniza.toList()))
+        //                 .toList();
+        //             return SingleChildScrollView(
+        //               child: Column(
+        //                 mainAxisSize: MainAxisSize.max,
+        //                 mainAxisAlignment: MainAxisAlignment.center,
+        //                 crossAxisAlignment: CrossAxisAlignment.center,
+        //                 children: List.generate(teste.length, (testeIndex) {
+        //                   final testeItem = teste[testeIndex];
+        //                   return Container(
+        //                     width: double.infinity,
+        //                     height: 65.0,
+        //                     decoration: BoxDecoration(
+        //                       color: Color(0xFFE6F1F0),
+        //                       borderRadius: BorderRadius.circular(12.0),
+        //                       border: Border.all(
+        //                         color: FlutterFlowTheme.of(context).primary,
+        //                       ),
+        //                     ),
+        //                     child: Row(
+        //                       mainAxisSize: MainAxisSize.max,
+        //                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //                       children: [
+        //                         Padding(
+        //                           padding: EdgeInsetsDirectional.fromSTEB(
+        //                               10.0, 0.0, 0.0, 0.0),
+        //                           child: Column(
+        //                             mainAxisSize: MainAxisSize.max,
+        //                             mainAxisAlignment: MainAxisAlignment.center,
+        //                             children: [
+        //                               Text(
+        //                                 'Ponto',
+        //                                 style: FlutterFlowTheme.of(context)
+        //                                     .bodyMedium
+        //                                     .override(
+        //                                       fontFamily: 'Readex Pro',
+        //                                       fontWeight: FontWeight.w600,
+        //                                     ),
+        //                               ),
+        //                               Text(
+        //                                 valueOrDefault<String>(
+        //                                   functions
+        //                                       .buscaPontoAtravesDaEtiquetaEmPontos(
+        //                                           functions.buscaRegistro(
+        //                                               int.parse(widget.fazId!),
+        //                                               int.parse(
+        //                                                   widget.oservid!),
+        //                                               FFAppState()
+        //                                                   .trSincroniza
+        //                                                   .toList()),
+        //                                           testeItem,
+        //                                           int.parse(widget.fazId!),
+        //                                           int.parse(widget.oservid!)),
+        //                                   '11111',
+        //                                 ),
+        //                                 style: FlutterFlowTheme.of(context)
+        //                                     .bodyMedium,
+        //                               ),
+        //                             ],
+        //                           ),
+        //                         ),
+        //                         Column(
+        //                           mainAxisSize: MainAxisSize.max,
+        //                           mainAxisAlignment: MainAxisAlignment.center,
+        //                           children: [
+        //                             Text(
+        //                               'Profundidade',
+        //                               style: FlutterFlowTheme.of(context)
+        //                                   .bodyMedium
+        //                                   .override(
+        //                                     fontFamily: 'Readex Pro',
+        //                                     fontWeight: FontWeight.w600,
+        //                                   ),
+        //                             ),
+        //                             Text(
+        //                               valueOrDefault<String>(
+        //                                 functions.retornalegenda(
+        //                                     valueOrDefault<String>(
+        //                                       functions
+        //                                           .buscalegendaiconeAtravesDaEtiquetaEmPontosCopy(
+        //                                               functions.buscaRegistro(
+        //                                                   int.parse(
+        //                                                       widget.fazId!),
+        //                                                   int.parse(
+        //                                                       widget.oservid!),
+        //                                                   FFAppState()
+        //                                                       .trSincroniza
+        //                                                       .toList()),
+        //                                               testeItem,
+        //                                               int.parse(widget.fazId!),
+        //                                               int.parse(
+        //                                                   widget.oservid!)),
+        //                                       'error32',
+        //                                     ),
+        //                                     FFAppState().trIcones.toList()),
+        //                                 'Erro',
+        //                               ),
+        //                               style: FlutterFlowTheme.of(context)
+        //                                   .bodyMedium,
+        //                             ),
+        //                             if (true == false)
+        //                               Text(
+        //                                 valueOrDefault<String>(
+        //                                   functions
+        //                                       .buscalegendaiconeAtravesDaEtiquetaEmPontosCopy(
+        //                                           functions.buscaRegistro(
+        //                                               int.parse(widget.fazId!),
+        //                                               int.parse(
+        //                                                   widget.oservid!),
+        //                                               FFAppState()
+        //                                                   .trSincroniza
+        //                                                   .toList()),
+        //                                           testeItem,
+        //                                           int.parse(widget.fazId!),
+        //                                           int.parse(widget.oservid!)),
+        //                                   'error32',
+        //                                 ),
+        //                                 style: FlutterFlowTheme.of(context)
+        //                                     .bodyMedium,
+        //                               ),
+        //                             if (true == false)
+        //                               Text(
+        //                                 valueOrDefault<String>(
+        //                                   functions
+        //                                       .buscapprofidAtravesDaEtiquetaEmPontos(
+        //                                           functions.buscaRegistro(
+        //                                               int.parse(widget.fazId!),
+        //                                               int.parse(
+        //                                                   widget.oservid!),
+        //                                               FFAppState()
+        //                                                   .trSincroniza
+        //                                                   .toList()),
+        //                                           testeItem),
+        //                                   'erro',
+        //                                 ),
+        //                                 style: FlutterFlowTheme.of(context)
+        //                                     .bodyMedium,
+        //                               ),
+        //                           ],
+        //                         ),
+        //                         Column(
+        //                           mainAxisSize: MainAxisSize.max,
+        //                           mainAxisAlignment: MainAxisAlignment.center,
+        //                           children: [
+        //                             Text(
+        //                               'Etiqueta',
+        //                               style: FlutterFlowTheme.of(context)
+        //                                   .bodyMedium
+        //                                   .override(
+        //                                     fontFamily: 'Readex Pro',
+        //                                     fontWeight: FontWeight.w600,
+        //                                   ),
+        //                             ),
+        //                             Text(
+        //                               testeItem,
+        //                               style: FlutterFlowTheme.of(context)
+        //                                   .bodyMedium,
+        //                             ),
+        //                           ],
+        //                         ),
+        //                         Padding(
+        //                           padding: EdgeInsetsDirectional.fromSTEB(
+        //                               0.0, 0.0, 10.0, 0.0),
+        //                           child: Column(
+        //                             mainAxisSize: MainAxisSize.max,
+        //                             mainAxisAlignment: MainAxisAlignment.center,
+        //                             children: [
+        //                               Padding(
+        //                                 padding: EdgeInsetsDirectional.fromSTEB(
+        //                                     0.0, 0.0, 8.0, 0.0),
+        //                                 child: InkWell(
+        //                                   splashColor: Colors.transparent,
+        //                                   focusColor: Colors.transparent,
+        //                                   hoverColor: Colors.transparent,
+        //                                   highlightColor: Colors.transparent,
+        //                                   onTap: () async {
+        //                                     var _shouldSetState = false;
+        //                                     var confirmDialogResponse =
+        //                                         await showDialog<bool>(
+        //                                               context: context,
+        //                                               builder:
+        //                                                   (alertDialogContext) {
+        //                                                 return AlertDialog(
+        //                                                   title:
+        //                                                       Text('Atenção!'),
+        //                                                   content: Text(
+        //                                                       'Você tem certeza que deseja remover essa amostra de dentro do volume?'),
+        //                                                   actions: [
+        //                                                     TextButton(
+        //                                                       onPressed: () =>
+        //                                                           Navigator.pop(
+        //                                                               alertDialogContext,
+        //                                                               false),
+        //                                                       child:
+        //                                                           Text('Não'),
+        //                                                     ),
+        //                                                     TextButton(
+        //                                                       onPressed: () =>
+        //                                                           Navigator.pop(
+        //                                                               alertDialogContext,
+        //                                                               true),
+        //                                                       child:
+        //                                                           Text('Sim'),
+        //                                                     ),
+        //                                                   ],
+        //                                                 );
+        //                                               },
+        //                                             ) ??
+        //                                             false;
+        //                                     if (confirmDialogResponse) {
+        //                                       _model.retornoEclusao =
+        //                                           await actions
+        //                                               .excluiVolumeDaEtapaAberta(
+        //                                         functions.buscaRegistro(
+        //                                             int.parse(widget.fazId!),
+        //                                             int.parse(widget.oservid!),
+        //                                             FFAppState()
+        //                                                 .trSincroniza
+        //                                                 .toList()),
+        //                                         testeItem,
+        //                                       );
+        //                                       _shouldSetState = true;
+        //                                       await showDialog(
+        //                                         context: context,
+        //                                         builder: (alertDialogContext) {
+        //                                           return AlertDialog(
+        //                                             title: Text(
+        //                                                 _model.retornoEclusao!),
+        //                                             actions: [
+        //                                               TextButton(
+        //                                                 onPressed: () =>
+        //                                                     Navigator.pop(
+        //                                                         alertDialogContext),
+        //                                                 child: Text('Ok'),
+        //                                               ),
+        //                                             ],
+        //                                           );
+        //                                         },
+        //                                       );
+        //                                     } else {
+        //                                       if (_shouldSetState)
+        //                                         setState(() {});
+        //                                       return;
+        //                                     }
+        //                                     if (_shouldSetState)
+        //                                       setState(() {});
+        //                                   },
+        //                                   child: FaIcon(
+        //                                     FontAwesomeIcons.trashAlt,
+        //                                     color: Colors.black,
+        //                                     size: 24.0,
+        //                                   ),
+        //                                 ),
+        //                               ),
+        //                             ],
+        //                           ),
+        //                         ),
+        //                       ],
+        //                     ),
+        //                   );
+        //                 }).divide(SizedBox(height: 5.0)),
+        //               ),
+        //             );
+        //           },
+        //         ),
+        //       ),
+        //     ],
+        //   ),
+        // )
+      ],
     );
   }
 

@@ -273,7 +273,7 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
                                 child: Container(
                                   width: double.infinity,
                                   height:
-                                      MediaQuery.sizeOf(context).height * 0.736,
+                                      MediaQuery.sizeOf(context).height * 0.41,
                                   decoration: BoxDecoration(
                                     color: const Color(0x0000736D),
                                     borderRadius: BorderRadius.circular(12.0),
