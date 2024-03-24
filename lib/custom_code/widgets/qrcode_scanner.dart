@@ -14,6 +14,18 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import '../../criacao_volume/criacao_volume_model.dart';
 export '../../criacao_volume/criacao_volume_model.dart';
+import '/flutter_flow/custom_functions.dart' as functions;
+
+import '/flutter_flow/flutter_flow_widgets.dart';
+import '/custom_code/actions/index.dart' as actions;
+import '/custom_code/widgets/index.dart' as custom_widgets;
+import '/flutter_flow/custom_functions.dart' as functions;
+import 'package:flutter/scheduler.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class QrcodeScanner extends StatefulWidget {
   const QrcodeScanner({
@@ -33,7 +45,8 @@ class QrcodeScanner extends StatefulWidget {
   State<QrcodeScanner> createState() => _QrcodeScannerState();
 }
 
-class _QrcodeScannerState extends State<QrcodeScanner> {
+class _QrcodeScannerState extends State<QrcodeScanner>
+    with WidgetsBindingObserver {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   late CriacaoVolumeModel _model;
 
@@ -44,8 +57,37 @@ class _QrcodeScannerState extends State<QrcodeScanner> {
   @override
   void dispose() {
     controller?.dispose();
+    WidgetsBinding.instance.removeObserver(this);
+
     textController.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    // Inicializar a câmera aqui se necessário
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (controller != null) {
+      controller!.resumeCamera();
+    }
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (controller == null) return;
+
+    if (state == AppLifecycleState.resumed) {
+      controller!.resumeCamera();
+    } else if (state == AppLifecycleState.inactive ||
+        state == AppLifecycleState.paused) {
+      controller!.pauseCamera();
+    }
   }
 
   void atualiza() {
@@ -84,6 +126,28 @@ class _QrcodeScannerState extends State<QrcodeScanner> {
             borderRadius: BorderRadius.circular(
                 1), // Optional: just to make sure it's as small as possible
           ),
+        );
+      },
+    );
+  }
+
+  void sucesso() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Sucesso!'),
+          content: SingleChildScrollView(
+            child: Text('Etiqueta inserida com sucesso!'),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Fecha o AlertDialog
+              },
+            ),
+          ],
         );
       },
     );
@@ -507,18 +571,32 @@ class _QrcodeScannerState extends State<QrcodeScanner> {
                               "volam_data": DateFormat('yyyy-MM-dd HH:mm')
                                   .format(DateTime.now())
                             });
-                            Navigator.of(context).pop();
-                            context
-                                .pushNamed('criacaoVolume', queryParameters: {
-                              'fazId': serializeParam(
-                                widget.fazId,
-                                ParamType.int,
-                              ),
-                              'oservId': serializeParam(
-                                widget.oservid,
-                                ParamType.int,
-                              ),
-                            });
+
+                            sucesso();
+
+                            // if (mounted) {
+                            //   Navigator.of(context).pop();
+                            //   context.goNamed(
+                            //     'criacaoVolume',
+                            //     queryParameters: {
+                            //       'fazId': serializeParam(
+                            //         widget.fazId,
+                            //         ParamType.int,
+                            //       ),
+                            //       'oservId': serializeParam(
+                            //         widget.oservid,
+                            //         ParamType.int,
+                            //       ),
+                            //     }.withoutNulls,
+                            //     extra: <String, dynamic>{
+                            //       kTransitionInfoKey: TransitionInfo(
+                            //         hasTransition: true,
+                            //         transitionType: PageTransitionType.fade,
+                            //         duration: Duration(milliseconds: 0),
+                            //       ),
+                            //     },
+                            //   );
+                            // }
                           }
 
                           // volumess['amostras'] = [];
@@ -548,31 +626,350 @@ class _QrcodeScannerState extends State<QrcodeScanner> {
           bottom: 92,
           left: 10,
           child: FloatingActionButton(
-            onPressed: () async {
-              // controller?.resumeCamera();
-              // textController.clear();
-              setState(() {
-                //   atualiza();
-                //   await Future.delayed(Duration(milliseconds: 380));
-                Navigator.of(context).pop();
-                context.pushNamed('criacaoVolume', queryParameters: {
-                  'fazId': serializeParam(
-                    widget.fazId,
-                    ParamType.int,
-                  ),
-                  'oservId': serializeParam(
-                    widget.oservid,
-                    ParamType.int,
-                  ),
-                });
-                //   Navigator.of(context).pop();
-              });
-              showSincro();
+            onPressed: () {
+              // setState(() {
+
+              controller?.resumeCamera();
+              textController.clear();
+
+              //   atualiza();
+              //   await Future.delayed(Duration(milliseconds: 380));
+
+              // if (mounted) {
+              //   Navigator.of(context).pop();
+              //   context.goNamed(
+              //     'criacaoVolume',
+              //     queryParameters: {
+              //       'fazId': serializeParam(
+              //         widget.fazId,
+              //         ParamType.int,
+              //       ),
+              //       'oservId': serializeParam(
+              //         widget.oservid,
+              //         ParamType.int,
+              //       ),
+              //     }.withoutNulls,
+              //     extra: <String, dynamic>{
+              //       kTransitionInfoKey: TransitionInfo(
+              //         hasTransition: true,
+              //         transitionType: PageTransitionType.fade,
+              //         duration: Duration(milliseconds: 0),
+              //       ),
+              //     },
+              //   );
+              // }
+
+              //   Navigator.of(context).pop();
+              // });
+              // showSincro();
             },
             child: Icon(Icons.delete, color: Colors.white),
             backgroundColor: Color(0xFF982c26),
           ),
         ),
+        // Generated code for this Column Widget...
+        Padding(
+          padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Amostras lidas: ${valueOrDefault<String>(
+                  functions
+                      .buscaVolumesNoRegistro(functions.buscaRegistro(
+                          int.parse(widget.fazId!),
+                          int.parse(widget.oservid!),
+                          FFAppState().trSincroniza.toList()))
+                      .length
+                      .toString(),
+                  '0',
+                )}',
+                textAlign: TextAlign.start,
+                style: FlutterFlowTheme.of(context).bodyMedium.override(
+                      fontFamily: 'Readex Pro',
+                      color: Color(0xFF00736D),
+                    ),
+              ),
+              Container(
+                width: double.infinity,
+                height: MediaQuery.sizeOf(context).height * 0.3,
+                decoration: BoxDecoration(),
+                child: Builder(
+                  builder: (context) {
+                    final teste = functions
+                        .buscaVolumesNoRegistro(functions.buscaRegistro(
+                            int.parse(widget.fazId!),
+                            int.parse(widget.oservid!),
+                            FFAppState().trSincroniza.toList()))
+                        .toList();
+                    return SingleChildScrollView(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: List.generate(teste.length, (testeIndex) {
+                          final testeItem = teste[testeIndex];
+                          return Container(
+                            width: double.infinity,
+                            height: 65.0,
+                            decoration: BoxDecoration(
+                              color: Color(0xFFE6F1F0),
+                              borderRadius: BorderRadius.circular(12.0),
+                              border: Border.all(
+                                color: FlutterFlowTheme.of(context).primary,
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      10.0, 0.0, 0.0, 0.0),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'Ponto',
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .override(
+                                              fontFamily: 'Readex Pro',
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                      ),
+                                      Text(
+                                        valueOrDefault<String>(
+                                          functions
+                                              .buscaPontoAtravesDaEtiquetaEmPontos(
+                                                  functions.buscaRegistro(
+                                                      int.parse(widget.fazId!),
+                                                      int.parse(
+                                                          widget.oservid!),
+                                                      FFAppState()
+                                                          .trSincroniza
+                                                          .toList()),
+                                                  testeItem,
+                                                  int.parse(widget.fazId!),
+                                                  int.parse(widget.oservid!)),
+                                          '11111',
+                                        ),
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyMedium,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Profundidade',
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            fontFamily: 'Readex Pro',
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                    ),
+                                    Text(
+                                      valueOrDefault<String>(
+                                        functions.retornalegenda(
+                                            valueOrDefault<String>(
+                                              functions
+                                                  .buscalegendaiconeAtravesDaEtiquetaEmPontosCopy(
+                                                      functions.buscaRegistro(
+                                                          int.parse(
+                                                              widget.fazId!),
+                                                          int.parse(
+                                                              widget.oservid!),
+                                                          FFAppState()
+                                                              .trSincroniza
+                                                              .toList()),
+                                                      testeItem,
+                                                      int.parse(widget.fazId!),
+                                                      int.parse(
+                                                          widget.oservid!)),
+                                              'error32',
+                                            ),
+                                            FFAppState().trIcones.toList()),
+                                        'Erro',
+                                      ),
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium,
+                                    ),
+                                    if (true == false)
+                                      Text(
+                                        valueOrDefault<String>(
+                                          functions
+                                              .buscalegendaiconeAtravesDaEtiquetaEmPontosCopy(
+                                                  functions.buscaRegistro(
+                                                      int.parse(widget.fazId!),
+                                                      int.parse(
+                                                          widget.oservid!),
+                                                      FFAppState()
+                                                          .trSincroniza
+                                                          .toList()),
+                                                  testeItem,
+                                                  int.parse(widget.fazId!),
+                                                  int.parse(widget.oservid!)),
+                                          'error32',
+                                        ),
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyMedium,
+                                      ),
+                                    if (true == false)
+                                      Text(
+                                        valueOrDefault<String>(
+                                          functions
+                                              .buscapprofidAtravesDaEtiquetaEmPontos(
+                                                  functions.buscaRegistro(
+                                                      int.parse(widget.fazId!),
+                                                      int.parse(
+                                                          widget.oservid!),
+                                                      FFAppState()
+                                                          .trSincroniza
+                                                          .toList()),
+                                                  testeItem),
+                                          'erro',
+                                        ),
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyMedium,
+                                      ),
+                                  ],
+                                ),
+                                Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Etiqueta',
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            fontFamily: 'Readex Pro',
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                    ),
+                                    Text(
+                                      testeItem,
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium,
+                                    ),
+                                  ],
+                                ),
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      0.0, 0.0, 10.0, 0.0),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            0.0, 0.0, 8.0, 0.0),
+                                        child: InkWell(
+                                          splashColor: Colors.transparent,
+                                          focusColor: Colors.transparent,
+                                          hoverColor: Colors.transparent,
+                                          highlightColor: Colors.transparent,
+                                          onTap: () async {
+                                            var _shouldSetState = false;
+                                            var confirmDialogResponse =
+                                                await showDialog<bool>(
+                                                      context: context,
+                                                      builder:
+                                                          (alertDialogContext) {
+                                                        return AlertDialog(
+                                                          title:
+                                                              Text('Atenção!'),
+                                                          content: Text(
+                                                              'Você tem certeza que deseja remover essa amostra de dentro do volume?'),
+                                                          actions: [
+                                                            TextButton(
+                                                              onPressed: () =>
+                                                                  Navigator.pop(
+                                                                      alertDialogContext,
+                                                                      false),
+                                                              child:
+                                                                  Text('Não'),
+                                                            ),
+                                                            TextButton(
+                                                              onPressed: () =>
+                                                                  Navigator.pop(
+                                                                      alertDialogContext,
+                                                                      true),
+                                                              child:
+                                                                  Text('Sim'),
+                                                            ),
+                                                          ],
+                                                        );
+                                                      },
+                                                    ) ??
+                                                    false;
+                                            if (confirmDialogResponse) {
+                                              _model.retornoEclusao =
+                                                  await actions
+                                                      .excluiVolumeDaEtapaAberta(
+                                                functions.buscaRegistro(
+                                                    int.parse(widget.fazId!),
+                                                    int.parse(widget.oservid!),
+                                                    FFAppState()
+                                                        .trSincroniza
+                                                        .toList()),
+                                                testeItem,
+                                              );
+                                              _shouldSetState = true;
+                                              await showDialog(
+                                                context: context,
+                                                builder: (alertDialogContext) {
+                                                  return AlertDialog(
+                                                    title: Text(
+                                                        _model.retornoEclusao!),
+                                                    actions: [
+                                                      TextButton(
+                                                        onPressed: () =>
+                                                            Navigator.pop(
+                                                                alertDialogContext),
+                                                        child: Text('Ok'),
+                                                      ),
+                                                    ],
+                                                  );
+                                                },
+                                              );
+                                            } else {
+                                              if (_shouldSetState)
+                                                setState(() {});
+                                              return;
+                                            }
+                                            if (_shouldSetState)
+                                              setState(() {});
+                                          },
+                                          child: FaIcon(
+                                            FontAwesomeIcons.trashAlt,
+                                            color: Colors.black,
+                                            size: 24.0,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        }).divide(SizedBox(height: 5.0)),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        )
       ],
     );
   }

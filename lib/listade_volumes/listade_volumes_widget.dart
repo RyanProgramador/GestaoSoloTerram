@@ -114,7 +114,26 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                               hoverColor: Colors.transparent,
                               highlightColor: Colors.transparent,
                               onTap: () async {
-                                context.safePop();
+                                context.goNamed(
+                                  'criacaoVolume',
+                                  queryParameters: {
+                                    'fazId': serializeParam(
+                                      0,
+                                      ParamType.int,
+                                    ),
+                                    'oservId': serializeParam(
+                                      0,
+                                      ParamType.int,
+                                    ),
+                                  }.withoutNulls,
+                                  extra: <String, dynamic>{
+                                    kTransitionInfoKey: const TransitionInfo(
+                                      hasTransition: true,
+                                      transitionType: PageTransitionType.fade,
+                                      duration: Duration(milliseconds: 0),
+                                    ),
+                                  },
+                                );
                               },
                               child: Icon(
                                 Icons.arrow_back,
