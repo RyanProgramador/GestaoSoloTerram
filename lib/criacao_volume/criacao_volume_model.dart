@@ -1,13 +1,16 @@
+import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'criacao_volume_widget.dart' show CriacaoVolumeWidget;
+import 'dart:async';
 import 'package:flutter/material.dart';
 
 class CriacaoVolumeModel extends FlutterFlowModel<CriacaoVolumeWidget> {
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();
+  Completer<ApiCallResponse>? apiRequestCompleter;
   // Stores action output result for [Custom Action - excluiVolumeDaEtapaAberta] action in Icon widget.
   String? retornoEclusao;
 
@@ -104,4 +107,19 @@ class CriacaoVolumeModel extends FlutterFlowModel<CriacaoVolumeWidget> {
   }
 
   /// Additional helper methods are added here.
+
+  Future waitForApiRequestCompleted({
+    double minWait = 0,
+    double maxWait = double.infinity,
+  }) async {
+    final stopwatch = Stopwatch()..start();
+    while (true) {
+      await Future.delayed(const Duration(milliseconds: 50));
+      final timeElapsed = stopwatch.elapsedMilliseconds;
+      final requestComplete = apiRequestCompleter?.isCompleted ?? false;
+      if (timeElapsed > maxWait || (requestComplete && timeElapsed > minWait)) {
+        break;
+      }
+    }
+  }
 }
