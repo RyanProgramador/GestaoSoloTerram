@@ -75,7 +75,7 @@ class _PasswordParaURLWidgetState extends State<PasswordParaURLWidget> {
                   obscureText: false,
                   decoration: InputDecoration(
                     labelText:
-                        'Para alterar a URL da API, por favor insira a senha',
+                        'Por favor insira a senha para alterar a URL da API',
                     labelStyle:
                         FlutterFlowTheme.of(context).labelMedium.override(
                               fontFamily: 'Readex Pro',
