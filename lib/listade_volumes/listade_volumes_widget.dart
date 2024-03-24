@@ -256,11 +256,11 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                             FFAppState().trSincroniza.toList()),
                                       );
                                       shouldSetState = true;
+                                      Navigator.pop(context);
                                       if (!_model.buscaOVolumeIniciado!) {
                                         if (shouldSetState) setState(() {});
                                         return;
                                       }
-                                      Navigator.pop(context);
                                     } else {
                                       await showDialog(
                                         context: context,
