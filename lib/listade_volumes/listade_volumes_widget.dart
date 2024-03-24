@@ -215,6 +215,31 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                         return;
                                       }
                                     }
+                                    showModalBottomSheet(
+                                      isScrollControlled: true,
+                                      backgroundColor: Colors.transparent,
+                                      isDismissible: false,
+                                      enableDrag: false,
+                                      useSafeArea: true,
+                                      context: context,
+                                      builder: (context) {
+                                        return GestureDetector(
+                                          onTap: () => _model
+                                                  .unfocusNode.canRequestFocus
+                                              ? FocusScope.of(context)
+                                                  .requestFocus(
+                                                      _model.unfocusNode)
+                                              : FocusScope.of(context)
+                                                  .unfocus(),
+                                          child: Padding(
+                                            padding: MediaQuery.viewInsetsOf(
+                                                context),
+                                            child: const JustLoadingWidget(),
+                                          ),
+                                        );
+                                      },
+                                    ).then((value) => safeSetState(() {}));
+
                                     if (functions.buscaSeAEtapaEstaIniciada(
                                         functions.buscaRegistro(
                                             widget.fazId!,
@@ -222,31 +247,6 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                             FFAppState()
                                                 .trSincroniza
                                                 .toList()))!) {
-                                      showModalBottomSheet(
-                                        isScrollControlled: true,
-                                        backgroundColor: Colors.transparent,
-                                        isDismissible: false,
-                                        enableDrag: false,
-                                        useSafeArea: true,
-                                        context: context,
-                                        builder: (context) {
-                                          return GestureDetector(
-                                            onTap: () => _model
-                                                    .unfocusNode.canRequestFocus
-                                                ? FocusScope.of(context)
-                                                    .requestFocus(
-                                                        _model.unfocusNode)
-                                                : FocusScope.of(context)
-                                                    .unfocus(),
-                                            child: Padding(
-                                              padding: MediaQuery.viewInsetsOf(
-                                                  context),
-                                              child: const JustLoadingWidget(),
-                                            ),
-                                          );
-                                        },
-                                      ).then((value) => safeSetState(() {}));
-
                                       _model.buscaOVolumeIniciado = await actions
                                           .buscaSeOVolumeEstaIniciadoENaoFinalizado(
                                         context,
@@ -262,6 +262,7 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                         return;
                                       }
                                     } else {
+                                      Navigator.pop(context);
                                       await showDialog(
                                         context: context,
                                         builder: (alertDialogContext) {
