@@ -665,7 +665,7 @@ List<dynamic>? listaPaginacao(
 
   /// Cálculo de páginas e itens por página
   final int totalPaginas = (listaInteiraDeTodosOsItens.length / 3).ceil();
-  final int itensPorPagina = 3;
+  final int itensPorPagina = 2;
 
   /// Validação do índice da página
   if (paginaIndex < 0 || paginaIndex >= totalPaginas) {
