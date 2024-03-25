@@ -14,45 +14,58 @@ Future<String?> leitorDeQrCode(BuildContext context) async {
   String? scannedResult;
   QRViewController? controller;
 
-  await Navigator.of(context).push(MaterialPageRoute(
-    builder: (context) => Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Ler qr code do lacre do volume',
-          softWrap: true,
-          overflow: TextOverflow.visible,
-          style: TextStyle(fontSize: 16),
-        ),
-        backgroundColor: Color(0xFF025959),
-      ),
-      body: QRView(
-        key: GlobalKey(debugLabel: 'QR'),
-        onQRViewCreated: (QRViewController qrController) {
-          controller = qrController;
-          qrController.scannedDataStream.listen((scanData) async {
-            scannedResult = scanData.code;
-            qrController
-                .pauseCamera(); // Pausa a câmera para mostrar a confirmação
+  // Usa showDialog para abrir em tela cheia.
+  await showDialog<String>(
+    context: context,
+    barrierDismissible: false, // Impede fechamento ao tocar fora do dialog
+    builder: (BuildContext context) {
+      return Dialog(
+        insetPadding: EdgeInsets.all(0), // Faz o dialog ocupar a tela inteira
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text(
+              'Ler qr code do lacre do volume',
+              softWrap: true,
+              overflow: TextOverflow.visible,
+              style: TextStyle(fontSize: 16),
+            ),
+            backgroundColor: Color(0xFF025959),
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ),
+          body: QRView(
+            key: GlobalKey(debugLabel: 'QR'),
+            onQRViewCreated: (QRViewController qrController) {
+              controller = qrController;
+              qrController.scannedDataStream.listen((scanData) async {
+                scannedResult = scanData.code;
+                qrController
+                    .pauseCamera(); // Pausa a câmera para mostrar a confirmação
 
-            bool confirm = await etiquetaConfirmation(context, scannedResult);
-            if (confirm) {
-              Navigator.of(context)
-                  .pop(scannedResult); // Retorna o QR Code lido
-            } else {
-              qrController.resumeCamera(); // Retoma a leitura do QR Code
-            }
-          });
-        },
-        overlay: QrScannerOverlayShape(
-          borderColor: Colors.red,
-          borderRadius: 10,
-          borderLength: 30,
-          borderWidth: 10,
-          cutOutSize: MediaQuery.of(context).size.width * 0.8,
+                bool confirm =
+                    await etiquetaConfirmation(context, scannedResult);
+                if (confirm) {
+                  Navigator.of(context)
+                      .pop(scannedResult); // Retorna o QR Code lido
+                } else {
+                  qrController.resumeCamera(); // Retoma a leitura do QR Code
+                }
+              });
+            },
+            overlay: QrScannerOverlayShape(
+              borderColor: Colors.red,
+              borderRadius: 10,
+              borderLength: 30,
+              borderWidth: 10,
+              cutOutSize: MediaQuery.of(context).size.width * 0.8,
+            ),
+          ),
         ),
-      ),
-    ),
-  ));
+      );
+    },
+  );
 
   // controller?.dispose(); // Garante a liberação do recurso da câmera
   return scannedResult ?? "-1";
@@ -66,7 +79,7 @@ Future<bool> etiquetaConfirmation(
           return AlertDialog(
             title: Text('Atenção!!'),
             content: Text(
-                'Identificamos O lacre de número $etiqueta. Deseja confirmar?'),
+                'Identificamos o lacre de número $etiqueta. Deseja confirmar?'),
             actions: <Widget>[
               TextButton(
                 child: Text("Não, ler novamente"),

@@ -82,8 +82,7 @@ class CriacaoVolumeModel extends FlutterFlowModel<CriacaoVolumeWidget> {
             );
           },
         );
-
-        context.pushNamed('Inicio');
+        context.safePop();
       } else {
         await showDialog(
           context: context,

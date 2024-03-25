@@ -284,9 +284,6 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                       return;
                                     }
 
-                                    if (Navigator.of(context).canPop()) {
-                                      context.pop();
-                                    }
                                     context.pushNamed(
                                       'criacaoVolume',
                                       queryParameters: {
