@@ -658,6 +658,7 @@ List<dynamic>? listaPaginacao(
   List<dynamic>? listaInteiraDeTodosOsItens,
   int? paginaIndex,
 ) {
+  /// Validação da entrada
   if (listaInteiraDeTodosOsItens == null || paginaIndex == null) {
     return null;
   }
@@ -675,11 +676,14 @@ List<dynamic>? listaPaginacao(
   final int indiceInicial = paginaIndex * itensPorPagina;
   final int indiceFinal = indiceInicial + itensPorPagina;
 
-  /// Retorno da página com itens
-  return [
-    {
-      "pagina": paginaIndex,
-      "itens": listaInteiraDeTodosOsItens.sublist(indiceInicial, indiceFinal),
-    },
-  ];
+  /// Criação da lista de páginas
+  List<dynamic> listaPaginas = [];
+  for (int i = indiceInicial; i < indiceFinal; i++) {
+    if (i < listaInteiraDeTodosOsItens.length) {
+      listaPaginas.add(listaInteiraDeTodosOsItens[i]);
+    }
+  }
+
+  /// Retorno da lista de páginas
+  return listaPaginas;
 }

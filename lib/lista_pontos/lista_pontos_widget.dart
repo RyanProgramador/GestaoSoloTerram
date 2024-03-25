@@ -1240,16 +1240,13 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                             0.0, 10.0, 0.0, 30.0),
                                         child: Builder(
                                           builder: (context) {
-                                            final pontosLista = (functions
-                                                        .listaPaginacao(
-                                                            widget
-                                                                .listaJsonPontos
-                                                                ?.toList(),
-                                                            pageViewListaPontosIndex)
-                                                        ?.toList() ??
-                                                    [])
-                                                .take(3)
-                                                .toList();
+                                            final pontosLista = functions
+                                                    .listaPaginacao(
+                                                        widget.listaJsonPontos
+                                                            ?.toList(),
+                                                        pageViewListaPontosIndex)
+                                                    ?.toList() ??
+                                                [];
                                             return Column(
                                               mainAxisSize: MainAxisSize.max,
                                               children: List.generate(
