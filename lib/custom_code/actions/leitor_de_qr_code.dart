@@ -54,7 +54,7 @@ Future<String?> leitorDeQrCode(BuildContext context) async {
     ),
   ));
 
-  controller?.dispose(); // Garante a liberação do recurso da câmera
+  // controller?.dispose(); // Garante a liberação do recurso da câmera
   return scannedResult ?? "-1";
 }
 

@@ -53,21 +53,18 @@ class _QrcodeScannerState extends State<QrcodeScanner>
   QRViewController? controller;
   String qrText = '';
   final TextEditingController textController = TextEditingController();
-
-  @override
-  void dispose() {
-    controller?.dispose();
-    WidgetsBinding.instance.removeObserver(this);
-
-    textController.dispose();
-    super.dispose();
-  }
+  bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
-    // Inicializar a câmera aqui se necessário
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await Future.delayed(Duration(milliseconds: 500));
+      controller?.resumeCamera();
+      textController.clear();
+      // Inicializa a câmera aqui
+    });
+    // controller?.resumeCamera();
   }
 
   @override
@@ -79,15 +76,32 @@ class _QrcodeScannerState extends State<QrcodeScanner>
   }
 
   @override
+  void dispose() {
+    controller?.dispose();
+    WidgetsBinding.instance.removeObserver(this);
+
+    textController.dispose();
+    super.dispose();
+  }
+
+  @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (controller == null) return;
+    super.didChangeAppLifecycleState(state);
 
     if (state == AppLifecycleState.resumed) {
-      controller!.resumeCamera();
+      // Tente retomar a câmera ao voltar ao app
+      restartCamera();
     } else if (state == AppLifecycleState.inactive ||
         state == AppLifecycleState.paused) {
-      controller!.pauseCamera();
+      controller?.pauseCamera();
     }
+  }
+
+  void restartCamera() async {
+    await controller?.pauseCamera();
+    await Future.delayed(
+        Duration(milliseconds: 100)); // Um pequeno atraso antes de reiniciar
+    await controller?.resumeCamera();
   }
 
   void atualiza() {
@@ -144,7 +158,9 @@ class _QrcodeScannerState extends State<QrcodeScanner>
             TextButton(
               child: Text('OK'),
               onPressed: () {
-                Navigator.of(context).pop(); // Fecha o AlertDialog
+                setState(() {
+                  Navigator.of(context).pop(); // Fecha o AlertDialog
+                });
               },
             ),
           ],
@@ -386,6 +402,17 @@ class _QrcodeScannerState extends State<QrcodeScanner>
             ),
           ),
         ),
+        if (isLoading)
+          // Mostra o indicador de carregamento enquanto isLoading for true
+          Positioned(
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
+          ),
         Positioned(
           bottom: 6,
           left: 0,
@@ -575,27 +602,27 @@ class _QrcodeScannerState extends State<QrcodeScanner>
                             sucesso();
 
                             // if (mounted) {
-                            //   Navigator.of(context).pop();
-                            //   context.goNamed(
-                            //     'criacaoVolume',
-                            //     queryParameters: {
-                            //       'fazId': serializeParam(
-                            //         widget.fazId,
-                            //         ParamType.int,
-                            //       ),
-                            //       'oservId': serializeParam(
-                            //         widget.oservid,
-                            //         ParamType.int,
-                            //       ),
-                            //     }.withoutNulls,
-                            //     extra: <String, dynamic>{
-                            //       kTransitionInfoKey: TransitionInfo(
-                            //         hasTransition: true,
-                            //         transitionType: PageTransitionType.fade,
-                            //         duration: Duration(milliseconds: 0),
-                            //       ),
-                            //     },
-                            //   );
+                            Navigator.of(context).pop();
+                            context.goNamed(
+                              'criacaoVolume',
+                              queryParameters: {
+                                'fazId': serializeParam(
+                                  widget.fazId,
+                                  ParamType.int,
+                                ),
+                                'oservId': serializeParam(
+                                  widget.oservid,
+                                  ParamType.int,
+                                ),
+                              }.withoutNulls,
+                              extra: <String, dynamic>{
+                                kTransitionInfoKey: TransitionInfo(
+                                  hasTransition: true,
+                                  transitionType: PageTransitionType.fade,
+                                  duration: Duration(milliseconds: 0),
+                                ),
+                              },
+                            );
                             // }
                           }
 
@@ -667,326 +694,28 @@ class _QrcodeScannerState extends State<QrcodeScanner>
             backgroundColor: Color(0xFF982c26),
           ),
         ),
-        // Generated code for this Column Widget...
-        // Padding(
-        //   padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
-        //   child: Column(
-        //     mainAxisSize: MainAxisSize.min,
-        //     crossAxisAlignment: CrossAxisAlignment.start,
-        //     children: [
-        //       Text(
-        //         'Amostras lidas: ${valueOrDefault<String>(
-        //           functions
-        //               .buscaVolumesNoRegistro(functions.buscaRegistro(
-        //                   int.parse(widget.fazId!),
-        //                   int.parse(widget.oservid!),
-        //                   FFAppState().trSincroniza.toList()))
-        //               .length
-        //               .toString(),
-        //           '0',
-        //         )}',
-        //         textAlign: TextAlign.start,
-        //         style: FlutterFlowTheme.of(context).bodyMedium.override(
-        //               fontFamily: 'Readex Pro',
-        //               color: Color(0xFF00736D),
-        //             ),
-        //       ),
-        //       Container(
-        //         width: double.infinity,
-        //         height: MediaQuery.sizeOf(context).height * 0.3,
-        //         decoration: BoxDecoration(),
-        //         child: Builder(
-        //           builder: (context) {
-        //             final teste = functions
-        //                 .buscaVolumesNoRegistro(functions.buscaRegistro(
-        //                     int.parse(widget.fazId!),
-        //                     int.parse(widget.oservid!),
-        //                     FFAppState().trSincroniza.toList()))
-        //                 .toList();
-        //             return SingleChildScrollView(
-        //               child: Column(
-        //                 mainAxisSize: MainAxisSize.max,
-        //                 mainAxisAlignment: MainAxisAlignment.center,
-        //                 crossAxisAlignment: CrossAxisAlignment.center,
-        //                 children: List.generate(teste.length, (testeIndex) {
-        //                   final testeItem = teste[testeIndex];
-        //                   return Container(
-        //                     width: double.infinity,
-        //                     height: 65.0,
-        //                     decoration: BoxDecoration(
-        //                       color: Color(0xFFE6F1F0),
-        //                       borderRadius: BorderRadius.circular(12.0),
-        //                       border: Border.all(
-        //                         color: FlutterFlowTheme.of(context).primary,
-        //                       ),
-        //                     ),
-        //                     child: Row(
-        //                       mainAxisSize: MainAxisSize.max,
-        //                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //                       children: [
-        //                         Padding(
-        //                           padding: EdgeInsetsDirectional.fromSTEB(
-        //                               10.0, 0.0, 0.0, 0.0),
-        //                           child: Column(
-        //                             mainAxisSize: MainAxisSize.max,
-        //                             mainAxisAlignment: MainAxisAlignment.center,
-        //                             children: [
-        //                               Text(
-        //                                 'Ponto',
-        //                                 style: FlutterFlowTheme.of(context)
-        //                                     .bodyMedium
-        //                                     .override(
-        //                                       fontFamily: 'Readex Pro',
-        //                                       fontWeight: FontWeight.w600,
-        //                                     ),
-        //                               ),
-        //                               Text(
-        //                                 valueOrDefault<String>(
-        //                                   functions
-        //                                       .buscaPontoAtravesDaEtiquetaEmPontos(
-        //                                           functions.buscaRegistro(
-        //                                               int.parse(widget.fazId!),
-        //                                               int.parse(
-        //                                                   widget.oservid!),
-        //                                               FFAppState()
-        //                                                   .trSincroniza
-        //                                                   .toList()),
-        //                                           testeItem,
-        //                                           int.parse(widget.fazId!),
-        //                                           int.parse(widget.oservid!)),
-        //                                   '11111',
-        //                                 ),
-        //                                 style: FlutterFlowTheme.of(context)
-        //                                     .bodyMedium,
-        //                               ),
-        //                             ],
-        //                           ),
-        //                         ),
-        //                         Column(
-        //                           mainAxisSize: MainAxisSize.max,
-        //                           mainAxisAlignment: MainAxisAlignment.center,
-        //                           children: [
-        //                             Text(
-        //                               'Profundidade',
-        //                               style: FlutterFlowTheme.of(context)
-        //                                   .bodyMedium
-        //                                   .override(
-        //                                     fontFamily: 'Readex Pro',
-        //                                     fontWeight: FontWeight.w600,
-        //                                   ),
-        //                             ),
-        //                             Text(
-        //                               valueOrDefault<String>(
-        //                                 functions.retornalegenda(
-        //                                     valueOrDefault<String>(
-        //                                       functions
-        //                                           .buscalegendaiconeAtravesDaEtiquetaEmPontosCopy(
-        //                                               functions.buscaRegistro(
-        //                                                   int.parse(
-        //                                                       widget.fazId!),
-        //                                                   int.parse(
-        //                                                       widget.oservid!),
-        //                                                   FFAppState()
-        //                                                       .trSincroniza
-        //                                                       .toList()),
-        //                                               testeItem,
-        //                                               int.parse(widget.fazId!),
-        //                                               int.parse(
-        //                                                   widget.oservid!)),
-        //                                       'error32',
-        //                                     ),
-        //                                     FFAppState().trIcones.toList()),
-        //                                 'Erro',
-        //                               ),
-        //                               style: FlutterFlowTheme.of(context)
-        //                                   .bodyMedium,
-        //                             ),
-        //                             if (true == false)
-        //                               Text(
-        //                                 valueOrDefault<String>(
-        //                                   functions
-        //                                       .buscalegendaiconeAtravesDaEtiquetaEmPontosCopy(
-        //                                           functions.buscaRegistro(
-        //                                               int.parse(widget.fazId!),
-        //                                               int.parse(
-        //                                                   widget.oservid!),
-        //                                               FFAppState()
-        //                                                   .trSincroniza
-        //                                                   .toList()),
-        //                                           testeItem,
-        //                                           int.parse(widget.fazId!),
-        //                                           int.parse(widget.oservid!)),
-        //                                   'error32',
-        //                                 ),
-        //                                 style: FlutterFlowTheme.of(context)
-        //                                     .bodyMedium,
-        //                               ),
-        //                             if (true == false)
-        //                               Text(
-        //                                 valueOrDefault<String>(
-        //                                   functions
-        //                                       .buscapprofidAtravesDaEtiquetaEmPontos(
-        //                                           functions.buscaRegistro(
-        //                                               int.parse(widget.fazId!),
-        //                                               int.parse(
-        //                                                   widget.oservid!),
-        //                                               FFAppState()
-        //                                                   .trSincroniza
-        //                                                   .toList()),
-        //                                           testeItem),
-        //                                   'erro',
-        //                                 ),
-        //                                 style: FlutterFlowTheme.of(context)
-        //                                     .bodyMedium,
-        //                               ),
-        //                           ],
-        //                         ),
-        //                         Column(
-        //                           mainAxisSize: MainAxisSize.max,
-        //                           mainAxisAlignment: MainAxisAlignment.center,
-        //                           children: [
-        //                             Text(
-        //                               'Etiqueta',
-        //                               style: FlutterFlowTheme.of(context)
-        //                                   .bodyMedium
-        //                                   .override(
-        //                                     fontFamily: 'Readex Pro',
-        //                                     fontWeight: FontWeight.w600,
-        //                                   ),
-        //                             ),
-        //                             Text(
-        //                               testeItem,
-        //                               style: FlutterFlowTheme.of(context)
-        //                                   .bodyMedium,
-        //                             ),
-        //                           ],
-        //                         ),
-        //                         Padding(
-        //                           padding: EdgeInsetsDirectional.fromSTEB(
-        //                               0.0, 0.0, 10.0, 0.0),
-        //                           child: Column(
-        //                             mainAxisSize: MainAxisSize.max,
-        //                             mainAxisAlignment: MainAxisAlignment.center,
-        //                             children: [
-        //                               Padding(
-        //                                 padding: EdgeInsetsDirectional.fromSTEB(
-        //                                     0.0, 0.0, 8.0, 0.0),
-        //                                 child: InkWell(
-        //                                   splashColor: Colors.transparent,
-        //                                   focusColor: Colors.transparent,
-        //                                   hoverColor: Colors.transparent,
-        //                                   highlightColor: Colors.transparent,
-        //                                   onTap: () async {
-        //                                     var _shouldSetState = false;
-        //                                     var confirmDialogResponse =
-        //                                         await showDialog<bool>(
-        //                                               context: context,
-        //                                               builder:
-        //                                                   (alertDialogContext) {
-        //                                                 return AlertDialog(
-        //                                                   title:
-        //                                                       Text('Atenção!'),
-        //                                                   content: Text(
-        //                                                       'Você tem certeza que deseja remover essa amostra de dentro do volume?'),
-        //                                                   actions: [
-        //                                                     TextButton(
-        //                                                       onPressed: () =>
-        //                                                           Navigator.pop(
-        //                                                               alertDialogContext,
-        //                                                               false),
-        //                                                       child:
-        //                                                           Text('Não'),
-        //                                                     ),
-        //                                                     TextButton(
-        //                                                       onPressed: () =>
-        //                                                           Navigator.pop(
-        //                                                               alertDialogContext,
-        //                                                               true),
-        //                                                       child:
-        //                                                           Text('Sim'),
-        //                                                     ),
-        //                                                   ],
-        //                                                 );
-        //                                               },
-        //                                             ) ??
-        //                                             false;
-        //                                     if (confirmDialogResponse) {
-        //                                       _model.retornoEclusao =
-        //                                           await actions
-        //                                               .excluiVolumeDaEtapaAberta(
-        //                                         functions.buscaRegistro(
-        //                                             int.parse(widget.fazId!),
-        //                                             int.parse(widget.oservid!),
-        //                                             FFAppState()
-        //                                                 .trSincroniza
-        //                                                 .toList()),
-        //                                         testeItem,
-        //                                       );
-        //                                       _shouldSetState = true;
-        //                                       await showDialog(
-        //                                         context: context,
-        //                                         builder: (alertDialogContext) {
-        //                                           return AlertDialog(
-        //                                             title: Text(
-        //                                                 _model.retornoEclusao!),
-        //                                             actions: [
-        //                                               TextButton(
-        //                                                 onPressed: () =>
-        //                                                     Navigator.pop(
-        //                                                         alertDialogContext),
-        //                                                 child: Text('Ok'),
-        //                                               ),
-        //                                             ],
-        //                                           );
-        //                                         },
-        //                                       );
-        //                                     } else {
-        //                                       if (_shouldSetState)
-        //                                         setState(() {});
-        //                                       return;
-        //                                     }
-        //                                     if (_shouldSetState)
-        //                                       setState(() {});
-        //                                   },
-        //                                   child: FaIcon(
-        //                                     FontAwesomeIcons.trashAlt,
-        //                                     color: Colors.black,
-        //                                     size: 24.0,
-        //                                   ),
-        //                                 ),
-        //                               ),
-        //                             ],
-        //                           ),
-        //                         ),
-        //                       ],
-        //                     ),
-        //                   );
-        //                 }).divide(SizedBox(height: 5.0)),
-        //               ),
-        //             );
-        //           },
-        //         ),
-        //       ),
-        //     ],
-        //   ),
-        // )
       ],
     );
   }
 
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
+    controller?.resumeCamera();
     controller.scannedDataStream.listen((scanData) {
       setState(() {
         qrText = scanData.code!;
         // FFAppState().teste.add(qrText);
         controller?.pauseCamera();
+        // controller?.resumeCamera();
         // FFAppState().numeroVolumeQrCode = qrText;
         // context.goNamed('criacaoVolume',);
         textController.text = scanData.code!;
         // Potentially perform an action based on the scanned QR code
         print('Scanned QR code: $qrText'); // Example action: log to console
       });
+    });
+    setState(() {
+      isLoading = false; // Câmera carregada
     });
   }
 }
