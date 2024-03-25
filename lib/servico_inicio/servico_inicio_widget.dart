@@ -542,9 +542,6 @@ class _ServicoInicioWidgetState extends State<ServicoInicioWidget> {
                           ),
                           FFButtonWidget(
                             onPressed: () async {
-                              if (Navigator.of(context).canPop()) {
-                                context.pop();
-                              }
                               context.pushNamed(
                                 'ListadeVolumes',
                                 queryParameters: {
