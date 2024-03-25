@@ -58,7 +58,7 @@ class CriacaoVolumeModel extends FlutterFlowModel<CriacaoVolumeWidget> {
         context: context,
         builder: (alertDialogContext) {
           return AlertDialog(
-            title: const Text('Atenção!'),
+            title: Text(qrCode!),
             content: const Text('Etiqueta ja cadastrada anteriormente!'),
             actions: [
               TextButton(
