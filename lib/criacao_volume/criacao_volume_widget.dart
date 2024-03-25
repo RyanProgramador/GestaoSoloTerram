@@ -1,10 +1,12 @@
 import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_timer.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/custom_code/actions/index.dart' as actions;
 import '/custom_code/widgets/index.dart' as custom_widgets;
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'dart:async';
+import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -52,6 +54,7 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
         FFAppState().trTalhoes =
             FFAppState().trTalhoes.toList().cast<dynamic>();
       });
+      _model.timerController.onStartTimer();
       await Future.delayed(const Duration(milliseconds: 1000));
       setState(() {});
       if (valueOrDefault<int>(
@@ -95,6 +98,8 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
         return;
       }
     });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -282,23 +287,14 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
                                     color: const Color(0x0000736D),
                                     borderRadius: BorderRadius.circular(12.0),
                                   ),
-                                  child: InkWell(
-                                    splashColor: Colors.transparent,
-                                    focusColor: Colors.transparent,
-                                    hoverColor: Colors.transparent,
-                                    highlightColor: Colors.transparent,
-                                    onTap: () async {
-                                      setState(() {});
-                                    },
-                                    child: SizedBox(
+                                  child: SizedBox(
+                                    width: double.infinity,
+                                    height: double.infinity,
+                                    child: custom_widgets.QrcodeScanner(
                                       width: double.infinity,
                                       height: double.infinity,
-                                      child: custom_widgets.QrcodeScanner(
-                                        width: double.infinity,
-                                        height: double.infinity,
-                                        oservid: widget.oservId?.toString(),
-                                        fazId: widget.fazId?.toString(),
-                                      ),
+                                      oservid: widget.oservId?.toString(),
+                                      fazId: widget.fazId?.toString(),
                                     ),
                                   ),
                                 ),
@@ -353,19 +349,8 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
                                       builder: (context, snapshot) {
                                         // Customize what your widget looks like when it's loading.
                                         if (!snapshot.hasData) {
-                                          return Center(
-                                            child: SizedBox(
-                                              width: 50.0,
-                                              height: 50.0,
-                                              child: CircularProgressIndicator(
-                                                valueColor:
-                                                    AlwaysStoppedAnimation<
-                                                        Color>(
-                                                  FlutterFlowTheme.of(context)
-                                                      .primary,
-                                                ),
-                                              ),
-                                            ),
+                                          return Image.asset(
+                                            '',
                                           );
                                         }
                                         final columnTrOsServicosResponse =
@@ -733,6 +718,29 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
                     ),
                   ),
                 ),
+              ),
+              FlutterFlowTimer(
+                initialTime: _model.timerMilliseconds,
+                getDisplayTime: (value) => StopWatchTimer.getDisplayTime(
+                  value,
+                  hours: false,
+                  milliSecond: false,
+                ),
+                controller: _model.timerController,
+                updateStateInterval: const Duration(milliseconds: 400),
+                onChanged: (value, displayTime, shouldUpdate) {
+                  _model.timerMilliseconds = value;
+                  _model.timerValue = displayTime;
+                  if (shouldUpdate) setState(() {});
+                },
+                onEnded: () async {
+                  _model.timerController.onResetTimer();
+
+                  setState(() => _model.apiRequestCompleter = null);
+                  _model.timerController.onStartTimer();
+                },
+                textAlign: TextAlign.start,
+                style: FlutterFlowTheme.of(context).headlineSmall,
               ),
             ],
           ),

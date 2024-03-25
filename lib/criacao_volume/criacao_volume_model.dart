@@ -1,9 +1,11 @@
 import '/backend/api_requests/api_calls.dart';
+import '/flutter_flow/flutter_flow_timer.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'criacao_volume_widget.dart' show CriacaoVolumeWidget;
 import 'dart:async';
+import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:flutter/material.dart';
 
 class CriacaoVolumeModel extends FlutterFlowModel<CriacaoVolumeWidget> {
@@ -13,6 +15,15 @@ class CriacaoVolumeModel extends FlutterFlowModel<CriacaoVolumeWidget> {
   Completer<ApiCallResponse>? apiRequestCompleter;
   // Stores action output result for [Custom Action - excluiVolumeDaEtapaAberta] action in Icon widget.
   String? retornoEclusao;
+  // State field(s) for Timer widget.
+  int timerMilliseconds = 1000;
+  String timerValue = StopWatchTimer.getDisplayTime(
+    1000,
+    hours: false,
+    milliSecond: false,
+  );
+  FlutterFlowTimerController timerController =
+      FlutterFlowTimerController(StopWatchTimer(mode: StopWatchMode.countDown));
 
   /// Initialization and disposal methods.
 
@@ -22,6 +33,7 @@ class CriacaoVolumeModel extends FlutterFlowModel<CriacaoVolumeWidget> {
   @override
   void dispose() {
     unfocusNode.dispose();
+    timerController.dispose();
   }
 
   /// Action blocks are added here.
