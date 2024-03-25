@@ -1844,6 +1844,13 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                     ],
                                                   ),
                                                 ),
+                                                Text(
+                                                  pageViewListaPontosIndex
+                                                      .toString(),
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .bodyMedium,
+                                                ),
                                               ],
                                             ),
                                           ),
