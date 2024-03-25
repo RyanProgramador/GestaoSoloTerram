@@ -39,6 +39,13 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
+      _model.buscaSeOVolumePrecisaSerFinalizado =
+          await actions.buscaSeOVolumePrecisaSerFinalizado(
+        context,
+        functions.buscaRegistro(
+            widget.fazId!, widget.oservId!, FFAppState().trSincroniza.toList()),
+        null,
+      );
       setState(() {
         FFAppState().trSincroniza =
             FFAppState().trSincroniza.toList().cast<dynamic>();
@@ -148,225 +155,227 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                   decoration: const BoxDecoration(
                     color: Color(0x00FFFFFF),
                   ),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Container(
-                          width: double.infinity,
-                          height: 80.0,
-                          decoration: BoxDecoration(
-                            color: FlutterFlowTheme.of(context)
-                                .secondaryBackground,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
-                                16.0, 0.0, 16.0, 0.0),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                FFButtonWidget(
-                                  onPressed: () async {
-                                    var shouldSetState = false;
-                                    _model.buscaSeOVolumePrecisaSerFinaliz =
-                                        await actions
-                                            .buscaSeOVolumePrecisaSerFinalizado(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        width: double.infinity,
+                        height: 80.0,
+                        decoration: BoxDecoration(
+                          color:
+                              FlutterFlowTheme.of(context).secondaryBackground,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
+                              16.0, 0.0, 16.0, 0.0),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              FFButtonWidget(
+                                onPressed: () async {
+                                  var shouldSetState = false;
+                                  _model.buscaSeOVolumePrecisaSerFinaliz =
+                                      await actions
+                                          .buscaSeOVolumePrecisaSerFinalizado(
+                                    context,
+                                    functions.buscaRegistro(
+                                        widget.fazId!,
+                                        widget.oservId!,
+                                        FFAppState().trSincroniza.toList()),
+                                    null,
+                                  );
+                                  shouldSetState = true;
+                                  if (!_model
+                                      .buscaSeOVolumePrecisaSerFinaliz!) {
+                                    var confirmDialogResponse =
+                                        await showDialog<bool>(
+                                              context: context,
+                                              builder: (alertDialogContext) {
+                                                return AlertDialog(
+                                                  title: const Text('Atenção!'),
+                                                  content: const Text(
+                                                      'Deseja iniciar um volume?'),
+                                                  actions: [
+                                                    TextButton(
+                                                      onPressed: () =>
+                                                          Navigator.pop(
+                                                              alertDialogContext,
+                                                              false),
+                                                      child: const Text('Não'),
+                                                    ),
+                                                    TextButton(
+                                                      onPressed: () =>
+                                                          Navigator.pop(
+                                                              alertDialogContext,
+                                                              true),
+                                                      child: const Text('Sim'),
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            ) ??
+                                            false;
+                                    if (!confirmDialogResponse) {
+                                      if (shouldSetState) setState(() {});
+                                      return;
+                                    }
+                                  }
+                                  showModalBottomSheet(
+                                    isScrollControlled: true,
+                                    backgroundColor: Colors.transparent,
+                                    isDismissible: false,
+                                    enableDrag: false,
+                                    useSafeArea: true,
+                                    context: context,
+                                    builder: (context) {
+                                      return GestureDetector(
+                                        onTap: () => _model
+                                                .unfocusNode.canRequestFocus
+                                            ? FocusScope.of(context)
+                                                .requestFocus(
+                                                    _model.unfocusNode)
+                                            : FocusScope.of(context).unfocus(),
+                                        child: Padding(
+                                          padding:
+                                              MediaQuery.viewInsetsOf(context),
+                                          child: const JustLoadingWidget(),
+                                        ),
+                                      );
+                                    },
+                                  ).then((value) => safeSetState(() {}));
+
+                                  if (functions.buscaSeAEtapaEstaIniciada(
+                                      functions.buscaRegistro(
+                                          widget.fazId!,
+                                          widget.oservId!,
+                                          FFAppState()
+                                              .trSincroniza
+                                              .toList()))!) {
+                                    _model.buscaOVolumeIniciado = await actions
+                                        .buscaSeOVolumeEstaIniciadoENaoFinalizado(
                                       context,
                                       functions.buscaRegistro(
                                           widget.fazId!,
                                           widget.oservId!,
                                           FFAppState().trSincroniza.toList()),
-                                      null,
                                     );
                                     shouldSetState = true;
-                                    if (!_model
-                                        .buscaSeOVolumePrecisaSerFinaliz!) {
-                                      var confirmDialogResponse =
-                                          await showDialog<bool>(
-                                                context: context,
-                                                builder: (alertDialogContext) {
-                                                  return AlertDialog(
-                                                    title: const Text('Atenção!'),
-                                                    content: const Text(
-                                                        'Deseja iniciar um volume?'),
-                                                    actions: [
-                                                      TextButton(
-                                                        onPressed: () =>
-                                                            Navigator.pop(
-                                                                alertDialogContext,
-                                                                false),
-                                                        child: const Text('Não'),
-                                                      ),
-                                                      TextButton(
-                                                        onPressed: () =>
-                                                            Navigator.pop(
-                                                                alertDialogContext,
-                                                                true),
-                                                        child: const Text('Sim'),
-                                                      ),
-                                                    ],
-                                                  );
-                                                },
-                                              ) ??
-                                              false;
-                                      if (!confirmDialogResponse) {
-                                        if (shouldSetState) setState(() {});
-                                        return;
-                                      }
-                                    }
-                                    showModalBottomSheet(
-                                      isScrollControlled: true,
-                                      backgroundColor: Colors.transparent,
-                                      isDismissible: false,
-                                      enableDrag: false,
-                                      useSafeArea: true,
-                                      context: context,
-                                      builder: (context) {
-                                        return GestureDetector(
-                                          onTap: () => _model
-                                                  .unfocusNode.canRequestFocus
-                                              ? FocusScope.of(context)
-                                                  .requestFocus(
-                                                      _model.unfocusNode)
-                                              : FocusScope.of(context)
-                                                  .unfocus(),
-                                          child: Padding(
-                                            padding: MediaQuery.viewInsetsOf(
-                                                context),
-                                            child: const JustLoadingWidget(),
-                                          ),
-                                        );
-                                      },
-                                    ).then((value) => safeSetState(() {}));
-
-                                    if (functions.buscaSeAEtapaEstaIniciada(
-                                        functions.buscaRegistro(
-                                            widget.fazId!,
-                                            widget.oservId!,
-                                            FFAppState()
-                                                .trSincroniza
-                                                .toList()))!) {
-                                      _model.buscaOVolumeIniciado = await actions
-                                          .buscaSeOVolumeEstaIniciadoENaoFinalizado(
-                                        context,
-                                        functions.buscaRegistro(
-                                            widget.fazId!,
-                                            widget.oservId!,
-                                            FFAppState().trSincroniza.toList()),
-                                      );
-                                      shouldSetState = true;
-                                      Navigator.pop(context);
-                                      if (!_model.buscaOVolumeIniciado!) {
-                                        if (shouldSetState) setState(() {});
-                                        return;
-                                      }
-                                    } else {
-                                      Navigator.pop(context);
-                                      await showDialog(
-                                        context: context,
-                                        builder: (alertDialogContext) {
-                                          return AlertDialog(
-                                            title: const Text('Ops!'),
-                                            content: const Text(
-                                                'Voçê precisa iniciar uma etapa para criar um volume!'),
-                                            actions: [
-                                              TextButton(
-                                                onPressed: () => Navigator.pop(
-                                                    alertDialogContext),
-                                                child: const Text('Entendi'),
-                                              ),
-                                            ],
-                                          );
-                                        },
-                                      );
+                                    Navigator.pop(context);
+                                    if (!_model.buscaOVolumeIniciado!) {
                                       if (shouldSetState) setState(() {});
                                       return;
                                     }
-
-                                    context.pushNamed(
-                                      'criacaoVolume',
-                                      queryParameters: {
-                                        'fazId': serializeParam(
-                                          widget.fazId,
-                                          ParamType.int,
-                                        ),
-                                        'oservId': serializeParam(
-                                          widget.oservId,
-                                          ParamType.int,
-                                        ),
-                                      }.withoutNulls,
-                                      extra: <String, dynamic>{
-                                        kTransitionInfoKey: const TransitionInfo(
-                                          hasTransition: true,
-                                          transitionType:
-                                              PageTransitionType.fade,
-                                          duration: Duration(milliseconds: 0),
-                                        ),
+                                  } else {
+                                    Navigator.pop(context);
+                                    await showDialog(
+                                      context: context,
+                                      builder: (alertDialogContext) {
+                                        return AlertDialog(
+                                          title: const Text('Ops!'),
+                                          content: const Text(
+                                              'Voçê precisa iniciar uma etapa para criar um volume!'),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () => Navigator.pop(
+                                                  alertDialogContext),
+                                              child: const Text('Entendi'),
+                                            ),
+                                          ],
+                                        );
                                       },
                                     );
-
                                     if (shouldSetState) setState(() {});
-                                  },
-                                  text: '',
-                                  icon: const FaIcon(
-                                    FontAwesomeIcons.boxes,
-                                    color: Colors.white,
-                                    size: 32.0,
-                                  ),
-                                  options: FFButtonOptions(
-                                    width: 65.0,
-                                    height: 65.0,
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
-                                        8.0, 0.0, 0.0, 0.0),
-                                    iconPadding: const EdgeInsetsDirectional.fromSTEB(
-                                        0.0, 0.0, 0.0, 0.0),
-                                    color: FlutterFlowTheme.of(context).primary,
-                                    textStyle: FlutterFlowTheme.of(context)
-                                        .titleSmall
-                                        .override(
-                                          fontFamily: 'Readex Pro',
-                                          color: Colors.white,
-                                        ),
-                                    elevation: 3.0,
-                                    borderSide: const BorderSide(
-                                      color: Colors.transparent,
-                                      width: 1.0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(100.0),
-                                  ),
+                                    return;
+                                  }
+
+                                  context.pushNamed(
+                                    'criacaoVolume',
+                                    queryParameters: {
+                                      'fazId': serializeParam(
+                                        widget.fazId,
+                                        ParamType.int,
+                                      ),
+                                      'oservId': serializeParam(
+                                        widget.oservId,
+                                        ParamType.int,
+                                      ),
+                                    }.withoutNulls,
+                                    extra: <String, dynamic>{
+                                      kTransitionInfoKey: const TransitionInfo(
+                                        hasTransition: true,
+                                        transitionType: PageTransitionType.fade,
+                                        duration: Duration(milliseconds: 0),
+                                      ),
+                                    },
+                                  );
+
+                                  if (shouldSetState) setState(() {});
+                                },
+                                text: '',
+                                icon: const FaIcon(
+                                  FontAwesomeIcons.boxes,
+                                  color: Colors.white,
+                                  size: 32.0,
                                 ),
-                              ].divide(const SizedBox(width: 5.0)),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
-                              16.0, 8.0, 16.0, 0.0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Total de volumes: ${valueOrDefault<String>(
-                                  functions
-                                      .buscaListaDeVolumes(
-                                          functions.buscaRegistro(
-                                              widget.fazId!,
-                                              widget.oservId!,
-                                              FFAppState()
-                                                  .trSincroniza
-                                                  .toList()))
-                                      ?.length
-                                      .toString(),
-                                  '0',
-                                )}',
-                                style: FlutterFlowTheme.of(context).bodyMedium,
+                                options: FFButtonOptions(
+                                  width: 65.0,
+                                  height: 65.0,
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      8.0, 0.0, 0.0, 0.0),
+                                  iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                      0.0, 0.0, 0.0, 0.0),
+                                  color: valueOrDefault<Color>(
+                                    _model.buscaSeOVolumePrecisaSerFinalizado!
+                                        ? const Color(0xFFFFAB00)
+                                        : FlutterFlowTheme.of(context).primary,
+                                    FlutterFlowTheme.of(context).primary,
+                                  ),
+                                  textStyle: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .override(
+                                        fontFamily: 'Readex Pro',
+                                        color: Colors.white,
+                                      ),
+                                  elevation: 3.0,
+                                  borderSide: const BorderSide(
+                                    color: Colors.transparent,
+                                    width: 1.0,
+                                  ),
+                                  borderRadius: BorderRadius.circular(100.0),
+                                ),
                               ),
-                            ],
+                            ].divide(const SizedBox(width: 5.0)),
                           ),
                         ),
-                        Padding(
+                      ),
+                      Padding(
+                        padding: const EdgeInsetsDirectional.fromSTEB(
+                            16.0, 8.0, 16.0, 0.0),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Total de volumes: ${valueOrDefault<String>(
+                                functions
+                                    .buscaListaDeVolumes(
+                                        functions.buscaRegistro(
+                                            widget.fazId!,
+                                            widget.oservId!,
+                                            FFAppState().trSincroniza.toList()))
+                                    ?.length
+                                    .toString(),
+                                '0',
+                              )}',
+                              style: FlutterFlowTheme.of(context).bodyMedium,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        flex: 10,
+                        child: Padding(
                           padding: const EdgeInsetsDirectional.fromSTEB(
                               0.0, 8.0, 0.0, 30.0),
                           child: Builder(
@@ -390,37 +399,16 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                   ),
                                 );
                               }
-                              return SingleChildScrollView(
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children:
-                                      List.generate(volumesListados.length,
-                                          (volumesListadosIndex) {
-                                    final volumesListadosItem =
-                                        volumesListados[volumesListadosIndex];
-                                    return Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          valueOrDefault<double>(
-                                            getJsonField(
-                                                      volumesListadosItem,
-                                                      r'''$.volume_data_hora_fim''',
-                                                    ) !=
-                                                    getJsonField(
-                                                      _model.emptystring,
-                                                      r'''$.teste''',
-                                                    )
-                                                ? 16.0
-                                                : 26.0,
-                                            0.0,
-                                          ),
-                                          0.0,
-                                          16.0,
-                                          0.0),
-                                      child: Container(
-                                        width: double.infinity,
-                                        height: 170.0,
-                                        decoration: BoxDecoration(
-                                          color: getJsonField(
+                              return Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: List.generate(volumesListados.length,
+                                    (volumesListadosIndex) {
+                                  final volumesListadosItem =
+                                      volumesListados[volumesListadosIndex];
+                                  return Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        valueOrDefault<double>(
+                                          getJsonField(
                                                     volumesListadosItem,
                                                     r'''$.volume_data_hora_fim''',
                                                   ) !=
@@ -428,27 +416,30 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                     _model.emptystring,
                                                     r'''$.teste''',
                                                   )
-                                              ? const Color(0xFFE6F1F0)
-                                              : const Color(0xFFFFF4CE),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              blurRadius: 0.0,
-                                              color: getJsonField(
-                                                        volumesListadosItem,
-                                                        r'''$.volume_data_hora_fim''',
-                                                      ) !=
-                                                      getJsonField(
-                                                        _model.emptystring,
-                                                        r'''$.teste''',
-                                                      )
-                                                  ? const Color(0x00FFAB00)
-                                                  : const Color(0xFFFFAB00),
-                                              offset: const Offset(-10.0, 0.0),
-                                            )
-                                          ],
-                                          borderRadius:
-                                              BorderRadius.circular(8.0),
-                                          border: Border.all(
+                                              ? 16.0
+                                              : 26.0,
+                                          0.0,
+                                        ),
+                                        0.0,
+                                        16.0,
+                                        0.0),
+                                    child: Container(
+                                      width: double.infinity,
+                                      height: 170.0,
+                                      decoration: BoxDecoration(
+                                        color: getJsonField(
+                                                  volumesListadosItem,
+                                                  r'''$.volume_data_hora_fim''',
+                                                ) !=
+                                                getJsonField(
+                                                  _model.emptystring,
+                                                  r'''$.teste''',
+                                                )
+                                            ? const Color(0xFFE6F1F0)
+                                            : const Color(0xFFFFF4CE),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            blurRadius: 0.0,
                                             color: getJsonField(
                                                       volumesListadosItem,
                                                       r'''$.volume_data_hora_fim''',
@@ -457,185 +448,215 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                       _model.emptystring,
                                                       r'''$.teste''',
                                                     )
-                                                ? const Color(0xFF7BB3B6)
+                                                ? const Color(0x00FFAB00)
                                                 : const Color(0xFFFFAB00),
-                                          ),
+                                            offset: const Offset(-10.0, 0.0),
+                                          )
+                                        ],
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                        border: Border.all(
+                                          color: getJsonField(
+                                                    volumesListadosItem,
+                                                    r'''$.volume_data_hora_fim''',
+                                                  ) !=
+                                                  getJsonField(
+                                                    _model.emptystring,
+                                                    r'''$.teste''',
+                                                  )
+                                              ? const Color(0xFF7BB3B6)
+                                              : const Color(0xFFFFAB00),
                                         ),
-                                        child: Padding(
-                                          padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
-                                                  0.0, 8.0, 0.0, 8.0),
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Expanded(
-                                                child: Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  14.0,
-                                                                  0.0,
-                                                                  14.0,
-                                                                  4.0),
-                                                      child: Row(
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                            0.0, 8.0, 0.0, 8.0),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Expanded(
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.max,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsetsDirectional
+                                                            .fromSTEB(14.0, 0.0,
+                                                                14.0, 4.0),
+                                                    child: Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Text(
+                                                          'Volume: ${getJsonField(
+                                                            volumesListadosItem,
+                                                            r'''$.volume_id''',
+                                                          ).toString()} (${valueOrDefault<String>(
+                                                            functions
+                                                                .contadorDeNumeroDeAmostras(
+                                                                    getJsonField(
+                                                              volumesListadosItem,
+                                                              r'''$.amostras[:].volam_etiqueta_id''',
+                                                            ).toString()),
+                                                            'Erro#nãotemNumero',
+                                                          )} amostras)',
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Outfit',
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primaryText,
+                                                                fontSize: 24.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                              ),
+                                                        ),
+                                                        InkWell(
+                                                          splashColor: Colors
+                                                              .transparent,
+                                                          focusColor: Colors
+                                                              .transparent,
+                                                          hoverColor: Colors
+                                                              .transparent,
+                                                          highlightColor: Colors
+                                                              .transparent,
+                                                          onTap: () async {
+                                                            await showModalBottomSheet(
+                                                              isScrollControlled:
+                                                                  true,
+                                                              backgroundColor:
+                                                                  Colors
+                                                                      .transparent,
+                                                              enableDrag: false,
+                                                              context: context,
+                                                              builder:
+                                                                  (context) {
+                                                                return GestureDetector(
+                                                                  onTap: () => _model
+                                                                          .unfocusNode
+                                                                          .canRequestFocus
+                                                                      ? FocusScope.of(
+                                                                              context)
+                                                                          .requestFocus(_model
+                                                                              .unfocusNode)
+                                                                      : FocusScope.of(
+                                                                              context)
+                                                                          .unfocus(),
+                                                                  child:
+                                                                      Padding(
+                                                                    padding: MediaQuery
+                                                                        .viewInsetsOf(
+                                                                            context),
+                                                                    child:
+                                                                        FotoVolumeWidget(
+                                                                      base64:
+                                                                          getJsonField(
+                                                                        volumesListadosItem,
+                                                                        r'''$.foto''',
+                                                                      ).toString(),
+                                                                    ),
+                                                                  ),
+                                                                );
+                                                              },
+                                                            ).then((value) =>
+                                                                safeSetState(
+                                                                    () {}));
+                                                          },
+                                                          child: Icon(
+                                                            Icons
+                                                                .perm_media_sharp,
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .primary,
+                                                            size: 32.0,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsetsDirectional
+                                                            .fromSTEB(14.0, 0.0,
+                                                                14.0, 0.0),
+                                                    child: Container(
+                                                      width: MediaQuery.sizeOf(
+                                                                  context)
+                                                              .width *
+                                                          1.0,
+                                                      decoration: const BoxDecoration(
+                                                        color:
+                                                            Color(0x00E6F1F0),
+                                                      ),
+                                                      child: Column(
                                                         mainAxisSize:
                                                             MainAxisSize.max,
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
                                                         children: [
-                                                          Text(
-                                                            'Volume: ${getJsonField(
-                                                              volumesListadosItem,
-                                                              r'''$.volume_id''',
-                                                            ).toString()} (${valueOrDefault<String>(
-                                                              functions
-                                                                  .contadorDeNumeroDeAmostras(
-                                                                      getJsonField(
-                                                                volumesListadosItem,
-                                                                r'''$.amostras[:].volam_etiqueta_id''',
-                                                              ).toString()),
-                                                              'Erro#nãotemNumero',
-                                                            )} amostras)',
-                                                            style: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .bodyMedium
-                                                                .override(
-                                                                  fontFamily:
-                                                                      'Outfit',
-                                                                  color: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .primaryText,
-                                                                  fontSize:
-                                                                      24.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                ),
-                                                          ),
-                                                          InkWell(
-                                                            splashColor: Colors
-                                                                .transparent,
-                                                            focusColor: Colors
-                                                                .transparent,
-                                                            hoverColor: Colors
-                                                                .transparent,
-                                                            highlightColor:
-                                                                Colors
-                                                                    .transparent,
-                                                            onTap: () async {
-                                                              await showModalBottomSheet(
-                                                                isScrollControlled:
-                                                                    true,
-                                                                backgroundColor:
-                                                                    Colors
-                                                                        .transparent,
-                                                                enableDrag:
-                                                                    false,
-                                                                context:
-                                                                    context,
-                                                                builder:
-                                                                    (context) {
-                                                                  return GestureDetector(
-                                                                    onTap: () => _model
-                                                                            .unfocusNode
-                                                                            .canRequestFocus
-                                                                        ? FocusScope.of(context).requestFocus(_model
-                                                                            .unfocusNode)
-                                                                        : FocusScope.of(context)
-                                                                            .unfocus(),
-                                                                    child:
-                                                                        Padding(
-                                                                      padding: MediaQuery
-                                                                          .viewInsetsOf(
-                                                                              context),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        0.0,
+                                                                        8.0,
+                                                                        0.0,
+                                                                        0.0),
+                                                            child: Row(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .max,
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .start,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Column(
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .max,
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  children: [
+                                                                    Padding(
+                                                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                                                          0.0,
+                                                                          0.0,
+                                                                          0.0,
+                                                                          2.0),
                                                                       child:
-                                                                          FotoVolumeWidget(
-                                                                        base64:
-                                                                            getJsonField(
+                                                                          Text(
+                                                                        'Iniciado em  ${functions.formatardatahora(getJsonField(
                                                                           volumesListadosItem,
-                                                                          r'''$.foto''',
-                                                                        ).toString(),
+                                                                          r'''$.volume_data_hora_inicio''',
+                                                                        ).toString())}',
+                                                                        style: FlutterFlowTheme.of(context)
+                                                                            .bodyMedium,
                                                                       ),
                                                                     ),
-                                                                  );
-                                                                },
-                                                              ).then((value) =>
-                                                                  safeSetState(
-                                                                      () {}));
-                                                            },
-                                                            child: Icon(
-                                                              Icons
-                                                                  .perm_media_sharp,
-                                                              color: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .primary,
-                                                              size: 32.0,
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  14.0,
-                                                                  0.0,
-                                                                  14.0,
-                                                                  0.0),
-                                                      child: Container(
-                                                        width:
-                                                            MediaQuery.sizeOf(
-                                                                        context)
-                                                                    .width *
-                                                                1.0,
-                                                        decoration:
-                                                            const BoxDecoration(
-                                                          color:
-                                                              Color(0x00E6F1F0),
-                                                        ),
-                                                        child: Column(
-                                                          mainAxisSize:
-                                                              MainAxisSize.max,
-                                                          children: [
-                                                            Padding(
-                                                              padding:
-                                                                  const EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0.0,
-                                                                          8.0,
-                                                                          0.0,
-                                                                          0.0),
-                                                              child: Row(
-                                                                mainAxisSize:
-                                                                    MainAxisSize
-                                                                        .max,
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .start,
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .start,
-                                                                children: [
-                                                                  Column(
-                                                                    mainAxisSize:
-                                                                        MainAxisSize
-                                                                            .max,
-                                                                    crossAxisAlignment:
-                                                                        CrossAxisAlignment
-                                                                            .start,
-                                                                    children: [
+                                                                    if (getJsonField(
+                                                                          volumesListadosItem,
+                                                                          r'''$.volume_data_hora_fim''',
+                                                                        ) !=
+                                                                        getJsonField(
+                                                                          _model
+                                                                              .emptystring,
+                                                                          r'''$.teste''',
+                                                                        ))
                                                                       Padding(
                                                                         padding: const EdgeInsetsDirectional.fromSTEB(
                                                                             0.0,
@@ -644,155 +665,83 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                                             2.0),
                                                                         child:
                                                                             Text(
-                                                                          'Iniciado em  ${functions.formatardatahora(getJsonField(
+                                                                          'Concluído em ${functions.formatardatahora(getJsonField(
                                                                             volumesListadosItem,
-                                                                            r'''$.volume_data_hora_inicio''',
+                                                                            r'''$.volume_data_hora_fim''',
                                                                           ).toString())}',
                                                                           style:
                                                                               FlutterFlowTheme.of(context).bodyMedium,
                                                                         ),
                                                                       ),
-                                                                      if (getJsonField(
-                                                                            volumesListadosItem,
-                                                                            r'''$.volume_data_hora_fim''',
-                                                                          ) !=
-                                                                          getJsonField(
-                                                                            _model.emptystring,
-                                                                            r'''$.teste''',
-                                                                          ))
-                                                                        Padding(
-                                                                          padding: const EdgeInsetsDirectional.fromSTEB(
-                                                                              0.0,
-                                                                              0.0,
-                                                                              0.0,
-                                                                              2.0),
-                                                                          child:
-                                                                              Text(
-                                                                            'Concluído em ${functions.formatardatahora(getJsonField(
-                                                                              volumesListadosItem,
-                                                                              r'''$.volume_data_hora_fim''',
-                                                                            ).toString())}',
-                                                                            style:
-                                                                                FlutterFlowTheme.of(context).bodyMedium,
-                                                                          ),
-                                                                        ),
-                                                                    ],
-                                                                  ),
-                                                                ],
-                                                              ),
+                                                                  ],
+                                                                ),
+                                                              ],
                                                             ),
-                                                          ],
-                                                        ),
+                                                          ),
+                                                        ],
                                                       ),
                                                     ),
-                                                    Flexible(
-                                                      child: Align(
-                                                        alignment:
-                                                            const AlignmentDirectional(
-                                                                1.0, 0.0),
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      14.0,
-                                                                      6.0,
-                                                                      14.0,
-                                                                      0.0),
-                                                          child: Container(
-                                                            width:
-                                                                double.infinity,
-                                                            height: 68.0,
-                                                            decoration:
-                                                                const BoxDecoration(
-                                                              color: Color(
-                                                                  0x00FFFFFF),
-                                                            ),
+                                                  ),
+                                                  Flexible(
+                                                    child: Align(
+                                                      alignment:
+                                                          const AlignmentDirectional(
+                                                              1.0, 0.0),
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    14.0,
+                                                                    6.0,
+                                                                    14.0,
+                                                                    0.0),
+                                                        child: Container(
+                                                          width:
+                                                              double.infinity,
+                                                          height: 68.0,
+                                                          decoration:
+                                                              const BoxDecoration(
+                                                            color: Color(
+                                                                0x00FFFFFF),
+                                                          ),
+                                                          alignment:
+                                                              const AlignmentDirectional(
+                                                                  1.0, 0.0),
+                                                          child: Align(
                                                             alignment:
                                                                 const AlignmentDirectional(
                                                                     1.0, 0.0),
-                                                            child: Align(
-                                                              alignment:
-                                                                  const AlignmentDirectional(
-                                                                      1.0, 0.0),
-                                                              child: Padding(
-                                                                padding:
-                                                                    const EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            0.0,
-                                                                            0.0,
-                                                                            0.0,
-                                                                            8.0),
-                                                                child: Row(
-                                                                  mainAxisSize:
-                                                                      MainAxisSize
-                                                                          .max,
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .spaceBetween,
-                                                                  children: [
-                                                                    if (getJsonField(
-                                                                          volumesListadosItem,
-                                                                          r'''$.lacre''',
-                                                                        ) !=
-                                                                        getJsonField(
-                                                                          _model
-                                                                              .emptystring,
-                                                                          r'''$.teste''',
-                                                                        ))
-                                                                      Flexible(
-                                                                        child:
-                                                                            Align(
-                                                                          alignment: const AlignmentDirectional(
-                                                                              -1.0,
-                                                                              0.0),
-                                                                          child:
-                                                                              Column(
-                                                                            mainAxisSize:
-                                                                                MainAxisSize.max,
-                                                                            mainAxisAlignment:
-                                                                                MainAxisAlignment.center,
-                                                                            crossAxisAlignment:
-                                                                                CrossAxisAlignment.start,
-                                                                            children: [
-                                                                              Text(
-                                                                                'Lacre',
-                                                                                style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                      fontFamily: 'Readex Pro',
-                                                                                      color: FlutterFlowTheme.of(context).primaryText,
-                                                                                      fontSize: 16.0,
-                                                                                      fontWeight: FontWeight.w600,
-                                                                                    ),
-                                                                              ),
-                                                                              Padding(
-                                                                                padding: const EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 0.0),
-                                                                                child: Column(
-                                                                                  mainAxisSize: MainAxisSize.max,
-                                                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                  children: [
-                                                                                    Text(
-                                                                                      getJsonField(
-                                                                                        volumesListadosItem,
-                                                                                        r'''$.lacre''',
-                                                                                      ).toString(),
-                                                                                      style: FlutterFlowTheme.of(context).bodyMedium,
-                                                                                    ),
-                                                                                  ],
-                                                                                ),
-                                                                              ),
-                                                                            ],
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    if (getJsonField(
-                                                                          volumesListadosItem,
-                                                                          r'''$.vol_etiqueta_id''',
-                                                                        ) !=
-                                                                        getJsonField(
-                                                                          _model
-                                                                              .emptystring,
-                                                                          r'''$.teste''',
-                                                                        ))
-                                                                      Flexible(
+                                                            child: Padding(
+                                                              padding:
+                                                                  const EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          0.0,
+                                                                          0.0,
+                                                                          0.0,
+                                                                          8.0),
+                                                              child: Row(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .max,
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                children: [
+                                                                  if (getJsonField(
+                                                                        volumesListadosItem,
+                                                                        r'''$.lacre''',
+                                                                      ) !=
+                                                                      getJsonField(
+                                                                        _model
+                                                                            .emptystring,
+                                                                        r'''$.teste''',
+                                                                      ))
+                                                                    Flexible(
+                                                                      child:
+                                                                          Align(
+                                                                        alignment: const AlignmentDirectional(
+                                                                            -1.0,
+                                                                            0.0),
                                                                         child:
                                                                             Column(
                                                                           mainAxisSize:
@@ -803,7 +752,7 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                                               CrossAxisAlignment.start,
                                                                           children: [
                                                                             Text(
-                                                                              'Etiqueta',
+                                                                              'Lacre',
                                                                               style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                                                     fontFamily: 'Readex Pro',
                                                                                     color: FlutterFlowTheme.of(context).primaryText,
@@ -815,11 +764,12 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                                               padding: const EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 0.0),
                                                                               child: Column(
                                                                                 mainAxisSize: MainAxisSize.max,
+                                                                                crossAxisAlignment: CrossAxisAlignment.start,
                                                                                 children: [
                                                                                   Text(
                                                                                     getJsonField(
                                                                                       volumesListadosItem,
-                                                                                      r'''$.vol_etiqueta_id''',
+                                                                                      r'''$.lacre''',
                                                                                     ).toString(),
                                                                                     style: FlutterFlowTheme.of(context).bodyMedium,
                                                                                   ),
@@ -829,190 +779,254 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                                                           ],
                                                                         ),
                                                                       ),
-                                                                    if ((getJsonField(
-                                                                              volumesListadosItem,
-                                                                              r'''$.volume_data_hora_fim''',
-                                                                            ) !=
-                                                                            getJsonField(
-                                                                              _model.emptystring,
-                                                                              r'''$.teste''',
-                                                                            )) &&
-                                                                        (true ==
-                                                                            false))
-                                                                      Expanded(
-                                                                        child:
-                                                                            Column(
-                                                                          mainAxisSize:
-                                                                              MainAxisSize.max,
-                                                                          mainAxisAlignment:
-                                                                              MainAxisAlignment.center,
-                                                                          crossAxisAlignment:
-                                                                              CrossAxisAlignment.start,
-                                                                          children: [
-                                                                            Text(
-                                                                              'Tempo Total',
-                                                                              style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                    fontFamily: 'Readex Pro',
-                                                                                    color: FlutterFlowTheme.of(context).primaryText,
-                                                                                    fontSize: 16.0,
-                                                                                    fontWeight: FontWeight.w600,
-                                                                                  ),
-                                                                            ),
-                                                                            Padding(
-                                                                              padding: const EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 0.0),
-                                                                              child: Column(
-                                                                                mainAxisSize: MainAxisSize.max,
-                                                                                crossAxisAlignment: CrossAxisAlignment.end,
-                                                                                children: [
-                                                                                  Text(
-                                                                                    valueOrDefault<String>(
-                                                                                      functions.diferencaEntreDatas(
-                                                                                          getJsonField(
-                                                                                            volumesListadosItem,
-                                                                                            r'''$.volume_data_hora_inicio''',
-                                                                                          ).toString(),
-                                                                                          getJsonField(
-                                                                                            volumesListadosItem,
-                                                                                            r'''$.volume_data_hora_fim''',
-                                                                                          ).toString()),
-                                                                                      'erro',
-                                                                                    ),
-                                                                                    style: FlutterFlowTheme.of(context).bodyMedium,
-                                                                                  ),
-                                                                                ],
-                                                                              ),
-                                                                            ),
-                                                                          ],
-                                                                        ),
-                                                                      ),
+                                                                    ),
+                                                                  if (getJsonField(
+                                                                        volumesListadosItem,
+                                                                        r'''$.vol_etiqueta_id''',
+                                                                      ) !=
+                                                                      getJsonField(
+                                                                        _model
+                                                                            .emptystring,
+                                                                        r'''$.teste''',
+                                                                      ))
                                                                     Flexible(
                                                                       child:
-                                                                          Row(
+                                                                          Column(
                                                                         mainAxisSize:
                                                                             MainAxisSize.max,
                                                                         mainAxisAlignment:
-                                                                            MainAxisAlignment.end,
+                                                                            MainAxisAlignment.center,
+                                                                        crossAxisAlignment:
+                                                                            CrossAxisAlignment.start,
                                                                         children: [
-                                                                          Align(
-                                                                            alignment:
-                                                                                const AlignmentDirectional(1.0, 0.0),
+                                                                          Text(
+                                                                            'Etiqueta',
+                                                                            style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                  fontFamily: 'Readex Pro',
+                                                                                  color: FlutterFlowTheme.of(context).primaryText,
+                                                                                  fontSize: 16.0,
+                                                                                  fontWeight: FontWeight.w600,
+                                                                                ),
+                                                                          ),
+                                                                          Padding(
+                                                                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                                                                0.0,
+                                                                                4.0,
+                                                                                0.0,
+                                                                                0.0),
                                                                             child:
-                                                                                InkWell(
-                                                                              splashColor: Colors.transparent,
-                                                                              focusColor: Colors.transparent,
-                                                                              hoverColor: Colors.transparent,
-                                                                              highlightColor: Colors.transparent,
-                                                                              onTap: () async {
-                                                                                if (valueOrDefault<String>(
-                                                                                      functions.contadorDeNumeroDeAmostras(getJsonField(
-                                                                                        volumesListadosItem,
-                                                                                        r'''$.amostras[:].volam_etiqueta_id''',
-                                                                                      ).toString()),
-                                                                                      'Erro#nãotemNumero',
-                                                                                    ) ==
-                                                                                    '0') {
-                                                                                  await showDialog(
-                                                                                    context: context,
-                                                                                    builder: (alertDialogContext) {
-                                                                                      return AlertDialog(
-                                                                                        title: const Text('Ops!'),
-                                                                                        content: const Text('Não há amostras nesse volume!'),
-                                                                                        actions: [
-                                                                                          TextButton(
-                                                                                            onPressed: () => Navigator.pop(alertDialogContext),
-                                                                                            child: const Text('Entendi'),
-                                                                                          ),
-                                                                                        ],
-                                                                                      );
-                                                                                    },
-                                                                                  );
-                                                                                  return;
-                                                                                }
-
-                                                                                context.pushNamed(
-                                                                                  'ListadeAmostras',
-                                                                                  queryParameters: {
-                                                                                    'fazId': serializeParam(
-                                                                                      widget.fazId,
-                                                                                      ParamType.int,
-                                                                                    ),
-                                                                                    'oservId': serializeParam(
-                                                                                      widget.oservId,
-                                                                                      ParamType.int,
-                                                                                    ),
-                                                                                    'amostras': serializeParam(
-                                                                                      functions.inverterLista((getJsonField(
-                                                                                        volumesListadosItem,
-                                                                                        r'''$.amostras[:].volam_etiqueta_id''',
-                                                                                        true,
-                                                                                      ) as List)
-                                                                                          .map<String>((s) => s.toString())
-                                                                                          .toList()),
-                                                                                      ParamType.String,
-                                                                                      true,
-                                                                                    ),
-                                                                                    'idDoVolume': serializeParam(
-                                                                                      getJsonField(
-                                                                                        volumesListadosItem,
-                                                                                        r'''$.volume_id''',
-                                                                                      ).toString(),
-                                                                                      ParamType.String,
-                                                                                    ),
-                                                                                    'coletadoEmList': serializeParam(
-                                                                                      functions.inverterLista((getJsonField(
-                                                                                        volumesListadosItem,
-                                                                                        r'''$.amostras[:].volam_data''',
-                                                                                        true,
-                                                                                      ) as List)
-                                                                                          .map<String>((s) => s.toString())
-                                                                                          .toList()),
-                                                                                      ParamType.String,
-                                                                                      true,
-                                                                                    ),
-                                                                                  }.withoutNulls,
-                                                                                  extra: <String, dynamic>{
-                                                                                    kTransitionInfoKey: const TransitionInfo(
-                                                                                      hasTransition: true,
-                                                                                      transitionType: PageTransitionType.rightToLeft,
-                                                                                      duration: Duration(milliseconds: 400),
-                                                                                    ),
-                                                                                  },
-                                                                                );
-                                                                              },
-                                                                              child: FaIcon(
-                                                                                FontAwesomeIcons.arrowCircleRight,
-                                                                                color: FlutterFlowTheme.of(context).primary,
-                                                                                size: 32.0,
-                                                                              ),
+                                                                                Column(
+                                                                              mainAxisSize: MainAxisSize.max,
+                                                                              children: [
+                                                                                Text(
+                                                                                  getJsonField(
+                                                                                    volumesListadosItem,
+                                                                                    r'''$.vol_etiqueta_id''',
+                                                                                  ).toString(),
+                                                                                  style: FlutterFlowTheme.of(context).bodyMedium,
+                                                                                ),
+                                                                              ],
                                                                             ),
                                                                           ),
                                                                         ],
                                                                       ),
                                                                     ),
-                                                                  ],
-                                                                ),
+                                                                  if ((getJsonField(
+                                                                            volumesListadosItem,
+                                                                            r'''$.volume_data_hora_fim''',
+                                                                          ) !=
+                                                                          getJsonField(
+                                                                            _model.emptystring,
+                                                                            r'''$.teste''',
+                                                                          )) &&
+                                                                      (true ==
+                                                                          false))
+                                                                    Expanded(
+                                                                      child:
+                                                                          Column(
+                                                                        mainAxisSize:
+                                                                            MainAxisSize.max,
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.center,
+                                                                        crossAxisAlignment:
+                                                                            CrossAxisAlignment.start,
+                                                                        children: [
+                                                                          Text(
+                                                                            'Tempo Total',
+                                                                            style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                  fontFamily: 'Readex Pro',
+                                                                                  color: FlutterFlowTheme.of(context).primaryText,
+                                                                                  fontSize: 16.0,
+                                                                                  fontWeight: FontWeight.w600,
+                                                                                ),
+                                                                          ),
+                                                                          Padding(
+                                                                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                                                                0.0,
+                                                                                4.0,
+                                                                                0.0,
+                                                                                0.0),
+                                                                            child:
+                                                                                Column(
+                                                                              mainAxisSize: MainAxisSize.max,
+                                                                              crossAxisAlignment: CrossAxisAlignment.end,
+                                                                              children: [
+                                                                                Text(
+                                                                                  valueOrDefault<String>(
+                                                                                    functions.diferencaEntreDatas(
+                                                                                        getJsonField(
+                                                                                          volumesListadosItem,
+                                                                                          r'''$.volume_data_hora_inicio''',
+                                                                                        ).toString(),
+                                                                                        getJsonField(
+                                                                                          volumesListadosItem,
+                                                                                          r'''$.volume_data_hora_fim''',
+                                                                                        ).toString()),
+                                                                                    'erro',
+                                                                                  ),
+                                                                                  style: FlutterFlowTheme.of(context).bodyMedium,
+                                                                                ),
+                                                                              ],
+                                                                            ),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                  Flexible(
+                                                                    child: Row(
+                                                                      mainAxisSize:
+                                                                          MainAxisSize
+                                                                              .max,
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .end,
+                                                                      children: [
+                                                                        Align(
+                                                                          alignment: const AlignmentDirectional(
+                                                                              1.0,
+                                                                              0.0),
+                                                                          child:
+                                                                              InkWell(
+                                                                            splashColor:
+                                                                                Colors.transparent,
+                                                                            focusColor:
+                                                                                Colors.transparent,
+                                                                            hoverColor:
+                                                                                Colors.transparent,
+                                                                            highlightColor:
+                                                                                Colors.transparent,
+                                                                            onTap:
+                                                                                () async {
+                                                                              if (valueOrDefault<String>(
+                                                                                    functions.contadorDeNumeroDeAmostras(getJsonField(
+                                                                                      volumesListadosItem,
+                                                                                      r'''$.amostras[:].volam_etiqueta_id''',
+                                                                                    ).toString()),
+                                                                                    'Erro#nãotemNumero',
+                                                                                  ) ==
+                                                                                  '0') {
+                                                                                await showDialog(
+                                                                                  context: context,
+                                                                                  builder: (alertDialogContext) {
+                                                                                    return AlertDialog(
+                                                                                      title: const Text('Ops!'),
+                                                                                      content: const Text('Não há amostras nesse volume!'),
+                                                                                      actions: [
+                                                                                        TextButton(
+                                                                                          onPressed: () => Navigator.pop(alertDialogContext),
+                                                                                          child: const Text('Entendi'),
+                                                                                        ),
+                                                                                      ],
+                                                                                    );
+                                                                                  },
+                                                                                );
+                                                                                return;
+                                                                              }
+
+                                                                              context.pushNamed(
+                                                                                'ListadeAmostras',
+                                                                                queryParameters: {
+                                                                                  'fazId': serializeParam(
+                                                                                    widget.fazId,
+                                                                                    ParamType.int,
+                                                                                  ),
+                                                                                  'oservId': serializeParam(
+                                                                                    widget.oservId,
+                                                                                    ParamType.int,
+                                                                                  ),
+                                                                                  'amostras': serializeParam(
+                                                                                    functions.inverterLista((getJsonField(
+                                                                                      volumesListadosItem,
+                                                                                      r'''$.amostras[:].volam_etiqueta_id''',
+                                                                                      true,
+                                                                                    ) as List)
+                                                                                        .map<String>((s) => s.toString())
+                                                                                        .toList()),
+                                                                                    ParamType.String,
+                                                                                    true,
+                                                                                  ),
+                                                                                  'idDoVolume': serializeParam(
+                                                                                    getJsonField(
+                                                                                      volumesListadosItem,
+                                                                                      r'''$.volume_id''',
+                                                                                    ).toString(),
+                                                                                    ParamType.String,
+                                                                                  ),
+                                                                                  'coletadoEmList': serializeParam(
+                                                                                    functions.inverterLista((getJsonField(
+                                                                                      volumesListadosItem,
+                                                                                      r'''$.amostras[:].volam_data''',
+                                                                                      true,
+                                                                                    ) as List)
+                                                                                        .map<String>((s) => s.toString())
+                                                                                        .toList()),
+                                                                                    ParamType.String,
+                                                                                    true,
+                                                                                  ),
+                                                                                }.withoutNulls,
+                                                                                extra: <String, dynamic>{
+                                                                                  kTransitionInfoKey: const TransitionInfo(
+                                                                                    hasTransition: true,
+                                                                                    transitionType: PageTransitionType.rightToLeft,
+                                                                                    duration: Duration(milliseconds: 400),
+                                                                                  ),
+                                                                                },
+                                                                              );
+                                                                            },
+                                                                            child:
+                                                                                FaIcon(
+                                                                              FontAwesomeIcons.arrowCircleRight,
+                                                                              color: FlutterFlowTheme.of(context).primary,
+                                                                              size: 32.0,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                ],
                                                               ),
                                                             ),
                                                           ),
                                                         ),
                                                       ),
                                                     ),
-                                                  ],
-                                                ),
+                                                  ),
+                                                ],
                                               ),
-                                            ],
-                                          ),
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                    );
-                                  }).divide(const SizedBox(height: 10.0)),
-                                ),
+                                    ),
+                                  );
+                                }).divide(const SizedBox(height: 10.0)),
                               );
                             },
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),

@@ -554,7 +554,7 @@ List<dynamic>? buscaListaDeVolumes(dynamic trSinc) {
       }
     }
   }
-  return listaDeVolumes.reversed.isNotEmpty ? listaDeVolumes : null;
+  return listaDeVolumes.isNotEmpty ? listaDeVolumes : null;
 }
 
 String? contadorDeNumeroDeAmostras(String? stringDasAmostras) {
