@@ -204,7 +204,7 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
                               hoverColor: Colors.transparent,
                               highlightColor: Colors.transparent,
                               onTap: () async {
-                                Navigator.pop(context);
+                                context.safePop();
                               },
                               child: Icon(
                                 Icons.arrow_back,
