@@ -719,28 +719,33 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
                   ),
                 ),
               ),
-              FlutterFlowTimer(
-                initialTime: _model.timerMilliseconds,
-                getDisplayTime: (value) => StopWatchTimer.getDisplayTime(
-                  value,
-                  hours: false,
-                  milliSecond: false,
-                ),
-                controller: _model.timerController,
-                updateStateInterval: const Duration(milliseconds: 400),
-                onChanged: (value, displayTime, shouldUpdate) {
-                  _model.timerMilliseconds = value;
-                  _model.timerValue = displayTime;
-                  if (shouldUpdate) setState(() {});
-                },
-                onEnded: () async {
-                  _model.timerController.onResetTimer();
+              Container(
+                width: 1.0,
+                height: 1.0,
+                decoration: const BoxDecoration(),
+                child: FlutterFlowTimer(
+                  initialTime: _model.timerMilliseconds,
+                  getDisplayTime: (value) => StopWatchTimer.getDisplayTime(
+                    value,
+                    hours: false,
+                    milliSecond: false,
+                  ),
+                  controller: _model.timerController,
+                  updateStateInterval: const Duration(milliseconds: 400),
+                  onChanged: (value, displayTime, shouldUpdate) {
+                    _model.timerMilliseconds = value;
+                    _model.timerValue = displayTime;
+                    if (shouldUpdate) setState(() {});
+                  },
+                  onEnded: () async {
+                    _model.timerController.onResetTimer();
 
-                  setState(() => _model.apiRequestCompleter = null);
-                  _model.timerController.onStartTimer();
-                },
-                textAlign: TextAlign.start,
-                style: FlutterFlowTheme.of(context).headlineSmall,
+                    setState(() => _model.apiRequestCompleter = null);
+                    _model.timerController.onStartTimer();
+                  },
+                  textAlign: TextAlign.start,
+                  style: FlutterFlowTheme.of(context).headlineSmall,
+                ),
               ),
             ],
           ),
