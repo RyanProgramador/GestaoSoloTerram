@@ -204,16 +204,7 @@ class _CriacaoVolumeWidgetState extends State<CriacaoVolumeWidget> {
                               hoverColor: Colors.transparent,
                               highlightColor: Colors.transparent,
                               onTap: () async {
-                                context.goNamed(
-                                  'Inicio',
-                                  extra: <String, dynamic>{
-                                    kTransitionInfoKey: const TransitionInfo(
-                                      hasTransition: true,
-                                      transitionType: PageTransitionType.fade,
-                                      duration: Duration(milliseconds: 0),
-                                    ),
-                                  },
-                                );
+                                context.safePop();
                               },
                               child: Icon(
                                 Icons.arrow_back,
