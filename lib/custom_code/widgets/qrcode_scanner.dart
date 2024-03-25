@@ -321,6 +321,13 @@ class _QrcodeScannerState extends State<QrcodeScanner>
     );
   }
 
+  void restartQRView() async {
+    if (controller != null) {
+      await controller!.pauseCamera();
+      await controller!.resumeCamera();
+    }
+  }
+
   void semEtiqueta() {
     showDialog(
       context: context,
@@ -600,30 +607,31 @@ class _QrcodeScannerState extends State<QrcodeScanner>
                             });
 
                             sucesso();
-
+                            controller?.resumeCamera();
                             // if (mounted) {
                             Navigator.of(context).pop();
-                            context.goNamed(
-                              'criacaoVolume',
-                              queryParameters: {
-                                'fazId': serializeParam(
-                                  widget.fazId,
-                                  ParamType.int,
-                                ),
-                                'oservId': serializeParam(
-                                  widget.oservid,
-                                  ParamType.int,
-                                ),
-                              }.withoutNulls,
-                              extra: <String, dynamic>{
-                                kTransitionInfoKey: TransitionInfo(
-                                  hasTransition: true,
-                                  transitionType: PageTransitionType.fade,
-                                  duration: Duration(milliseconds: 0),
-                                ),
-                              },
-                            );
+                            // context.goNamed(
+                            //   'criacaoVolume',
+                            //   queryParameters: {
+                            //     'fazId': serializeParam(
+                            //       widget.fazId,
+                            //       ParamType.int,
+                            //     ),
+                            //     'oservId': serializeParam(
+                            //       widget.oservid,
+                            //       ParamType.int,
+                            //     ),
+                            //   }.withoutNulls,
+                            //   extra: <String, dynamic>{
+                            //     kTransitionInfoKey: TransitionInfo(
+                            //       hasTransition: true,
+                            //       transitionType: PageTransitionType.fade,
+                            //       duration: Duration(milliseconds: 0),
+                            //     ),
+                            //   },
+                            // );
                             // }
+                            controller?.resumeCamera();
                           }
 
                           // volumess['amostras'] = [];
@@ -634,7 +642,9 @@ class _QrcodeScannerState extends State<QrcodeScanner>
                         //     .toString()); // Usa um valor padrão (como 0) caso a conversão falhe
 
                         // atualiza();
+                        // restartQRView();
 
+                        controller?.resumeCamera();
                         // Navigator.of(context).pop();
                       });
                       textController.clear();
@@ -655,7 +665,7 @@ class _QrcodeScannerState extends State<QrcodeScanner>
           child: FloatingActionButton(
             onPressed: () {
               // setState(() {
-
+              restartQRView();
               controller?.resumeCamera();
               textController.clear();
 
@@ -690,7 +700,7 @@ class _QrcodeScannerState extends State<QrcodeScanner>
               // });
               // showSincro();
             },
-            child: Icon(Icons.delete, color: Colors.white),
+            child: Icon(Icons.refresh, color: Colors.white),
             backgroundColor: Color(0xFF982c26),
           ),
         ),
