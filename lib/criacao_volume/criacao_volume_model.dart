@@ -53,7 +53,7 @@ class CriacaoVolumeModel extends FlutterFlowModel<CriacaoVolumeWidget> {
             functions.buscaRegistro(
                 fazId!, oservId!, FFAppState().trSincroniza.toList()),
             qrCode) ==
-        false) {
+        true) {
       await showDialog(
         context: context,
         builder: (alertDialogContext) {
