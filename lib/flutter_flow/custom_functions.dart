@@ -653,3 +653,33 @@ bool? verificaSeQrCodeJaFoiLidoOuNao(
   }
   return false;
 }
+
+List<dynamic>? listaPaginacao(
+  List<dynamic>? listaInteiraDeTodosOsItens,
+  int? paginaIndex,
+) {
+  if (listaInteiraDeTodosOsItens == null || paginaIndex == null) {
+    return null;
+  }
+
+  /// Cálculo de páginas e itens por página
+  final int totalPaginas = (listaInteiraDeTodosOsItens.length / 3).ceil();
+  final int itensPorPagina = 3;
+
+  /// Validação do índice da página
+  if (paginaIndex < 0 || paginaIndex >= totalPaginas) {
+    return null;
+  }
+
+  /// Cálculo do índice inicial e final dos itens da página
+  final int indiceInicial = paginaIndex * itensPorPagina;
+  final int indiceFinal = indiceInicial + itensPorPagina;
+
+  /// Retorno da página com itens
+  return [
+    {
+      "pagina": paginaIndex,
+      "itens": listaInteiraDeTodosOsItens.sublist(indiceInicial, indiceFinal),
+    },
+  ];
+}
