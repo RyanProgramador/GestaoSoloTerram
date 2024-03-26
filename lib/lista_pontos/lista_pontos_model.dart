@@ -15,16 +15,6 @@ class ListaPontosModel extends FlutterFlowModel<ListaPontosWidget> {
   bool? buscaOVolumeIniciado;
   // Stores action output result for [Custom Action - checkinternet] action in Icon widget.
   bool? temnetouno;
-  // State field(s) for PageView widget.
-  PageController? pageViewController;
-
-  int get pageViewCurrentIndex => pageViewController != null &&
-          pageViewController!.hasClients &&
-          pageViewController!.page != null
-      ? pageViewController!.page!.round()
-      : 0;
-  // Stores action output result for [Custom Action - checkinternet] action in Icon widget.
-  bool? temnetounao;
 
   /// Initialization and disposal methods.
 
