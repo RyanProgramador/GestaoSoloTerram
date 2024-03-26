@@ -1884,6 +1884,8 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                             width: double.infinity,
                             height: double.infinity,
                             trPontos: widget.listaJsonPontos,
+                            fazId: widget.fazId!,
+                            oservId: widget.oservId!,
                           ),
                         ),
                       ),
