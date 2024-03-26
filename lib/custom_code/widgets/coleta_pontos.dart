@@ -465,7 +465,9 @@ class _ColetaPontosState extends State<ColetaPontos> {
     //     now.difference(lastTapTimestamps[markerIdValue]!).inMilliseconds <
     //         1800) {
     // Check if the distance is greater than 30 meters
-    if (distance > 35000000) {
+
+    if (distance >= int.parse(FFAppState().distanciaMetrosValidacao) &&
+        FFAppState().validarDistancia == "S") {
       //metros de distancia para coletar
       // Show alert
       // _showDistanceAlert();
@@ -473,8 +475,10 @@ class _ColetaPontosState extends State<ColetaPontos> {
     } else {
       // Continue with the normal double tap logic
       // _showModalOptions(markerName!.toString());
+
       _ontapColetar(markerName!.toString());
     }
+
     // }
 
     // Update the timestamp of the last tap
