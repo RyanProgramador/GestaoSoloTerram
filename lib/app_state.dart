@@ -28,6 +28,15 @@ class FFAppState extends ChangeNotifier {
       _UrlApi = prefs.getString('ff_UrlApi') ?? _UrlApi;
     });
     _safeInit(() {
+      _validarDistancia =
+          prefs.getString('ff_validarDistancia') ?? _validarDistancia;
+    });
+    _safeInit(() {
+      _distanciaMetrosValidacao =
+          prefs.getString('ff_distanciaMetrosValidacao') ??
+              _distanciaMetrosValidacao;
+    });
+    _safeInit(() {
       _trOsServicos = prefs.getStringList('ff_trOsServicos')?.map((x) {
             try {
               return jsonDecode(x);
@@ -192,6 +201,20 @@ class FFAppState extends ChangeNotifier {
   set UrlApi(String value) {
     _UrlApi = value;
     prefs.setString('ff_UrlApi', value);
+  }
+
+  String _validarDistancia = '';
+  String get validarDistancia => _validarDistancia;
+  set validarDistancia(String value) {
+    _validarDistancia = value;
+    prefs.setString('ff_validarDistancia', value);
+  }
+
+  String _distanciaMetrosValidacao = '';
+  String get distanciaMetrosValidacao => _distanciaMetrosValidacao;
+  set distanciaMetrosValidacao(String value) {
+    _distanciaMetrosValidacao = value;
+    prefs.setString('ff_distanciaMetrosValidacao', value);
   }
 
   List<dynamic> _trOsServicos = [];

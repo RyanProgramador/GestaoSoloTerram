@@ -20,6 +20,7 @@ class TrOsServicosGroup {
       TrSincronizaPontosColetadosCall();
   static TrLoginCall trLoginCall = TrLoginCall();
   static TrEsqueciCall trEsqueciCall = TrEsqueciCall();
+  static PegaParametrosCall pegaParametrosCall = PegaParametrosCall();
   static FfValidaApiCall ffValidaApiCall = FfValidaApiCall();
 }
 
@@ -266,6 +267,43 @@ class TrEsqueciCall {
       alwaysAllowBody: false,
     );
   }
+}
+
+class PegaParametrosCall {
+  Future<ApiCallResponse> call({
+    String? urlApi = '',
+  }) async {
+    const ffApiRequestBody = '''
+{"tipo": "ff_busca_parametros"
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'pegaParametros',
+      apiUrl: '${TrOsServicosGroup.baseUrl}$urlApi',
+      callType: ApiCallType.POST,
+      headers: {},
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  String? distanciaMetros(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.dados.distancia_metros''',
+      ));
+  String? validarDistancia(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.dados.validar_distancia''',
+      ));
+  bool? pegaparametrosStatus(dynamic response) => castToType<bool>(getJsonField(
+        response,
+        r'''$.status''',
+      ));
 }
 
 class FfValidaApiCall {

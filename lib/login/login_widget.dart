@@ -807,67 +807,135 @@ class _LoginWidgetState extends State<LoginWidget>
                                                             return;
                                                           }
 
-                                                          _model.trIcones =
-                                                              await TrOsServicosGroup
-                                                                  .triconesCall
-                                                                  .call(
-                                                            urlApi: FFAppState()
-                                                                .UrlApi,
-                                                          );
-                                                          shouldSetState =
-                                                              true;
-                                                          if (getJsonField(
-                                                            (_model.trIcones
-                                                                    ?.jsonBody ??
-                                                                ''),
-                                                            r'''$.status''',
-                                                          )) {
-                                                            setState(() {
-                                                              FFAppState()
-                                                                      .trIcones =
-                                                                  getJsonField(
+                                                          await Future.wait([
+                                                            Future(() async {
+                                                              _model.trIcones =
+                                                                  await TrOsServicosGroup
+                                                                      .triconesCall
+                                                                      .call(
+                                                                urlApi:
+                                                                    FFAppState()
+                                                                        .UrlApi,
+                                                              );
+                                                              shouldSetState =
+                                                                  true;
+                                                              if (getJsonField(
                                                                 (_model.trIcones
                                                                         ?.jsonBody ??
                                                                     ''),
-                                                                r'''$.dados''',
-                                                                true,
-                                                              )!
-                                                                      .toList()
-                                                                      .cast<
-                                                                          dynamic>();
-                                                            });
-                                                          } else {
-                                                            await showDialog(
-                                                              context: context,
-                                                              builder:
-                                                                  (alertDialogContext) {
-                                                                return AlertDialog(
-                                                                  title: const Text(
-                                                                      'Ops!'),
-                                                                  content: Text(
+                                                                r'''$.status''',
+                                                              )) {
+                                                                setState(() {
+                                                                  FFAppState()
+                                                                          .trIcones =
                                                                       getJsonField(
                                                                     (_model.trIcones
                                                                             ?.jsonBody ??
                                                                         ''),
-                                                                    r'''$.message''',
-                                                                  ).toString()),
-                                                                  actions: [
-                                                                    TextButton(
-                                                                      onPressed:
-                                                                          () =>
+                                                                    r'''$.dados''',
+                                                                    true,
+                                                                  )!
+                                                                          .toList()
+                                                                          .cast<
+                                                                              dynamic>();
+                                                                });
+                                                              } else {
+                                                                await showDialog(
+                                                                  context:
+                                                                      context,
+                                                                  builder:
+                                                                      (alertDialogContext) {
+                                                                    return AlertDialog(
+                                                                      title: const Text(
+                                                                          'Ops!'),
+                                                                      content: Text(
+                                                                          getJsonField(
+                                                                        (_model.trIcones?.jsonBody ??
+                                                                            ''),
+                                                                        r'''$.message''',
+                                                                      ).toString()),
+                                                                      actions: [
+                                                                        TextButton(
+                                                                          onPressed: () =>
                                                                               Navigator.pop(alertDialogContext),
-                                                                      child: const Text(
-                                                                          'Ok'),
-                                                                    ),
-                                                                  ],
+                                                                          child:
+                                                                              const Text('Ok'),
+                                                                        ),
+                                                                      ],
+                                                                    );
+                                                                  },
                                                                 );
-                                                              },
-                                                            );
-                                                            if (shouldSetState) {
-                                                              setState(() {});
-                                                            }
-                                                            return;
-                                                          }
+                                                                if (shouldSetState) {
+                                                                  setState(
+                                                                      () {});
+                                                                }
+                                                                return;
+                                                              }
+                                                            }),
+                                                            Future(() async {
+                                                              _model.resultadPegaParametros =
+                                                                  await TrOsServicosGroup
+                                                                      .pegaParametrosCall
+                                                                      .call(
+                                                                urlApi:
+                                                                    FFAppState()
+                                                                        .UrlApi,
+                                                              );
+                                                              shouldSetState =
+                                                                  true;
+                                                              if ((_model
+                                                                      .resultadPegaParametros
+                                                                      ?.succeeded ??
+                                                                  true)) {
+                                                                setState(() {
+                                                                  FFAppState()
+                                                                          .validarDistancia =
+                                                                      TrOsServicosGroup
+                                                                          .pegaParametrosCall
+                                                                          .validarDistancia(
+                                                                    (_model.resultadPegaParametros
+                                                                            ?.jsonBody ??
+                                                                        ''),
+                                                                  )!;
+                                                                  FFAppState()
+                                                                          .distanciaMetrosValidacao =
+                                                                      TrOsServicosGroup
+                                                                          .pegaParametrosCall
+                                                                          .distanciaMetros(
+                                                                    (_model.resultadPegaParametros
+                                                                            ?.jsonBody ??
+                                                                        ''),
+                                                                  )!;
+                                                                });
+                                                              } else {
+                                                                await showDialog(
+                                                                  context:
+                                                                      context,
+                                                                  builder:
+                                                                      (alertDialogContext) {
+                                                                    return AlertDialog(
+                                                                      title: const Text(
+                                                                          'Ops!'),
+                                                                      content: Text(
+                                                                          getJsonField(
+                                                                        (_model.resultadPegaParametros?.jsonBody ??
+                                                                            ''),
+                                                                        r'''$.message''',
+                                                                      ).toString()),
+                                                                      actions: [
+                                                                        TextButton(
+                                                                          onPressed: () =>
+                                                                              Navigator.pop(alertDialogContext),
+                                                                          child:
+                                                                              const Text('Ok'),
+                                                                        ),
+                                                                      ],
+                                                                    );
+                                                                  },
+                                                                );
+                                                              }
+                                                            }),
+                                                          ]);
 
                                                           context.pushNamed(
                                                             'Inicio',

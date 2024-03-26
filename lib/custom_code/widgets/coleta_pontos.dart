@@ -1181,10 +1181,42 @@ class _ColetaPontosState extends State<ColetaPontos> {
                   children: <Widget>[
                     ElevatedButton(
                       onPressed: () async {
+                        showDialog(
+                          context: context,
+                          barrierDismissible:
+                              false, // Usuário não pode fechar o dialog pressionando fora
+                          builder: (BuildContext context) {
+                            return WillPopScope(
+                              onWillPop: () async =>
+                                  false, // Impede o fechamento do modal com o botão de voltar
+                              child: Dialog(
+                                backgroundColor: Colors.transparent,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  padding: EdgeInsets.all(20),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      CircularProgressIndicator(
+                                          color: Color(0xFF00736D)),
+                                      SizedBox(width: 20),
+                                      Text("Carregando..."),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        );
+
                         await _pegaFoto();
                         await Future.delayed(
-                            Duration(seconds: 1)); // Simula uma espera
-
+                            Duration(seconds: 10)); // Simula uma espera
+                        Navigator.of(context)
+                            .pop(); // Fecha o modal de carregamento
                         setState(() {
                           // Verifica se a string base64 da imagem foi definida
                           if (baseString != null) {
@@ -1226,6 +1258,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
                       onPressed: () {
                         // Implemente a ação para este botão
                         print(_observacaoController.text);
+
                         if (_observacaoController.text != null &&
                             _observacaoController.text != "┤├" &&
                             _observacaoController.text != "" &&
@@ -1551,25 +1584,46 @@ class _ColetaPontosState extends State<ColetaPontos> {
                 //   ),
                 // ),
 
-                Padding(
-                  padding: EdgeInsets.fromLTRB(
-                      0, 0, 0, 0), // Ajuste este valor conforme necessário
-                  child: SizedBox(
-                    // Envolve o QRView com um SizedBox para dar um tamanho fixo
-                    height: 140, // Defina a altura desejada
-                    width: double.infinity, // Ocupa toda a largura disponível
-                    child: QRView(
-                      key: qrKey,
-                      onQRViewCreated: _onQRViewCreated,
-                      overlay: QrScannerOverlayShape(
-                        borderColor: Color(0xFF00736D),
-                        borderRadius: 10,
-                        borderLength: 120,
-                        borderWidth: 5,
-                        overlayColor: Color(0xFFFFFFFF),
+                Stack(
+                  alignment:
+                      Alignment.center, // Centraliza o botão sobre o QRView
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(
+                          0, 0, 0, 0), // Ajuste este valor conforme necessário
+                      child: SizedBox(
+                        // Envolve o QRView com um SizedBox para dar um tamanho fixo
+                        height: 140, // Defina a altura desejada
+                        width:
+                            double.infinity, // Ocupa toda a largura disponível
+                        child: QRView(
+                          key: qrKey,
+                          onQRViewCreated: _onQRViewCreated,
+                          overlay: QrScannerOverlayShape(
+                            borderColor: Color(0xFF00736D),
+                            borderRadius: 10,
+                            borderLength: 120,
+                            borderWidth: 5,
+                            overlayColor: Color(0xFFFFFFFF),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                    Positioned(
+                      left: 12,
+                      bottom: 0, // Posição do botão na parte inferior do Stack
+                      child: FloatingActionButton(
+                        onPressed: () {
+                          // Ação do botão, por exemplo, recarregar o QRView
+                          controller
+                              ?.resumeCamera(); // Supondo que 'controller' seja sua variável QRViewController
+                        },
+                        backgroundColor: Colors.red,
+                        child: Icon(Icons.replay, color: Colors.white),
+                        mini: true,
+                      ),
+                    ),
+                  ],
                 ),
                 Padding(
                   padding: EdgeInsets.fromLTRB(16, 4, 16, 4),
@@ -1825,6 +1879,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
+
                 _coletarProfundidade(marcadorNome, profundidadeNome, latlng,
                     referencialProfundidadePontoId, idPonto);
               },
@@ -1846,6 +1901,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
         FFAppState()
             .listaColetasInciadas
             .add({"oserv_id": widget.oservid, "faz_id": widget.fazId});
+
         _tiraFoto(marcadorNome, latlng, false, profundidadeNome, idPonto);
       } else {
         print("NÃO É A PRIMEIRA COLETA");
@@ -1880,6 +1936,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
         }
       }
     });
+    // Navigator.of(context).pop(); // Fecha o modal de carregamento
     // Navigator.of(context).pop(); // Fecha o modal atual
     // _mostrarModalSucesso(context, marcadorNome);
   }
@@ -2015,25 +2072,46 @@ class _ColetaPontosState extends State<ColetaPontos> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Padding(
-                  padding: EdgeInsets.fromLTRB(
-                      0, 0, 0, 0), // Ajuste este valor conforme necessário
-                  child: SizedBox(
-                    // Envolve o QRView com um SizedBox para dar um tamanho fixo
-                    height: 140, // Defina a altura desejada
-                    width: double.infinity, // Ocupa toda a largura disponível
-                    child: QRView(
-                      key: qrKey,
-                      onQRViewCreated: _onQRViewCreated,
-                      overlay: QrScannerOverlayShape(
-                        borderColor: Color(0xFF00736D),
-                        borderRadius: 10,
-                        borderLength: 120,
-                        borderWidth: 5,
-                        overlayColor: Color(0xFFFFFFFF),
+                Stack(
+                  alignment:
+                      Alignment.center, // Centraliza o botão sobre o QRView
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(
+                          0, 0, 0, 0), // Ajuste este valor conforme necessário
+                      child: SizedBox(
+                        // Envolve o QRView com um SizedBox para dar um tamanho fixo
+                        height: 140, // Defina a altura desejada
+                        width:
+                            double.infinity, // Ocupa toda a largura disponível
+                        child: QRView(
+                          key: qrKey,
+                          onQRViewCreated: _onQRViewCreated,
+                          overlay: QrScannerOverlayShape(
+                            borderColor: Color(0xFF00736D),
+                            borderRadius: 10,
+                            borderLength: 120,
+                            borderWidth: 5,
+                            overlayColor: Color(0xFFFFFFFF),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                    Positioned(
+                      left: 18,
+                      bottom: 0, // Posição do botão na parte inferior do Stack
+                      child: FloatingActionButton(
+                        onPressed: () {
+                          // Ação do botão, por exemplo, recarregar o QRView
+                          controller
+                              ?.resumeCamera(); // Supondo que 'controller' seja sua variável QRViewController
+                        },
+                        backgroundColor: Colors.red,
+                        child: Icon(Icons.replay, color: Colors.white),
+                        mini: true,
+                      ),
+                    ),
+                  ],
                 ),
                 Padding(
                   padding: EdgeInsets.fromLTRB(0, 4, 0, 4),
@@ -2076,7 +2154,6 @@ class _ColetaPontosState extends State<ColetaPontos> {
                     ElevatedButton(
                       onPressed: () {
                         // Implemente a ação para este botão
-                        print(_observacaoController.text);
 
                         var etiqueta = _codigoQr.text;
 
@@ -2154,7 +2231,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
 
                               listaFiltrada["pprof_status"] = 1;
                               listaFiltrada["pprof_observacao"] =
-                                  observaFotoController.text;
+                                  _observacaoController.text;
                               listaFiltrada["pprof_foto"] = "";
                               listaFiltrada["pprof_datahora"] =
                                   DateTime.now().toString();
@@ -2368,13 +2445,13 @@ class _ColetaPontosState extends State<ColetaPontos> {
           mapToolbarEnabled: false,
           zoomControlsEnabled: false,
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () => _exibirDados(),
-          child: Text(
-            '${quantidadeDeProfundidadesASeremColetadas ?? "teste"}',
-            style: TextStyle(color: Colors.white, fontSize: 18),
-          ),
-        ),
+        // floatingActionButton: FloatingActionButton(
+        //   onPressed: () => _exibirDados(),
+        //   child: Text(
+        //     '${quantidadeDeProfundidadesASeremColetadas ?? "teste"}',
+        //     style: TextStyle(color: Colors.white, fontSize: 18),
+        //   ),
+        // ),
       ),
     );
   }

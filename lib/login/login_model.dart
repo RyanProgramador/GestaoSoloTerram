@@ -32,6 +32,8 @@ class LoginModel extends FlutterFlowModel<LoginWidget> {
   ApiCallResponse? trLogin;
   // Stores action output result for [Backend Call - API (tricones)] action in Container widget.
   ApiCallResponse? trIcones;
+  // Stores action output result for [Backend Call - API (pegaParametros)] action in Container widget.
+  ApiCallResponse? resultadPegaParametros;
 
   /// Initialization and disposal methods.
 

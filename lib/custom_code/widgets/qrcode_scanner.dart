@@ -564,7 +564,7 @@ class _QrcodeScannerState extends State<QrcodeScanner>
                             for (var amostra in amostras) {
                               if (amostra['volam_etiqueta_id'] != null) {
                                 volEtiquetasID
-                                    .add(amostra['volam_etiqueta_id']);
+                                    .addAll(amostra['volam_etiqueta_id']);
                               }
                             }
                           }
