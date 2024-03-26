@@ -1873,9 +1873,9 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                         ),
                       Container(
                         width: double.infinity,
-                        height: 400.0,
-                        decoration: BoxDecoration(
-                          color: FlutterFlowTheme.of(context).tertiary,
+                        height: 494.0,
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
                         ),
                         child: SizedBox(
                           width: double.infinity,
@@ -1884,8 +1884,8 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                             width: double.infinity,
                             height: double.infinity,
                             trPontos: widget.listaJsonPontos,
-                            fazId: widget.fazId!,
-                            oservId: widget.oservId!,
+                            fazId: widget.fazId,
+                            oservId: widget.oservId,
                           ),
                         ),
                       ),
