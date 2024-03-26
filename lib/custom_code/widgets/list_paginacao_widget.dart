@@ -50,6 +50,7 @@ class _ListPaginacaoWidgetState extends State<ListPaginacaoWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   int itemsPerPage = 20;
+
   @override
   void initState() {
     super.initState();
@@ -772,10 +773,16 @@ class _ListPaginacaoWidgetState extends State<ListPaginacaoWidget> {
     return ModestPagination(
       items: paginatedItems,
       itemsPerPage: itemsPerPage,
-      activeTextColor: Colors.black,
-      inactiveTextColor: Colors.black45,
-      pagesControllerIconsColor: Colors.black54,
-      sheetsControllerIconsColor: Colors.black54,
+      activeTextColor:
+          Color.fromRGBO(0, 115, 109, 1), // Correspondente ao Color(0xFF00736D)
+      inactiveTextColor: Color.fromRGBO(
+          205, 205, 205, 1), // Correspondente ao Color(0xFFCDCDCD)
+      pagesControllerIconsColor:
+          Color.fromRGBO(0, 115, 109, 1), // Correspondente ao Color(0xFF00736D)
+      sheetsControllerIconsColor:
+          Color.fromRGBO(0, 115, 109, 1), // Correspondente ao Color(0xFF00736D)
+      pagesControllerIconsSize: 40.0,
+      sheetsControllerIconsSize: 40.0,
       useListView: true,
       childWidget: (dynamic element) {
         return conteinerComOsPontos(
