@@ -1872,10 +1872,19 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                           ),
                         ),
                       Container(
-                        width: 100.0,
-                        height: 100.0,
+                        width: double.infinity,
+                        height: 400.0,
                         decoration: BoxDecoration(
                           color: FlutterFlowTheme.of(context).tertiary,
+                        ),
+                        child: SizedBox(
+                          width: double.infinity,
+                          height: double.infinity,
+                          child: custom_widgets.ListPaginacaoWidget(
+                            width: double.infinity,
+                            height: double.infinity,
+                            trPontos: widget.listaJsonPontos,
+                          ),
                         ),
                       ),
                     ],
