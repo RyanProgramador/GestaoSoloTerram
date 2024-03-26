@@ -169,153 +169,74 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      if (true == false)
-                        SingleChildScrollView(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Container(
-                                width: double.infinity,
-                                height: 100.0,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                ),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          16.0, 0.0, 16.0, 0.0),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          if (true == false)
-                                            FFButtonWidget(
-                                              onPressed: () {
-                                                print('Button pressed ...');
-                                              },
-                                              text: '',
-                                              icon: const Icon(
-                                                Icons.search_sharp,
-                                                color: Colors.white,
-                                                size: 32.0,
-                                              ),
-                                              options: FFButtonOptions(
-                                                width: 60.0,
-                                                height: 60.0,
-                                                padding: const EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        8.0, 0.0, 0.0, 0.0),
-                                                iconPadding:
-                                                    const EdgeInsetsDirectional
-                                                        .fromSTEB(
-                                                            0.0, 0.0, 0.0, 0.0),
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primary,
-                                                textStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .titleSmall
-                                                        .override(
-                                                          fontFamily:
-                                                              'Readex Pro',
-                                                          color: Colors.white,
-                                                        ),
-                                                elevation: 3.0,
-                                                borderSide: const BorderSide(
-                                                  color: Colors.transparent,
-                                                  width: 1.0,
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                        100.0),
-                                              ),
-                                            ),
+                      SingleChildScrollView(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Container(
+                              width: double.infinity,
+                              height: 100.0,
+                              decoration: BoxDecoration(
+                                color: FlutterFlowTheme.of(context)
+                                    .secondaryBackground,
+                              ),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                        16.0, 0.0, 16.0, 0.0),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        if (true == false)
                                           FFButtonWidget(
-                                            onPressed: () async {
-                                              var shouldSetState = false;
-                                              _model.temNet =
-                                                  await actions.checkinternet();
-                                              shouldSetState = true;
-                                              if (!_model.temNet!) {
-                                                context.pushNamed(
-                                                  'ColetaPontos',
-                                                  queryParameters: {
-                                                    'oservID': serializeParam(
-                                                      widget.oservId,
-                                                      ParamType.int,
-                                                    ),
-                                                    'fazid': serializeParam(
-                                                      widget.fazId,
-                                                      ParamType.int,
-                                                    ),
-                                                    'fazNome': serializeParam(
-                                                      widget.fazNome,
-                                                      ParamType.String,
-                                                    ),
-                                                    'fazLatlng': serializeParam(
-                                                      widget.fazLatlng,
-                                                      ParamType.LatLng,
-                                                    ),
-                                                    'autoAuditoria':
-                                                        serializeParam(
-                                                      widget.autoAuditoria,
-                                                      ParamType.bool,
-                                                    ),
-                                                    'quantidadeAutoAuditoria':
-                                                        serializeParam(
-                                                      widget
-                                                          .quantidadeAutoAuditoria,
-                                                      ParamType.int,
-                                                    ),
-                                                    'trPontos': serializeParam(
-                                                      widget.listaJsonPontos,
-                                                      ParamType.JSON,
-                                                      true,
-                                                    ),
-                                                  }.withoutNulls,
-                                                  extra: <String, dynamic>{
-                                                    kTransitionInfoKey:
-                                                        const TransitionInfo(
-                                                      hasTransition: true,
-                                                      transitionType:
-                                                          PageTransitionType
-                                                              .fade,
-                                                      duration: Duration(
-                                                          milliseconds: 0),
-                                                    ),
-                                                  },
-                                                );
-
-                                                if (shouldSetState) {
-                                                  setState(() {});
-                                                }
-                                                return;
-                                              }
-                                              _model.trTalh =
-                                                  await TrOsServicosGroup
-                                                      .trTalhaoCall
-                                                      .call(
-                                                urlApi: FFAppState().UrlApi,
-                                                fazId: widget.fazId,
-                                              );
-                                              shouldSetState = true;
-                                              setState(() {
-                                                FFAppState().trTalhoes =
-                                                    getJsonField(
-                                                  (_model.trTalh?.jsonBody ??
-                                                      ''),
-                                                  r'''$.dados''',
-                                                  true,
-                                                )!
-                                                        .toList()
-                                                        .cast<dynamic>();
-                                              });
-
+                                            onPressed: () {
+                                              print('Button pressed ...');
+                                            },
+                                            text: '',
+                                            icon: const Icon(
+                                              Icons.search_sharp,
+                                              color: Colors.white,
+                                              size: 32.0,
+                                            ),
+                                            options: FFButtonOptions(
+                                              width: 60.0,
+                                              height: 60.0,
+                                              padding: const EdgeInsetsDirectional
+                                                  .fromSTEB(8.0, 0.0, 0.0, 0.0),
+                                              iconPadding: const EdgeInsetsDirectional
+                                                  .fromSTEB(0.0, 0.0, 0.0, 0.0),
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primary,
+                                              textStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .titleSmall
+                                                      .override(
+                                                        fontFamily:
+                                                            'Readex Pro',
+                                                        color: Colors.white,
+                                                      ),
+                                              elevation: 3.0,
+                                              borderSide: const BorderSide(
+                                                color: Colors.transparent,
+                                                width: 1.0,
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(100.0),
+                                            ),
+                                          ),
+                                        FFButtonWidget(
+                                          onPressed: () async {
+                                            var shouldSetState = false;
+                                            _model.temNet =
+                                                await actions.checkinternet();
+                                            shouldSetState = true;
+                                            if (!_model.temNet!) {
                                               context.pushNamed(
                                                 'ColetaPontos',
                                                 queryParameters: {
@@ -367,12 +288,242 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                               if (shouldSetState) {
                                                 setState(() {});
                                               }
+                                              return;
+                                            }
+                                            _model.trTalh =
+                                                await TrOsServicosGroup
+                                                    .trTalhaoCall
+                                                    .call(
+                                              urlApi: FFAppState().UrlApi,
+                                              fazId: widget.fazId,
+                                            );
+                                            shouldSetState = true;
+                                            setState(() {
+                                              FFAppState().trTalhoes =
+                                                  getJsonField(
+                                                (_model.trTalh?.jsonBody ?? ''),
+                                                r'''$.dados''',
+                                                true,
+                                              )!
+                                                      .toList()
+                                                      .cast<dynamic>();
+                                            });
+
+                                            context.pushNamed(
+                                              'ColetaPontos',
+                                              queryParameters: {
+                                                'oservID': serializeParam(
+                                                  widget.oservId,
+                                                  ParamType.int,
+                                                ),
+                                                'fazid': serializeParam(
+                                                  widget.fazId,
+                                                  ParamType.int,
+                                                ),
+                                                'fazNome': serializeParam(
+                                                  widget.fazNome,
+                                                  ParamType.String,
+                                                ),
+                                                'fazLatlng': serializeParam(
+                                                  widget.fazLatlng,
+                                                  ParamType.LatLng,
+                                                ),
+                                                'autoAuditoria': serializeParam(
+                                                  widget.autoAuditoria,
+                                                  ParamType.bool,
+                                                ),
+                                                'quantidadeAutoAuditoria':
+                                                    serializeParam(
+                                                  widget
+                                                      .quantidadeAutoAuditoria,
+                                                  ParamType.int,
+                                                ),
+                                                'trPontos': serializeParam(
+                                                  widget.listaJsonPontos,
+                                                  ParamType.JSON,
+                                                  true,
+                                                ),
+                                              }.withoutNulls,
+                                              extra: <String, dynamic>{
+                                                kTransitionInfoKey:
+                                                    const TransitionInfo(
+                                                  hasTransition: true,
+                                                  transitionType:
+                                                      PageTransitionType.fade,
+                                                  duration:
+                                                      Duration(milliseconds: 0),
+                                                ),
+                                              },
+                                            );
+
+                                            if (shouldSetState) {
+                                              setState(() {});
+                                            }
+                                          },
+                                          text: '',
+                                          icon: const FaIcon(
+                                            FontAwesomeIcons.braille,
+                                            color: Colors.white,
+                                            size: 24.0,
+                                          ),
+                                          options: FFButtonOptions(
+                                            width: 60.0,
+                                            height: 60.0,
+                                            padding:
+                                                const EdgeInsetsDirectional.fromSTEB(
+                                                    8.0, 0.0, 0.0, 0.0),
+                                            iconPadding:
+                                                const EdgeInsetsDirectional.fromSTEB(
+                                                    0.0, 0.0, 0.0, 0.0),
+                                            color: FlutterFlowTheme.of(context)
+                                                .primary,
+                                            textStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .titleSmall
+                                                    .override(
+                                                      fontFamily: 'Readex Pro',
+                                                      color: Colors.white,
+                                                    ),
+                                            elevation: 3.0,
+                                            borderSide: const BorderSide(
+                                              color: Colors.transparent,
+                                              width: 1.0,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(100.0),
+                                          ),
+                                        ),
+                                        if (true == false)
+                                          FFButtonWidget(
+                                            onPressed: () async {
+                                              var shouldSetState = false;
+                                              var confirmDialogResponse =
+                                                  await showDialog<bool>(
+                                                        context: context,
+                                                        builder:
+                                                            (alertDialogContext) {
+                                                          return AlertDialog(
+                                                            title: const Text(
+                                                                'Atenção!'),
+                                                            content: const Text(
+                                                                'Deseja iniciar um volume?'),
+                                                            actions: [
+                                                              TextButton(
+                                                                onPressed: () =>
+                                                                    Navigator.pop(
+                                                                        alertDialogContext,
+                                                                        false),
+                                                                child:
+                                                                    const Text('Não'),
+                                                              ),
+                                                              TextButton(
+                                                                onPressed: () =>
+                                                                    Navigator.pop(
+                                                                        alertDialogContext,
+                                                                        true),
+                                                                child:
+                                                                    const Text('Sim'),
+                                                              ),
+                                                            ],
+                                                          );
+                                                        },
+                                                      ) ??
+                                                      false;
+                                              if (!confirmDialogResponse) {
+                                                if (shouldSetState) {
+                                                  setState(() {});
+                                                }
+                                                return;
+                                              }
+                                              if (functions
+                                                  .buscaSeAEtapaEstaIniciada(
+                                                      functions.buscaRegistro(
+                                                          widget.fazId!,
+                                                          widget.oservId!,
+                                                          FFAppState()
+                                                              .trSincroniza
+                                                              .toList()))!) {
+                                                _model.buscaOVolumeIniciado =
+                                                    await actions
+                                                        .buscaSeOVolumeEstaIniciadoENaoFinalizado(
+                                                  context,
+                                                  functions.buscaRegistro(
+                                                      widget.fazId!,
+                                                      widget.oservId!,
+                                                      FFAppState()
+                                                          .trSincroniza
+                                                          .toList()),
+                                                );
+                                                shouldSetState = true;
+                                                if (!_model
+                                                    .buscaOVolumeIniciado!) {
+                                                  if (shouldSetState) {
+                                                    setState(() {});
+                                                  }
+                                                  return;
+                                                }
+                                              } else {
+                                                await showDialog(
+                                                  context: context,
+                                                  builder:
+                                                      (alertDialogContext) {
+                                                    return AlertDialog(
+                                                      title: const Text('Ops!'),
+                                                      content: const Text(
+                                                          'Voçê precisa iniciar uma etapa para criar um volume!'),
+                                                      actions: [
+                                                        TextButton(
+                                                          onPressed: () =>
+                                                              Navigator.pop(
+                                                                  alertDialogContext),
+                                                          child:
+                                                              const Text('Entendi'),
+                                                        ),
+                                                      ],
+                                                    );
+                                                  },
+                                                );
+                                                if (shouldSetState) {
+                                                  setState(() {});
+                                                }
+                                                return;
+                                              }
+
+                                              context.pushNamed(
+                                                'criacaoVolume',
+                                                queryParameters: {
+                                                  'fazId': serializeParam(
+                                                    widget.fazId,
+                                                    ParamType.int,
+                                                  ),
+                                                  'oservId': serializeParam(
+                                                    widget.oservId,
+                                                    ParamType.int,
+                                                  ),
+                                                }.withoutNulls,
+                                                extra: <String, dynamic>{
+                                                  kTransitionInfoKey:
+                                                      const TransitionInfo(
+                                                    hasTransition: true,
+                                                    transitionType:
+                                                        PageTransitionType.fade,
+                                                    duration: Duration(
+                                                        milliseconds: 0),
+                                                  ),
+                                                },
+                                              );
+
+                                              if (shouldSetState) {
+                                                setState(() {});
+                                              }
                                             },
                                             text: '',
-                                            icon: const FaIcon(
-                                              FontAwesomeIcons.braille,
-                                              color: Colors.white,
-                                              size: 24.0,
+                                            icon: FaIcon(
+                                              FontAwesomeIcons.boxes,
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryBackground,
+                                              size: 28.0,
                                             ),
                                             options: FFButtonOptions(
                                               width: 60.0,
@@ -401,197 +552,34 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                   BorderRadius.circular(100.0),
                                             ),
                                           ),
-                                          if (true == false)
-                                            FFButtonWidget(
-                                              onPressed: () async {
-                                                var shouldSetState = false;
-                                                var confirmDialogResponse =
-                                                    await showDialog<bool>(
-                                                          context: context,
-                                                          builder:
-                                                              (alertDialogContext) {
-                                                            return AlertDialog(
-                                                              title: const Text(
-                                                                  'Atenção!'),
-                                                              content: const Text(
-                                                                  'Deseja iniciar um volume?'),
-                                                              actions: [
-                                                                TextButton(
-                                                                  onPressed: () =>
-                                                                      Navigator.pop(
-                                                                          alertDialogContext,
-                                                                          false),
-                                                                  child: const Text(
-                                                                      'Não'),
-                                                                ),
-                                                                TextButton(
-                                                                  onPressed: () =>
-                                                                      Navigator.pop(
-                                                                          alertDialogContext,
-                                                                          true),
-                                                                  child: const Text(
-                                                                      'Sim'),
-                                                                ),
-                                                              ],
-                                                            );
-                                                          },
-                                                        ) ??
-                                                        false;
-                                                if (!confirmDialogResponse) {
-                                                  if (shouldSetState) {
-                                                    setState(() {});
-                                                  }
-                                                  return;
-                                                }
-                                                if (functions
-                                                    .buscaSeAEtapaEstaIniciada(
-                                                        functions.buscaRegistro(
-                                                            widget.fazId!,
-                                                            widget.oservId!,
-                                                            FFAppState()
-                                                                .trSincroniza
-                                                                .toList()))!) {
-                                                  _model.buscaOVolumeIniciado =
-                                                      await actions
-                                                          .buscaSeOVolumeEstaIniciadoENaoFinalizado(
-                                                    context,
-                                                    functions.buscaRegistro(
-                                                        widget.fazId!,
-                                                        widget.oservId!,
-                                                        FFAppState()
-                                                            .trSincroniza
-                                                            .toList()),
-                                                  );
-                                                  shouldSetState = true;
-                                                  if (!_model
-                                                      .buscaOVolumeIniciado!) {
-                                                    if (shouldSetState) {
-                                                      setState(() {});
-                                                    }
-                                                    return;
-                                                  }
-                                                } else {
-                                                  await showDialog(
-                                                    context: context,
-                                                    builder:
-                                                        (alertDialogContext) {
-                                                      return AlertDialog(
-                                                        title: const Text('Ops!'),
-                                                        content: const Text(
-                                                            'Voçê precisa iniciar uma etapa para criar um volume!'),
-                                                        actions: [
-                                                          TextButton(
-                                                            onPressed: () =>
-                                                                Navigator.pop(
-                                                                    alertDialogContext),
-                                                            child:
-                                                                const Text('Entendi'),
-                                                          ),
-                                                        ],
-                                                      );
-                                                    },
-                                                  );
-                                                  if (shouldSetState) {
-                                                    setState(() {});
-                                                  }
-                                                  return;
-                                                }
-
-                                                context.pushNamed(
-                                                  'criacaoVolume',
-                                                  queryParameters: {
-                                                    'fazId': serializeParam(
-                                                      widget.fazId,
-                                                      ParamType.int,
-                                                    ),
-                                                    'oservId': serializeParam(
-                                                      widget.oservId,
-                                                      ParamType.int,
-                                                    ),
-                                                  }.withoutNulls,
-                                                  extra: <String, dynamic>{
-                                                    kTransitionInfoKey:
-                                                        const TransitionInfo(
-                                                      hasTransition: true,
-                                                      transitionType:
-                                                          PageTransitionType
-                                                              .fade,
-                                                      duration: Duration(
-                                                          milliseconds: 0),
-                                                    ),
-                                                  },
-                                                );
-
-                                                if (shouldSetState) {
-                                                  setState(() {});
-                                                }
-                                              },
-                                              text: '',
-                                              icon: FaIcon(
-                                                FontAwesomeIcons.boxes,
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primaryBackground,
-                                                size: 28.0,
-                                              ),
-                                              options: FFButtonOptions(
-                                                width: 60.0,
-                                                height: 60.0,
-                                                padding: const EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        8.0, 0.0, 0.0, 0.0),
-                                                iconPadding:
-                                                    const EdgeInsetsDirectional
-                                                        .fromSTEB(
-                                                            0.0, 0.0, 0.0, 0.0),
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primary,
-                                                textStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .titleSmall
-                                                        .override(
-                                                          fontFamily:
-                                                              'Readex Pro',
-                                                          color: Colors.white,
-                                                        ),
-                                                elevation: 3.0,
-                                                borderSide: const BorderSide(
-                                                  color: Colors.transparent,
-                                                  width: 1.0,
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                        100.0),
-                                              ),
-                                            ),
-                                        ].divide(const SizedBox(width: 10.0)),
-                                      ),
+                                      ].divide(const SizedBox(width: 10.0)),
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
-                              Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    16.0, 0.0, 16.0, 0.0),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      'Total de pontos: ${widget.listaJsonPontos?.length.toString()}',
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium,
-                                    ),
-                                    Text(
-                                      'Pontos coletados: ${functions.pontosASemreColetadosTrSinc(widget.oservId?.toString(), widget.fazId?.toString(), FFAppState().trSincroniza.toList())}',
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium,
-                                    ),
-                                  ],
-                                ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  16.0, 0.0, 16.0, 0.0),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Total de pontos: ${widget.listaJsonPontos?.length.toString()}',
+                                    style:
+                                        FlutterFlowTheme.of(context).bodyMedium,
+                                  ),
+                                  Text(
+                                    'Pontos coletados: ${functions.pontosASemreColetadosTrSinc(widget.oservId?.toString(), widget.fazId?.toString(), FFAppState().trSincroniza.toList())}',
+                                    style:
+                                        FlutterFlowTheme.of(context).bodyMedium,
+                                  ),
+                                ],
                               ),
+                            ),
+                            if (true == false)
                               Padding(
                                 padding: const EdgeInsetsDirectional.fromSTEB(
                                     0.0, 10.0, 0.0, 30.0),
@@ -1206,9 +1194,9 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                   },
                                 ),
                               ),
-                            ],
-                          ),
+                          ],
                         ),
+                      ),
                       Builder(
                         builder: (context) {
                           final pageViewListaPontos =
