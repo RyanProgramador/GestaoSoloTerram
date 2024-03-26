@@ -769,20 +769,23 @@ class _ListPaginacaoWidgetState extends State<ListPaginacaoWidget> {
   @override
   Widget build(BuildContext context) {
     List<dynamic> paginatedItems = widget.trPontos!;
+    print(widget.trPontos!.length);
+    var mostraOuNao = 40.0;
+    if (widget.trPontos!.length > 120) {
+      mostraOuNao = 40.0;
+    } else {
+      mostraOuNao = 0.0;
+    }
 
     return ModestPagination(
       items: paginatedItems,
       itemsPerPage: itemsPerPage,
-      activeTextColor:
-          Color.fromRGBO(0, 115, 109, 1), // Correspondente ao Color(0xFF00736D)
-      inactiveTextColor: Color.fromRGBO(
-          205, 205, 205, 1), // Correspondente ao Color(0xFFCDCDCD)
-      pagesControllerIconsColor:
-          Color.fromRGBO(0, 115, 109, 1), // Correspondente ao Color(0xFF00736D)
-      sheetsControllerIconsColor:
-          Color.fromRGBO(0, 115, 109, 1), // Correspondente ao Color(0xFF00736D)
+      activeTextColor: Color.fromRGBO(0, 115, 109, 1),
+      inactiveTextColor: Color.fromRGBO(205, 205, 205, 1),
+      pagesControllerIconsColor: Color.fromRGBO(0, 115, 109, 1),
+      sheetsControllerIconsColor: Color.fromRGBO(0, 115, 109, 1),
       pagesControllerIconsSize: 40.0,
-      sheetsControllerIconsSize: 40.0,
+      sheetsControllerIconsSize: mostraOuNao,
       useListView: true,
       childWidget: (dynamic element) {
         return conteinerComOsPontos(

@@ -1873,7 +1873,7 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                         ),
                       Container(
                         width: double.infinity,
-                        height: 494.0,
+                        height: MediaQuery.sizeOf(context).height * 0.62,
                         decoration: const BoxDecoration(
                           color: Colors.white,
                         ),
