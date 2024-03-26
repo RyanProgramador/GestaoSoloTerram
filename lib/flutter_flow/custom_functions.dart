@@ -687,3 +687,7 @@ List<dynamic>? listaPaginacao(
   /// Retorno da lista de páginas
   return listaPaginas;
 }
+
+List<dynamic>? paginasPaginacao(String? listaInteiraDeTodosOsItens) {
+  return null;
+}
