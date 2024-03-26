@@ -327,7 +327,7 @@ class _ListadeVolumesWidgetState extends State<ListadeVolumesWidget> {
                                       0.0, 0.0, 0.0, 0.0),
                                   color: valueOrDefault<Color>(
                                     _model.buscaSeOVolumePrecisaSerFinalizado!
-                                        ? const Color(0xFFFFAB00)
+                                        ? FlutterFlowTheme.of(context).warning
                                         : FlutterFlowTheme.of(context).primary,
                                     FlutterFlowTheme.of(context).primary,
                                   ),

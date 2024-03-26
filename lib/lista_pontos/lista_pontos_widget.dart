@@ -1197,7 +1197,7 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                           ],
                         ),
                       ),
-                      Expanded(
+                      Flexible(
                         child: Builder(
                           builder: (context) {
                             final pageViewListaPontos =
