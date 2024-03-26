@@ -1197,436 +1197,394 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                           ],
                         ),
                       ),
-                      Builder(
-                        builder: (context) {
-                          final pageViewListaPontos =
-                              widget.listaJsonPontos!.toList();
-                          return SizedBox(
-                            width: double.infinity,
-                            height: 704.0,
-                            child: Stack(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      0.0, 0.0, 0.0, 40.0),
-                                  child: PageView.builder(
-                                    controller: _model.pageViewController ??=
-                                        PageController(
-                                            initialPage: min(
-                                                0,
-                                                pageViewListaPontos.length -
-                                                    1)),
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: pageViewListaPontos.length,
-                                    itemBuilder:
-                                        (context, pageViewListaPontosIndex) {
-                                      final pageViewListaPontosItem =
-                                          pageViewListaPontos[
-                                              pageViewListaPontosIndex];
-                                      return Column(
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: [
-                                          Text(
-                                            pageViewListaPontosIndex.toString(),
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodyMedium,
-                                          ),
-                                          Padding(
-                                            padding:
-                                                const EdgeInsetsDirectional.fromSTEB(
-                                                    0.0, 10.0, 0.0, 30.0),
-                                            child: Builder(
-                                              builder: (context) {
-                                                final pontosLista = functions
-                                                        .listaPaginacao(
-                                                            widget
-                                                                .listaJsonPontos
-                                                                ?.toList(),
-                                                            pageViewListaPontosIndex)
-                                                        ?.toList() ??
-                                                    [];
-                                                return Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  children: List.generate(
-                                                      pontosLista.length,
-                                                      (pontosListaIndex) {
-                                                    final pontosListaItem =
-                                                        pontosLista[
-                                                            pontosListaIndex];
-                                                    return Padding(
-                                                      padding:
-                                                          const EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  16.0,
-                                                                  0.0,
-                                                                  16.0,
-                                                                  0.0),
-                                                      child: Container(
-                                                        width: double.infinity,
-                                                        height: () {
-                                                          if (functions
-                                                                  .contadorDeIntensNaLista(
-                                                                      getJsonField(
-                                                                pontosListaItem,
-                                                                r'''$.profundidades''',
-                                                                true,
-                                                              )) ==
-                                                              4) {
-                                                            return 190.0;
-                                                          } else if (functions
-                                                                  .contadorDeIntensNaLista(
-                                                                      getJsonField(
-                                                                pontosListaItem,
-                                                                r'''$.profundidades''',
-                                                                true,
-                                                              )) ==
-                                                              3) {
-                                                            return 170.0;
-                                                          } else if (functions
-                                                                  .contadorDeIntensNaLista(
-                                                                      getJsonField(
-                                                                pontosListaItem,
-                                                                r'''$.profundidades''',
-                                                                true,
-                                                              )) ==
-                                                              2) {
-                                                            return 150.0;
-                                                          } else if (functions
-                                                                  .contadorDeIntensNaLista(
-                                                                      getJsonField(
-                                                                pontosListaItem,
-                                                                r'''$.profundidades''',
-                                                                true,
-                                                              )) ==
-                                                              1) {
-                                                            return 125.0;
-                                                          } else {
-                                                            return 100.0;
-                                                          }
-                                                        }(),
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color:
-                                                              const Color(0xFFE6F1F0),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      8.0),
-                                                          border: Border.all(
+                      Expanded(
+                        child: Builder(
+                          builder: (context) {
+                            final pageViewListaPontos =
+                                widget.listaJsonPontos!.toList();
+                            return SizedBox(
+                              width: double.infinity,
+                              child: Stack(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 0.0, 0.0, 40.0),
+                                    child: PageView.builder(
+                                      controller: _model.pageViewController ??=
+                                          PageController(
+                                              initialPage: min(
+                                                  0,
+                                                  pageViewListaPontos.length -
+                                                      1)),
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: pageViewListaPontos.length,
+                                      itemBuilder:
+                                          (context, pageViewListaPontosIndex) {
+                                        final pageViewListaPontosItem =
+                                            pageViewListaPontos[
+                                                pageViewListaPontosIndex];
+                                        return Column(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: [
+                                            Text(
+                                              pageViewListaPontosIndex
+                                                  .toString(),
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium,
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsetsDirectional
+                                                  .fromSTEB(
+                                                      0.0, 10.0, 0.0, 30.0),
+                                              child: Builder(
+                                                builder: (context) {
+                                                  final pontosLista = functions
+                                                          .listaPaginacao(
+                                                              widget
+                                                                  .listaJsonPontos
+                                                                  ?.toList(),
+                                                              pageViewListaPontosIndex)
+                                                          ?.toList() ??
+                                                      [];
+                                                  return Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    children: List.generate(
+                                                        pontosLista.length,
+                                                        (pontosListaIndex) {
+                                                      final pontosListaItem =
+                                                          pontosLista[
+                                                              pontosListaIndex];
+                                                      return Padding(
+                                                        padding:
+                                                            const EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    16.0,
+                                                                    0.0,
+                                                                    16.0,
+                                                                    0.0),
+                                                        child: Container(
+                                                          width:
+                                                              double.infinity,
+                                                          height: () {
+                                                            if (functions
+                                                                    .contadorDeIntensNaLista(
+                                                                        getJsonField(
+                                                                  pontosListaItem,
+                                                                  r'''$.profundidades''',
+                                                                  true,
+                                                                )) ==
+                                                                4) {
+                                                              return 190.0;
+                                                            } else if (functions
+                                                                    .contadorDeIntensNaLista(
+                                                                        getJsonField(
+                                                                  pontosListaItem,
+                                                                  r'''$.profundidades''',
+                                                                  true,
+                                                                )) ==
+                                                                3) {
+                                                              return 170.0;
+                                                            } else if (functions
+                                                                    .contadorDeIntensNaLista(
+                                                                        getJsonField(
+                                                                  pontosListaItem,
+                                                                  r'''$.profundidades''',
+                                                                  true,
+                                                                )) ==
+                                                                2) {
+                                                              return 150.0;
+                                                            } else if (functions
+                                                                    .contadorDeIntensNaLista(
+                                                                        getJsonField(
+                                                                  pontosListaItem,
+                                                                  r'''$.profundidades''',
+                                                                  true,
+                                                                )) ==
+                                                                1) {
+                                                              return 125.0;
+                                                            } else {
+                                                              return 100.0;
+                                                            }
+                                                          }(),
+                                                          decoration:
+                                                              BoxDecoration(
                                                             color: const Color(
-                                                                0xFF7BB3B6),
+                                                                0xFFE6F1F0),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8.0),
+                                                            border: Border.all(
+                                                              color: const Color(
+                                                                  0xFF7BB3B6),
+                                                            ),
                                                           ),
-                                                        ),
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      0.0,
-                                                                      8.0,
-                                                                      0.0,
-                                                                      8.0),
-                                                          child: Row(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .max,
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              Expanded(
-                                                                child: Column(
-                                                                  mainAxisSize:
-                                                                      MainAxisSize
-                                                                          .max,
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .start,
-                                                                  crossAxisAlignment:
-                                                                      CrossAxisAlignment
-                                                                          .center,
-                                                                  children: [
-                                                                    Padding(
-                                                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0,
-                                                                          4.0),
-                                                                      child:
-                                                                          Text(
-                                                                        'Ponto: ${getJsonField(
-                                                                          pontosListaItem,
-                                                                          r'''$.pont_numero''',
-                                                                        ).toString()}',
-                                                                        style: FlutterFlowTheme.of(context)
-                                                                            .bodyMedium
-                                                                            .override(
-                                                                              fontFamily: 'Outfit',
-                                                                              color: FlutterFlowTheme.of(context).primaryText,
-                                                                              fontSize: 24.0,
-                                                                              fontWeight: FontWeight.bold,
-                                                                            ),
-                                                                      ),
-                                                                    ),
-                                                                    Expanded(
-                                                                      child:
-                                                                          Padding(
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        0.0,
+                                                                        8.0,
+                                                                        0.0,
+                                                                        8.0),
+                                                            child: Row(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .max,
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                Expanded(
+                                                                  child: Column(
+                                                                    mainAxisSize:
+                                                                        MainAxisSize
+                                                                            .max,
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .start,
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .center,
+                                                                    children: [
+                                                                      Padding(
                                                                         padding: const EdgeInsetsDirectional.fromSTEB(
-                                                                            10.0,
-                                                                            6.0,
-                                                                            10.0,
-                                                                            0.0),
+                                                                            0.0,
+                                                                            0.0,
+                                                                            0.0,
+                                                                            4.0),
                                                                         child:
-                                                                            Container(
-                                                                          width:
-                                                                              double.infinity,
-                                                                          height:
-                                                                              100.0,
-                                                                          decoration:
-                                                                              const BoxDecoration(
-                                                                            color:
-                                                                                Color(0x00FFFFFF),
-                                                                          ),
+                                                                            Text(
+                                                                          'Ponto: ${getJsonField(
+                                                                            pontosListaItem,
+                                                                            r'''$.pont_numero''',
+                                                                          ).toString()}',
+                                                                          style: FlutterFlowTheme.of(context)
+                                                                              .bodyMedium
+                                                                              .override(
+                                                                                fontFamily: 'Outfit',
+                                                                                color: FlutterFlowTheme.of(context).primaryText,
+                                                                                fontSize: 24.0,
+                                                                                fontWeight: FontWeight.bold,
+                                                                              ),
+                                                                        ),
+                                                                      ),
+                                                                      Expanded(
+                                                                        child:
+                                                                            Padding(
+                                                                          padding: const EdgeInsetsDirectional.fromSTEB(
+                                                                              10.0,
+                                                                              6.0,
+                                                                              10.0,
+                                                                              0.0),
                                                                           child:
-                                                                              Row(
-                                                                            mainAxisSize:
-                                                                                MainAxisSize.max,
-                                                                            mainAxisAlignment:
-                                                                                MainAxisAlignment.spaceBetween,
-                                                                            children: [
-                                                                              Column(
-                                                                                mainAxisSize: MainAxisSize.max,
-                                                                                mainAxisAlignment: MainAxisAlignment.start,
-                                                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                children: [
-                                                                                  Text(
-                                                                                    'Profundidade',
-                                                                                    style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                          fontFamily: 'Readex Pro',
-                                                                                          color: FlutterFlowTheme.of(context).primaryText,
-                                                                                          fontSize: 16.0,
-                                                                                          fontWeight: FontWeight.w500,
-                                                                                        ),
-                                                                                  ),
-                                                                                  Padding(
-                                                                                    padding: const EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 0.0),
-                                                                                    child: Column(
-                                                                                      mainAxisSize: MainAxisSize.max,
-                                                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                      children: [
-                                                                                        Builder(
-                                                                                          builder: (context) {
-                                                                                            final profundidadesLista2 = getJsonField(
-                                                                                              pontosListaItem,
-                                                                                              r'''$.profundidades''',
-                                                                                            ).toList();
-                                                                                            return Column(
-                                                                                              mainAxisSize: MainAxisSize.max,
-                                                                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                              children: List.generate(profundidadesLista2.length, (profundidadesLista2Index) {
-                                                                                                final profundidadesLista2Item = profundidadesLista2[profundidadesLista2Index];
-                                                                                                return Row(
-                                                                                                  mainAxisSize: MainAxisSize.max,
-                                                                                                  children: [
-                                                                                                    Container(
-                                                                                                      height: 20.0,
-                                                                                                      decoration: const BoxDecoration(
-                                                                                                        color: Color(0x00FFFFFF),
-                                                                                                      ),
-                                                                                                      child: SizedBox(
-                                                                                                        width: 18.0,
+                                                                              Container(
+                                                                            width:
+                                                                                double.infinity,
+                                                                            height:
+                                                                                100.0,
+                                                                            decoration:
+                                                                                const BoxDecoration(
+                                                                              color: Color(0x00FFFFFF),
+                                                                            ),
+                                                                            child:
+                                                                                Row(
+                                                                              mainAxisSize: MainAxisSize.max,
+                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                              children: [
+                                                                                Column(
+                                                                                  mainAxisSize: MainAxisSize.max,
+                                                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                  children: [
+                                                                                    Text(
+                                                                                      'Profundidade',
+                                                                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                            fontFamily: 'Readex Pro',
+                                                                                            color: FlutterFlowTheme.of(context).primaryText,
+                                                                                            fontSize: 16.0,
+                                                                                            fontWeight: FontWeight.w500,
+                                                                                          ),
+                                                                                    ),
+                                                                                    Padding(
+                                                                                      padding: const EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 0.0),
+                                                                                      child: Column(
+                                                                                        mainAxisSize: MainAxisSize.max,
+                                                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                        children: [
+                                                                                          Builder(
+                                                                                            builder: (context) {
+                                                                                              final profundidadesLista2 = getJsonField(
+                                                                                                pontosListaItem,
+                                                                                                r'''$.profundidades''',
+                                                                                              ).toList();
+                                                                                              return Column(
+                                                                                                mainAxisSize: MainAxisSize.max,
+                                                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                                children: List.generate(profundidadesLista2.length, (profundidadesLista2Index) {
+                                                                                                  final profundidadesLista2Item = profundidadesLista2[profundidadesLista2Index];
+                                                                                                  return Row(
+                                                                                                    mainAxisSize: MainAxisSize.max,
+                                                                                                    children: [
+                                                                                                      Container(
                                                                                                         height: 20.0,
-                                                                                                        child: custom_widgets.IconeComLegenda(
+                                                                                                        decoration: const BoxDecoration(
+                                                                                                          color: Color(0x00FFFFFF),
+                                                                                                        ),
+                                                                                                        child: SizedBox(
                                                                                                           width: 18.0,
                                                                                                           height: 20.0,
-                                                                                                          lista: FFAppState().trIcones,
-                                                                                                          termoDePesquisa: getJsonField(
+                                                                                                          child: custom_widgets.IconeComLegenda(
+                                                                                                            width: 18.0,
+                                                                                                            height: 20.0,
+                                                                                                            lista: FFAppState().trIcones,
+                                                                                                            termoDePesquisa: getJsonField(
+                                                                                                              profundidadesLista2Item,
+                                                                                                              r'''$.pprof_icone''',
+                                                                                                            ).toString(),
+                                                                                                            pathDePesquisa: 'ico_valor',
+                                                                                                            pathDeRetorno: 'ico_base64',
+                                                                                                            pathDeLegenda: 'ico_legenda',
+                                                                                                          ),
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                      Padding(
+                                                                                                        padding: const EdgeInsetsDirectional.fromSTEB(4.0, 0.0, 0.0, 0.0),
+                                                                                                        child: Text(
+                                                                                                          valueOrDefault<String>(
+                                                                                                            functions.retornalegenda(
+                                                                                                                getJsonField(
+                                                                                                                  profundidadesLista2Item,
+                                                                                                                  r'''$.pprof_icone''',
+                                                                                                                ).toString(),
+                                                                                                                FFAppState().trIcones.toList()),
+                                                                                                            'Erro',
+                                                                                                          ),
+                                                                                                          style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                                                fontFamily: 'Readex Pro',
+                                                                                                                color: FlutterFlowTheme.of(context).primaryText,
+                                                                                                                fontWeight: FontWeight.w200,
+                                                                                                              ),
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                    ],
+                                                                                                  );
+                                                                                                }).divide(const SizedBox(height: 4.0)),
+                                                                                              );
+                                                                                            },
+                                                                                          ),
+                                                                                        ],
+                                                                                      ),
+                                                                                    ),
+                                                                                  ],
+                                                                                ),
+                                                                                Column(
+                                                                                  mainAxisSize: MainAxisSize.max,
+                                                                                  children: [
+                                                                                    Text(
+                                                                                      'Situação',
+                                                                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                            fontFamily: 'Readex Pro',
+                                                                                            color: FlutterFlowTheme.of(context).primaryText,
+                                                                                            fontSize: 16.0,
+                                                                                            fontWeight: FontWeight.w500,
+                                                                                          ),
+                                                                                    ),
+                                                                                    Padding(
+                                                                                      padding: const EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 0.0),
+                                                                                      child: Column(
+                                                                                        mainAxisSize: MainAxisSize.max,
+                                                                                        children: [
+                                                                                          Builder(
+                                                                                            builder: (context) {
+                                                                                              final profundidadesLista2 = getJsonField(
+                                                                                                pontosListaItem,
+                                                                                                r'''$.profundidades''',
+                                                                                              ).toList();
+                                                                                              return Column(
+                                                                                                mainAxisSize: MainAxisSize.max,
+                                                                                                children: List.generate(profundidadesLista2.length, (profundidadesLista2Index) {
+                                                                                                  final profundidadesLista2Item = profundidadesLista2[profundidadesLista2Index];
+                                                                                                  return Text(
+                                                                                                    valueOrDefault<String>(
+                                                                                                      functions.pesquisaParaVerSeOPontoFoiColetado(
+                                                                                                          getJsonField(
                                                                                                             profundidadesLista2Item,
-                                                                                                            r'''$.pprof_icone''',
-                                                                                                          ).toString(),
-                                                                                                          pathDePesquisa: 'ico_valor',
-                                                                                                          pathDeRetorno: 'ico_base64',
-                                                                                                          pathDeLegenda: 'ico_legenda',
-                                                                                                        ),
-                                                                                                      ),
+                                                                                                            r'''$.pprof_id''',
+                                                                                                          ),
+                                                                                                          FFAppState().PontosColetados.toList(),
+                                                                                                          FFAppState().PontosInacessiveis.toList(),
+                                                                                                          functions.buscaRegistro(widget.fazId!, widget.oservId!, FFAppState().trSincroniza.toList())),
+                                                                                                      'Ops!',
                                                                                                     ),
-                                                                                                    Padding(
-                                                                                                      padding: const EdgeInsetsDirectional.fromSTEB(4.0, 0.0, 0.0, 0.0),
-                                                                                                      child: Text(
-                                                                                                        valueOrDefault<String>(
-                                                                                                          functions.retornalegenda(
-                                                                                                              getJsonField(
-                                                                                                                profundidadesLista2Item,
-                                                                                                                r'''$.pprof_icone''',
-                                                                                                              ).toString(),
-                                                                                                              FFAppState().trIcones.toList()),
-                                                                                                          'Erro',
+                                                                                                    style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                                          fontFamily: 'Readex Pro',
+                                                                                                          color: FlutterFlowTheme.of(context).primaryText,
+                                                                                                          fontWeight: FontWeight.w200,
                                                                                                         ),
-                                                                                                        style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                                              fontFamily: 'Readex Pro',
-                                                                                                              color: FlutterFlowTheme.of(context).primaryText,
-                                                                                                              fontWeight: FontWeight.w200,
-                                                                                                            ),
-                                                                                                      ),
-                                                                                                    ),
-                                                                                                  ],
-                                                                                                );
-                                                                                              }).divide(const SizedBox(height: 4.0)),
-                                                                                            );
-                                                                                          },
-                                                                                        ),
-                                                                                      ],
+                                                                                                  );
+                                                                                                }).divide(const SizedBox(height: 6.0)),
+                                                                                              );
+                                                                                            },
+                                                                                          ),
+                                                                                        ],
+                                                                                      ),
                                                                                     ),
-                                                                                  ),
-                                                                                ],
-                                                                              ),
-                                                                              Column(
-                                                                                mainAxisSize: MainAxisSize.max,
-                                                                                children: [
-                                                                                  Text(
-                                                                                    'Situação',
-                                                                                    style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                          fontFamily: 'Readex Pro',
-                                                                                          color: FlutterFlowTheme.of(context).primaryText,
-                                                                                          fontSize: 16.0,
-                                                                                          fontWeight: FontWeight.w500,
-                                                                                        ),
-                                                                                  ),
-                                                                                  Padding(
-                                                                                    padding: const EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 0.0),
-                                                                                    child: Column(
-                                                                                      mainAxisSize: MainAxisSize.max,
-                                                                                      children: [
-                                                                                        Builder(
-                                                                                          builder: (context) {
-                                                                                            final profundidadesLista2 = getJsonField(
-                                                                                              pontosListaItem,
-                                                                                              r'''$.profundidades''',
-                                                                                            ).toList();
-                                                                                            return Column(
-                                                                                              mainAxisSize: MainAxisSize.max,
-                                                                                              children: List.generate(profundidadesLista2.length, (profundidadesLista2Index) {
-                                                                                                final profundidadesLista2Item = profundidadesLista2[profundidadesLista2Index];
-                                                                                                return Text(
-                                                                                                  valueOrDefault<String>(
-                                                                                                    functions.pesquisaParaVerSeOPontoFoiColetado(
-                                                                                                        getJsonField(
-                                                                                                          profundidadesLista2Item,
-                                                                                                          r'''$.pprof_id''',
-                                                                                                        ),
-                                                                                                        FFAppState().PontosColetados.toList(),
-                                                                                                        FFAppState().PontosInacessiveis.toList(),
-                                                                                                        functions.buscaRegistro(widget.fazId!, widget.oservId!, FFAppState().trSincroniza.toList())),
-                                                                                                    'Ops!',
-                                                                                                  ),
-                                                                                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                                        fontFamily: 'Readex Pro',
-                                                                                                        color: FlutterFlowTheme.of(context).primaryText,
-                                                                                                        fontWeight: FontWeight.w200,
-                                                                                                      ),
-                                                                                                );
-                                                                                              }).divide(const SizedBox(height: 6.0)),
-                                                                                            );
-                                                                                          },
-                                                                                        ),
-                                                                                      ],
+                                                                                  ],
+                                                                                ),
+                                                                                Column(
+                                                                                  mainAxisSize: MainAxisSize.max,
+                                                                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                                                                  children: [
+                                                                                    Text(
+                                                                                      'Foto',
+                                                                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                            fontFamily: 'Readex Pro',
+                                                                                            color: FlutterFlowTheme.of(context).primaryText,
+                                                                                            fontSize: 16.0,
+                                                                                            fontWeight: FontWeight.w500,
+                                                                                          ),
                                                                                     ),
-                                                                                  ),
-                                                                                ],
-                                                                              ),
-                                                                              Column(
-                                                                                mainAxisSize: MainAxisSize.max,
-                                                                                crossAxisAlignment: CrossAxisAlignment.end,
-                                                                                children: [
-                                                                                  Text(
-                                                                                    'Foto',
-                                                                                    style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                          fontFamily: 'Readex Pro',
-                                                                                          color: FlutterFlowTheme.of(context).primaryText,
-                                                                                          fontSize: 16.0,
-                                                                                          fontWeight: FontWeight.w500,
-                                                                                        ),
-                                                                                  ),
-                                                                                  Padding(
-                                                                                    padding: const EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 0.0),
-                                                                                    child: Column(
-                                                                                      mainAxisSize: MainAxisSize.max,
-                                                                                      crossAxisAlignment: CrossAxisAlignment.end,
-                                                                                      children: [
-                                                                                        Builder(
-                                                                                          builder: (context) {
-                                                                                            final listaFotos = getJsonField(
-                                                                                              pontosListaItem,
-                                                                                              r'''$.profundidades''',
-                                                                                            ).toList();
-                                                                                            return Column(
-                                                                                              mainAxisSize: MainAxisSize.max,
-                                                                                              crossAxisAlignment: CrossAxisAlignment.end,
-                                                                                              children: List.generate(listaFotos.length, (listaFotosIndex) {
-                                                                                                final listaFotosItem = listaFotos[listaFotosIndex];
-                                                                                                return InkWell(
-                                                                                                  splashColor: Colors.transparent,
-                                                                                                  focusColor: Colors.transparent,
-                                                                                                  hoverColor: Colors.transparent,
-                                                                                                  highlightColor: Colors.transparent,
-                                                                                                  onTap: () async {
-                                                                                                    var shouldSetState = false;
-                                                                                                    if (getJsonField(
-                                                                                                          listaFotosItem,
-                                                                                                          r'''$.pprof_id''',
-                                                                                                        ) !=
-                                                                                                        null) {
-                                                                                                      _model.temnetounao = await actions.checkinternet();
-                                                                                                      shouldSetState = true;
-                                                                                                      if (_model.temnetounao != true) {
-                                                                                                        await showDialog(
-                                                                                                          context: context,
-                                                                                                          builder: (alertDialogContext) {
-                                                                                                            return AlertDialog(
-                                                                                                              title: const Text('Ops!'),
-                                                                                                              content: const Text('Ative a internet para ver a foto.'),
-                                                                                                              actions: [
-                                                                                                                TextButton(
-                                                                                                                  onPressed: () => Navigator.pop(alertDialogContext),
-                                                                                                                  child: const Text('Entendi'),
-                                                                                                                ),
-                                                                                                              ],
-                                                                                                            );
-                                                                                                          },
-                                                                                                        );
-                                                                                                        if (shouldSetState) setState(() {});
-                                                                                                        return;
-                                                                                                      }
-                                                                                                      if (functions.pesquisaFotoBas64(
-                                                                                                              getJsonField(
-                                                                                                                listaFotosItem,
-                                                                                                                r'''$.pprof_id''',
-                                                                                                              ).toString(),
-                                                                                                              FFAppState().PontosColetados.toList(),
-                                                                                                              FFAppState().PontosInacessiveis.toList()) !=
-                                                                                                          'Pending or Error') {
-                                                                                                        if (!(functions.pesquisaFotoBas64(
-                                                                                                                    getJsonField(
-                                                                                                                      listaFotosItem,
-                                                                                                                      r'''$.pprof_id''',
-                                                                                                                    ).toString(),
-                                                                                                                    FFAppState().PontosColetados.toList(),
-                                                                                                                    FFAppState().PontosInacessiveis.toList()) !=
-                                                                                                                null &&
-                                                                                                            functions.pesquisaFotoBas64(
-                                                                                                                    getJsonField(
-                                                                                                                      listaFotosItem,
-                                                                                                                      r'''$.pprof_id''',
-                                                                                                                    ).toString(),
-                                                                                                                    FFAppState().PontosColetados.toList(),
-                                                                                                                    FFAppState().PontosInacessiveis.toList()) !=
-                                                                                                                '')) {
+                                                                                    Padding(
+                                                                                      padding: const EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 0.0),
+                                                                                      child: Column(
+                                                                                        mainAxisSize: MainAxisSize.max,
+                                                                                        crossAxisAlignment: CrossAxisAlignment.end,
+                                                                                        children: [
+                                                                                          Builder(
+                                                                                            builder: (context) {
+                                                                                              final listaFotos = getJsonField(
+                                                                                                pontosListaItem,
+                                                                                                r'''$.profundidades''',
+                                                                                              ).toList();
+                                                                                              return Column(
+                                                                                                mainAxisSize: MainAxisSize.max,
+                                                                                                crossAxisAlignment: CrossAxisAlignment.end,
+                                                                                                children: List.generate(listaFotos.length, (listaFotosIndex) {
+                                                                                                  final listaFotosItem = listaFotos[listaFotosIndex];
+                                                                                                  return InkWell(
+                                                                                                    splashColor: Colors.transparent,
+                                                                                                    focusColor: Colors.transparent,
+                                                                                                    hoverColor: Colors.transparent,
+                                                                                                    highlightColor: Colors.transparent,
+                                                                                                    onTap: () async {
+                                                                                                      var shouldSetState = false;
+                                                                                                      if (getJsonField(
+                                                                                                            listaFotosItem,
+                                                                                                            r'''$.pprof_id''',
+                                                                                                          ) !=
+                                                                                                          null) {
+                                                                                                        _model.temnetounao = await actions.checkinternet();
+                                                                                                        shouldSetState = true;
+                                                                                                        if (_model.temnetounao != true) {
                                                                                                           await showDialog(
                                                                                                             context: context,
                                                                                                             builder: (alertDialogContext) {
                                                                                                               return AlertDialog(
                                                                                                                 title: const Text('Ops!'),
-                                                                                                                content: const Text('Não foi capturada foto para essa coleta!'),
+                                                                                                                content: const Text('Ative a internet para ver a foto.'),
                                                                                                                 actions: [
                                                                                                                   TextButton(
                                                                                                                     onPressed: () => Navigator.pop(alertDialogContext),
@@ -1639,25 +1597,49 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                                                           if (shouldSetState) setState(() {});
                                                                                                           return;
                                                                                                         }
-                                                                                                      } else {
-                                                                                                        if (functions.pesquisaFotoBas64HTML(
-                                                                                                                    getJsonField(
-                                                                                                                      listaFotosItem,
-                                                                                                                      r'''$.pprof_id''',
-                                                                                                                    ).toString(),
-                                                                                                                    FFAppState().PontosColetados.toList(),
-                                                                                                                    FFAppState().PontosInacessiveis.toList(),
-                                                                                                                    functions.buscaRegistro(widget.fazId!, widget.oservId!, FFAppState().trSincroniza.toList())) !=
-                                                                                                                null &&
-                                                                                                            functions.pesquisaFotoBas64HTML(
-                                                                                                                    getJsonField(
-                                                                                                                      listaFotosItem,
-                                                                                                                      r'''$.pprof_id''',
-                                                                                                                    ).toString(),
-                                                                                                                    FFAppState().PontosColetados.toList(),
-                                                                                                                    FFAppState().PontosInacessiveis.toList(),
-                                                                                                                    functions.buscaRegistro(widget.fazId!, widget.oservId!, FFAppState().trSincroniza.toList())) !=
-                                                                                                                '') {
+                                                                                                        if (functions.pesquisaFotoBas64(
+                                                                                                                getJsonField(
+                                                                                                                  listaFotosItem,
+                                                                                                                  r'''$.pprof_id''',
+                                                                                                                ).toString(),
+                                                                                                                FFAppState().PontosColetados.toList(),
+                                                                                                                FFAppState().PontosInacessiveis.toList()) !=
+                                                                                                            'Pending or Error') {
+                                                                                                          if (!(functions.pesquisaFotoBas64(
+                                                                                                                      getJsonField(
+                                                                                                                        listaFotosItem,
+                                                                                                                        r'''$.pprof_id''',
+                                                                                                                      ).toString(),
+                                                                                                                      FFAppState().PontosColetados.toList(),
+                                                                                                                      FFAppState().PontosInacessiveis.toList()) !=
+                                                                                                                  null &&
+                                                                                                              functions.pesquisaFotoBas64(
+                                                                                                                      getJsonField(
+                                                                                                                        listaFotosItem,
+                                                                                                                        r'''$.pprof_id''',
+                                                                                                                      ).toString(),
+                                                                                                                      FFAppState().PontosColetados.toList(),
+                                                                                                                      FFAppState().PontosInacessiveis.toList()) !=
+                                                                                                                  '')) {
+                                                                                                            await showDialog(
+                                                                                                              context: context,
+                                                                                                              builder: (alertDialogContext) {
+                                                                                                                return AlertDialog(
+                                                                                                                  title: const Text('Ops!'),
+                                                                                                                  content: const Text('Não foi capturada foto para essa coleta!'),
+                                                                                                                  actions: [
+                                                                                                                    TextButton(
+                                                                                                                      onPressed: () => Navigator.pop(alertDialogContext),
+                                                                                                                      child: const Text('Entendi'),
+                                                                                                                    ),
+                                                                                                                  ],
+                                                                                                                );
+                                                                                                              },
+                                                                                                            );
+                                                                                                            if (shouldSetState) setState(() {});
+                                                                                                            return;
+                                                                                                          }
+                                                                                                        } else {
                                                                                                           if (functions.pesquisaFotoBas64HTML(
                                                                                                                       getJsonField(
                                                                                                                         listaFotosItem,
@@ -1676,56 +1658,130 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                                                                       FFAppState().PontosInacessiveis.toList(),
                                                                                                                       functions.buscaRegistro(widget.fazId!, widget.oservId!, FFAppState().trSincroniza.toList())) !=
                                                                                                                   '') {
-                                                                                                            await showModalBottomSheet(
-                                                                                                              isScrollControlled: true,
-                                                                                                              backgroundColor: Colors.transparent,
-                                                                                                              enableDrag: false,
-                                                                                                              context: context,
-                                                                                                              builder: (context) {
-                                                                                                                return GestureDetector(
-                                                                                                                  onTap: () => _model.unfocusNode.canRequestFocus ? FocusScope.of(context).requestFocus(_model.unfocusNode) : FocusScope.of(context).unfocus(),
-                                                                                                                  child: Padding(
-                                                                                                                    padding: MediaQuery.viewInsetsOf(context),
-                                                                                                                    child: FotoColetaWidgethtmlWidget(
-                                                                                                                      base64: '',
-                                                                                                                      marcadorNomeIdPontoNumero: getJsonField(
-                                                                                                                        pontosListaItem,
-                                                                                                                        r'''$.pont_numero''',
-                                                                                                                      ).toString(),
-                                                                                                                      profundidade: functions.retornalegenda(
-                                                                                                                          getJsonField(
-                                                                                                                            listaFotosItem,
-                                                                                                                            r'''$.pprof_icone''',
-                                                                                                                          ).toString(),
-                                                                                                                          FFAppState().trIcones.toList())!,
-                                                                                                                      html: functions.pesquisaFotoBas64HTML(
-                                                                                                                          getJsonField(
-                                                                                                                            listaFotosItem,
-                                                                                                                            r'''$.pprof_id''',
-                                                                                                                          ).toString(),
-                                                                                                                          FFAppState().PontosColetados.toList(),
-                                                                                                                          FFAppState().PontosInacessiveis.toList(),
-                                                                                                                          functions.buscaRegistro(widget.fazId!, widget.oservId!, FFAppState().trSincroniza.toList())),
+                                                                                                            if (functions.pesquisaFotoBas64HTML(
+                                                                                                                        getJsonField(
+                                                                                                                          listaFotosItem,
+                                                                                                                          r'''$.pprof_id''',
+                                                                                                                        ).toString(),
+                                                                                                                        FFAppState().PontosColetados.toList(),
+                                                                                                                        FFAppState().PontosInacessiveis.toList(),
+                                                                                                                        functions.buscaRegistro(widget.fazId!, widget.oservId!, FFAppState().trSincroniza.toList())) !=
+                                                                                                                    null &&
+                                                                                                                functions.pesquisaFotoBas64HTML(
+                                                                                                                        getJsonField(
+                                                                                                                          listaFotosItem,
+                                                                                                                          r'''$.pprof_id''',
+                                                                                                                        ).toString(),
+                                                                                                                        FFAppState().PontosColetados.toList(),
+                                                                                                                        FFAppState().PontosInacessiveis.toList(),
+                                                                                                                        functions.buscaRegistro(widget.fazId!, widget.oservId!, FFAppState().trSincroniza.toList())) !=
+                                                                                                                    '') {
+                                                                                                              await showModalBottomSheet(
+                                                                                                                isScrollControlled: true,
+                                                                                                                backgroundColor: Colors.transparent,
+                                                                                                                enableDrag: false,
+                                                                                                                context: context,
+                                                                                                                builder: (context) {
+                                                                                                                  return GestureDetector(
+                                                                                                                    onTap: () => _model.unfocusNode.canRequestFocus ? FocusScope.of(context).requestFocus(_model.unfocusNode) : FocusScope.of(context).unfocus(),
+                                                                                                                    child: Padding(
+                                                                                                                      padding: MediaQuery.viewInsetsOf(context),
+                                                                                                                      child: FotoColetaWidgethtmlWidget(
+                                                                                                                        base64: '',
+                                                                                                                        marcadorNomeIdPontoNumero: getJsonField(
+                                                                                                                          pontosListaItem,
+                                                                                                                          r'''$.pont_numero''',
+                                                                                                                        ).toString(),
+                                                                                                                        profundidade: functions.retornalegenda(
+                                                                                                                            getJsonField(
+                                                                                                                              listaFotosItem,
+                                                                                                                              r'''$.pprof_icone''',
+                                                                                                                            ).toString(),
+                                                                                                                            FFAppState().trIcones.toList())!,
+                                                                                                                        html: functions.pesquisaFotoBas64HTML(
+                                                                                                                            getJsonField(
+                                                                                                                              listaFotosItem,
+                                                                                                                              r'''$.pprof_id''',
+                                                                                                                            ).toString(),
+                                                                                                                            FFAppState().PontosColetados.toList(),
+                                                                                                                            FFAppState().PontosInacessiveis.toList(),
+                                                                                                                            functions.buscaRegistro(widget.fazId!, widget.oservId!, FFAppState().trSincroniza.toList())),
+                                                                                                                      ),
                                                                                                                     ),
-                                                                                                                  ),
-                                                                                                                );
-                                                                                                              },
-                                                                                                            ).then((value) => safeSetState(() {}));
+                                                                                                                  );
+                                                                                                                },
+                                                                                                              ).then((value) => safeSetState(() {}));
 
-                                                                                                            if (shouldSetState) setState(() {});
-                                                                                                            return;
+                                                                                                              if (shouldSetState) setState(() {});
+                                                                                                              return;
+                                                                                                            }
                                                                                                           }
+                                                                                                          await showDialog(
+                                                                                                            context: context,
+                                                                                                            builder: (alertDialogContext) {
+                                                                                                              return AlertDialog(
+                                                                                                                title: const Text('Ops!'),
+                                                                                                                content: const Text('Não existe imagem capturada para essa coleta.'),
+                                                                                                                actions: [
+                                                                                                                  TextButton(
+                                                                                                                    onPressed: () => Navigator.pop(alertDialogContext),
+                                                                                                                    child: const Text('Fechar'),
+                                                                                                                  ),
+                                                                                                                ],
+                                                                                                              );
+                                                                                                            },
+                                                                                                          );
+                                                                                                          if (shouldSetState) setState(() {});
+                                                                                                          return;
                                                                                                         }
+
+                                                                                                        await showModalBottomSheet(
+                                                                                                          isScrollControlled: true,
+                                                                                                          backgroundColor: Colors.transparent,
+                                                                                                          enableDrag: false,
+                                                                                                          context: context,
+                                                                                                          builder: (context) {
+                                                                                                            return GestureDetector(
+                                                                                                              onTap: () => _model.unfocusNode.canRequestFocus ? FocusScope.of(context).requestFocus(_model.unfocusNode) : FocusScope.of(context).unfocus(),
+                                                                                                              child: Padding(
+                                                                                                                padding: MediaQuery.viewInsetsOf(context),
+                                                                                                                child: FotoColetaWidgetWidget(
+                                                                                                                  base64: functions.pesquisaFotoBas64(
+                                                                                                                      getJsonField(
+                                                                                                                        listaFotosItem,
+                                                                                                                        r'''$.pprof_id''',
+                                                                                                                      ).toString(),
+                                                                                                                      FFAppState().PontosColetados.toList(),
+                                                                                                                      FFAppState().PontosInacessiveis.toList())!,
+                                                                                                                  marcadorNomeIdPontoNumero: getJsonField(
+                                                                                                                    pontosListaItem,
+                                                                                                                    r'''$.pont_numero''',
+                                                                                                                  ).toString(),
+                                                                                                                  profundidade: functions.retornalegenda(
+                                                                                                                      getJsonField(
+                                                                                                                        listaFotosItem,
+                                                                                                                        r'''$.pprof_icone''',
+                                                                                                                      ).toString(),
+                                                                                                                      FFAppState().trIcones.toList())!,
+                                                                                                                ),
+                                                                                                              ),
+                                                                                                            );
+                                                                                                          },
+                                                                                                        ).then((value) => safeSetState(() {}));
+
+                                                                                                        if (shouldSetState) setState(() {});
+                                                                                                        return;
+                                                                                                      } else {
                                                                                                         await showDialog(
                                                                                                           context: context,
                                                                                                           builder: (alertDialogContext) {
                                                                                                             return AlertDialog(
                                                                                                               title: const Text('Ops!'),
-                                                                                                              content: const Text('Não existe imagem capturada para essa coleta.'),
+                                                                                                              content: const Text('Erro na variavel.'),
                                                                                                               actions: [
                                                                                                                 TextButton(
                                                                                                                   onPressed: () => Navigator.pop(alertDialogContext),
-                                                                                                                  child: const Text('Fechar'),
+                                                                                                                  child: const Text('Ok'),
                                                                                                                 ),
                                                                                                               ],
                                                                                                             );
@@ -1735,152 +1791,94 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                                                                                                         return;
                                                                                                       }
 
-                                                                                                      await showModalBottomSheet(
-                                                                                                        isScrollControlled: true,
-                                                                                                        backgroundColor: Colors.transparent,
-                                                                                                        enableDrag: false,
-                                                                                                        context: context,
-                                                                                                        builder: (context) {
-                                                                                                          return GestureDetector(
-                                                                                                            onTap: () => _model.unfocusNode.canRequestFocus ? FocusScope.of(context).requestFocus(_model.unfocusNode) : FocusScope.of(context).unfocus(),
-                                                                                                            child: Padding(
-                                                                                                              padding: MediaQuery.viewInsetsOf(context),
-                                                                                                              child: FotoColetaWidgetWidget(
-                                                                                                                base64: functions.pesquisaFotoBas64(
-                                                                                                                    getJsonField(
-                                                                                                                      listaFotosItem,
-                                                                                                                      r'''$.pprof_id''',
-                                                                                                                    ).toString(),
-                                                                                                                    FFAppState().PontosColetados.toList(),
-                                                                                                                    FFAppState().PontosInacessiveis.toList())!,
-                                                                                                                marcadorNomeIdPontoNumero: getJsonField(
-                                                                                                                  pontosListaItem,
-                                                                                                                  r'''$.pont_numero''',
-                                                                                                                ).toString(),
-                                                                                                                profundidade: functions.retornalegenda(
-                                                                                                                    getJsonField(
-                                                                                                                      listaFotosItem,
-                                                                                                                      r'''$.pprof_icone''',
-                                                                                                                    ).toString(),
-                                                                                                                    FFAppState().trIcones.toList())!,
-                                                                                                              ),
-                                                                                                            ),
-                                                                                                          );
-                                                                                                        },
-                                                                                                      ).then((value) => safeSetState(() {}));
-
                                                                                                       if (shouldSetState) setState(() {});
-                                                                                                      return;
-                                                                                                    } else {
-                                                                                                      await showDialog(
-                                                                                                        context: context,
-                                                                                                        builder: (alertDialogContext) {
-                                                                                                          return AlertDialog(
-                                                                                                            title: const Text('Ops!'),
-                                                                                                            content: const Text('Erro na variavel.'),
-                                                                                                            actions: [
-                                                                                                              TextButton(
-                                                                                                                onPressed: () => Navigator.pop(alertDialogContext),
-                                                                                                                child: const Text('Ok'),
-                                                                                                              ),
-                                                                                                            ],
-                                                                                                          );
-                                                                                                        },
-                                                                                                      );
-                                                                                                      if (shouldSetState) setState(() {});
-                                                                                                      return;
-                                                                                                    }
-
-                                                                                                    if (shouldSetState) setState(() {});
-                                                                                                  },
-                                                                                                  child: FaIcon(
-                                                                                                    FontAwesomeIcons.images,
-                                                                                                    color: FlutterFlowTheme.of(context).secondaryText,
-                                                                                                    size: 21.0,
-                                                                                                  ),
-                                                                                                );
-                                                                                              }).divide(const SizedBox(height: 2.0)),
-                                                                                            );
-                                                                                          },
-                                                                                        ),
-                                                                                      ],
+                                                                                                    },
+                                                                                                    child: FaIcon(
+                                                                                                      FontAwesomeIcons.images,
+                                                                                                      color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                                      size: 21.0,
+                                                                                                    ),
+                                                                                                  );
+                                                                                                }).divide(const SizedBox(height: 2.0)),
+                                                                                              );
+                                                                                            },
+                                                                                          ),
+                                                                                        ],
+                                                                                      ),
                                                                                     ),
-                                                                                  ),
-                                                                                ],
-                                                                              ),
-                                                                            ],
+                                                                                  ],
+                                                                                ),
+                                                                              ],
+                                                                            ),
                                                                           ),
                                                                         ),
                                                                       ),
-                                                                    ),
-                                                                  ],
+                                                                    ],
+                                                                  ),
                                                                 ),
-                                                              ),
-                                                            ],
+                                                              ],
+                                                            ),
                                                           ),
                                                         ),
-                                                      ),
-                                                    );
-                                                  }).divide(
-                                                      const SizedBox(height: 10.0)),
-                                                );
-                                              },
+                                                      );
+                                                    }).divide(
+                                                        const SizedBox(height: 10.0)),
+                                                  );
+                                                },
+                                              ),
                                             ),
-                                          ),
-                                          Text(
-                                            'Hello World',
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodyMedium,
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  ),
-                                ),
-                                Align(
-                                  alignment: const AlignmentDirectional(-1.0, 1.0),
-                                  child: Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
-                                        16.0, 0.0, 0.0, 16.0),
-                                    child: smooth_page_indicator
-                                        .SmoothPageIndicator(
-                                      controller: _model.pageViewController ??=
-                                          PageController(
-                                              initialPage: min(
-                                                  0,
-                                                  pageViewListaPontos.length -
-                                                      1)),
-                                      count: pageViewListaPontos.length,
-                                      axisDirection: Axis.horizontal,
-                                      onDotClicked: (i) async {
-                                        await _model.pageViewController!
-                                            .animateToPage(
-                                          i,
-                                          duration: const Duration(milliseconds: 500),
-                                          curve: Curves.ease,
+                                          ],
                                         );
                                       },
-                                      effect: smooth_page_indicator
-                                          .ExpandingDotsEffect(
-                                        expansionFactor: 3.0,
-                                        spacing: 8.0,
-                                        radius: 16.0,
-                                        dotWidth: 16.0,
-                                        dotHeight: 8.0,
-                                        dotColor: FlutterFlowTheme.of(context)
-                                            .accent1,
-                                        activeDotColor:
-                                            FlutterFlowTheme.of(context)
-                                                .primary,
-                                        paintStyle: PaintingStyle.fill,
+                                    ),
+                                  ),
+                                  Align(
+                                    alignment: const AlignmentDirectional(-1.0, 1.0),
+                                    child: Padding(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                          16.0, 0.0, 0.0, 16.0),
+                                      child: smooth_page_indicator
+                                          .SmoothPageIndicator(
+                                        controller: _model
+                                                .pageViewController ??=
+                                            PageController(
+                                                initialPage: min(
+                                                    0,
+                                                    pageViewListaPontos.length -
+                                                        1)),
+                                        count: pageViewListaPontos.length,
+                                        axisDirection: Axis.horizontal,
+                                        onDotClicked: (i) async {
+                                          await _model.pageViewController!
+                                              .animateToPage(
+                                            i,
+                                            duration:
+                                                const Duration(milliseconds: 500),
+                                            curve: Curves.ease,
+                                          );
+                                        },
+                                        effect: smooth_page_indicator
+                                            .ExpandingDotsEffect(
+                                          expansionFactor: 3.0,
+                                          spacing: 8.0,
+                                          radius: 16.0,
+                                          dotWidth: 16.0,
+                                          dotHeight: 8.0,
+                                          dotColor: FlutterFlowTheme.of(context)
+                                              .accent1,
+                                          activeDotColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .primary,
+                                          paintStyle: PaintingStyle.fill,
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
+                                ],
+                              ),
+                            );
+                          },
+                        ),
                       ),
                     ],
                   ),
