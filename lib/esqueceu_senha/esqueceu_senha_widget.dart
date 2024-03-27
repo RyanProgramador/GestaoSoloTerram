@@ -361,8 +361,6 @@ class _EsqueceuSenhaWidgetState extends State<EsqueceuSenhaWidget>
                                                 );
                                               },
                                             );
-
-                                            context.pushNamed('Login');
                                           } else {
                                             await showDialog(
                                               context: context,
