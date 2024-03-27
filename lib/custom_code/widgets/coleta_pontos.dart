@@ -89,7 +89,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
   final FocusNode observaFotoFocusNode = FocusNode();
 
   bool podeColetarOuNaoPodeColetar = false;
-
+  double _acuracidade = 100.000;
   Map<String, dynamic> jsonSincronizaPosterior = {};
 
   bool _isLastCollect = false;
@@ -305,6 +305,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
     Position position = await Geolocator.getCurrentPosition();
     setState(() {
       _currentPosition = position;
+      _acuracidade = double.parse(position.accuracy.toStringAsFixed(3));
     });
   }
 
@@ -461,16 +462,12 @@ class _ColetaPontosState extends State<ColetaPontos> {
     );
 
     // Check if the last tap was within 1.8 seconds to consider it a double tap
-    // if (lastTapTimestamps.containsKey(markerIdValue) &&
-    //     now.difference(lastTapTimestamps[markerIdValue]!).inMilliseconds <
-    //         1800) {
-    // Check if the distance is greater than 30 meters
 
+    // Check if the distance is greater than 30 meters
     if (distance >= int.parse(FFAppState().distanciaMetrosValidacao) &&
         FFAppState().validarDistancia == "S") {
       //metros de distancia para coletar
-      // Show alert
-      // _showDistanceAlert();
+
       _showDistanceAlert();
     } else {
       // Continue with the normal double tap logic
@@ -478,11 +475,6 @@ class _ColetaPontosState extends State<ColetaPontos> {
 
       _ontapColetar(markerName!.toString());
     }
-
-    // }
-
-    // Update the timestamp of the last tap
-    // lastTapTimestamps[markerIdValue] = now;
   }
 
   void _showAlertaImagem() {
@@ -1030,25 +1022,9 @@ class _ColetaPontosState extends State<ColetaPontos> {
       // Iterate over each profundidade in the list
       for (var profundidade in profundidadesList) {
         setState(() {
+          _getCurrentLocation();
           quantidadeDeVezesParaAutoAuditarComFoto--;
-          // FFAppState().PontosInacessiveis.add({
-          //   "oserv_id": "${widget.oservid}",
-          //   "faz_id": "${widget.fazId}",
-          //   "id_ponto": idPonto,
-          //   "marcador_nome": marcadorNome,
-          //   "profundidade": profundidade['pprof_id']
-          //       .toString(), // Use the pprof_id from each profundidade
-          //   "foto": '$base64imagem',
-          //   "latlng": latlngMarcador,
-          //   "id_ref": '1',
-          //   "obs": observacao,
-          //   "data_hora": DateTime.now().toString()
-          // });
-          //
-          // var profundidade2 = profundidade['pprof_id'] as String;
-//           print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
-// print(profundidade['pprof_id'].toString());
-// print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+
           var listaFiltrada = lista
               .where((element) =>
                   element["pont_id"] ==
@@ -1069,7 +1045,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
           listaFiltrada["pprof_observacao"] = observacao;
           listaFiltrada["pprof_foto"] = '$base64imagem';
           listaFiltrada["pprof_datahora"] = DateTime.now().toString();
-
+          listaFiltrada["pprof_precisao"] = _acuracidade;
           listaSemiFiltrada["pont_status"] = 2;
 
           List<dynamic> etapas = FFAppState()
@@ -1218,7 +1194,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
 
                         await _pegaFoto();
                         await Future.delayed(
-                            Duration(seconds: 10)); // Simula uma espera
+                            Duration(seconds: 1)); // Simula uma espera
                         Navigator.of(context)
                             .pop(); // Fecha o modal de carregamento
                         setState(() {
@@ -1449,7 +1425,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
             setState(() {
               if (isInacessivelOuNao) {
                 quantidadeDeVezesParaAutoAuditarComFoto--;
-
+                _getCurrentLocation();
                 // FFAppState().PontosInacessiveis.add({
                 //   "oserv_id": "${widget.oservid}",
                 //   "faz_id": "${widget.fazId}",
@@ -1493,6 +1469,8 @@ class _ColetaPontosState extends State<ColetaPontos> {
                 listaFiltrada["pprof_foto"] = '';
                 listaFiltrada["pprof_datahora"] = DateTime.now().toString();
                 listaFiltrada["pprof_etiqueta_id"] = '$etiqueta';
+
+                listaFiltrada["pprof_precisao"] = _acuracidade;
 
                 listaSemiFiltrada["pont_status"] = 2;
                 _codigoQr.clear();
@@ -1689,6 +1667,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
                       ),
                       ElevatedButton.icon(
                         onPressed: () {
+                          _getCurrentLocation();
                           // FFAppState().PontosColetados.add({
                           //   "oserv_id": "${widget.oservid}",
                           //   "faz_id": "${widget.fazId}",
@@ -1778,6 +1757,8 @@ class _ColetaPontosState extends State<ColetaPontos> {
                                     DateTime.now().toString();
                                 listaFiltrada["pprof_etiqueta_id"] =
                                     '$etiqueta';
+
+                                listaFiltrada["pprof_precisao"] = _acuracidade;
 
                                 listaSemiFiltrada["pont_status"] = 1;
 
@@ -2158,7 +2139,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
                     ElevatedButton(
                       onPressed: () {
                         // Implemente a ação para este botão
-
+                        _getCurrentLocation();
                         var etiqueta = _codigoQr.text;
 
                         List<dynamic> etiquetas = FFAppState()
@@ -2240,6 +2221,8 @@ class _ColetaPontosState extends State<ColetaPontos> {
                               listaFiltrada["pprof_datahora"] =
                                   DateTime.now().toString();
                               listaFiltrada["pprof_etiqueta_id"] = '$etiqueta';
+
+                              listaFiltrada["pprof_precisao"] = _acuracidade;
 
                               listaSemiFiltrada["pont_status"] = 1;
 
