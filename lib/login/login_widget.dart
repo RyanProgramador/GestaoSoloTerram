@@ -135,10 +135,6 @@ class _LoginWidgetState extends State<LoginWidget>
         _model.md5Passs2 = await actions.md5encode(
           _model.passwordLoginController.text,
         );
-        _model.resultadPegaParametros2 =
-            await TrOsServicosGroup.pegaParametrosCall.call(
-          urlApi: FFAppState().UrlApi,
-        );
         _model.trLogin2 = await TrOsServicosGroup.trLoginCall.call(
           urlApi: FFAppState().UrlApi,
           usuario: FFAppState().login,
@@ -153,16 +149,6 @@ class _LoginWidgetState extends State<LoginWidget>
               (_model.trLogin2?.jsonBody ?? ''),
               r'''$.tecnico_id''',
             );
-          });
-          setState(() {
-            FFAppState().validarDistancia =
-                TrOsServicosGroup.pegaParametrosCall.validarDistancia(
-              (_model.resultadPegaParametros2?.jsonBody ?? ''),
-            )!;
-            FFAppState().distanciaMetrosValidacao =
-                TrOsServicosGroup.pegaParametrosCall.distanciaMetros(
-              (_model.resultadPegaParametros2?.jsonBody ?? ''),
-            )!;
           });
         } else {
           return;

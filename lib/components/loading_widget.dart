@@ -60,6 +60,20 @@ class _LoadingWidgetState extends State<LoadingWidget> {
 
     // On component load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
+      _model.resultadPegaParametros =
+          await TrOsServicosGroup.pegaParametrosCall.call(
+        urlApi: FFAppState().UrlApi,
+      );
+      setState(() {
+        FFAppState().validarDistancia =
+            TrOsServicosGroup.pegaParametrosCall.validarDistancia(
+          (_model.resultadPegaParametros?.jsonBody ?? ''),
+        )!;
+        FFAppState().distanciaMetrosValidacao =
+            TrOsServicosGroup.pegaParametrosCall.distanciaMetros(
+          (_model.resultadPegaParametros?.jsonBody ?? ''),
+        )!;
+      });
       if (widget.tipo == 'Coleta') {
         await Future.delayed(const Duration(milliseconds: 2000));
       }

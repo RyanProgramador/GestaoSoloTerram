@@ -504,7 +504,8 @@ class _ColetaPontosState extends State<ColetaPontos> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Aproxime-se do ponto!'),
-          content: Text('Você está a mais de 30 metros do ponto de coleta.'),
+          content: Text(
+              'Você está a mais de ${FFAppState().distanciaMetrosValidacao.toString()} metros do ponto de coleta.'),
           actions: <Widget>[
             TextButton(
               child: Text('OK'),
