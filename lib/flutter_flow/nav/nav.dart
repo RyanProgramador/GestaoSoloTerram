@@ -177,6 +177,14 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
             coletadoEmList: params.getParam<String>(
                 'coletadoEmList', ParamType.String, true),
           ),
+        ),
+        FFRoute(
+          name: 'ListaDeTalhoesPreColeta',
+          path: '/ListaDeTalhoesPreColeta',
+          builder: (context, params) => ListaDeTalhoesPreColetaWidget(
+            oservId: params.getParam('oservId', ParamType.int),
+            fazId: params.getParam('fazId', ParamType.int),
+          ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

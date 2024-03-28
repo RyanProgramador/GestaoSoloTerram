@@ -14,3 +14,5 @@ export '/criacao_volume/criacao_volume_widget.dart' show CriacaoVolumeWidget;
 export '/listade_volumes/listade_volumes_widget.dart' show ListadeVolumesWidget;
 export '/listade_amostras/listade_amostras_widget.dart'
     show ListadeAmostrasWidget;
+export '/lista_de_talhoes_pre_coleta/lista_de_talhoes_pre_coleta_widget.dart'
+    show ListaDeTalhoesPreColetaWidget;

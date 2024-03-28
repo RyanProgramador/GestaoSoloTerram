@@ -691,3 +691,15 @@ List<dynamic>? listaPaginacao(
 List<dynamic>? paginasPaginacao(String? listaInteiraDeTodosOsItens) {
   return null;
 }
+
+dynamic buscaListaDeTalhoesAtravesDaFazendaEServico(
+  int? fazId,
+  int? oservId,
+  List<dynamic>? trTalhoesEmCadaServico,
+) {
+  List<dynamic> talhoes = trTalhoesEmCadaServico!.firstWhere((registro) =>
+      registro['fazenda_id'] == fazId! &&
+      registro['servico_id'] == oservId!)['dados'];
+
+  return talhoes;
+}

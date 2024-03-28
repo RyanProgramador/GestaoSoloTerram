@@ -2778,13 +2778,17 @@ class _ColetaPontosState extends State<ColetaPontos> {
 //             registro['fazenda_id'].toString() == widget.fazId! &&
 //             registro['servico_id'].toString() == widget.oservid!));
 
+    var talhoes = FFAppState().trTalhoesEmCadaServico.firstWhere((registro) =>
+        registro['fazenda_id'].toString() == widget.fazId! &&
+        registro['servico_id'].toString() == widget.oservid!)['dados'];
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Aproxime-se do ponto!'),
           content: SingleChildScrollView(
-            child: SelectableText(trSincTudoJunto.toString()),
+            child: SelectableText(talhoes.toString()),
           ),
           actions: <Widget>[
             TextButton(

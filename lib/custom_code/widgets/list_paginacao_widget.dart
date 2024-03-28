@@ -69,7 +69,7 @@ class _ListPaginacaoWidgetState extends State<ListPaginacaoWidget> {
     final pontosListaItem = pontosLista[0];
     return // Generated code for this Container Widget...
         Padding(
-      padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 10.0),
+      padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 10.0),
       child: Container(
         width: double.infinity,
         height: () {

@@ -1185,15 +1185,19 @@ class _ListaPontosWidgetState extends State<ListaPontosWidget> {
                           decoration: const BoxDecoration(
                             color: Colors.white,
                           ),
-                          child: SizedBox(
-                            width: double.infinity,
-                            height: double.infinity,
-                            child: custom_widgets.ListPaginacaoWidget(
+                          child: Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                16.0, 0.0, 16.0, 0.0),
+                            child: SizedBox(
                               width: double.infinity,
                               height: double.infinity,
-                              trPontos: widget.listaJsonPontos,
-                              fazId: widget.fazId,
-                              oservId: widget.oservId,
+                              child: custom_widgets.ListPaginacaoWidget(
+                                width: double.infinity,
+                                height: double.infinity,
+                                trPontos: widget.listaJsonPontos,
+                                fazId: widget.fazId,
+                                oservId: widget.oservId,
+                              ),
                             ),
                           ),
                         ),
