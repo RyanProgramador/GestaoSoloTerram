@@ -465,7 +465,7 @@ class _ColetaPontosState extends State<ColetaPontos> {
 
     // Check if the distance is greater than 30 meters
     if (distance >= int.parse(FFAppState().distanciaMetrosValidacao) &&
-        FFAppState().validarDistancia == "S") {
+        FFAppState().validarDistancia == "Y") {
       //metros de distancia para coletar
 
       _showDistanceAlert();
